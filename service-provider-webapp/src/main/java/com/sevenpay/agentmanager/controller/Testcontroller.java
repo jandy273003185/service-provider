@@ -1,4 +1,4 @@
-package com.example.customermanager.controller;
+package com.sevenpay.agentmanager.controller;
 
 
 import io.swagger.annotations.ApiOperation;

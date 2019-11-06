@@ -1,4 +1,4 @@
-package com.example.customermanager;
+package com.sevenpay.agentmanager;
 
 import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;

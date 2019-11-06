@@ -1,4 +1,4 @@
-package com.example.customermanager.config;
+package com.sevenpay.agentmanager.config;
 
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

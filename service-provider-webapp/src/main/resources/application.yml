@@ -13,7 +13,7 @@ dubbo:
   application:
     name: dubbo-customer-manager
   registry:
-    address: zookeeper://192.168.1.141:2181
+    address: zookeeper://192.168.1.159:2181
   protocol:
     name: dubbo
     port: 21001
@@ -34,3 +34,4 @@ redis:
 
 
 swagger.enable: true
+

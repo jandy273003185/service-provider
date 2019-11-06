@@ -1,7 +1,7 @@
-package com.example.customermanager.config;
+package com.sevenpay.agentmanager.config;
 
 
-import com.example.customermanager.shiro.MyShiroRealm;
+import com.sevenpay.agentmanager.shiro.MyShiroRealm;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;

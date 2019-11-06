@@ -1,11 +1,11 @@
-package com.example.customermanager.controller;
+package com.sevenpay.agentmanager.controller;
 
 
-import com.example.customermanager.service.LoginManagerServiceImpl;
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.qifenqian.app.login.UserLoginManagerService;
 import com.sevenpay.external.app.common.bean.SysUserInfo;
 import com.sevenpay.external.app.common.bean.login.UserLoginRelate;
 import org.gyzb.platform.common.utils.CipherUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,32 +14,39 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
+@RequestMapping("customer")
 public class LoginController {
 
-    @Autowired
-    LoginManagerServiceImpl loginManagerService;
+    @Reference
+    private UserLoginManagerService loginManagerService;
 
+
+    /**
+     * 公众号服务商与其子账户登陆
+     * @param openId 微信唯一标识
+     * @param userCode 手机号
+     * @param password 密码
+     * @param roleId 管理员/业务员
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "index",  method= RequestMethod.POST)
-    public SysUserInfo indexHtml(String openId , String userCode, String password) {
+    public SysUserInfo indexHtml(String openId , String userCode, String password, String roleId) {
 
-        //1.获取openId 去wechat验证。
-        //2.验证用户
-        //3.进行绑定微信
 
         Integer ifbing = loginManagerService.selectUserOpenid(openId);
-//        if(ifbing == 0){
-//            UserLoginRelate userLoginRelate = new UserLoginRelate();
-//            userLoginRelate.setUserId(userCode);
-//            userLoginRelate.setOpenId(openId);
-//            userLoginRelate.setLoginType("1");
-//            userLoginRelate.setUserType("cust");
-//            userLoginRelate.setIfUnbind("1");
-//            loginManagerService.userBinding(userLoginRelate);
-//        }
+        if(ifbing == 0){
+            UserLoginRelate userLoginRelate = new UserLoginRelate();
+            userLoginRelate.setUserId(userCode);
+            userLoginRelate.setOpenId(openId);
+            userLoginRelate.setLoginType("1");
+            userLoginRelate.setUserType("cust");
+            userLoginRelate.setIfUnbind("1");
+            loginManagerService.userBinding(userLoginRelate);
+        }
 
         if(StringUtils.isEmpty(userCode)) {
-            throw new IllegalArgumentException("员工号为空");
+            throw new IllegalArgumentException("登陆手机号为空");
         }
         if(StringUtils.isEmpty(password)) {
             throw new IllegalArgumentException("登陆密码为空");

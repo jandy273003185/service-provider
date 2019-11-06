@@ -1,4 +1,4 @@
-package com.example.customermanager;
+package com.sevenpay.agentmanager;
 
 
 import org.springframework.boot.test.context.SpringBootTest;

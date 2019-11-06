@@ -1,26 +1,24 @@
-package com.example.customermanager.controller;
+package com.sevenpay.agentmanager.controller;
 
-import com.example.customermanager.service.CommerServiceImpl;
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.qifenqian.app.merchant.CommercialService;
 import com.sevenpay.external.app.common.bean.Merchant;
+import com.sevenpay.external.app.common.bean.MerchantVo;
 import com.sevenpay.external.app.common.bean.TdCustInfo;
-
-
 import com.sevenpay.external.app.common.util.GenSN;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import java.util.List;
 import java.util.Map;
 
 
 @RestController
-@RequestMapping("comm")
-public class CommercialController {
+@RequestMapping("wx")
+public class AgentController {
 
-    @Autowired
-    CommerServiceImpl commerService;
+    @Reference
+    private CommercialService commerService;
 
 
     /**
@@ -47,7 +45,7 @@ public class CommercialController {
     }
 
     /**
-     * 统计客户经理下的商户数据
+     * 统计服务商下的商户数据
      * @param userId
      * @param queryStartDate
      * @param queryEndDate
@@ -98,11 +96,12 @@ public class CommercialController {
 
 
     /**
-     * 新增商户
-     * @param merchant
+     * 新增商户(进件)
+     * @param mv 进件bean
      * @return
      */
-    public String addMerchant(Merchant merchant){
+    @RequestMapping("insertMerchant.do")
+    public String addMerchant(MerchantVo mv){
 
         String custId = GenSN.getUUID();  //设置商户id
 

@@ -1,4 +1,4 @@
-package com.example.customermanager.shiro;
+package com.sevenpay.agentmanager.shiro;
 
 import org.apache.shiro.realm.AuthorizingRealm;
 
