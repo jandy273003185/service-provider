@@ -2,10 +2,10 @@ package com.sevenpay.agentmanager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.qifenqian.app.merchant.CommercialService;
-import com.sevenpay.external.app.common.bean.Merchant;
-import com.sevenpay.external.app.common.bean.MerchantVo;
+import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.external.app.common.bean.TdCustInfo;
-import com.sevenpay.external.app.common.util.GenSN;
+import com.sevenpay.external.app.common.bean.TdCustScanCopy;
+import com.sevenpay.external.app.common.bean.TdMerchantProductInfo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,17 +31,16 @@ public class AgentController {
      * @return
      */
     @RequestMapping("selectCommercialInfo.do")
-    public List<TdCustInfo> selectCommercialInfo(String userId,
+    public ResultBean<List<TdCustInfo>> selectCommercialInfo(String userId,
                                                  String custName,
                                                  String stateCode,
                                                  String queryStartDate,
                                                  String queryEndDate){
-
-
         List<TdCustInfo> tdCustInfoList = commerService.selectCommercialInfo(userId, custName, stateCode, queryStartDate, queryEndDate);
-
-
-        return tdCustInfoList;
+        if (tdCustInfoList != null) {
+            return new ResultBean<>("1",tdCustInfoList);
+        }
+        return new ResultBean<>("0");
     }
 
     /**
@@ -52,13 +51,14 @@ public class AgentController {
      * @return
      */
     @RequestMapping("getStatCommercial.do")
-    public Map<String,Object> getStatCommercial(String userId,
+    public ResultBean<Map<String , Object>> getStatCommercial(String userId,
                                                 String queryStartDate,
                                                 String queryEndDate){
         Map<String,Object> map = commerService.getStatCommercial(userId, queryStartDate, queryEndDate);
-        System.out.println(map);
-
-        return commerService.getStatCommercial(userId, queryStartDate, queryEndDate);
+        if (map != null) {
+            return new ResultBean<>("1",map);
+        }
+        return new ResultBean<>("0");
     }
 
 
@@ -71,16 +71,18 @@ public class AgentController {
      * @return
      */
     @RequestMapping("getDealRanking")
-    public List<Map<String,Object>> getDealRanking(String userId,
+    public ResultBean<List<Map<String , Object>>> getDealRanking(String userId,
                                                    String rankingCode,
                                                    String custName,
                                                    String queryStartDate,
                                                    String queryEndDate,
                                                    int pageSize,
                                                    int pageNum){
-
-
-        return commerService.getDealRanking(userId, rankingCode,custName, queryStartDate, queryEndDate,pageSize,pageNum);
+        List<Map<String, Object>> dealRanking = commerService.getDealRanking(userId, rankingCode, custName, queryStartDate, queryEndDate, pageSize, pageNum);
+        if (dealRanking != null) {
+            return new ResultBean<>("1",dealRanking);
+        }
+        return new ResultBean<>("0");
     }
 
 
@@ -90,25 +92,31 @@ public class AgentController {
      * @return
      */
     @RequestMapping("getCommerAuditCause.do")
-    public List<Map<String,Object>> getCommerAuditCause(String custId){
-        return commerService.getCommerAuditCause(custId);
+    public ResultBean<List<Map<String,Object>>>getCommerAuditCause(String custId){
+        List<Map<String, Object>> commerAuditCause = commerService.getCommerAuditCause(custId);
+        if (commerAuditCause != null) {
+            return new ResultBean<>("1",commerAuditCause);
+        }
+        return new ResultBean<>("0");
     }
 
 
     /**
      * 新增商户(进件)
-     * @param mv 进件bean
      * @return
      */
     @RequestMapping("insertMerchant.do")
-    public String addMerchant(MerchantVo mv){
+    public ResultBean<String> addMerchant(String userId,
+                                  String merchantAccount,
+                                  TdCustInfo tdCustInfo,
+                                  TdMerchantProductInfo tdMerchantProductInfo,
+                                  TdCustScanCopy tdCustScanCopy){
 
-        String custId = GenSN.getUUID();  //设置商户id
-
-        return null;
+        String jsonObjectString = commerService.merchantAdd(userId,merchantAccount,tdCustInfo,tdMerchantProductInfo,tdCustScanCopy);
+        if (jsonObjectString != null) {
+            return new ResultBean<>("1",jsonObjectString);
+        }
+        return new ResultBean<>("0",null);
     }
-
-
-
 
 }

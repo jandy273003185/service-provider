@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.sevenpay.agentmanager.pojo.Paths;
+import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.youtu.Youtu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -166,7 +167,7 @@ public class YouTuUtils {
 	 * @param BASE64str bas64字符串
 	 * @return 存储地址
 	 */
-	public String BASE64CodeToBeImage(String BASE64str){
+	public ResultBean<String[]> BASE64CodeToBeImage(String BASE64str){
 		//存储地址
 		StringBuilder path = new StringBuilder(Paths.FilePathAbsolute).append(Paths.FilePath);
 		//统一图片后缀
@@ -188,10 +189,11 @@ public class YouTuUtils {
 			}
 			out.write(b);
 			out.flush();
-			return  path+uploadFileName;
+			String[] result ={path+uploadFileName,uploadFileName};
+			return  new ResultBean<>("",result);
 		}catch (Exception e){
 			e.printStackTrace();
-			return "图片上传失败，请重新上传";
+			return new ResultBean<>("图片上传失败，请重新上传",null);
 		}
 	}
 

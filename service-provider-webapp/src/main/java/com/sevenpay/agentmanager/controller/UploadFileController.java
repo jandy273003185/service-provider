@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sevenpay.agentmanager.pojo.ImagesResultBean;
 import com.sevenpay.agentmanager.pojo.Paths;
+import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.YouTuUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +26,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadFileController {
     private static final Logger logger = LoggerFactory.getLogger(UploadFileController.class);
 
-    @PostMapping("upload")
+    @Value("${images.uri}")
+    private String uri;
+    @Value("${images.relativePath}")
+    private String relativePath;
+
+    @PostMapping("upload.do")
     @ResponseBody
-    public ImagesResultBean fileUpload(MultipartFile file){
+    public ResultBean fileUpload(MultipartFile file){
 
         // 获取文件名后缀名
         String suffix = file.getOriginalFilename();
@@ -44,13 +50,16 @@ public class UploadFileController {
 
                 // 转存文件
                 file.transferTo(saveDir);
-
-                return new ImagesResultBean("200",String.valueOf(filePath));
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("imagePath",String.valueOf(filePath));
+                jsonObject.put("uri",uri);
+                jsonObject.put("url",new StringBuilder(relativePath).append(Filename).append(suffix));
+                return new ResultBean("200",jsonObject.toJSONString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return new ImagesResultBean("404","网络延迟，请重新提交");
+        return new ResultBean("404","网络延迟，请重新提交");
 
     }
 
@@ -67,15 +76,19 @@ public class UploadFileController {
             //优图工具
             YouTuUtils youto = new YouTuUtils();
             //文件base64字符串
-            String str = request.getParameter("str");
+            String base64String = request.getParameter("str");
+            String str = base64String.substring(base64String.lastIndexOf(",")+1);
             //图片标识
             String flag = request.getParameter("flag");
 
             //图片上传，返回路径
-            String imagePath = youto.BASE64CodeToBeImage(str);
+            ResultBean<String[]> resultBean = youto.BASE64CodeToBeImage(str);
+            String[] resultMsg = resultBean.getResultMsg();
             //解析图片，返回图片信息
             object = youto.youTu(str, flag);
-            object.put("imagePath",imagePath);
+            object.put("imagePath",resultMsg[0]);
+            object.put("uri",uri);
+            object.put("url",new StringBuilder(relativePath).append(resultMsg[1]));
         } catch (Exception e) {
             logger.error("解析图片出现问题" + e);
             object.put("result", "FAIL");

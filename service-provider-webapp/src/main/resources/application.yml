@@ -6,7 +6,7 @@ spring:
     password: 123456
 
 server:
-  port: 8089
+  port: 8082
 
 
 dubbo:
@@ -35,3 +35,8 @@ redis:
 
 swagger.enable: true
 
+images:
+  relativePaths: /**
+  absolutePaths: file:D://images/
+  uri: http://192.168.1.159:8082
+  relativePath: /

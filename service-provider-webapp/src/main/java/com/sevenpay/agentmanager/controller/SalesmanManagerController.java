@@ -18,11 +18,42 @@ public class SalesmanManagerController {
     private SalesmanManagerService salesmanManagerService;
 
     /**
+     * 重置业务员密码
+     * @param custId 服务商号
+     * @param id 业务员号
+     * @return
+     */
+    @RequestMapping("regPassword.do")
+    public ResultBean regSalesman(String custId, String id){
+        Integer result = salesmanManagerService.resetTdSalesmanInfoPassword(custId, id);
+        if (result > 0) {
+            return new ResultBean("1");
+        }
+        return new ResultBean("0");
+    }
+
+    /**
+     * 业务员修改密码
+     * @param id 业务员号
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return
+     */
+    @RequestMapping("updatePassword.do")
+    public ResultBean updateSalesman(String id, String oldPassword, String newPassword){
+        Integer result = salesmanManagerService.updateTdSalesmanInfoPassword(id,oldPassword,newPassword);
+        if (result > 0) {
+            return new ResultBean("1");
+        }
+        return new ResultBean("0");
+    }
+
+    /**
      * 查询业务员信息
      * @param salesmanInfo
      * @return
      */
-    @RequestMapping("query")
+    @RequestMapping("query.do")
     public List<TdSalesmanInfo> queryTdSalesmanInfos(TdSalesmanInfo salesmanInfo){
         List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(salesmanInfo);
         if (tdSalesmanInfos != null){//查询成功
@@ -36,7 +67,7 @@ public class SalesmanManagerController {
      * @param id 业务员编号
      * @return
      */
-    @RequestMapping("get")
+    @RequestMapping("get.do")
     public ResultBean<TdSalesmanInfo> getTdSalesmanInfoById(String id){
         TdSalesmanInfo tdSalesmanInfo = salesmanManagerService.getTdSalesmanInfoById(id);
         if (tdSalesmanInfo != null){//查询成功0
@@ -51,7 +82,7 @@ public class SalesmanManagerController {
      * @param tdSalesmanInfo
      * @return
      */
-    @RequestMapping("insert")
+    @RequestMapping("insert.do")
     public ResultBean insertTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo){
         Integer result = salesmanManagerService.insertTdSalesmanInfo(tdSalesmanInfo);
         if (result > 0) {//新增成功
@@ -66,13 +97,13 @@ public class SalesmanManagerController {
      * @param tdSalesmanInfo
      * @return
      */
-    @RequestMapping("update")
+    @RequestMapping("update.do")
     public ResultBean updateTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo){
         Integer result = salesmanManagerService.updateTdSalesmanInfo(tdSalesmanInfo);
         if (result > 0) {//更新成功
             return new ResultBean("1");
         }
         //更新失败
-        return new ResultBean("1");
+        return new ResultBean("0");
     }
 }
