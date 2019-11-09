@@ -1,13 +1,5 @@
 package com.sevenpay.agentmanager.controller;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.alibaba.fastjson.JSONObject;
 import com.sevenpay.agentmanager.pojo.Paths;
 import com.sevenpay.agentmanager.pojo.ResultBean;
@@ -20,6 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("common")
@@ -47,7 +45,6 @@ public class UploadFileController {
                 if (!saveDir.getParentFile().exists()){
                     saveDir.getParentFile().mkdirs();
                 }
-
                 // 转存文件
                 file.transferTo(saveDir);
                 JSONObject jsonObject = new JSONObject();

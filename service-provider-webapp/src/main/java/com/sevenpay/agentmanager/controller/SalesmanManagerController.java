@@ -2,13 +2,15 @@ package com.sevenpay.agentmanager.controller;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.qifenqian.app.bean.customer.TdSalesmanInfo;
 import com.qifenqian.app.customer.SalesmanManagerService;
+import com.qifenqian.app.merchant.CommercialService;
 import com.sevenpay.agentmanager.pojo.ResultBean;
-import com.sevenpay.external.app.common.bean.customer.TdSalesmanInfo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("salesman")
@@ -16,6 +18,10 @@ public class SalesmanManagerController {
 
     @Reference
     private SalesmanManagerService salesmanManagerService;
+
+    @Reference
+    private CommercialService commerService;
+
 
     /**
      * 重置业务员密码
@@ -63,16 +69,17 @@ public class SalesmanManagerController {
     }
 
     /**
-     * 根据主键id获取业务员详情
+     * 根据主键id获取业务员业绩详情
      * @param id 业务员编号
      * @return
      */
     @RequestMapping("get.do")
-    public ResultBean<TdSalesmanInfo> getTdSalesmanInfoById(String id){
-        TdSalesmanInfo tdSalesmanInfo = salesmanManagerService.getTdSalesmanInfoById(id);
-        if (tdSalesmanInfo != null){//查询成功0
-            return new ResultBean<>("1",tdSalesmanInfo);
-        }
+    public ResultBean<TdSalesmanInfo> getTdSalesmanInfoById(String id,String queryStartDate,
+                                                            String queryEndDate){
+        //查询商户数据
+        Map<String, Object> statCommercial = commerService.getStatCommercial(id, queryStartDate, queryEndDate);
+        //
+
         //查询失败
         return new ResultBean<>("0",null);
     }
