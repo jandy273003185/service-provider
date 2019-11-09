@@ -1,102 +1,78 @@
 package com.sevenpay.agentmanager.shiro;
 
-import org.apache.shiro.realm.AuthorizingRealm;
-
-
-import org.apache.shiro.authc.*;
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.qifenqian.app.customer.SalesmanManagerService;
+import com.sevenpay.agentmanager.jwt.JwtToken;
+import com.sevenpay.agentmanager.utils.JWTUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
 
+/**
+ * 自定义授权
+ */
+@Component
+@Slf4j
 public class MyShiroRealm extends AuthorizingRealm {
+
+    private static Logger log = LoggerFactory.getLogger(MyShiroRealm.class);
+
+
+
+    @Reference
+    SalesmanManagerService salesmanManagerService;
+
+
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JwtToken;
+    }
 
     /**
      * 方面用于加密 参数：AuthenticationToken是从表单穿过来封装好的对象
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("doGetAuthenticationInfo:" + token);
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
 
-        /*// 将AuthenticationToken强转为AuthenticationToken对象
-        UsernamePasswordToken upToken = (UsernamePasswordToken) token;
+        String token = (String) auth.getCredentials();
+        String userId = JWTUtil.getUserId(token);
+        String openId = JWTUtil.getOpenId(token);
 
-        // 获得从表单传过来的用户名
-        String username = upToken.getUsername();
-
-        // 从数据库查看是否存在用户
-        UserService userService = new UserService();
-
-        // 如果用户不存在，抛此异常
-        if (!userService.selectUsername(username)) {
-            throw new UnknownAccountException("无此用户名！");
+        if (userId == null) {
+            log.error("token无效(空''或者null都不行!)");
+            throw new AuthenticationException("token无效");
         }
-
-        // 认证的实体信息，可以是username，也可以是用户的实体类对象，这里用的用户名
-        Object principal = username;
-        // 从数据库中查询的密码
-        Object credentials = userService.selectPassword(username);
-        // 颜值加密的颜，可以用用户名
-        ByteSource credentialsSalt = ByteSource.Util.bytes(username);
-        // 当前realm对象的名称，调用分类的getName()
-        String realmName = this.getName();
-
-        // 创建SimpleAuthenticationInfo对象，并且把username和password等信息封装到里面
-        // 用户密码的比对是Shiro帮我们完成的
-        SimpleAuthenticationInfo info = null;
-        info = new SimpleAuthenticationInfo(principal, credentials, credentialsSalt, realmName);
-        return info;*/
-
-        return null;
+        if (openId == null) {
+            log.error("token无效(空''或者null都不行!)");
+            throw new AuthenticationException("token无效");
+        }
+        if (!JWTUtil.verify(token, userId, openId)) {
+            log.error("用户名或密码错误(token无效或者与登录者不匹配)!)");
+            throw new AuthenticationException("用户名或密码错误(token无效或者与登录者不匹配)!");
+        }
+        return new SimpleAuthenticationInfo(token, token, "my_realm");
     }
 
     // 用于授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 
-        System.out.println("MyShiroRealm的doGetAuthorizationInfo授权方法执行");
+        String username = JWTUtil.getUserId(principals.toString());
+        //SysUserInfo userBean = loginManagerService.getSysUserInfo(username);
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        return simpleAuthorizationInfo;
 
-        // User user=(User)
-        // principals.fromRealm(this.getClass().getName()).iterator().next();//获取session中的用户
-        // System.out.println("在MyShiroRealm中AuthorizationInfo（授权）方法中从session中获取的user对象:"+user);
-
-        // 从PrincipalCollection中获得用户信息
-        Object principal = principals.getPrimaryPrincipal();
-        System.out.println("ShiroRealm  AuthorizationInfo:" + principal.toString());
-
-        // 根据用户名来查询数据库赋予用户角色,权限（查数据库）
-        Set<String> roles = new HashSet<>();
-        Set<String> permissions = new HashSet<>();
-        //		2019.10.21更新
-        //		给用户添加user权限 (没有进行判断、对所有的用户给user权限)
-        if("user".equals(principal)){
-            roles.add("user");
-            permissions.add("user:query");
-        }
-        //		当用户名为admin时 为用户添加权限admin  两个admin可以理解为连个字段
-        if ("admin".equals(principal)) {
-            roles.add("admin");
-            permissions.add("admin:query");
-        }
-        //		为用户添加visit游客权限，在url中没有为visit权限，所以，所有的操作都没权限
-        if("visit".equals(principal)){
-            roles.add("visit");
-            permissions.add("visit:query");
-        }
-        //              更新以上代码
-        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roles);
-        //添加权限
-        info.setStringPermissions(permissions);
-        return info;
-
-        // return null;
     }
-
 
 
 

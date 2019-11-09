@@ -6,16 +6,19 @@ import com.qifenqian.app.bean.TdCustInfo;
 import com.qifenqian.app.bean.TdCustScanCopy;
 import com.qifenqian.app.bean.TdMerchantProductInfo;
 import com.qifenqian.app.customer.MerchantInfoService;
+import com.qifenqian.app.customer.MerchantStatusService;
 import com.qifenqian.app.merchant.CommercialService;
 import com.qifenqian.app.product.ProductInfoService;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.AddCustScanCopy;
 import com.sevenpay.agentmanager.utils.AddTdMerchantProductInfo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +33,15 @@ public class AgentController {
     private CommercialService commerService;
     @Reference
     private ProductInfoService productInfoService;
+    @Reference
+    private MerchantStatusService merchantStatusService;
+
+    @Value("${images.uri}")
+    private String uri;
+    @Value("${images.relativePath}")
+    private String relativePath;
+
+
     /**
      * 查询商户审核信息
      * @param userId 管理员/业务员id
@@ -148,13 +160,39 @@ public class AgentController {
 
     /**
      * 查询未完善商户进件资料
-     * @param request
+     * @param tdCustInfo (custId)查询
      * @return
      */
     @RequestMapping("queryMerchant.do")
-    public ResultBean queryMerchant(HttpServletRequest request){
-
-        return new ResultBean("");
+    public ResultBean queryMerchant(TdCustInfo tdCustInfo){
+        Map<String,Object>map = new HashMap<>();
+        //查询商户信息
+        TdCustInfo custInfo = merchantInfoService.getCustInfo(tdCustInfo);
+        if (custInfo != null) {
+            map.put("mInfo",custInfo);
+        }
+        //查询商户签约产品
+        TdMerchantProductInfo tdMerchantProductInfo = new TdMerchantProductInfo();
+        tdMerchantProductInfo.setId(tdCustInfo.getCustId());
+        List<TdMerchantProductInfo> merchantProductInfos = productInfoService.selectOpenProductInfo(tdMerchantProductInfo);
+        if (merchantProductInfos != null) {
+            map.put("pInfo",merchantProductInfos);
+        }
+        //查询商户扫描件信息，并将路径转化为URI的形式
+        TdCustScanCopy tdCustScanCopy = new TdCustScanCopy();
+        tdCustScanCopy.setCustId(tdCustInfo.getCustId());
+        List<TdCustScanCopy> tdCustScanCopies = merchantInfoService.selectCustScanCopy(tdCustScanCopy);
+        for (TdCustScanCopy custScanCopy : tdCustScanCopies) {
+            //获取扫描件路径
+            String scanCopyPath = custScanCopy.getScanCopyPath();
+            String imagesName = scanCopyPath.substring(scanCopyPath.lastIndexOf("/"));//
+            StringBuilder imagesUri = new StringBuilder(uri).append(relativePath).append(imagesName);
+            custScanCopy.setScanCopyPath(imagesUri.toString());
+        }
+        if (tdCustScanCopies != null) {
+            map.put("cInfo",tdCustScanCopies);
+        }
+        return new ResultBean("1",map);
     }
 
 
