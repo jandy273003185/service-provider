@@ -9,6 +9,7 @@ import com.qifenqian.app.customer.MerchantInfoService;
 import com.qifenqian.app.customer.MerchantStatusService;
 import com.qifenqian.app.merchant.CommercialService;
 import com.qifenqian.app.product.ProductInfoService;
+import com.sevenpay.agentmanager.pojo.ImagesUri;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.AddCustScanCopy;
 import com.sevenpay.agentmanager.utils.AddTdMerchantProductInfo;
@@ -22,7 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 服务商（管理员接口）
+ */
 @RestController
 @RequestMapping("wx")
 public class AgentController {
@@ -85,16 +88,18 @@ public class AgentController {
         return new ResultBean<>("0");
     }
 
-
     /**
      * 交易排名
      * @param userId 管理员
-     * @param rankingCode
+     * @param rankingCode transaction 笔数排名 money 金额排名
+     * @param custName 商户名称
      * @param queryStartDate 查询起始时间
      * @param queryEndDate 查询终止时间
+     * @param pageSize 页面条数
+     * @param pageNum 当前页数
      * @return
      */
-    @RequestMapping("getDealRanking")
+    @RequestMapping("getDealRanking.do")
     public ResultBean getDealRanking(String userId,
                                      String rankingCode,
                                      String custName,
@@ -152,7 +157,7 @@ public class AgentController {
                     productInfoService.saveTdMerchantProductInfo(tdMerchantProductInfo);
                 }
             }
-            //进价完成
+            //进件完成
             return new ResultBean<>("1",custId);
         }
        return new ResultBean<>("0","商户进件失败");
@@ -182,12 +187,44 @@ public class AgentController {
         TdCustScanCopy tdCustScanCopy = new TdCustScanCopy();
         tdCustScanCopy.setCustId(tdCustInfo.getCustId());
         List<TdCustScanCopy> tdCustScanCopies = merchantInfoService.selectCustScanCopy(tdCustScanCopy);
+        //存储回显图片uri
+        ImagesUri Uris = new ImagesUri();
         for (TdCustScanCopy custScanCopy : tdCustScanCopies) {
             //获取扫描件路径
             String scanCopyPath = custScanCopy.getScanCopyPath();
             String imagesName = scanCopyPath.substring(scanCopyPath.lastIndexOf("/"));//
             StringBuilder imagesUri = new StringBuilder(uri).append(relativePath).append(imagesName);
-            custScanCopy.setScanCopyPath(imagesUri.toString());
+            //00 个人身份证正面  01 税务登记证  02 营业执照 03 开户证件 04商户身份信息 05 银行卡扫描件 06 其他证件 18店内照  11行业资质照  12电子签名照
+            //13 银行卡正面  14  银行卡反面  15合作证明函  16 个人身份证反面   18 店面内景   19 手持身份证正面   20 店面门头照   21 店面前台照  22 合作证明函
+            if ("00".equals(custScanCopy.getCertifyType())){
+                Uris.setIdentityCardFront(imagesUri.toString());
+            }
+            if ("16".equals(custScanCopy.getCertifyType())){
+                Uris.setIdentityCardReverse(imagesUri.toString());
+            }
+            if ("02".equals(custScanCopy.getCertifyType())){
+                Uris.setBusinessLicenseInOne(imagesUri.toString());
+            }
+            if ("03".equals(custScanCopy.getCertifyType())){
+                Uris.setLicenceForOpeningAccounts(imagesUri.toString());
+            }
+            if ("13".equals(custScanCopy.getCertifyType())){
+                Uris.setBankCardFront(imagesUri.toString());
+            }
+            if ("20".equals(custScanCopy.getCertifyType())){
+                Uris.setShopFrontDoor(imagesUri.toString());
+            }
+            if ("18".equals(custScanCopy.getCertifyType())){
+                Uris.setShopInterior(imagesUri.toString());
+            }
+            if ("12".equals(custScanCopy.getCertifyType())){
+                Uris.setElectronicSignaturePhoto(imagesUri.toString());
+            }
+            if ("11".equals(custScanCopy.getCertifyType())){
+                Uris.setSpecialBusiness(imagesUri.toString());
+            }
+
+
         }
         if (tdCustScanCopies != null) {
             map.put("cInfo",tdCustScanCopies);

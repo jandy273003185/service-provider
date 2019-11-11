@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 业务员接口
+ */
 @RestController
 @RequestMapping("salesman")
 public class SalesmanManagerController {
@@ -71,17 +74,20 @@ public class SalesmanManagerController {
     /**
      * 根据主键id获取业务员业绩详情
      * @param id 业务员编号
+     * @param queryStartDate 查询起始时间
+     * @param queryEndDate 查询终止时间
      * @return
      */
     @RequestMapping("get.do")
-    public ResultBean<TdSalesmanInfo> getTdSalesmanInfoById(String id,String queryStartDate,
-                                                            String queryEndDate){
+    public ResultBean getTdSalesmanInfoById(String id,
+                                            String queryStartDate,
+                                            String queryEndDate){
         //查询商户数据
         Map<String, Object> statCommercial = commerService.getStatCommercial(id, queryStartDate, queryEndDate);
-        //
-
-        //查询失败
-        return new ResultBean<>("0",null);
+        //获取商户统计数，交易笔均金额
+        Map<String, Object> merchantStatistics = commerService.getMerchantStatistics(id,queryStartDate,queryEndDate);
+        statCommercial.putAll(merchantStatistics);
+        return new ResultBean<>("1",statCommercial);
     }
 
     /**

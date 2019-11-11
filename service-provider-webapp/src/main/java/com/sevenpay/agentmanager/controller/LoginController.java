@@ -10,7 +10,6 @@ import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.login.UserLoginManagerService;
 import com.qifenqian.app.user.UserManager;
 import com.sevenpay.agentmanager.pojo.LoginUser;
-import com.sevenpay.agentmanager.pojo.ResponseDataUtil;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.JWTUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-
+/**
+ * 服务商/业务员
+ */
 @RestController
 @RequestMapping("/user")
 public class LoginController {
@@ -33,15 +34,18 @@ public class LoginController {
     private MerchantStatusService merchantStatusService;
     /**
      * 登陆
-     * @param userName
-     * @param password
+     * @param userName 账号
+     * @param password 密码
+     * @param openId 微信用户唯一标识
+     * @param roleCode 用户角色agent管理员（服务商）/salesman业务员
      * @return
      */
     @RequestMapping("/loginBinding")
     public ResultBean loginBinding(String userName, String password, String openId, String roleCode){
 
         UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
-
+        //不同的角色获取不同的用户信息表
+        LoginUser loginUser=new LoginUser();
         if(ifbing == null){ //openid 没有被绑定
             //登陆校验
             if ("agent".equals(roleCode)) {//服务商绑定
@@ -56,7 +60,11 @@ public class LoginController {
                 userLoginRelate.setUserType(roleCode);
                 userLoginRelate.setIfUnbind("1");
                 loginManagerService.userBinding(userLoginRelate);//用户绑定openId
-                return new ResultBean("绑定成功",userInfo.getCustId()) ;
+                loginUser.setUserInfo(userInfo.getCustId());
+                //根据用户编号和密码加密生成token
+                String token = JWTUtil.sign(userInfo.getCustId(),openId);
+                loginUser.setToken(token);
+                return new ResultBean("绑定成功",loginUser) ;//
             }
             if ("salesman".equals(roleCode)){
                 TdSalesmanInfo userInfo = salesmanManagerService.checkSalesmanLogin(userName, password);
@@ -70,7 +78,12 @@ public class LoginController {
                 userLoginRelate.setUserType(roleCode);
                 userLoginRelate.setIfUnbind("1");
                 loginManagerService.userBinding(userLoginRelate);//用户绑定openId
-                return new ResultBean("绑定成功",userInfo.getId()) ;
+                loginUser.setUserInfo(userInfo.getCustId());
+                //根据用户编号和密码加密生成token
+                String token = JWTUtil.sign(userInfo.getCustId(),openId);
+                loginUser.setToken(token);
+                loginUser.setPhoneCode(userInfo.getUserPhone());
+                return new ResultBean("绑定成功",loginUser) ;
             }
         }
         String userId = ifbing.getUserId();
@@ -84,10 +97,10 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/login")
-    public Object login(String openId){
+    public ResultBean login(String openId){
         UserLoginRelate ifbing = loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
         if(ifbing == null){
-            return ResponseDataUtil.failure("openId未绑定！，请绑定",openId);  //返回页面去登陆 进行绑定
+            return new ResultBean("0",openId);  //返回页面去登陆 进行绑定
         }else {
 
             String roleCode = ifbing.getUserType();//获取角色id
@@ -109,11 +122,11 @@ public class LoginController {
                     String token = JWTUtil.sign(userId,openId);
                     loginUser.setToken(token);
                 }
-                return loginUser;
+                return new ResultBean("1",loginUser);
             } catch (Exception e) {
                 System.out.println("该用户名或者密码错误,请检查后再登录!");
             }
         }
-        return ResponseDataUtil.failure("登陆错误~请重试");
+        return new ResultBean("0","登陆失败");
     }
 }

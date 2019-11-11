@@ -23,7 +23,10 @@ import java.util.Map;
 @Configuration
 public class ShiroConfigBean {
 
-
+//    @Value("${images.relativePaths}")
+//    private String relativePaths;
+//    @Value("${images.uri}")
+//    private String uri;
 
     @Bean("shirFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
@@ -32,9 +35,11 @@ public class ShiroConfigBean {
         //拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         // 配置不会被拦截的链接 顺序判断
+       // filterChainDefinitionMap.put(relativePaths,"anon");
         filterChainDefinitionMap.put("/login/**", "anon");
         //前后端带login登录的或者其他登录的通通放行
         filterChainDefinitionMap.put("/**/login/**", "anon");
+        //filterChainDefinitionMap.put("/**/salesman/**", "anon");
         filterChainDefinitionMap.put("/**/loginBinding/**", "anon");
         filterChainDefinitionMap.put("/**.js", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
