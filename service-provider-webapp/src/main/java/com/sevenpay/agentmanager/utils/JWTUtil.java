@@ -96,7 +96,7 @@ public class JWTUtil {
 //        System.out.println("测试生成一个token\n"+sign);
 
 
-        String dd = getUserId("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZWNyZXQiOiIxIiwiZXhwIjoxNTczMjkwNjM5LCJ1c2VybmFtZSI6IkdZWkItMDA0OSJ9.byn3nTu4LrhoC7RAZFJvH5yZCtCc0yU6-DGC7eMehqc");
+        String dd = getUserId("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZWNyZXQiOiI4OTg5ODkiLCJleHAiOjE1NzM2NDEyODYsInVzZXJJZCI6IjdhMjUxODBlZWZlZTQyM2E5OTJkMjlkOTcxMmI2ZjlkIn0.i-fKA18cH8go_BfOWErfzMI1jNQ32KJgz_9e9W9fbiQ");
         System.out.println(dd+"-----------");
     }
 

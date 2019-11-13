@@ -3,10 +3,13 @@ package com.sevenpay.agentmanager.pojo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Component
-public class LoginUser {
+public class LoginUser implements Serializable {
 
+    private static final long serialVersionUID = 159781733956357560L;
     private String phoneCode;
     /**
      * 用户
@@ -18,6 +21,7 @@ public class LoginUser {
      */
     private String token;
 
+    private String userId;
 
     public String getPhoneCode() {
         return phoneCode;
@@ -41,5 +45,13 @@ public class LoginUser {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

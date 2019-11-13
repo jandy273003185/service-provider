@@ -65,7 +65,7 @@ public class SalesmanManagerController {
     @RequestMapping("query.do")
     public List<TdSalesmanInfo> queryTdSalesmanInfos(TdSalesmanInfo salesmanInfo){
         List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(salesmanInfo);
-        if (tdSalesmanInfos != null){//查询成功
+        if (tdSalesmanInfos.size() > 0){//查询成功
             return tdSalesmanInfos;
         }
         return null;

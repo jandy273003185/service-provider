@@ -5,34 +5,30 @@ import com.qifenqian.app.bean.TdCustScanCopy;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+/**
+ * 进件添加图片路径转换
+ */
 public class AddCustScanCopy{
 
-    public static List<TdCustScanCopy> add(HttpServletRequest request,String merchantCode) throws ParseException {
-        return addCustScanCopy(request,merchantCode);
+    public static List<TdCustScanCopy> add(HttpServletRequest request,String custId) throws ParseException {
+        return addCustScanCopy(request,custId);
     }
 
-    private static List<TdCustScanCopy> addCustScanCopy(HttpServletRequest request,String merchantCode) throws ParseException {
+    private static List<TdCustScanCopy> addCustScanCopy(HttpServletRequest request,String custId) throws ParseException {
         List<TdCustScanCopy> list = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String format = sdf.format(new Date());
-        Date formatData = sdf.parse(format);
         //保存身份证正面00 个人身份证正面  01 税务登记证  02 营业执照 03 开户证件 04商户身份信息 05 银行卡扫描件 06 其他证件 18店内照  11行业资质照  12电子签名照
         //	 * 	13 银行卡正面  14  银行卡反面  15合作证明函  16 个人身份证反面   18 店面内景   19 手持身份证正面   20 店面门头照   21 店面前台照  22 合作证明函
         TdCustScanCopy tdCustScanCopy = new TdCustScanCopy();
-        tdCustScanCopy.setCustId(request.getParameter("custId"));//商户编号
+        tdCustScanCopy.setCustId(custId);//商户编号
         tdCustScanCopy.setCertifyType("00");//扫描件类型
         tdCustScanCopy.setCertifyNo(request.getParameter("certifyNo"));//证件号码
         tdCustScanCopy.setScanCopyPath(request.getParameter("identityCardFront"));//证件路径
-        tdCustScanCopy.setUploadTime(formatData);//上传申请时间
-        tdCustScanCopy.setCreateTime(formatData);//创建时间
         tdCustScanCopy.setCreateId(request.getParameter("userId"));//创建人（服务商、业务员）
         tdCustScanCopy.setCertifyEndTime(request.getParameter("certifyEndTime"));//证件有效期
-        tdCustScanCopy.setScanBelong("");//资料归属类型
+        tdCustScanCopy.setScanBelong("00");//资料归属类型
         tdCustScanCopy.setStatus("01");//状态
         list.add(tdCustScanCopy);
         //保存身份证反面
@@ -81,12 +77,12 @@ public class AddCustScanCopy{
         //其他资料照1
         TdCustScanCopy tdCustScanCopy9 = tdCustScanCopy;
         tdCustScanCopy9.setCertifyType("23");//扫描件类型
-        tdCustScanCopy9.setScanCopyPath(request.getParameter("orderPhoto1"));//证件路径
+        tdCustScanCopy9.setScanCopyPath(request.getParameter("otherPhoto1"));//证件路径
         list.add(tdCustScanCopy9);
         //其他资料照2
         TdCustScanCopy tdCustScanCopy10 = tdCustScanCopy;
         tdCustScanCopy10.setCertifyType("24");//扫描件类型
-        tdCustScanCopy10.setScanCopyPath(request.getParameter("orderPhoto2"));//证件路径
+        tdCustScanCopy10.setScanCopyPath(request.getParameter("otherPhoto2"));//证件路径
         list.add(tdCustScanCopy10);
 
         return list;
