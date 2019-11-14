@@ -25,7 +25,6 @@ public class SalesmanManagerController {
     @Reference
     private CommercialService commerService;
 
-
     /**
      * 重置业务员密码
      * @param custId 服务商号
@@ -63,12 +62,9 @@ public class SalesmanManagerController {
      * @return
      */
     @RequestMapping("query.do")
-    public List<TdSalesmanInfo> queryTdSalesmanInfos(TdSalesmanInfo salesmanInfo){
+    public ResultBean<List<TdSalesmanInfo>> queryTdSalesmanInfos(TdSalesmanInfo salesmanInfo){
         List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(salesmanInfo);
-        if (tdSalesmanInfos.size() > 0){//查询成功
-            return tdSalesmanInfos;
-        }
-        return null;
+        return new ResultBean<>("1",tdSalesmanInfos);
     }
 
     /**
@@ -85,7 +81,7 @@ public class SalesmanManagerController {
         //查询商户数据
         Map<String, Object> statCommercial = commerService.getStatCommercial(id, queryStartDate, queryEndDate);
         //获取商户统计数，交易笔均金额
-        Map<String, Object> merchantStatistics = commerService.getMerchantStatistics(id,queryStartDate,queryEndDate);
+        Map<String, Object> merchantStatistics = salesmanManagerService.getMerchantStatistics(id, queryStartDate, queryEndDate);
         statCommercial.putAll(merchantStatistics);
         return new ResultBean<>("1",statCommercial);
     }
@@ -119,4 +115,20 @@ public class SalesmanManagerController {
         //更新失败
         return new ResultBean("0");
     }
+
+    /**
+     * 查询业务员业绩排名
+     * @param sortType 0 按进件数  1 按交易额
+     * @param custId 业务员所属服务商 userId
+     * @param queryStartDate
+     * @param queryEndDate
+     * @return
+     */
+    @RequestMapping("performance.do")
+    public ResultBean selectSalesmanPerformance(String sortType, String custId, String queryStartDate, String queryEndDate){
+        List<Map<String, Object>> maps = salesmanManagerService.selectSalesmanPerformance(sortType, custId, queryStartDate, queryEndDate);
+        return new ResultBean("1",maps);
+    }
+
+
 }

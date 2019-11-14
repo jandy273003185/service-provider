@@ -1,4 +1,4 @@
-package com.sevenpay.agentmanager.utils;
+package com.sevenpay.agentmanager.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -47,7 +47,7 @@ public class JWTUtil {
 
             return jwt.getClaim("userId").asString();
         } catch (JWTDecodeException e) {
-            return null;
+            return e.getMessage();
         }
     }
 

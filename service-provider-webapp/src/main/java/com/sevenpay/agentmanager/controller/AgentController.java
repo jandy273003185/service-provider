@@ -9,7 +9,6 @@ import com.qifenqian.app.customer.MerchantInfoService;
 import com.qifenqian.app.customer.MerchantStatusService;
 import com.qifenqian.app.merchant.CommercialService;
 import com.qifenqian.app.product.ProductInfoService;
-import com.sevenpay.agentmanager.pojo.ImagesUri;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.AddCustScanCopy;
 import com.sevenpay.agentmanager.utils.AddTdMerchantProductInfo;
@@ -18,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,24 +89,26 @@ public class AgentController {
     /**
      * 交易排名
      * @param userId 管理员
-     * @param rankingCode transaction 笔数排名 money 金额排名
      * @param custName 商户名称
      * @param queryStartDate 查询起始时间
      * @param queryEndDate 查询终止时间
      * @param pageSize 页面条数
+     * @param roleId 2是管理员（服务商），3是业务员
      * @param pageNum 当前页数
+     * @param rankingCode transactionNum desc      transactionNum asc
      * @return
      */
     @RequestMapping("getDealRanking.do")
     public ResultBean getDealRanking(String userId,
-                                     String rankingCode,
                                      String custName,
                                      String queryStartDate,
                                      String queryEndDate,
+                                     String roleId,
                                      int pageSize,
-                                     int pageNum){
-        PageInfo<Map<String, Object>> transactionPage= commerService.getDealRanking(userId, rankingCode, custName, queryStartDate, queryEndDate, pageSize, pageNum);
-        if (transactionPage != null) {
+                                     int pageNum,
+                                     String rankingCode){
+        PageInfo<Map<String, Object>> transactionPage= commerService.getDealRanking(userId, custName, queryStartDate, queryEndDate, roleId, pageSize, pageNum,rankingCode);
+        if (transactionPage.getList().size() > 0) {
             return new ResultBean("1",transactionPage);
         }
         return new ResultBean("0");
@@ -137,8 +140,9 @@ public class AgentController {
     @RequestMapping("insertMerchant.do")
     public ResultBean<String> addMerchant(HttpServletRequest request,
                                           TdCustInfo tdCustInfo) throws ParseException {
+        tdCustInfo.setCreateTime(new Date());
         tdCustInfo.setCreateId(request.getParameter("userId"));
-        TdCustInfo queryResult = merchantInfoService.getCustInfo(tdCustInfo);
+        TdCustInfo queryResult = merchantInfoService.getMerchantById(tdCustInfo.getCustId());
 
         if (queryResult == null){//保存到数据库待审核/待完善
             tdCustInfo.setMerchantMobile(tdCustInfo.getMerchantAccount());
@@ -146,28 +150,32 @@ public class AgentController {
             String custId = (String) map.get("custId");//商户编号
             if (custId != null) {
                 //扫描件路径保存
-                List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request,custId);
-                if (scanCopyList.size() > 0){
+                List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request, custId);
+                if (scanCopyList != null) {
                     for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
                         merchantInfoService.saveTdCustScanCopy(tdCustScanCopy);
                     }
                 }
                 //产品保存
                 List<TdMerchantProductInfo> productList = AddTdMerchantProductInfo.add(request, custId);
-                if (productList.size() > 0) {
+                if (productList != null) {
                     for (TdMerchantProductInfo tdMerchantProductInfo : productList) {
                         productInfoService.saveTdMerchantProductInfo(tdMerchantProductInfo);
                     }
                 }
                 //进件完成
-                return new ResultBean<>("1",custId);
+                return new ResultBean("1", custId);
+            }
+            return new ResultBean("0",map);
         }else {//完善后提交（修改操作）
                 tdCustInfo.setMerchantMobile(tdCustInfo.getMerchantAccount());
                 String custId1 = tdCustInfo.getCustId();//商户编号
+                tdCustInfo.setModifyTime(new Date());//修改时间
+                tdCustInfo.setModifyId(request.getParameter("userId"));//修改人
                 if (custId1 != null) {
                     merchantInfoService.updateMerchant(tdCustInfo);
                     //扫描件路径保存
-                    List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request,custId);
+                    List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request,custId1);
                     if (scanCopyList.size() > 0){
                         for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
                             merchantInfoService.saveTdCustScanCopy(tdCustScanCopy);
@@ -181,11 +189,10 @@ public class AgentController {
                         }
                     }
                     //修改完成
-                    return new ResultBean<>("1",custId1);
+                    return new ResultBean("1",custId1);
                 }
-            }
         }
-       return new ResultBean<>("0","商户进件失败");
+       return new ResultBean("0","商户进件失败");
     }
 
     /**
@@ -204,50 +211,10 @@ public class AgentController {
         tdMerchantProductInfo.setId(tdCustInfo.getCustId());
         List<TdMerchantProductInfo> merchantProductInfos = productInfoService.selectOpenProductInfo(tdMerchantProductInfo);
         map.put("pInfo",merchantProductInfos);
-
         //查询商户扫描件信息，并将路径转化为URI的形式
         TdCustScanCopy tdCustScanCopy = new TdCustScanCopy();
         tdCustScanCopy.setCustId(tdCustInfo.getCustId());
         List<TdCustScanCopy> tdCustScanCopies = merchantInfoService.selectCustScanCopy(tdCustScanCopy);
-        //存储回显图片uri
-        ImagesUri Uris = new ImagesUri();
-        for (TdCustScanCopy custScanCopy : tdCustScanCopies) {
-            //获取扫描件路径
-            String scanCopyPath = custScanCopy.getScanCopyPath();
-            String imagesName = scanCopyPath.substring(scanCopyPath.lastIndexOf("/"));//
-            StringBuilder imagesUri = new StringBuilder(uri).append(relativePath).append(imagesName);
-            //00 个人身份证正面  01 税务登记证  02 营业执照 03 开户证件 04商户身份信息 05 银行卡扫描件 06 其他证件 18店内照  11行业资质照  12电子签名照
-            //13 银行卡正面  14  银行卡反面  15合作证明函  16 个人身份证反面   18 店面内景   19 手持身份证正面   20 店面门头照   21 店面前台照  22 合作证明函
-            if ("00".equals(custScanCopy.getCertifyType())){//身份证正面照
-                Uris.setIdentityCardFront(imagesUri.toString());
-            }
-            if ("16".equals(custScanCopy.getCertifyType())){//身份证反面照
-                Uris.setIdentityCardReverse(imagesUri.toString());
-            }
-            if ("02".equals(custScanCopy.getCertifyType())){//营业执照
-                Uris.setBusinessLicenseInOne(imagesUri.toString());
-            }
-            if ("03".equals(custScanCopy.getCertifyType())){//开户证明
-                Uris.setLicenceForOpeningAccounts(imagesUri.toString());
-            }
-            if ("13".equals(custScanCopy.getCertifyType())){//银行卡正面
-                Uris.setBankCardFront(imagesUri.toString());
-            }
-            if ("20".equals(custScanCopy.getCertifyType())){//门头店
-                Uris.setShopFrontDoor(imagesUri.toString());
-            }
-            if ("18".equals(custScanCopy.getCertifyType())){//点内景
-                Uris.setShopInterior(imagesUri.toString());
-            }
-            if ("12".equals(custScanCopy.getCertifyType())){//电子签名照
-                Uris.setElectronicSignaturePhoto(imagesUri.toString());
-            }
-            if ("11".equals(custScanCopy.getCertifyType())){//特殊行业资质照
-                Uris.setSpecialBusiness(imagesUri.toString());
-            }
-
-
-        }
         map.put("cInfo",tdCustScanCopies);
         return new ResultBean("1",map);
     }
@@ -260,7 +227,7 @@ public class AgentController {
      * @throws ParseException
      */
     @RequestMapping("insertProduct.do")
-    public ResultBean insertProduct(HttpServletRequest request,String custId) throws ParseException {
+    public ResultBean insertProduct(HttpServletRequest request,String custId) throws ParseException, IOException {
         List<TdMerchantProductInfo> productInfos = AddTdMerchantProductInfo.add(request, custId);
         if (productInfos.size() > 0){
             for (TdMerchantProductInfo productInfo : productInfos) {
@@ -281,5 +248,33 @@ public class AgentController {
         List<TdMerchantProductInfo> merchantProductInfos = productInfoService.selectOpenProductInfo(tdMerchantProductInfo);
         return new ResultBean("1",merchantProductInfos);
     }
+
+    /**
+     * 查询商户信息
+     * @param custId
+     * @return
+     */
+    @RequestMapping("queryMerchantById.do")
+    public ResultBean queryProduct(String custId) {
+        TdCustInfo custInfo = merchantInfoService.getMerchantById(custId);
+        return new ResultBean("1",custInfo);
+    }
+
+    /**
+     * 设备号校验
+     * @param sn 设备号
+     * @return
+     */
+    @RequestMapping("checkSn")
+    public ResultBean checkSn(String sn){
+        boolean result = commerService.isPertainToAgent(sn);
+        if (result){
+            return new ResultBean("1","校验通过");
+        }
+        return new ResultBean("0","校验失败");
+    }
+
+
+
 
 }

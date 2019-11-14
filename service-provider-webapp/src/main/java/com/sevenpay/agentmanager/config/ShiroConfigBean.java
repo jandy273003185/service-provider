@@ -2,7 +2,7 @@ package com.sevenpay.agentmanager.config;
 
 
 import com.sevenpay.agentmanager.shiro.MyShiroRealm;
-import com.sevenpay.agentmanager.utils.JWTFilter;
+import com.sevenpay.agentmanager.jwt.JWTFilter;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;

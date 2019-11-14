@@ -1,20 +1,19 @@
-package com.sevenpay.agentmanager.utils;
+package com.sevenpay.agentmanager.jwt;
 
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-
-
-import com.sevenpay.agentmanager.jwt.JwtToken;
 import com.sevenpay.agentmanager.pojo.ResponseData;
 import com.sevenpay.agentmanager.pojo.ResponseDataUtil;
-import org.apache.shiro.authc.AuthenticationException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
-import javax.servlet.*;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

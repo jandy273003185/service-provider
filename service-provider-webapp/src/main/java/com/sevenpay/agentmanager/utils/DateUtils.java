@@ -1,11 +1,11 @@
 package com.sevenpay.agentmanager.utils;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * 日期工具类
@@ -355,4 +355,15 @@ public class DateUtils {
 		Date d2 = DateUtils.parseDate8(date8_2);
 		return (int) ((d2.getTime() - d1.getTime()) / 1000 / 60 / 60 / 24);
 	}
+
+
+
+
+	public static Date changeTime(Date date) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String format = sdf.format(date);
+		Date formatData = (Date) sdf.parseObject(format);
+        return formatData;
+	}
+
 }

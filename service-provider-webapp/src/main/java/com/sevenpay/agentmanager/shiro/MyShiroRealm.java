@@ -3,7 +3,7 @@ package com.sevenpay.agentmanager.shiro;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.qifenqian.app.customer.SalesmanManagerService;
 import com.sevenpay.agentmanager.jwt.JwtToken;
-import com.sevenpay.agentmanager.utils.JWTUtil;
+import com.sevenpay.agentmanager.jwt.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
