@@ -72,14 +72,16 @@ public class SalesmanManagerController {
      * @param id 业务员编号
      * @param queryStartDate 查询起始时间
      * @param queryEndDate 查询终止时间
+     * @param roleId 2管理员（服务商）  3业务员
      * @return
      */
     @RequestMapping("get.do")
     public ResultBean getTdSalesmanInfoById(String id,
                                             String queryStartDate,
-                                            String queryEndDate){
+                                            String queryEndDate,
+                                            String roleId){
         //查询商户数据
-        Map<String, Object> statCommercial = commerService.getStatCommercial(id, queryStartDate, queryEndDate);
+        Map<String, Object> statCommercial = commerService.getStatCommercial(id, queryStartDate, queryEndDate,roleId);
         //获取商户统计数，交易笔均金额
         Map<String, Object> merchantStatistics = salesmanManagerService.getMerchantStatistics(id, queryStartDate, queryEndDate);
         statCommercial.putAll(merchantStatistics);
@@ -119,14 +121,14 @@ public class SalesmanManagerController {
     /**
      * 查询业务员业绩排名
      * @param sortType 0 按进件数  1 按交易额
-     * @param custId 业务员所属服务商 userId
+     * @param userId 业务员所属服务商 userId
      * @param queryStartDate
      * @param queryEndDate
      * @return
      */
     @RequestMapping("performance.do")
-    public ResultBean selectSalesmanPerformance(String sortType, String custId, String queryStartDate, String queryEndDate){
-        List<Map<String, Object>> maps = salesmanManagerService.selectSalesmanPerformance(sortType, custId, queryStartDate, queryEndDate);
+    public ResultBean selectSalesmanPerformance(String sortType, String userId, String queryStartDate, String queryEndDate){
+        List<Map<String, Object>> maps = salesmanManagerService.selectSalesmanPerformance(sortType, userId, queryStartDate, queryEndDate);
         return new ResultBean("1",maps);
     }
 

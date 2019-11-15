@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 服务商（管理员接口）
+ * 服务商（管理员接口）/产品接口
  */
 @RestController
 @RequestMapping("wx")
@@ -63,8 +63,9 @@ public class AgentController {
                                            String queryStartDate,
                                            String queryEndDate,
                                            int pageSize,
-                                           int pageNum){
-        PageInfo<TdCustInfo> tdCustInfoPageInfo = commerService.selectCommercialInfo(userId, custName, stateCode, filingAuditStatus, queryStartDate, queryEndDate, pageSize, pageNum);
+                                           int pageNum,
+                                           String roleId){
+        PageInfo<TdCustInfo> tdCustInfoPageInfo = commerService.selectCommercialInfo(userId, custName, stateCode, filingAuditStatus, queryStartDate, queryEndDate, pageSize, pageNum, roleId);
         return new ResultBean("1",tdCustInfoPageInfo);
     }
 
@@ -78,8 +79,9 @@ public class AgentController {
     @RequestMapping("getStatCommercial.do")
     public ResultBean<Map<String , Object>> getStatCommercial(String userId,
                                                               String queryStartDate,
-                                                              String queryEndDate){
-        Map<String,Object> map = commerService.getStatCommercial(userId, queryStartDate, queryEndDate);
+                                                              String queryEndDate,
+                                                              String roleId){
+        Map<String,Object> map = commerService.getStatCommercial(userId, queryStartDate, queryEndDate,roleId);
         if (map != null) {
             return new ResultBean<>("1",map);
         }
@@ -107,11 +109,12 @@ public class AgentController {
                                      int pageSize,
                                      int pageNum,
                                      String rankingCode){
-        PageInfo<Map<String, Object>> transactionPage= commerService.getDealRanking(userId, custName, queryStartDate, queryEndDate, roleId, pageSize, pageNum,rankingCode);
-        if (transactionPage.getList().size() > 0) {
-            return new ResultBean("1",transactionPage);
+        if (roleId == null){
+            return new ResultBean("0","roleId不能为空");
         }
-        return new ResultBean("0");
+        PageInfo<Map<String, Object>> transactionPage= commerService.getDealRanking(userId, custName, queryStartDate, queryEndDate, roleId, pageSize, pageNum,rankingCode);
+        return new ResultBean("1",transactionPage);
+
     }
 
 
@@ -168,29 +171,29 @@ public class AgentController {
             }
             return new ResultBean("0",map);
         }else {//完善后提交（修改操作）
-                tdCustInfo.setMerchantMobile(tdCustInfo.getMerchantAccount());
-                String custId1 = tdCustInfo.getCustId();//商户编号
-                tdCustInfo.setModifyTime(new Date());//修改时间
-                tdCustInfo.setModifyId(request.getParameter("userId"));//修改人
-                if (custId1 != null) {
-                    merchantInfoService.updateMerchant(tdCustInfo);
-                    //扫描件路径保存
-                    List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request,custId1);
-                    if (scanCopyList.size() > 0){
-                        for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
-                            merchantInfoService.saveTdCustScanCopy(tdCustScanCopy);
-                        }
+            tdCustInfo.setMerchantMobile(tdCustInfo.getMerchantAccount());
+            String custId1 = tdCustInfo.getCustId();//商户编号
+            tdCustInfo.setModifyTime(new Date());//修改时间
+            tdCustInfo.setModifyId(request.getParameter("userId"));//修改人
+            if (custId1 != null) {
+                merchantInfoService.updateMerchant(tdCustInfo);
+                //扫描件路径保存
+                List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request,custId1);
+                if (scanCopyList.size() > 0){
+                    for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
+                        merchantInfoService.saveTdCustScanCopy(tdCustScanCopy);
                     }
-                    //产品保存
-                    List<TdMerchantProductInfo> productList = AddTdMerchantProductInfo.add(request, custId1);
-                    if (productList.size() > 0) {
-                        for (TdMerchantProductInfo tdMerchantProductInfo : productList) {
-                            productInfoService.saveTdMerchantProductInfo(tdMerchantProductInfo);
-                        }
-                    }
-                    //修改完成
-                    return new ResultBean("1",custId1);
                 }
+                //产品保存
+                List<TdMerchantProductInfo> productList = AddTdMerchantProductInfo.add(request, custId1);
+                if (productList.size() > 0) {
+                    for (TdMerchantProductInfo tdMerchantProductInfo : productList) {
+                        productInfoService.saveTdMerchantProductInfo(tdMerchantProductInfo);
+                    }
+                }
+                //修改完成
+                return new ResultBean("1",custId1);
+            }
         }
        return new ResultBean("0","商户进件失败");
     }
@@ -265,7 +268,7 @@ public class AgentController {
      * @param sn 设备号
      * @return
      */
-    @RequestMapping("checkSn")
+    @RequestMapping("checkSn.do")
     public ResultBean checkSn(String sn){
         boolean result = commerService.isPertainToAgent(sn);
         if (result){
