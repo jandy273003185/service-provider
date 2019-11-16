@@ -218,6 +218,8 @@ public class AgentController {
         TdCustScanCopy tdCustScanCopy = new TdCustScanCopy();
         tdCustScanCopy.setCustId(tdCustInfo.getCustId());
         List<TdCustScanCopy> tdCustScanCopies = merchantInfoService.selectCustScanCopy(tdCustScanCopy);
+        map.put("uri",uri);
+        map.put("url",relativePath);
         map.put("cInfo",tdCustScanCopies);
         return new ResultBean("1",map);
     }

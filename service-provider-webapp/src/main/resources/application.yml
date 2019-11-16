@@ -41,9 +41,13 @@ redis:
 swagger.enable: true
 
 images:
+  #映射路径
   relativePaths: /pic/**
+  #存储路径
   absolutePaths: file:D://images/
+  #映射IP回显
   uri: http://192.168.1.159:8082
+  #回显路径
   relativePath: /pic/
 
 

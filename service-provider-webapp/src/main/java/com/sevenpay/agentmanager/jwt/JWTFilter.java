@@ -40,7 +40,10 @@ public class JWTFilter extends BasicHttpAuthenticationFilter{
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String token = httpServletRequest.getHeader("Token");
+        String token = httpServletRequest.getHeader("token");
+        if(token == null){
+            return false;
+        }
         JwtToken jwtToken = new JwtToken(token);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         try {
@@ -60,7 +63,6 @@ public class JWTFilter extends BasicHttpAuthenticationFilter{
 
     /**
      * 执行登录认证
-     *
      * @param request
      * @param response
      * @param mappedValue

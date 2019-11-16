@@ -44,13 +44,10 @@ public class JWTUtil {
     public static String getUserId(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
-            if (jwt != null){
-                return jwt.getClaim("userId").asString();
-            }
+            return jwt.getClaim("userId").asString();
         } catch (JWTDecodeException e) {
             return e.getMessage();
         }
-        return null;
     }
 
     /**
