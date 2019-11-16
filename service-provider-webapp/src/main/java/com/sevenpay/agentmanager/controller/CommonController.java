@@ -1,9 +1,8 @@
 package com.sevenpay.agentmanager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.qifenqian.app.bean.TbAreaInfoBean;
-import com.qifenqian.app.bean.TbCityBean;
-import com.qifenqian.app.bean.TbProvinceBean;
+import com.qifenqian.app.bean.TbBankProvincesInfoBean;
+import com.qifenqian.app.bean.TbProvincesInfoBean;
 import com.qifenqian.app.customer.MerchantInfoService;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,25 +24,23 @@ public class CommonController {
 
     /**
      * 省市县三级下拉
-     * @param tbAreaInfoBean
+     * @param tbProvincesInfoBean
      * @return
      */
     @RequestMapping("province.do")
-    public ResultBean provinceQuery(TbAreaInfoBean tbAreaInfoBean){
-        if (tbAreaInfoBean.getProvinceId() != null){
-            List<TbCityBean> cityInfo = merchantInfoService.getCityInfo(tbAreaInfoBean.getProvinceId());
-            return new ResultBean("1",cityInfo);
-        }
-
-        if (tbAreaInfoBean.getProvinceId() != null && tbAreaInfoBean.getCityId() !=null){
-            TbCityBean tbCityBean = new TbCityBean();
-            tbCityBean.setCityId(tbAreaInfoBean.getCityId());
-            tbCityBean.setProvinceId(tbAreaInfoBean.getProvinceId());
-            List<TbAreaInfoBean> areaInfo = merchantInfoService.getAreaInfo(tbCityBean);
-            return new ResultBean("1",areaInfo);
-        }
-        List<TbProvinceBean> provinceInfo = merchantInfoService.getProvinceInfo();
-        return new ResultBean("1",provinceInfo);
+    public ResultBean provinceQuery(TbProvincesInfoBean tbProvincesInfoBean){
+        List<TbProvincesInfoBean> provinces = merchantInfoService.getProvinces(tbProvincesInfoBean);
+        return new ResultBean("1",provinces);
     }
 
+    /**
+     * 银行省市二级下拉
+     * @param tbBankProvincesInfoBean
+     * @return
+     */
+    @RequestMapping("bankProvince.do")
+    public ResultBean provinceQuery(TbBankProvincesInfoBean tbBankProvincesInfoBean){
+        List<TbBankProvincesInfoBean> bankProvinces = merchantInfoService.getBankProvinces(tbBankProvincesInfoBean);
+        return new ResultBean("1",bankProvinces);
+    }
 }

@@ -2,6 +2,7 @@ package com.sevenpay.agentmanager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
+import com.qifenqian.app.bean.TbProvincesInfoBean;
 import com.qifenqian.app.bean.TdCustInfo;
 import com.qifenqian.app.bean.TdCustScanCopy;
 import com.qifenqian.app.bean.TdMerchantProductInfo;
@@ -143,11 +144,12 @@ public class AgentController {
     @RequestMapping("insertMerchant.do")
     public ResultBean<String> addMerchant(HttpServletRequest request,
                                           TdCustInfo tdCustInfo) throws ParseException {
-        tdCustInfo.setCreateTime(new Date());
-        tdCustInfo.setCreateId(request.getParameter("userId"));
+
         TdCustInfo queryResult = merchantInfoService.getMerchantById(tdCustInfo.getCustId());
 
         if (queryResult == null){//保存到数据库待审核/待完善
+            tdCustInfo.setCreateTime(new Date());
+            tdCustInfo.setCreateId(request.getParameter("userId"));
             tdCustInfo.setMerchantMobile(tdCustInfo.getMerchantAccount());
             Map<String, Object> map = merchantInfoService.merchantAdd(tdCustInfo);
             String custId = (String) map.get("custId");//商户编号
@@ -209,9 +211,13 @@ public class AgentController {
         //查询商户信息
         TdCustInfo custInfo = merchantInfoService.getCustInfo(tdCustInfo);
         map.put("mInfo",custInfo);
+        //查询省市区
+        TbProvincesInfoBean tbProvincesInfoBean = new TbProvincesInfoBean(custInfo.getProvince(),custInfo.getCity(),custInfo.getCountry());
+        List<TbProvincesInfoBean> provinces = merchantInfoService.getProvinces(tbProvincesInfoBean);
+        map.put("provinces",provinces);
         //查询商户签约产品
         TdMerchantProductInfo tdMerchantProductInfo = new TdMerchantProductInfo();
-        tdMerchantProductInfo.setId(tdCustInfo.getCustId());
+        tdMerchantProductInfo.setMchCustId(tdCustInfo.getCustId());
         List<TdMerchantProductInfo> merchantProductInfos = productInfoService.selectOpenProductInfo(tdMerchantProductInfo);
         map.put("pInfo",merchantProductInfos);
         //查询商户扫描件信息，并将路径转化为URI的形式
