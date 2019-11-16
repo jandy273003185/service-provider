@@ -54,7 +54,7 @@ public class UploadFileController {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("imagePath",String.valueOf(filePath));
                 jsonObject.put("uri",uri);
-                jsonObject.put("url",new StringBuilder(relativePath).append(Filename).append(suffix));
+                jsonObject.put("url",new StringBuilder(relativePath).append(Filename).append(prefix));
                 return new ResultBean("200",jsonObject.toJSONString());
             } catch (IOException e) {
                 e.printStackTrace();

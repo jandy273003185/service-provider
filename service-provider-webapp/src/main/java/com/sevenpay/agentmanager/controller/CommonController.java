@@ -25,25 +25,24 @@ public class CommonController {
 
     /**
      * 省市县三级下拉
-     * @param tbCityBean
+     * @param tbAreaInfoBean
      * @return
      */
     @RequestMapping("province.do")
     public ResultBean provinceQuery(TbAreaInfoBean tbAreaInfoBean){
-        List<TbProvinceBean> provinceInfo = merchantInfoService.getProvinceInfo();
         if (tbAreaInfoBean.getProvinceId() != null){
             List<TbCityBean> cityInfo = merchantInfoService.getCityInfo(tbAreaInfoBean.getProvinceId());
             return new ResultBean("1",cityInfo);
         }
 
-        if (tbAreaInfoBean != null){
+        if (tbAreaInfoBean.getProvinceId() != null && tbAreaInfoBean.getCityId() !=null){
             TbCityBean tbCityBean = new TbCityBean();
             tbCityBean.setCityId(tbAreaInfoBean.getCityId());
             tbCityBean.setProvinceId(tbAreaInfoBean.getProvinceId());
             List<TbAreaInfoBean> areaInfo = merchantInfoService.getAreaInfo(tbCityBean);
             return new ResultBean("1",areaInfo);
         }
-        
+        List<TbProvinceBean> provinceInfo = merchantInfoService.getProvinceInfo();
         return new ResultBean("1",provinceInfo);
     }
 
