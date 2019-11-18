@@ -1,0 +1,93 @@
+@import '../common/base.scss';
+.stepInfo .row{
+    width: vw(690);
+    height: vw(95);
+    line-height: vw(95);
+    border-bottom: 1px solid #efefef;
+    margin: 0 vw(30);
+    display: flex;
+}
+
+.stepInfo .row .active{
+    color: #f00;
+}
+.stepInfo  .row1.active input{
+    border-bottom: 1px solid #f00;
+}
+.stepInfo .row input,.stepInfo .row select{
+    flex: 1;
+    text-align: right;
+    text-align-last:right;
+    background: none;
+    outline: none;
+    border: none;
+}
+.stepInfo .row .data{
+    flex: 1;
+    text-align: left;
+    display: flex;
+}
+.stepInfo .row .data input{
+    flex: none;
+    width: vw(180);
+    text-align: center;
+    text-align-last: center;
+}
+.datepicker{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+}
+.stepInfo .row1{
+    height: vw(80);
+    line-height: vw(80);
+  display: flex;
+    padding: 0 vw(20);
+}
+.stepInfo .row1 .check{
+    width: vw(280);
+}
+.stepInfo .row1 .name{
+    width: vw(180);
+    color: #ccc;
+
+}
+.row-img .stit{
+    height: vw(100);
+    line-height: vw(100);
+    padding-left: vw(30);
+}
+.row-img .stit span{
+    color: #f00;
+}
+.row-img .stit.active{
+    color: #f00;
+}
+.van-button__icon{
+    display: block;
+}
+.van-button--primary{
+    color: #699dd7;
+    background: #fff;
+    border: none;;
+    width: vw(321);
+	height: vw(195);;
+	border-radius: 4px;
+    border: dashed 1px #d8d8d8;
+    margin-left: vw(50);
+}
+.btn{
+    width: vw(690);
+    height: vw(78);
+    line-height: vw(78);
+	background-color: #699dd7;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    margin: vw(80) auto;
+}
+.sign .row.active{
+    border-bottom-color: #f00;
+}
