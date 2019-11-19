@@ -16,6 +16,7 @@
             v-model="photos.identityCardFront"
             :after-read="afterReadImg"
             :max-count="1"
+            preview-size="auto"
           >
             <!-- v-show="!params.identityCardFront" -->
             <van-button icon="photo" type="primary">身份证正面照</van-button>
@@ -27,6 +28,7 @@
             :after-read="afterReadImg"
             v-model="photos.identityCardReverse"
             :max-count="1"
+            preview-size="auto"
           >
             <!--  v-show="!params.identityCardReverse" -->
             <van-button icon="photo" type="primary">身份证反面照</van-button>
@@ -134,19 +136,7 @@ export default {
       let custInfo = this.incomingReturn.custInfo;
       let photos = this.incomingReturn.custScanInfoList;
       let urlHead = this.incomingReturn.uri + "" + this.incomingReturn.url;
-      for (let i = 0; i < photos.length; i++) {
-        let imgname = util.getImgName(photos[i].scanCopyPath);
-        if (photos[i].certifyType == "00") {
-          //身份证正面照
-          this.photos.identityCardFront = [{ url: urlHead + "" + imgname }];
-          this.params.identityCardFront = urlHead + "" + imgname;
-        }
-        if (photos[i].certifyType == "16") {
-          //身份证反面照
-          this.photos.identityCardReverse = [{ url: urlHead + "" + imgname }];
-          this.params.identityCardReverse = urlHead + "" + imgname;
-        }
-      }
+      util.getPhotos(this, urlHead, photos);
       let params = {
         representativeName: custInfo.representativeName, //法人名字
         representativeCertNo: custInfo.representativeCertNo, //法人身份证号
@@ -170,11 +160,11 @@ export default {
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
         this.$store.commit("setincoming", fullParams);
-        let incomingReturn=this.incomingReturn;
-        let custInfo=this.incomingReturn.custInfo||{};
-        let all=Object.assign(custInfo,fullParams);
-        incomingReturn.custInfo=all;
-        this.$store.commit("setincomingReturn",incomingReturn);
+        let incomingReturn = this.incomingReturn;
+        let custInfo = this.incomingReturn.custInfo || {};
+        let all = Object.assign(custInfo, fullParams);
+        incomingReturn.custInfo = all;
+        this.$store.commit("setincomingReturn", incomingReturn);
         this.$store.commit("setPhotos", this.photos);
         this.$store.commit("setCheckedState", this.checkedState);
         this.$router.push("merchant");
@@ -182,13 +172,8 @@ export default {
     },
     getPreStep() {
       //返回
-     this.$router.push("baseInfo");
+      this.$router.push("baseInfo");
     },
-    submitBase() {
-      console.log(this.baseInfo);
-      //提交基本信息
-    },
-    datepickerVisiable() {},
     beforeUploadImg(type) {
       //识别类型
       this.indentifyType = type;
@@ -217,33 +202,26 @@ export default {
       const info = await common.getImgInfo(params);
       const imgUrl = info.data.uri + "/" + info.data.url;
       if (this.indentifyType == "certAttribute1") {
-        this.params.identityCardFront = imgUrl;
-        this.params.representativeName = info.data.cardName;
-        this.params.representativeCertNo = info.data.cardId;
         this.photos.identityCardFront = [{ url: imgUrl }];
-        /*  let imgObj = {
-          certifyType: "00", //身份证正面
-          scanCopyPath: info.data.imagePath,
-          certifyNo: ""
-        };
-        this.custScanCopys.push(imgObj); */
+        this.params.identityCardFront = imgUrl;
+        if (info.data) {
+          this.params.representativeName = info.data.cardName;
+          this.params.representativeCertNo = info.data.cardId;
+        }else{
+          this.$toast("身份证正面信息无法识别！")
+        }
       }
       if (this.indentifyType == "certAttribute2") {
         this.params.identityCardReverse = imgUrl;
         this.photos.identityCardReverse = [{ url: imgUrl }];
-        let arr = info.data.cardValidDate.split("-");
-        console.log(arr);
-        this.params.idTermStart = arr[0];
-        this.params.idTermEnd = arr[1];
-        /*  let imgObj = {
-          certifyType: "16", //身份证反面
-          scanCopyPath: info.data.imagePath,
-          certifyNo: ""
-        };
-        this.custScanCopys.push(imgObj); */
+        if (info.data.cardValidDate) {
+          let arr = info.data.cardValidDate.split("-");
+          this.params.idTermStart = arr[0];
+          this.params.idTermEnd = arr[1];
+        }else{
+           this.$toast("身份证反面信息无法识别！")
+        }
       }
-
-      console.log(info);
     }
   }
 };

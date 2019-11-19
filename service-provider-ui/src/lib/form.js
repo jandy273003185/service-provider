@@ -31,7 +31,7 @@ const form = {
     })
     return errCount;
   },
-  validParams: function (params) { //校验必填信息 多形态   添加进件
+  validParams: function (that,params) { //校验必填信息 多形态   添加进件
     let arr = Object.keys(params);
     let errCount = 0;
     arr.map(function (item, index) {
@@ -41,13 +41,13 @@ const form = {
       } else {
         if (item == 'merchantAccount' || item == 'contactMobile') {
           if (!(/^1[3456789]\d{9}$/.test(params[item]))) {
-            console.log(item);
+            that.$toast("手机号码格式有误！")
             errCount++;
           }
         }
         if (item == 'contactPhone') {
           if (!/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(params[item])) {
-            console.log(item);
+            that.$toast('电话号码格式有误！');
             errCount++;
           }
         }

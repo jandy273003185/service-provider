@@ -38,12 +38,12 @@
           <input
             class="address"
             v-model="params.provinceName"
-            placeholder="省"
+            placeholder="选择省份"
             readonly
             @click="getInitAddress"
           />
-          <input class="address" v-model="params.cityName" placeholder="市" readonly />
-          <input class="address" v-model="params.countryName" placeholder="区" readonly />
+          <input class="address" v-model="params.cityName" placeholder="选择市" readonly />
+          <input class="address" v-model="params.countryName" placeholder="选择区" readonly />
         </div>
         <van-picker
           v-if="provincepicker"
@@ -86,6 +86,7 @@
             :after-read="afterReadImg"
             :max-count="1"
             v-model="photos.businessLicense"
+            preview-size="auto"
           >
             <!--  v-modal="businessLicenseUrl" -->
             <!-- v-show="!businessLicenseUrl" -->
@@ -132,7 +133,12 @@
             <span>(必须)</span>
           </div>
           <div @click="beforeUploadImg('shopFrontDesk')">
-            <van-uploader :after-read="uploadImg" v-model="photos.shopFrontDesk" :max-count="1">
+            <van-uploader
+              :after-read="uploadImg"
+              v-model="photos.shopFrontDesk"
+              :max-count="1"
+              preview-size="auto"
+            >
               <!---->
               <van-button icon="photo" type="primary">上传门头照照片</van-button>
             </van-uploader>
@@ -151,6 +157,7 @@
               v-model="photos.shopInterior"
               :after-read="uploadImg"
               :max-count="1"
+              preview-size="auto"
             >
               <van-button icon="photo" type="primary">上传店内照片</van-button>
             </van-uploader>
@@ -162,7 +169,7 @@
           <!-- specialBusiness -->
           <div class="stit" :class="{'active':(clickedNext&&!params.specialBusiness)}">特殊行业资质照</div>
           <div @click="beforeUploadImg('specialBusiness')">
-            <van-uploader :after-read="uploadImg" v-model="photos.specialBusiness" :max-count="1">
+            <van-uploader :after-read="uploadImg" v-model="photos.specialBusiness" :max-count="1"  preview-size="auto">
               <!-- v-show="!params.specialBusiness" -->
               <van-button icon="photo" type="primary">上传特殊行业资质照</van-button>
             </van-uploader>
@@ -180,6 +187,7 @@
               v-model="photos.electronicSignaturePhoto"
               :after-read="uploadImg"
               :max-count="1"
+              preview-size="auto"
             >
               <van-button icon="photo" type="primary">上传电子签名照</van-button>
             </van-uploader>
@@ -191,14 +199,24 @@
           <!-- :class="{'active':(clickedNext&&!params.otherPhoto1)}" -->
           <!-- otherPhoto1 2 -->
           <div class="img-col" @click="beforeUploadImg('otherPhoto1')">
-            <van-uploader v-model="photos.otherPhoto1" :after-read="uploadImg" :max-count="1">
+            <van-uploader
+              v-model="photos.otherPhoto1"
+              :after-read="uploadImg"
+              :max-count="1"
+              preview-size="auto"
+            >
               <!-- v-show="!params.otherPhoto1" -->
               <van-button icon="photo" type="primary">其他资料照</van-button>
             </van-uploader>
           </div>
           <!--  <img :src="params.otherPhoto1" v-show="params.otherPhoto1" /> -->
           <div class="img-col" @click="beforeUploadImg('otherPhoto2')">
-            <van-uploader :after-read="uploadImg" v-model="photos.otherPhoto2" :max-count="1">
+            <van-uploader
+              :after-read="uploadImg"
+              v-model="photos.otherPhoto2"
+              :max-count="1"
+              preview-size="auto"
+            >
               <!--  v-show="!params.otherPhoto2" -->
               <van-button icon="photo" type="primary">其他资料照</van-button>
             </van-uploader>
@@ -269,13 +287,14 @@ export default {
         electronicSignaturePhoto: "", //电子签名照
         otherPhoto1: "", //其他资料照 1
         otherPhoto2: "" //其他资料照 2
-      },
+      }
     };
   },
   computed: {
-    ...mapState(["incoming", "savephotos","incomingReturn"])
+    ...mapState(["incoming", "savephotos", "incomingReturn"])
   },
   created() {
+   
     let type = this.$route.params.type;
     this.photos = this.savephotos;
     if (type) {
@@ -289,8 +308,7 @@ export default {
         let custId = this.$route.params.custId;
         this.getIncomingInfo(custId);
       }
-      if(type=="getback"){
-
+      if (type == "getback") {
       }
     } else {
       this.params = Object.assign(this.params, this.incoming);
@@ -330,46 +348,7 @@ export default {
       };
       let photos = res.data.resultMsg.custScanInfoList;
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
-      for (let i = 0; i < photos.length; i++) {
-        let imgname = util.getImgName(photos[i].scanCopyPath);
-        if (photos[i].certifyType == "02") {
-          //营业执照
-          this.photos.businessLicense = [{ url: urlHead + "" + imgname }];
-          //this.params.businessLicense=urlHead+''+imgname;
-        }
-        if (photos[i].certifyType == "20") {
-          //门头照
-          this.photos.shopFrontDesk = [{ url: urlHead + "" + imgname }];
-          this.params.shopFrontDesk = urlHead + "" + imgname;
-        }
-        if (photos[i].certifyType == "21") {
-          //店内照
-          this.photos.shopInterior = [{ url: urlHead + "" + imgname }];
-          this.params.shopInterior = urlHead + "" + imgname;
-        }
-        if (photos[i].certifyType == "11") {
-          //行业资质
-          this.photos.specialBusiness = [{ url: urlHead + "" + imgname }];
-          this.params.specialBusiness = urlHead + "" + imgname;
-        }
-        if (photos[i].certifyType == "12") {
-          //电子签名
-          this.photos.electronicSignaturePhoto = [
-            { url: urlHead + "" + imgname }
-          ];
-          this.params.electronicSignaturePhoto = urlHead + "" + imgname;
-        }
-        if (photos[i].certifyType == "23") {
-          //其他资料照 1
-          this.photos.otherPhoto1 = [{ url: urlHead + "" + imgname }];
-          this.params.otherPhoto1 = urlHead + "" + imgname;
-        }
-        if (photos[i].certifyType == "24") {
-          //其他资料照 2
-          this.photos.otherPhoto2 = [{ url: urlHead + "" + imgname }];
-          this.params.otherPhoto2 = urlHead + "" + imgname;
-        }
-      }
+      util.getPhotos(this,urlHead,photos);
       this.params = params;
     },
     async getInitAddress() {
@@ -417,10 +396,6 @@ export default {
       this.params.countryName = value.areaName;
       this.blockpicker = false;
     },
-    onChangeAdd(value, index) {
-      console.log(value);
-      console.log(index);
-    },
     changePrepage() {
       //返回上一页
       this.$router.go(-1);
@@ -428,18 +403,17 @@ export default {
     getNextStep() {
       //到下一步 法人信息
       this.clickedNext = true;
-      let count = form.validParams(this.params);
-      console.log(count);
+      let count = form.validParams(this, this.params);
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
         console.log(fullParams);
         this.$store.commit("setincoming", fullParams);
-        let incomingReturn=this.incomingReturn;
+        let incomingReturn = this.incomingReturn;
         console.log(incomingReturn);
-        let custInfo=this.incomingReturn.custInfo||{};
-        let all=Object.assign(custInfo,fullParams);
-        incomingReturn.custInfo=all;
-        this.$store.commit("setincomingReturn",incomingReturn);
+        let custInfo = this.incomingReturn.custInfo || {};
+        let all = Object.assign(custInfo, fullParams);
+        incomingReturn.custInfo = all;
+        this.$store.commit("setincomingReturn", incomingReturn);
         this.$store.commit("setPhotos", this.photos);
         this.$router.push("legalInfo");
       }
@@ -463,17 +437,9 @@ export default {
       this.params.businessTermStart = businessTermStart;
       this.businessLicense = info.data.uri + info.data.url;
       this.photos.businessLicense = [{ url: info.data.uri + info.data.url }];
-      /*       let imgObj = {
-        certifyType: "02", //营业执照
-        scanCopyPath: info.data.imagePath,
-        certifyNo: ""
-      };
-      this.custScanCopys.push(imgObj); */
     },
     deleteImg(type) {
-      console.log(this[type]);
       this[type] = [];
-      console.log(this[type]);
     },
     beforeUploadImg(type) {
       this.uploadType = type;

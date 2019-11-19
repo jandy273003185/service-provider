@@ -63,7 +63,6 @@ export default {
     }
   },
   created(){
-
     /*this.getUserOpenId();//执行获取用户openID的函数*/
 
     this.$store.commit("setincoming", {});
@@ -166,9 +165,10 @@ export default {
         roleId:'3'
       });
       console.log(storage.get("userId"));
-      this.statesList = listInfo.data.resultMsg.list;
+      console.log(listInfo);
+      this.statesList = listInfo.data.resultMsg.data;
       /*let total=listInfo.data.resultMsg.total;*/
-      console.log(this.statesList);
+      
     },
     //查看审核失败信息和审核成功信息
   toDetail(state,custId){

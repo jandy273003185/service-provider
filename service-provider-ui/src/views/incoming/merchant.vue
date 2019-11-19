@@ -81,6 +81,7 @@
               :after-read="uploadImg"
               v-model="photos.licenceForOpeningAccounts"
               :max-count="1"
+              preview-size="auto"
             >
               <van-button icon="photo" type="primary">上传开户许可证照</van-button>
             </van-uploader>
@@ -139,22 +140,13 @@ export default {
   created() {
     //this.$route.params.type
     this.params = Object.assign(this.params, this.incoming);
-    this.photos=this.savephotos;
+    this.photos = this.savephotos;
     if (this.checkedState == "corvidae") {
       console.log("corvidae");
       let custInfo = this.incomingReturn.custInfo;
       let photos = this.incomingReturn.custScanInfoList;
-      let urlHead =this.incomingReturn.uri + "" + this.incomingReturn.url;
-      for (let i = 0; i < photos.length; i++) {
-        let imgname = util.getImgName(photos[i].scanCopyPath);
-        if (photos[i].certifyType == "03") {
-          //身份证正面照
-          this.photos.licenceForOpeningAccounts = [
-            { url: urlHead + "" + imgname }
-          ];
-          this.params.licenceForOpeningAccounts = urlHead + "" + imgname;
-        }
-      }
+      let urlHead = this.incomingReturn.uri + "" + this.incomingReturn.url;
+      util.getPhotos(this, urlHead, photos);
       let bankProvinces = this.incomingReturn.bankProvinces[0];
       let params = {
         compMainAcct: custInfo.compMainAcct,
@@ -231,19 +223,20 @@ export default {
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
         this.$store.commit("setincoming", fullParams);
-        let incomingReturn=this.incomingReturn;
-        let custInfo=this.incomingReturn.custInfo||{};
-        let bankProvinces=[{
-          bankProvinceId:this.params.bankProvinceName,
-          bankProvinceName:this.params.bankProvinceShow,
-          bankCityId:this.params.bankCityName,
-          bankCityName:this.params.bankCityShow,
-        }]
-       
-        let all=Object.assign(custInfo,fullParams);
-        incomingReturn.custInfo=all;
-         incomingReturn.bankProvinces=bankProvinces;
-        this.$store.commit("setincomingReturn",incomingReturn);
+        let incomingReturn = this.incomingReturn;
+        let custInfo = this.incomingReturn.custInfo || {};
+        let bankProvinces = [
+          {
+            bankProvinceId: this.params.bankProvinceName,
+            bankProvinceName: this.params.bankProvinceShow,
+            bankCityId: this.params.bankCityName,
+            bankCityName: this.params.bankCityShow
+          }
+        ];
+        let all = Object.assign(custInfo, fullParams);
+        incomingReturn.custInfo = all;
+        incomingReturn.bankProvinces = bankProvinces;
+        this.$store.commit("setincomingReturn", incomingReturn);
         this.$store.commit("setPhotos", this.photos);
         this.$store.commit("setCheckedState", this.checkedState);
         this.$router.push("sign");

@@ -93,7 +93,7 @@ export default {
                 pageNum:this.pageNum,
                 roleId:this.roleId
             });
-            this.statesList = listInfo.data.resultMsg.list;
+            this.statesList = listInfo.data.resultMsg.data;
             let total=listInfo.data.resultMsg.total;
 
             console.log(listInfo.data.resultMsg.list);

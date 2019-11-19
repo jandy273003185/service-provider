@@ -181,9 +181,8 @@ export default {
         rankingCode:this.rankingCode,
         roleId:this.roleId
       });
-      this.shopList = listInfo.data.resultMsg.list;
+      this.shopList = listInfo.data.resultMsg.data;
       let total=listInfo.data.resultMsg.total;
-
       console.log(listInfo);
       console.log(this.shopList);
       if(this.shopList.length>=total){//判断已加载完成
