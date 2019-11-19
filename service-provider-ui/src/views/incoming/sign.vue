@@ -35,10 +35,9 @@
   </div>
 </template>
 <script>
-import form from "@/lib/form.js";
 import upload from "@/lib/upload.js";
 import { mapState } from "vuex";
-import { common, incoming } from "@/assets/api/interface";
+import {incoming } from "@/assets/api/interface";
 export default {
   name: "incoming",
   components: {
