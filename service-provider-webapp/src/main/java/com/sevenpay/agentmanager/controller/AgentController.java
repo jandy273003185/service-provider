@@ -146,7 +146,11 @@ public class AgentController {
 
         if (queryResult == null){//保存到数据库待审核/待完善
             tdCustInfo.setCreateTime(new Date());
-            tdCustInfo.setCreateId(request.getParameter("userId"));
+            String userId = request.getParameter("userId");
+            tdCustInfo.setCreateId(userId);
+            if(userId == null){
+                return new ResultBean<>("该账号异常，请重新登陆");
+            }
             tdCustInfo.setMerchantMobile(tdCustInfo.getMerchantAccount());
             Map<String, Object> map = merchantInfoService.merchantAdd(tdCustInfo);
             String custId = (String) map.get("custId");//商户编号
