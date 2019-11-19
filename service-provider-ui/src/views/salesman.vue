@@ -64,11 +64,7 @@ export default {
     }
   },
   created(){
-<<<<<<< HEAD
     /*this.getUserOpenId();//执行获取用户openID的函数*/
-=======
-    this.getUserOpenId();//执行获取用户openID的函数
->>>>>>> 54ddc67c8e0c567cc5f636baf4bd4a5d1c67ed35
 
     this.$store.commit("setincoming", {});
     this.$store.commit("setPhotos", []);
