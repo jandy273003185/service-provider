@@ -48,6 +48,8 @@ public class ShiroConfigBean {
         filterChainDefinitionMap.put("/**/swagger**/**", "anon");
         filterChainDefinitionMap.put("/webjars/**", "anon");
         filterChainDefinitionMap.put("/v2/**", "anon");
+        filterChainDefinitionMap.put("/wx/**", "anon");//放行静态资源
+        filterChainDefinitionMap.put("/MP_verify_LVtMdY24lPWQfWpf.txt", "anon");//放行静态资源
         // 添加自己的过滤器并且取名为jwt
         Map<String, Filter> filterMap = new HashMap<String, Filter>(1);
         filterMap.put("jwt", new JWTFilter());

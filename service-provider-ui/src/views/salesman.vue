@@ -25,7 +25,7 @@
         <ul>
           <li v-for="(item, index) in statesList" :key="index" @click="toDetail(item.state,item.custId)">
             <div>
-              <span class="shopName">{{ item.custName }}</span>
+              <span class="shopName">{{item.custName }}</span>
               <span class="time">{{ item.createTime }}</span>
             </div>
             <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
@@ -58,12 +58,17 @@ export default {
       getOpenId:'666666',
       roleId:'salesman',
       statesList:[],
+      userCode:'',
       userId:'',
-      redirect_uri:'http://192.168.1.174:8080/#/salesman'//https://sp.qifenqian.com'
+      redirect_uri:'https://sp.qifenqian.com/wx/index.html#/salesman'//https://sp.qifenqian.com'
     }
   },
   created(){
+<<<<<<< HEAD
     /*this.getUserOpenId();//执行获取用户openID的函数*/
+=======
+    this.getUserOpenId();//执行获取用户openID的函数
+>>>>>>> 54ddc67c8e0c567cc5f636baf4bd4a5d1c67ed35
 
     this.$store.commit("setincoming", {});
     this.$store.commit("setPhotos", []);
@@ -102,16 +107,17 @@ export default {
       //第一步：获取code
       const getCodeUrl= 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=' +  encodeUrl +'&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
       console.log(encodeUrl);
-        const userCode = await http.get(getCodeUrl);
-        console.log(userCode);
+     this.userCode = await http.get(getCodeUrl);
+        console.log(this.userCode);
       //第二步：使用code换取access_token和OpenId
 
-        const getCode = '';
-        const  getOpenIdUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxce65746e62998dce&secret=SECRET&code='+ getCode +'&grant_type=authorization_code'
+       /* const getCode = '';
+        const  getOpenIdUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxce65746e62998dce&secret=67c3aebf0e3e397df1fce595b837353b
+        &code='+ getCode +'&grant_type=authorization_code'
         const userOpenId = await http.get(getOpenIdUrl);
-        console.log(userOpenId);
+        console.log(userOpenId);*/
 
-      //将openid传给后端做是否绑定的判断
+     /* //将openid传给后端做是否绑定的判断
         const params = {
           openId:userOpenId.openid,
           roleId:this.roleId
@@ -130,7 +136,7 @@ export default {
           console.log(storage.get('userId'));
           this.islogin=true;
           this.salesShopNew();
-        }
+        }*/
 
     },
 

@@ -1,12 +1,12 @@
 package com.sevenpay.agentmanager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.github.pagehelper.PageInfo;
 import com.qifenqian.app.bean.*;
 import com.qifenqian.app.customer.MerchantInfoService;
 import com.qifenqian.app.customer.MerchantStatusService;
 import com.qifenqian.app.merchant.CommercialService;
 import com.qifenqian.app.product.ProductInfoService;
+import com.sevenpay.agentmanager.pojo.Pager;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.AddCustScanCopy;
 import com.sevenpay.agentmanager.utils.AddTdMerchantProductInfo;
@@ -63,8 +63,17 @@ public class AgentController {
                                            int pageSize,
                                            int pageNum,
                                            String roleId){
-        PageInfo<TdCustInfo> tdCustInfoPageInfo = commerService.selectCommercialInfo(userId, custName, stateCode, filingAuditStatus, queryStartDate, queryEndDate, pageSize, pageNum, roleId);
-        return new ResultBean("1",tdCustInfoPageInfo);
+        int page = (pageNum-1)*pageSize;
+
+        Pager<TdCustInfo> pager = new Pager<TdCustInfo>();
+        List<TdCustInfo> list = commerService.selectCommercialInfo(userId, custName, stateCode, filingAuditStatus, queryStartDate, queryEndDate, pageSize, pageNum, roleId);
+
+        pager.setData(list);
+        pager.setTotal(commerService.selectCommercialInfoCount(userId, custName,stateCode,filingAuditStatus, queryStartDate, queryEndDate,pageSize,page,roleId));
+
+        return new ResultBean("1",pager);
+
+
     }
 
     /**
@@ -110,9 +119,13 @@ public class AgentController {
         if (roleId == null){
             return new ResultBean("0","roleId不能为空");
         }
-        PageInfo<Map<String, Object>> transactionPage= commerService.getDealRanking(userId, custName, queryStartDate, queryEndDate, roleId, pageSize, pageNum,rankingCode);
-        return new ResultBean("1",transactionPage);
+        int page = (pageNum-1)*pageSize;
 
+        Pager<Map<String, Object>> pager = new Pager<Map<String, Object>>();
+        List<Map<String, Object>> list = commerService.getDealRanking(userId,custName, queryStartDate, queryEndDate,roleId,pageSize,page,rankingCode);
+        pager.setData(list);
+        pager.setTotal(commerService.getDealRankingCount(userId, custName, queryStartDate, queryEndDate, roleId, pageSize, page, rankingCode));
+        return new ResultBean("1",pager);
     }
 
 

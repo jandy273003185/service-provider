@@ -1,8 +1,8 @@
 package com.sevenpay.agentmanager.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sevenpay.agentmanager.pojo.Paths;
 import com.sevenpay.agentmanager.pojo.ResultBean;
+import com.sevenpay.agentmanager.utils.DateUtils;
 import com.sevenpay.agentmanager.utils.YouTuUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +32,10 @@ public class UploadFileController {
     private String uri;
     @Value("${images.relativePath}")
     private String relativePath;
+    //存储路径
+    @Value("${images.absolutePaths}")
+    private String absolutePaths;
+
 
     @PostMapping("upload")
     @ResponseBody
@@ -40,15 +44,12 @@ public class UploadFileController {
         // 获取文件名后缀名
         String suffix = file.getOriginalFilename();
         String prefix = suffix.substring(suffix.lastIndexOf("."));
-        String Filename = UUID.randomUUID().toString();
+        String Filename = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","");
         if (!file.isEmpty()) {//文件不为空
             try {
                 //上传路径
-                StringBuilder filePath = new StringBuilder(Paths.FilePathAbsolute).append(Paths.FilePath).append(Filename).append(prefix);
+                StringBuilder filePath = new StringBuilder(absolutePaths).append("/").append(Filename).append(prefix);
                 File saveDir = new File(String.valueOf(filePath));
-                if (!saveDir.getParentFile().exists()){
-                    saveDir.getParentFile().mkdirs();
-                }
                 // 转存文件
                 file.transferTo(saveDir);
                 JSONObject jsonObject = new JSONObject();
@@ -58,8 +59,10 @@ public class UploadFileController {
                 return new ResultBean("200",jsonObject.toJSONString());
             } catch (IOException e) {
                 e.printStackTrace();
+                logger.error("上传失败");
             }
         }
+        logger.error("上传文件为空");
         return new ResultBean("404","网络延迟，请重新提交");
 
     }
@@ -78,12 +81,12 @@ public class UploadFileController {
             YouTuUtils youto = new YouTuUtils();
             //文件base64字符串
             String base64String = request.getParameter("str");
-            String str = base64String.substring(base64String.lastIndexOf(",")+1);
             //图片标识
+            String str = base64String.substring(base64String.lastIndexOf(",")+1);
             String flag = request.getParameter("flag");
 
             //图片上传，返回路径
-            ResultBean<String[]> resultBean = youto.BASE64CodeToBeImage(str);
+            ResultBean<String[]> resultBean = youto.BASE64CodeToBeImage(base64String);
             String[] resultMsg = resultBean.getResultMsg();
             //解析图片，返回图片信息
             object = youto.youTu(str, flag);
