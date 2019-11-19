@@ -33,7 +33,7 @@ public class UploadFileController {
     @Value("${images.relativePath}")
     private String relativePath;
 
-    @PostMapping("upload.do")
+    @PostMapping("upload")
     @ResponseBody
     public ResultBean fileUpload(@RequestParam("file")MultipartFile file){
 
@@ -68,7 +68,7 @@ public class UploadFileController {
      * 优图解析，并上传到本地
      * @return
      */
-    @RequestMapping("youTu.do")
+    @RequestMapping("youTu")
     @ResponseBody
     public String youTu(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("********************获取图片内容********************");

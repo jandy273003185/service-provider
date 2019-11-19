@@ -26,7 +26,7 @@ import java.util.Map;
  * 服务商（管理员接口）/产品接口
  */
 @RestController
-@RequestMapping("wx")
+@RequestMapping("merchant")
 public class AgentController {
 
     @Reference
@@ -53,7 +53,7 @@ public class AgentController {
      * @param queryEndDate 结束时间
      * @return
      */
-    @RequestMapping("selectCommercialInfo.do")
+    @RequestMapping("selectCommercialInfo")
     public ResultBean selectCommercialInfo(String userId,
                                            String custName,
                                            String stateCode,
@@ -74,7 +74,7 @@ public class AgentController {
      * @param queryEndDate 结束时间
      * @return
      */
-    @RequestMapping("getStatCommercial.do")
+    @RequestMapping("getStatCommercial")
     public ResultBean<Map<String , Object>> getStatCommercial(String userId,
                                                               String queryStartDate,
                                                               String queryEndDate,
@@ -98,7 +98,7 @@ public class AgentController {
      * @param rankingCode transactionNum desc      transactionNum asc
      * @return
      */
-    @RequestMapping("getDealRanking.do")
+    @RequestMapping("getDealRanking")
     public ResultBean getDealRanking(String userId,
                                      String custName,
                                      String queryStartDate,
@@ -121,7 +121,7 @@ public class AgentController {
      * @param custId 商户编号
      * @return
      */
-    @RequestMapping("getCommerAuditCause.do")
+    @RequestMapping("getCommerAuditCause")
     public ResultBean<List<Map<String,Object>>>getCommerAuditCause(String custId){
         List<Map<String, Object>> commerAuditCause = commerService.getCommerAuditCause(custId);
         if (commerAuditCause != null) {
@@ -138,7 +138,7 @@ public class AgentController {
      * @return
      * @throws ParseException
      */
-    @RequestMapping("insertMerchant.do")
+    @RequestMapping("insertMerchant")
     public ResultBean<String> addMerchant(HttpServletRequest request,
                                           TdCustInfo tdCustInfo) throws ParseException {
 
@@ -210,7 +210,7 @@ public class AgentController {
      * @param tdCustInfo (custId)查询
      * @return
      */
-    @RequestMapping("queryMerchant.do")
+    @RequestMapping("queryMerchant")
     public ResultBean queryMerchant(TdCustInfo tdCustInfo){
         Map<String,Object>map = new HashMap<>();
         //查询商户信息
@@ -248,7 +248,7 @@ public class AgentController {
      * @return
      * @throws ParseException
      */
-    @RequestMapping("insertProduct.do")
+    @RequestMapping("insertProduct")
     public ResultBean insertProduct(HttpServletRequest request,String custId) throws ParseException, IOException {
         List<TdMerchantProductInfo> productInfos = AddTdMerchantProductInfo.add(request, custId);
         if (productInfos.size() > 0){
@@ -260,7 +260,7 @@ public class AgentController {
         return new ResultBean("0","签约产品提交失败");
     }
 
-    @RequestMapping("delProduct.do")
+    @RequestMapping("delProduct")
     public ResultBean delProduct(TdMerchantProductInfo tdMerchantProductInfo){
 
         return new ResultBean("");
@@ -271,7 +271,7 @@ public class AgentController {
      * @param tdMerchantProductInfo
      * @return
      */
-    @RequestMapping("queryProduct.do")
+    @RequestMapping("queryProduct")
     public ResultBean queryProduct(TdMerchantProductInfo tdMerchantProductInfo) {
         List<TdMerchantProductInfo> merchantProductInfos = productInfoService.selectOpenProductInfo(tdMerchantProductInfo);
         return new ResultBean("1",merchantProductInfos);
@@ -282,7 +282,7 @@ public class AgentController {
      * @param custId
      * @return
      */
-    @RequestMapping("queryMerchantById.do")
+    @RequestMapping("queryMerchantById")
     public ResultBean queryProduct(String custId) {
         TdCustInfo custInfo = merchantInfoService.getMerchantById(custId);
         return new ResultBean("1",custInfo);
@@ -293,7 +293,7 @@ public class AgentController {
      * @param sn 设备号
      * @return
      */
-    @RequestMapping("checkSn.do")
+    @RequestMapping("checkSn")
     public ResultBean checkSn(String sn){
         boolean result = commerService.isPertainToAgent(sn);
         if (result){

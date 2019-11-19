@@ -31,7 +31,7 @@ public class SalesmanManagerController {
      * @param id 业务员号
      * @return
      */
-    @RequestMapping("regPassword.do")
+    @RequestMapping("regPassword")
     public ResultBean regSalesman(String custId, String id){
         Integer result = salesmanManagerService.resetTdSalesmanInfoPassword(custId, id);
         if (result > 0) {
@@ -47,7 +47,7 @@ public class SalesmanManagerController {
      * @param newPassword 新密码
      * @return
      */
-    @RequestMapping("updatePassword.do")
+    @RequestMapping("updatePassword")
     public ResultBean updateSalesman(String id, String oldPassword, String newPassword){
         Integer result = salesmanManagerService.updateTdSalesmanInfoPassword(id,oldPassword,newPassword);
         if (result > 0) {
@@ -61,7 +61,7 @@ public class SalesmanManagerController {
      * @param salesmanInfo
      * @return
      */
-    @RequestMapping("query.do")
+    @RequestMapping("query")
     public ResultBean<List<TdSalesmanInfo>> queryTdSalesmanInfos(TdSalesmanInfo salesmanInfo){
         List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(salesmanInfo);
         return new ResultBean<>("1",tdSalesmanInfos);
@@ -75,7 +75,7 @@ public class SalesmanManagerController {
      * @param roleId 2管理员（服务商）  3业务员
      * @return
      */
-    @RequestMapping("get.do")
+    @RequestMapping("get")
     public ResultBean getTdSalesmanInfoById(String id,
                                             String queryStartDate,
                                             String queryEndDate,
@@ -93,7 +93,7 @@ public class SalesmanManagerController {
      * @param tdSalesmanInfo
      * @return
      */
-    @RequestMapping("insert.do")
+    @RequestMapping("insert")
     public ResultBean insertTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo){
         Integer result = salesmanManagerService.insertTdSalesmanInfo(tdSalesmanInfo);
         if (result > 0) {//新增成功
@@ -108,7 +108,7 @@ public class SalesmanManagerController {
      * @param tdSalesmanInfo
      * @return
      */
-    @RequestMapping("update.do")
+    @RequestMapping("update")
     public ResultBean updateTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo){
         Integer result = salesmanManagerService.updateTdSalesmanInfo(tdSalesmanInfo);
         if (result > 0) {//更新成功
@@ -126,7 +126,7 @@ public class SalesmanManagerController {
      * @param queryEndDate
      * @return
      */
-    @RequestMapping("performance.do")
+    @RequestMapping("performance")
     public ResultBean selectSalesmanPerformance(String sortType, String userId, String queryStartDate, String queryEndDate){
         List<Map<String, Object>> maps = salesmanManagerService.selectSalesmanPerformance(sortType, userId, queryStartDate, queryEndDate);
         return new ResultBean("1",maps);
