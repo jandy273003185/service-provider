@@ -19,7 +19,8 @@ export const adminIndex={//管理员主页
 };
 export const login={//登录接口
   login:param =>http.post1('/user/loginBinding',param),//登录页接口
-  firstLogin:param =>http.post1('/user/login',param)//进入主页时判断是否绑定
+  firstLogin:param =>http.post1('/user/login',param),//进入主页时判断是否绑定
+  getOpenId:param =>http.post1('/wx/accredit',param)//进入主页时判断是否绑定
 };
 export const homeShopInfo={//首页里的商户信息
   shopInfo:param =>http.post1('/merchant/getStatCommercial',param)  //首页商户信息
