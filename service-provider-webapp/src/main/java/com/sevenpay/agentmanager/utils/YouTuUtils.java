@@ -163,22 +163,25 @@ public class YouTuUtils {
 		
 		
 	}
+
+
 	/**
 	 *
-	 * @param BASE64str bas64字符串
+	 * @param str bas64字符串
 	 * @return 存储地址
 	 */
-	public ResultBean<String[]> BASE64CodeToBeImage(String BASE64str){
+	public ResultBean<String[]> BASE64CodeToBeImage(String str){
+		String BASE64str = str.substring(str.lastIndexOf(",")+1);
 		//存储地址
 		StringBuilder path = new StringBuilder(relativePaths);
 		//统一图片后缀
-		String ext = "jpg";
+		String ext = str.substring(str.indexOf("/")+1,str.indexOf(";"));
 		File fileDir = new File(String.valueOf(path));
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();
 		}
 		//文件名称
-		String uploadFileName = UUID.randomUUID().toString() + "."+ext;
+		String uploadFileName = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","") + "."+ext;
 		File targetFile = new File(String.valueOf(path), uploadFileName);
 		BASE64Decoder decoder = new BASE64Decoder();
 		try(OutputStream out = new FileOutputStream(targetFile)){

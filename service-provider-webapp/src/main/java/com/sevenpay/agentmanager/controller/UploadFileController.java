@@ -48,11 +48,8 @@ public class UploadFileController {
         if (!file.isEmpty()) {//文件不为空
             try {
                 //上传路径
-                StringBuilder filePath = new StringBuilder(absolutePaths).append(Filename).append(prefix);
+                StringBuilder filePath = new StringBuilder(absolutePaths).append("/").append(Filename).append(prefix);
                 File saveDir = new File(String.valueOf(filePath));
-                if (!saveDir.getParentFile().exists()){
-                    saveDir.getParentFile().mkdirs();
-                }
                 // 转存文件
                 file.transferTo(saveDir);
                 JSONObject jsonObject = new JSONObject();
@@ -62,8 +59,10 @@ public class UploadFileController {
                 return new ResultBean("200",jsonObject.toJSONString());
             } catch (IOException e) {
                 e.printStackTrace();
+                logger.error("上传失败");
             }
         }
+        logger.error("上传文件为空");
         return new ResultBean("404","网络延迟，请重新提交");
 
     }
@@ -87,7 +86,7 @@ public class UploadFileController {
             String flag = request.getParameter("flag");
 
             //图片上传，返回路径
-            ResultBean<String[]> resultBean = youto.BASE64CodeToBeImage(str);
+            ResultBean<String[]> resultBean = youto.BASE64CodeToBeImage(base64String);
             String[] resultMsg = resultBean.getResultMsg();
             //解析图片，返回图片信息
             object = youto.youTu(str, flag);
