@@ -163,6 +163,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+					<fork>true</fork>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -184,16 +187,11 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>src/main/resources/public/public</outputDirectory>
+							<outputDirectory>src/main/resources/public/wx</outputDirectory>
 							<overwrite>true</overwrite>
 							<resources>
 								<resource>
 									<directory>${project.parent.basedir}/service-provider-ui/dist</directory>
-									<includes>
-										<include>assets/</include>
-										<include>favicon.ico</include>
-										<include>index.html</include>										
-									</includes>
 								</resource>
 							</resources>
 						</configuration>
