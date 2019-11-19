@@ -94,6 +94,7 @@ export default {
     this.$store.commit("setCheckedState", "");
     this.firstLogin();
     this.setOpenID(this.getOpenId);
+    console.log(this.getOpenId);
     this.setRole(this.roleId);
     this.setRoleId("2");
   },

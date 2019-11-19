@@ -218,10 +218,10 @@ export default {
     async insertIncoming(params) {
       let info = await incoming.insertIncoming(params);
       if(info.data.resultCode==1){
-        if(this.$store.state.roleId=="2"){//业务员
+        if(this.$store.state.roleId=="3"){//业务员
           this.$router.push("/salesman");
         }
-        if(this.$store.state.roleId=="3"){//管理员
+        if(this.$store.state.roleId=="2"){//管理员
           this.$router.push("/Administrator");
         }
 

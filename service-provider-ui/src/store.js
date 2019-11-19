@@ -13,7 +13,7 @@ export default new Vuex.Store({
         /*userId:''  //管理员或者业务员的个人id*/
         custId:'',
         userId:'',
-        roleId:'',//3是管理员，2是业务员
+        roleId:'',//2是管理员，3是业务员
         incoming: {
 
         },
@@ -31,7 +31,7 @@ export default new Vuex.Store({
             state.token = obj;
         },
         setOpenID(state, obj) {
-            state.oPenID = obj;
+            state.openId = obj;
         },
     
         setRole(state, obj) {
