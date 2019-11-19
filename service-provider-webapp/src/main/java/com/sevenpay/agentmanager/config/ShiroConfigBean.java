@@ -1,13 +1,14 @@
 package com.sevenpay.agentmanager.config;
 
 
-import com.sevenpay.agentmanager.shiro.MyShiroRealm;
 import com.sevenpay.agentmanager.jwt.JWTFilter;
+import com.sevenpay.agentmanager.shiro.MyShiroRealm;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,10 +24,10 @@ import java.util.Map;
 @Configuration
 public class ShiroConfigBean {
 
-//    @Value("${images.relativePaths}")
-//    private String relativePaths;
-//    @Value("${images.uri}")
-//    private String uri;
+    @Value("${images.relativePaths}")
+    private String relativePaths;
+    @Value("${images.uri}")
+    private String uri;
 
     @Bean("shirFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
@@ -35,7 +36,7 @@ public class ShiroConfigBean {
         //拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         // 配置不会被拦截的链接 顺序判断
-       // filterChainDefinitionMap.put(relativePaths,"anon");
+        filterChainDefinitionMap.put(relativePaths,"anon");
         filterChainDefinitionMap.put("/login/**", "anon");
         //前后端带login登录的或者其他登录的通通放行
         filterChainDefinitionMap.put("/**/login/**", "anon");

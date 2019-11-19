@@ -131,7 +131,7 @@ public class LoginController {
                     return new ResultBean("1",loginUser);
                 }
             } catch (Exception e) {
-                System.out.println("该用户名或者密码错误,请检查后再登录!");
+                System.out.println("登陆异常!");
             }
         }
         return new ResultBean("0","登陆失败");
