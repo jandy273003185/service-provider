@@ -2,10 +2,7 @@ package com.sevenpay.agentmanager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
-import com.qifenqian.app.bean.TbProvincesInfoBean;
-import com.qifenqian.app.bean.TdCustInfo;
-import com.qifenqian.app.bean.TdCustScanCopy;
-import com.qifenqian.app.bean.TdMerchantProductInfo;
+import com.qifenqian.app.bean.*;
 import com.qifenqian.app.customer.MerchantInfoService;
 import com.qifenqian.app.customer.MerchantStatusService;
 import com.qifenqian.app.merchant.CommercialService;
@@ -183,15 +180,19 @@ public class AgentController {
                 List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request,custId1);
                 if (scanCopyList.size() > 0){
                     for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
-                        merchantInfoService.saveTdCustScanCopy(tdCustScanCopy);
+                        merchantInfoService.updateTdCustScanCopy(tdCustScanCopy);
                     }
                 }
                 //产品保存
+                TdMerchantProductInfo MerchantProductInfo = new TdMerchantProductInfo();
+                MerchantProductInfo.setMchCustId(custId1);
                 List<TdMerchantProductInfo> productList = AddTdMerchantProductInfo.add(request, custId1);
-                if (productList.size() > 0) {
-                    for (TdMerchantProductInfo tdMerchantProductInfo : productList) {
-                        productInfoService.saveTdMerchantProductInfo(tdMerchantProductInfo);
-                    }
+                List<TdMerchantProductInfo> merchantProductInfos = productInfoService.selectOpenProductInfo(MerchantProductInfo);
+                for (TdMerchantProductInfo merchantProductInfo : merchantProductInfos) {//删除旧的产品
+                    productInfoService.delMerchantProduct(merchantProductInfo);
+                }
+                for (TdMerchantProductInfo tdMerchantProductInfo : productList) {//存储新的产品
+                    productInfoService.selectOpenProductInfo(tdMerchantProductInfo);
                 }
                 //修改完成
                 return new ResultBean("1",custId1);
@@ -210,23 +211,29 @@ public class AgentController {
         Map<String,Object>map = new HashMap<>();
         //查询商户信息
         TdCustInfo custInfo = merchantInfoService.getCustInfo(tdCustInfo);
-        map.put("mInfo",custInfo);
+        map.put("custInfo",custInfo);
         //查询省市区
         TbProvincesInfoBean tbProvincesInfoBean = new TbProvincesInfoBean(custInfo.getProvince(),custInfo.getCity(),custInfo.getCountry());
         List<TbProvincesInfoBean> provinces = merchantInfoService.getProvinces(tbProvincesInfoBean);
         map.put("provinces",provinces);
+        //查询银行省市
+        TbBankProvincesInfoBean tbBankProvincesInfoBean = new TbBankProvincesInfoBean();
+        tbBankProvincesInfoBean.setBankCityId(custInfo.getBankCityName());
+        tbBankProvincesInfoBean.setBankProvinceId(custInfo.getBankProvinceName());
+        List<TbBankProvincesInfoBean> bankProvinces = merchantInfoService.getBankProvinces(tbBankProvincesInfoBean);
+        map.put("bankProvinces",bankProvinces);
         //查询商户签约产品
         TdMerchantProductInfo tdMerchantProductInfo = new TdMerchantProductInfo();
         tdMerchantProductInfo.setMchCustId(tdCustInfo.getCustId());
         List<TdMerchantProductInfo> merchantProductInfos = productInfoService.selectOpenProductInfo(tdMerchantProductInfo);
-        map.put("pInfo",merchantProductInfos);
+        map.put("productInfoList",merchantProductInfos);
         //查询商户扫描件信息，并将路径转化为URI的形式
         TdCustScanCopy tdCustScanCopy = new TdCustScanCopy();
         tdCustScanCopy.setCustId(tdCustInfo.getCustId());
         List<TdCustScanCopy> tdCustScanCopies = merchantInfoService.selectCustScanCopy(tdCustScanCopy);
         map.put("uri",uri);
         map.put("url",relativePath);
-        map.put("cInfo",tdCustScanCopies);
+        map.put("custScanInfoList",tdCustScanCopies);
         return new ResultBean("1",map);
     }
 
@@ -247,6 +254,12 @@ public class AgentController {
             return new ResultBean("1","签约产品提交成功,待审核");
         }
         return new ResultBean("0","签约产品提交失败");
+    }
+
+    @RequestMapping("delProduct.do")
+    public ResultBean delProduct(TdMerchantProductInfo tdMerchantProductInfo){
+
+        return new ResultBean("");
     }
 
     /**
