@@ -58,15 +58,17 @@ export default {
       getOpenId:'666666',
       roleId:'salesman',
       statesList:[],
-      userId:''
-      ///redirect_uri:'http://192.168.1.79:8080/#/salesman'//https://sp.qifenqian.com'
+      userId:'',
+      redirect_uri:'http://192.168.1.174:8080/#/salesman'//https://sp.qifenqian.com'
     }
   },
   created(){
 
-    /*this.getUserOpenId();//执行获取用户openID的函数
-*/
+    /*this.getUserOpenId();//执行获取用户openID的函数*/
 
+    this.$store.commit("setincoming", {});
+    this.$store.commit("setPhotos", []);
+    this.$store.commit("setCheckedState", "");
     this.firstLogin();
     this.setOpenID(this.getOpenId);
     this.setRole(this.roleId);
@@ -95,13 +97,41 @@ export default {
     },
 
 
-    //获取用户的openId
+    //实际环境中获取用户的openId
     async getUserOpenId(){
       const  encodeUrl = this.urlencode(this.redirect_uri);
-      const getOpenIdUrl= 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=' +  encodeUrl +'&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+      //第一步：获取code
+      const getCodeUrl= 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=' +  encodeUrl +'&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
       console.log(encodeUrl);
-        const userOpenId = await http.post1(getOpenIdUrl);
+        const userCode = await http.get(getCodeUrl);
+        console.log(userCode);
+      //第二步：使用code换取access_token和OpenId
+
+        const getCode = '';
+        const  getOpenIdUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxce65746e62998dce&secret=SECRET&code='+ getCode +'&grant_type=authorization_code'
+        const userOpenId = await http.get(getOpenIdUrl);
         console.log(userOpenId);
+
+      //将openid传给后端做是否绑定的判断
+        const params = {
+          openId:userOpenId.openid,
+          roleId:this.roleId
+        };
+        const {data} = await login.firstLogin(params);
+        console.log(data);
+        if(data.resultCode=='0'){//未绑定此公众号
+          this.$router.push('login');
+        }
+        if(data.resultCode=='1'){//已绑定过此公众号
+          localStorage.setItem('token',data.resultMsg.token);
+          axios.defaults.headers.common['token']= data.resultMsg.token;//设置axios请求头中加入token
+          this.setToken(data.resultMsg.token);
+          this.setUserId(data.resultMsg.userId);
+          storage.set("userId", data.resultMsg.userId);
+          console.log(storage.get('userId'));
+          this.islogin=true;
+          this.salesShopNew();
+        }
 
     },
 
@@ -137,7 +167,7 @@ export default {
       });
       console.log(storage.get("userId"));
       this.statesList = listInfo.data.resultMsg.list;
-      let total=listInfo.data.resultMsg.total;
+      /*let total=listInfo.data.resultMsg.total;*/
       console.log(this.statesList);
     },
     //查看审核失败信息和审核成功信息
@@ -147,6 +177,12 @@ export default {
     }
     if(state=='00'){
       this.$router.push('/audit/pass');
+    }
+    if (state == "05") {
+      this.$router.push({
+        name: "baseInfo",
+        params: { type: "corvidae", custId: custId }
+      });
     }
     this.setCustId(custId);
   },

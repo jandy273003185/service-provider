@@ -1,14 +1,16 @@
 import http from "./http";
 export const common={//图片识别 上传
-  getImgInfo: params =>http.post('/common/youTu.do',params),
-  uploadImg: params =>http. post1('/common/upload.do',params),
-  resetPwd:params=>http.post1('/salesman/regPassword.do',params),//管理员重置业务员的密码
-  updatePwd:params=>http.post1('/salesman/updatePassword.do',params),//业务员重置自己的密码
+  getImgInfo: params =>http.post1('/common/youTu.do',params),
+  uploadImg: params =>http. post('/common/upload.do',params),
+  getAddress:params=>http.post1('/common/province.do',params),//商户省市区
+  bankAddress:params=>http.post1('/common/bankProvince.do',params),//银行省市
+  resetPwd:params=>http.post1('/salesman/regPassword.do',params),//重置密码
   updateSales:params=>http.post1('/salesman/update.do',params),//更新业务员
   insertSales:params=>http.post1('/salesman/insert.do',params),//新增业务员
 }
 export const incoming={//进件
-  insertIncoming: params =>http.post('wx/insertMerchant.do',params)
+  insertIncoming: params =>http.post1('/wx/insertMerchant.do',params),
+  getIncoming:params=>http.post1('/wx/queryMerchant.do',params),  //获取进件信息
 };
 export const adminIndex={//管理员主页
   searchSales: param =>http.post1('/salesman/query.do',param),//搜索业务员

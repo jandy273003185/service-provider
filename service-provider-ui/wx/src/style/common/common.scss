@@ -67,10 +67,10 @@
 }
 /* 步骤 */
 .step{
-  width: vw(710);
+  width: vw(720);
   height:vw(100);
   line-height: vw(100);
-  margin: vw(40) auto;
+  margin: vw(40) vw(25) vw(5) vw(30);
   overflow: hidden;
 }
 .step .item{
@@ -117,8 +117,12 @@
   text-align: center;
 }
 .line{
-  width: vw(140);
+  width: vw(133);
   height: vw(2);
   background: #ccc;
   margin:vw(26) 0;
+}
+.line.hide{
+  width: vw(36);
+  opacity: 0;
 }

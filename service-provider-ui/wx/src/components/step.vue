@@ -6,6 +6,7 @@
         <span class="num">{{item.step}}</span>
       </div>
       <div v-if="item.step!=4" class="line"></div>
+       <div v-if="item.step==4" class="line hide" ></div>
       <span class="name">{{item.name}}</span>
     </div>
   </div>

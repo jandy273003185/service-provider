@@ -89,6 +89,9 @@ export default {
     };
   },
   created() {
+    this.$store.commit("setincoming", {});
+    this.$store.commit("setPhotos", []);
+    this.$store.commit("setCheckedState", "");
     this.firstLogin();
     this.setOpenID(this.getOpenId);
     this.setRole(this.roleId);

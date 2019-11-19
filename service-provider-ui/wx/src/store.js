@@ -15,9 +15,13 @@ export default new Vuex.Store({
         userId:'',
         roleId:'',//3是管理员，2是业务员
         incoming: {
-            userId:'7a25180eefee423a992d29d9712b6f9d',
+
         },
-        custScanCopys:[]
+        incomingReturn:{//请求的保存数据
+        },
+        savephotos:[],//图片
+        custScanCopys: [],
+        checkedState:''//审核状态
     },
 
 
@@ -46,11 +50,20 @@ export default new Vuex.Store({
         setincoming(state, obj) {//进件参数
             state.incoming = obj;
         },
+        setincomingReturn(state,obj){
+            state.incomingReturn=obj;
+        },
         custScanCopys(state,obj){//图片数组
           state.custScanCopys=obj
         },
         setRoleId(state,obj){
             state.roleId=obj;
+        },
+        setCheckedState(state,obj){
+            state.checkedState = obj;
+        },
+        setPhotos(state,obj){
+            state.savephotos=obj;
         }
     },
     actions: {

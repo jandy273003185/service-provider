@@ -245,7 +245,11 @@ export default {
   computed:{
           ...mapState(['roleId'])
 },
-
+  created(){
+    this.$store.commit("setincoming", {});
+    this.$store.commit("setPhotos", []);
+    this.$store.commit("setCheckedState", "");
+  },
   mounted() {
     this.userId = storage.get('userId');
     console.log(this.userId + '商户');
@@ -379,6 +383,12 @@ export default {
       if(state=='00'){
         this.$router.push('/audit/pass');
         this.setCustId(custId);
+      }
+      if (state == "05") {
+        this.$router.push({
+          name: "baseInfo",
+          params: { type: "corvidae", custId: custId }
+        });
       }
     },
 

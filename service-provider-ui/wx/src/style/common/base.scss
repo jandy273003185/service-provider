@@ -113,3 +113,11 @@ img {
   background: rgba(0, 0, 0, .5);
   z-index: 9999;
 }
+.van-picker{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 9999;
+}
