@@ -10,6 +10,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>service-provider</artifactId>
+	<packaging>war</packaging>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -154,9 +155,50 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
 				<configuration>
-					<fork>true</fork>
+					<filesets>
+						<fileset>
+							<directory>src/main/resources/public</directory>
+						</fileset>
+					</filesets>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy Vue.js frontend content</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>src/main/resources/public/public</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>${project.parent.basedir}/service-provider-ui/dist</directory>
+									<includes>
+										<include>assets/</include>
+										<include>favicon.ico</include>
+										<include>index.html</include>										
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
