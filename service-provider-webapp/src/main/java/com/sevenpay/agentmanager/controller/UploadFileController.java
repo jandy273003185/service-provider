@@ -1,8 +1,8 @@
 package com.sevenpay.agentmanager.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sevenpay.agentmanager.pojo.Paths;
 import com.sevenpay.agentmanager.pojo.ResultBean;
+import com.sevenpay.agentmanager.utils.DateUtils;
 import com.sevenpay.agentmanager.utils.YouTuUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +32,10 @@ public class UploadFileController {
     private String uri;
     @Value("${images.relativePath}")
     private String relativePath;
+    //存储路径
+    @Value("${images.absolutePaths}")
+    private String absolutePaths;
+
 
     @PostMapping("upload")
     @ResponseBody
@@ -40,11 +44,11 @@ public class UploadFileController {
         // 获取文件名后缀名
         String suffix = file.getOriginalFilename();
         String prefix = suffix.substring(suffix.lastIndexOf("."));
-        String Filename = UUID.randomUUID().toString();
+        String Filename = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","");
         if (!file.isEmpty()) {//文件不为空
             try {
                 //上传路径
-                StringBuilder filePath = new StringBuilder(Paths.FilePathAbsolute).append(Paths.FilePath).append(Filename).append(prefix);
+                StringBuilder filePath = new StringBuilder(absolutePaths).append(Filename).append(prefix);
                 File saveDir = new File(String.valueOf(filePath));
                 if (!saveDir.getParentFile().exists()){
                     saveDir.getParentFile().mkdirs();

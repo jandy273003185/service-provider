@@ -1,6 +1,5 @@
 package com.sevenpay.agentmanager.config;
 
-import com.sevenpay.agentmanager.pojo.Paths;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

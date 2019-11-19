@@ -1,5 +1,15 @@
 package com.sevenpay.agentmanager.utils;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.sevenpay.agentmanager.pojo.ResultBean;
+import com.sevenpay.agentmanager.utils.youtu.Youtu;
+import com.youtu.sign.Base64Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import sun.misc.BASE64Decoder;
+
 import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -8,17 +18,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import com.sevenpay.agentmanager.pojo.Paths;
-import com.sevenpay.agentmanager.pojo.ResultBean;
-import com.sevenpay.agentmanager.utils.youtu.Youtu;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.youtu.sign.Base64Util;
-import sun.misc.BASE64Decoder;
 
 /**
  * 腾讯优图工具:
@@ -29,7 +28,9 @@ import sun.misc.BASE64Decoder;
  */
 public class YouTuUtils {
 	private Logger logger = LoggerFactory.getLogger(YouTuUtils.class);
-	
+	//存储路径
+	@Value("${images.relativePaths}")
+	private String relativePaths;
 	
 	// appid, secretid secretkey请到http://open.youtu.qq.com/获取
 	// 请正确填写把下面的APP_ID、SECRET_ID和SECRET_KEY
@@ -169,7 +170,7 @@ public class YouTuUtils {
 	 */
 	public ResultBean<String[]> BASE64CodeToBeImage(String BASE64str){
 		//存储地址
-		StringBuilder path = new StringBuilder(Paths.FilePathAbsolute).append(Paths.FilePath);
+		StringBuilder path = new StringBuilder(relativePaths);
 		//统一图片后缀
 		String ext = "jpg";
 		File fileDir = new File(String.valueOf(path));
