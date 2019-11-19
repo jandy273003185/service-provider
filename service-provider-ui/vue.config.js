@@ -27,8 +27,13 @@ module.exports = {
         '/': {
           ws:false,
           /* 目标代理服务器地址 */
+<<<<<<< HEAD
 
           target:'https://sp.qifenqian.com',//'http://192.168.1.141:8089',
+=======
+          target:'https://sp.qifenqian.com',//'http://192.168.1.141:8089', //  https://sp.qifenqian.com/
+
+>>>>>>> 021a7024ce7b768eff784b30e9beeebf880d87e7
           /* 允许跨域 */
           changeOrigin: true,
         },
