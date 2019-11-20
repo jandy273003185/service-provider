@@ -26,7 +26,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-    /*import Cookie from 'js-cookie'*/
     import {mapState} from 'vuex'
 export default {
     name: "baser-header",
@@ -47,9 +46,9 @@ export default {
     },
     watch:{
         currRouter:function(){
-            this.isHome = (this.$route.path =='/Administrator')? true:false,
+            this.isHome = (this.$route.path =='/Administrator' || '/salesman')? true:false;
             this.isShop = (this.$route.path == '/shop')? true:false;
-            this.isGoods = this.$route.path =='/goods'? true:false,
+            this.isGoods = this.$route.path =='/goods'? true:false;
             this.isMine = (this.$route.path == '/mine')? true:false;
         }
 

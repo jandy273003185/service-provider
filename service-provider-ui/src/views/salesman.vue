@@ -88,7 +88,7 @@ export default {
 
 
     async firstLogin(){//初次进入主页，传OpenId到后台，判断是否有绑定过账户
-      const getOpenId = await login.getOpenId();
+        const getOpenId = await login.getOpenId();
         this.openId = getOpenId.resultMsg;
         this.setOpenID(this.openId);
         console.log(this.openId);

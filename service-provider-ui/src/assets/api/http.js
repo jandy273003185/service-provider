@@ -34,10 +34,10 @@ axios.interceptors.request.use(config => {
      if(res){
          if(res.data){
              const data = res.data;
-            /* if(data.resultCode == 10001){
+             if(data.resultCode == 10001){
                  Dialog({ message: '网络异常，请查看您的网络状态！' });
                  router.go(-1);
-             }*/
+             }
          }
      }
      return res
