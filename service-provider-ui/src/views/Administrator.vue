@@ -102,32 +102,29 @@ export default {
         REDIRECT_URI +
         "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     } else {
-      let openId = this.getOpenId(code);
-      if (openId) {
-        this.openId = openId;
-        this.setOpenID(this.openId);
-        this.setRole(this.roleId);
-        this.setRoleId("2");
-        this.firstLogin();
-      }
+      this.getOpenId();
     }
   },
-  mounted() {
-    
-  },
-  updated(){
-  console.log(location.href);
+  mounted() {},
+  updated() {
+    console.log(location.href);
   },
   computed: {},
   methods: {
-      async getOpenId(code) {
+    async getOpenId(code) {
       //获取openid
       let res = await login.getOpenId({
         code: code
       });
       let openId = res.data.resultMsg;
       console.log(openId);
-      return openId;
+      if (openId) {
+        this.openId = openId;
+        this.setOpenID(this.openId);
+        this.setRole(this.roleId);
+        this.setRoleId("3");
+        this.firstLogin();
+      }
     },
     getUrlParam(name) {
       //获取code
