@@ -89,7 +89,8 @@ export default {
         
       }
     }else{
-      if(this.$router.params.type="login"){
+      console.log();
+      if(this.$router.params.type&&this.$router.params.type=="login"){
         this.firstLogin({
         openId: this.$store.state.openId,
         roleId: this.roleId
