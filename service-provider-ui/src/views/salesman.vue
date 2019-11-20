@@ -73,14 +73,14 @@ export default {
     if (!code) {
       //  let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
       let REDIRECT_URI = encodeURIComponent(
-        "https://sp.qifenqian.com/wx/index.html/#/salesman"
+        "https://sp.qifenqian.com/wx/index.html#salesman"
       );
       window.location.href =
         "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +
         REDIRECT_URI +
         "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     } else {
-      let openId = this.getopenId(code);
+      let openId = this.getOpenId(code);
       if (openId) {
         this.openId = openId;
         this.setOpenID(this.openId);
@@ -93,7 +93,7 @@ export default {
   mounted() {},
 
   methods: {
-    async getopenId(code) {
+    async getOpenId(code) {
       //获取openid
       let res = await login.getOpenId({
         code: code

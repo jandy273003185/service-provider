@@ -94,16 +94,15 @@ export default {
     this.$store.commit("setCheckedState", "");
     var code = this.getUrlParam("code"); //'06145ykj2B3GLE0t58lj2stAkj245yks'//this.getUrlParam("code");//'001O242u1WfLAe0O300u1Ppn2u1O242N'//
     if (!code) {
-      //  let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
       let REDIRECT_URI = encodeURIComponent(
-        "https://sp.qifenqian.com/wx/index.html/#/Administrator"
+        "https://sp.qifenqian.com/wx/index.html#Administrator"
       );
       window.location.href =
         "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +
         REDIRECT_URI +
         "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     } else {
-      let openId = this.getopenId(code);
+      let openId = this.getOpenId(code);
       if (openId) {
         this.openId = openId;
         this.setOpenID(this.openId);
@@ -113,10 +112,15 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    
+  },
+  updated(){
+  console.log(location.href);
+  },
   computed: {},
   methods: {
-      async getopenId(code) {
+      async getOpenId(code) {
       //获取openid
       let res = await login.getOpenId({
         code: code
