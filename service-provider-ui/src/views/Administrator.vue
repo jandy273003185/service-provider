@@ -102,7 +102,7 @@ export default {
         REDIRECT_URI +
         "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     } else {
-      this.getOpenId();
+      this.getOpenId(code);
     }
   },
   mounted() {},
@@ -113,6 +113,7 @@ export default {
   methods: {
     async getOpenId(code) {
       //获取openid
+      console.log("管理员"+code);
       let res = await login.getOpenId({
         code: code
       });
