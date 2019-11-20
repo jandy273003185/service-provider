@@ -107,6 +107,7 @@ export default {
       this.$router.push("searchShop");
     },
 
+<<<<<<< HEAD
     async firstLogin() {
       //初次进入主页，传OpenId到后台，判断是否有绑定过账户
       const getOpenId = await login.getOpenId();
@@ -122,6 +123,42 @@ export default {
         console.log(data);
         if (data.resultCode == "0") {
           this.$router.push("login");
+=======
+
+    async firstLogin(){//初次进入主页，传OpenId到后台，判断是否有绑定过账户
+        //const getOpenId = await login.getOpenId();
+        window.location.href = 'https://sp.qifenqian.com/wx/accredit';
+        console.log( window.location.href);
+        const getOpenId = await http.get(window.location.href);
+
+
+
+
+        this.openId = getOpenId.resultMsg;
+        this.setOpenID(this.openId);
+        console.log(this.openId);
+        if(this.openId){
+          const params = {
+            openId:this.openId,
+            roleId:this.roleId
+          };
+          const {data} = await login.firstLogin(params);
+          console.log(data);
+          if(data.resultCode=='0'){
+            this.$router.push('login');
+          }
+          if(data.resultCode=='1'){
+            this.$router.push('salesman');
+            localStorage.setItem('token',data.resultMsg.token);
+            axios.defaults.headers.common['token']= data.resultMsg.token;
+            this.setToken(data.resultMsg.token);
+            this.setUserId(data.resultMsg.userId);
+            storage.set("userId", data.resultMsg.userId);
+            console.log(storage.get('userId'));
+            this.islogin=true;
+            this.salesShopNew();
+          }
+>>>>>>> 2f15fd788c8fcb554bed3e9fb7cee1e952992b81
         }
         if (data.resultCode == "1") {
           localStorage.setItem("token", data.resultMsg.token);
