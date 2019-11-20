@@ -205,7 +205,8 @@ export default {
       console.log("确认省份");
       this.params.bankProvinceName = value.bankProvinceId;
       this.params.bankProvinceShow = value.bankProvinceName;
-      console.log(value.bankProvinceId);
+      this.params.bankCityName ='';//清除市数据
+      this.params.bankCityShow ='';
       this.provincepicker = false;
     },
 

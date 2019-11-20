@@ -25,26 +25,33 @@ footer {
   padding: 0;
   font-size: vw(26);
 }
-body{
+
+body {
   color: #333;
 }
+
 a {
   color: #333;
   text-decoration: none;
 }
-.van-nav-bar__title{
+
+.van-nav-bar__title {
   margin: 0 auto;
 }
-input ,input:focus{
+
+input,
+input:focus {
   font-size: vw(26);
   background: #f9f9f9;
   outline: none;
   border: none;
-  -webkit-appearance:none; 
+  -webkit-appearance: none;
 }
-.fileInp{
+
+.fileInp {
   display: none;
 }
+
 img {
   display: block;
   width: 100%;
@@ -113,7 +120,8 @@ img {
   background: rgba(0, 0, 0, .5);
   z-index: 9999;
 }
-.van-picker{
+
+.van-picker {
   position: fixed;
   left: 0;
   right: 0;

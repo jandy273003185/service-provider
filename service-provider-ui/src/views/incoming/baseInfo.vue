@@ -169,7 +169,12 @@
           <!-- specialBusiness -->
           <div class="stit" :class="{'active':(clickedNext&&!params.specialBusiness)}">特殊行业资质照</div>
           <div @click="beforeUploadImg('specialBusiness')">
-            <van-uploader :after-read="uploadImg" v-model="photos.specialBusiness" :max-count="1"  preview-size="auto">
+            <van-uploader
+              :after-read="uploadImg"
+              v-model="photos.specialBusiness"
+              :max-count="1"
+              preview-size="auto"
+            >
               <!-- v-show="!params.specialBusiness" -->
               <van-button icon="photo" type="primary">上传特殊行业资质照</van-button>
             </van-uploader>
@@ -294,7 +299,6 @@ export default {
     ...mapState(["incoming", "savephotos", "incomingReturn"])
   },
   created() {
-   
     let type = this.$route.params.type;
     this.photos = this.savephotos;
     if (type) {
@@ -308,8 +312,6 @@ export default {
         let custId = this.$route.params.custId;
         this.getIncomingInfo(custId);
       }
-      if (type == "getback") {
-      }
     } else {
       this.params = Object.assign(this.params, this.incoming);
     }
@@ -319,7 +321,14 @@ export default {
     async getIncomingInfo(custId) {
       //获取之前提交进件数据
       console.log(custId);
+      this.$toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+        duration: 0
+      });
       let res = await incoming.getIncoming({ custId: custId });
+      this.$toast.clear();
+
       this.$store.commit("setincomingReturn", res.data.resultMsg);
       let custInfo = res.data.resultMsg.custInfo;
       let provinces = res.data.resultMsg.provinces[0];
@@ -348,7 +357,7 @@ export default {
       };
       let photos = res.data.resultMsg.custScanInfoList;
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
-      util.getPhotos(this,urlHead,photos);
+      util.getPhotos(this, urlHead, photos);
       this.params = params;
     },
     async getInitAddress() {
@@ -365,7 +374,7 @@ export default {
     async onConfirmProvince(value, index) {
       //确认省
       console.log("确认省份");
-      console.log(value.provinceId);
+      console.log(index);
       this.params.province = value.provinceId;
       this.params.provinceName = value.provinceName;
       this.provincepicker = false;
@@ -378,6 +387,7 @@ export default {
     async onConfirmCity(value, index) {
       //确认市
       console.log("确认市");
+      console.log(index);
       this.params.city = value.cityId;
       this.params.cityName = value.cityName;
       console.log(value.cityId);
@@ -391,6 +401,7 @@ export default {
     async onConfirmBlock(value, index) {
       //确认区
       console.log("确认区");
+      console.log(index);
       console.log(value.areaId);
       this.params.country = value.areaId;
       this.params.countryName = value.areaName;
@@ -436,7 +447,7 @@ export default {
       this.params.businessTermEnd = businessTermEnd;
       this.params.businessTermStart = businessTermStart;
       this.businessLicense = info.data.uri + info.data.url;
-      this.photos.businessLicense = [{ url: info.data.uri + info.data.url }];
+      this.photos.businessLicense = [{ url:imgUrl}];
     },
     deleteImg(type) {
       this[type] = [];

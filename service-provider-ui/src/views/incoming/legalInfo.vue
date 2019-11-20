@@ -195,31 +195,37 @@ export default {
     },
     async getImgInfo(file) {
       //优图识别
+      this.$toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+        duration: 0
+      });
       const params = {
         str: file,
         flag: this.indentifyType
       };
       const info = await common.getImgInfo(params);
       const imgUrl = info.data.uri + "/" + info.data.url;
+      this.$toast.clear();
       if (this.indentifyType == "certAttribute1") {
-        this.photos.identityCardFront = [{ url: imgUrl }];
-        this.params.identityCardFront = imgUrl;
         if (info.data) {
+          this.photos.identityCardFront = [{ url: imgUrl }];
+          this.params.identityCardFront = imgUrl;
           this.params.representativeName = info.data.cardName;
           this.params.representativeCertNo = info.data.cardId;
-        }else{
-          this.$toast("身份证正面信息无法识别！")
+        } else {
+          this.$toast("身份证正面信息无法识别！");
         }
       }
       if (this.indentifyType == "certAttribute2") {
-        this.params.identityCardReverse = imgUrl;
-        this.photos.identityCardReverse = [{ url: imgUrl }];
         if (info.data.cardValidDate) {
+          this.params.identityCardReverse = imgUrl;
+          this.photos.identityCardReverse = [{ url: imgUrl }];
           let arr = info.data.cardValidDate.split("-");
           this.params.idTermStart = arr[0];
           this.params.idTermEnd = arr[1];
-        }else{
-           this.$toast("身份证反面信息无法识别！")
+        } else {
+          this.$toast("身份证反面信息无法识别！");
         }
       }
     }

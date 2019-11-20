@@ -9,7 +9,7 @@
         <!--  productId  -->
         <span class="name">结算费率：</span>
         <!--  productRate -->
-        <input type="text" v-model="dragonflyProductRate" placeholder="请输入费率" />
+        <input type="number" v-model="dragonflyProductRate" placeholder="请输入费率" />
       </div>
       <div class="row" v-show="dragonfly">
         <input type="text" v-model="sn" placeholder="请输入蜻蜓设备编号SN" />
@@ -17,19 +17,18 @@
       <div class="row" ref="scan">
         <van-checkbox v-model="scan">扫码产品</van-checkbox>
         <span class="name">结算费率：</span>
-        <input type="text" v-model="scanProductRate" placeholder="请输入费率" />
+        <input type="number" v-model="scanProductRate" placeholder="请输入费率" />
       </div>
       <div class="row" ref="app">
         <van-checkbox v-model="app">APP产品</van-checkbox>
         <span class="name">结算费率：</span>
-        <input type="text" v-model="appProductRate" placeholder="请输入费率" />
+        <input type="number" v-model="appProductRate" placeholder="请输入费率" />
       </div>
       <div class="mix-btn" v-if="checkedState!='corvidae'">
         <div class="btn save" @click="saveIncoming">保存</div>
-        <div class="btn " @click="submitIncoming('01')">提交</div>
-       
+        <div class="btn" @click="submitIncoming('01')">提交</div>
       </div>
-      <div class="btn" v-if="checkedState=='corvidae'"  @click="submitIncoming('05')">编辑</div>
+      <div class="btn" v-if="checkedState=='corvidae'" @click="submitIncoming('05')">编辑</div>
       <div class="btn back" @click="getPreStep">返回</div>
     </div>
   </div>
@@ -37,7 +36,7 @@
 <script>
 import upload from "@/lib/upload.js";
 import { mapState } from "vuex";
-import {incoming } from "@/assets/api/interface";
+import { incoming } from "@/assets/api/interface";
 export default {
   name: "incoming",
   components: {
@@ -54,9 +53,7 @@ export default {
       dragonflyProductRate: "",
       scanProductRate: "",
       appProductRate: "",
-      params: {
-
-      },
+      params: {}
       /*   URL_BASE: this.$store.state.URL_BASE, */
     };
   },
@@ -64,9 +61,12 @@ export default {
     ...mapState(["checkedState", "incoming", "incomingReturn", "savephotos"])
   },
   created() {
-    this.params = Object.assign({
-      userId:this.$store.state.userId
-    }, this.incoming);
+    this.params = Object.assign(
+      {
+        userId: this.$store.state.userId
+      },
+      this.incoming
+    );
     if (this.checkedState == "corvidae") {
       let productInfos = this.incomingReturn.productInfoList;
       for (let i = 0; i < productInfos.length; i++) {
@@ -96,46 +96,8 @@ export default {
       this.$router.push("merchant");
     },
     saveIncoming() {
-      let prolist = [];
-      let proObj = {};
-      if (this.dragonfly && this.sn && this.dragonflyProductRate) {
-        proObj = {
-          productId: "8",
-          productRate: this.dragonflyProductRate,
-          sn: this.sn
-        };
-        prolist.push(proObj);
-        this.$refs.dragonfly.className = "row";
-      }
-
-      if (this.scan) {
-        if (this.scanProductRate) {
-          proObj = {
-            productId: "1",
-            productRate: this.scanProductRate,
-            sn: ""
-          };
-          prolist.push(proObj);
-          this.$refs.scan.className = "row";
-        } else {
-          this.$refs.scan.className = "row active";
-          console.log("请填写 rate");
-        }
-      }
-      if (this.app) {
-        if (this.appProductRate) {
-          proObj = {
-            productId: "2",
-            productRate: this.appProductRate,
-            sn: ""
-          };
-          prolist.push(proObj);
-          this.$refs.app.className = "row";
-        } else {
-          this.$refs.app.className = "row active";
-          console.log("请填写 rate");
-        }
-      }
+      //保存
+      let prolist = this.checkSignGoods();
       let fullParams = Object.assign(this.incoming, this.params, {
         state: "05"
       });
@@ -146,12 +108,48 @@ export default {
       this.$store.commit("custScanCopys", this.custScanCopys);
       this.insertIncoming(fullParams); //提交请求
     },
-    submitIncoming( state) {
+    submitIncoming(state) {
       //提交
       this.clickedNext = true;
       if (this.dragonfly || this.scan || this.app) {
-        let prolist = [];
-        let proObj = {};
+        //至少选择一款
+        let prolist = this.checkSignGoods();
+        if (prolist.length > 0) {
+          let fullParams = Object.assign(this.incoming, this.params, {
+            state: state
+          });
+          fullParams.productInfos = JSON.stringify(prolist); //产品
+          let custScanCopys = upload.getAllPhotos(this.savephotos); //图片
+          fullParams.custScanCopys = custScanCopys;
+          this.$store.commit("setincoming", fullParams);
+          this.$store.commit("custScanCopys", this.custScanCopys);
+          this.insertIncoming(fullParams); //提交请求
+        }
+      } else {
+        this.$toast("请至少选择一款签约产品");
+      }
+      //this.$router.push("sign");
+      //提交进件信息
+    },
+    async insertIncoming(params) {
+      let info = await incoming.insertIncoming(params);
+      if (info.data.resultCode == 1) {
+        if (this.$store.state.roleId == "3") {
+          //业务员
+          this.$router.push("/salesman");
+        }
+        if (this.$store.state.roleId == "2") {
+          //管理员
+          this.$router.push("/Administrator");
+        }
+      }
+    },
+    checkSignGoods() {
+      //校验产品签约，至少签约一款
+      /* this.$toast */
+      let prolist = [];
+      let proObj = {};
+      if (this.dragonfly) {
         if (this.dragonfly && this.sn && this.dragonflyProductRate) {
           proObj = {
             productId: "8",
@@ -159,70 +157,41 @@ export default {
             sn: this.sn
           };
           prolist.push(proObj);
-          this.$refs.dragonfly.className = "row";
+          //this.$refs.dragonfly.className = "row";
         } else {
-          this.$refs.dragonfly.className = "row active";
-          console.log("请填写sn rate");
+          //this.$refs.dragonfly.className = "row active";
+          this.$toast("请将蜻蜓产品信息补充完整");
         }
-        if (this.scan) {
-          if (this.scanProductRate) {
-            proObj = {
-              productId: "1",
-              productRate: this.scanProductRate,
-              sn: ""
-            };
-            prolist.push(proObj);
-            this.$refs.scan.className = "row";
-          } else {
-            this.$refs.scan.className = "row active";
-            console.log("请填写 rate");
-          }
-        }
-        if (this.app) {
-          if (this.appProductRate) {
-            proObj = {
-              productId: "2",
-              productRate: this.appProductRate,
-              sn: ""
-            };
-            prolist.push(proObj);
-            this.$refs.app.className = "row";
-          } else {
-            this.$refs.app.className = "row active";
-            console.log("请填写 rate");
-          }
-        }
-        if ((this.dragonfly && this.sn) || !this.dragonfly) {
-          let fullParams = Object.assign(this.incoming, this.params, {
-            state:  state
-          });
-          console.log(JSON.stringify(prolist));
-          fullParams.productInfos = JSON.stringify(prolist);
-          fullParams.custScanCopys = JSON.stringify(this.custScanCopys);
-          this.$store.commit("setincoming", fullParams);
-          this.$store.commit("custScanCopys", this.custScanCopys);
-          let custScanCopys = upload.getAllPhotos(this.savephotos);
-          fullParams.custScanCopys = custScanCopys;
-          this.insertIncoming(fullParams); //提交请求
-          // this.$router.push("/");
-        }
-      } else {
-        console.log("请选择产品");
       }
-      //this.$router.push("sign");
-      //提交进件信息
-    },
-    async insertIncoming(params) {
-      let info = await incoming.insertIncoming(params);
-      if(info.data.resultCode==1){
-        if(this.$store.state.roleId=="3"){//业务员
-          this.$router.push("/salesman");
+      if (this.scan) {
+        if (this.scanProductRate) {
+          proObj = {
+            productId: "1",
+            productRate: this.scanProductRate,
+            sn: ""
+          };
+          prolist.push(proObj);
+          // this.$refs.scan.className = "row";
+        } else {
+          this.$toast("请将填写扫码费率");
+          //this.$refs.scan.className = "row active";
         }
-        if(this.$store.state.roleId=="2"){//管理员
-          this.$router.push("/Administrator");
-        }
-
       }
+      if (this.app) {
+        if (this.appProductRate) {
+          proObj = {
+            productId: "2",
+            productRate: this.appProductRate,
+            sn: ""
+          };
+          prolist.push(proObj);
+          // this.$refs.app.className = "row";
+        } else {
+          // this.$refs.app.className = "row active";
+          this.$toast("请将填写app费率");
+        }
+      }
+      return prolist;
     }
   }
 };
