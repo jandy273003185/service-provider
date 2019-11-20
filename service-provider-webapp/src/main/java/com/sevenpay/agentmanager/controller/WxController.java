@@ -1,10 +1,12 @@
 package com.sevenpay.agentmanager.controller;
 
+import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.wx.AuthUtil;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,8 +81,8 @@ public class WxController {
      * @param req
      * @return
      */
-    @GetMapping("/callback")
-    public String callBack(HttpServletRequest req) throws Exception {
+    @RequestMapping("/callback")
+    public @ResponseBody ResultBean callBack(HttpServletRequest req) throws Exception {
         //1、获取微信用户的基本信息
         String code = req.getParameter("code");
         //2、通过code获取网页授权access_token
@@ -94,7 +96,7 @@ public class WxController {
         String openId=data.get("openid").toString();
         //String token=data.get("access_token").toString();
 
-        return openId;
+        return new ResultBean("1",openId);
     }
 
 
