@@ -82,7 +82,8 @@ public class WxController {
      * @return
      */
     @RequestMapping("/callback")
-    public @ResponseBody ResultBean callBack(HttpServletRequest req) throws Exception {
+    @ResponseBody
+    public ResultBean callBack(HttpServletRequest req) throws Exception {
         //1、获取微信用户的基本信息
         String code = req.getParameter("code");
         //2、通过code获取网页授权access_token
