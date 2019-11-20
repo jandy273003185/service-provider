@@ -351,7 +351,7 @@ export default {
       let month = time.getMonth() + 1;
       let day = time.getDate();
       return year + '-' + month + '-' + day;
-      console.log(year + '-' + month + '-' + day);
+      /*console.log(year + '-' + month + '-' + day);*/
     },
     cancel(){//取消选择自定义日期
       this.showTime = false;
