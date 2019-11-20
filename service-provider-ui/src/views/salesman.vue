@@ -86,16 +86,17 @@ export default {
         console.log("setCode"+code);
         this.setCode(code);
         this.getOpenId(code);
-        
       }
     }else{
-      console.log();
+      console.log(this.$router.params);
       if(this.$router.params.type&&this.$router.params.type=="login"){
+        console.log("islogin");
         this.firstLogin({
         openId: this.$store.state.openId,
         roleId: this.roleId
         })
       }else{
+        console.log("otherpage return");
         this.islogin = true;
         this.salesShopNew();
       }
