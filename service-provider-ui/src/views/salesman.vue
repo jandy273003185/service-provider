@@ -71,7 +71,7 @@ export default {
     this.$store.commit("setCheckedState", ""); //snsapi_base
     var code = this.getUrlParam("code");
     if (!code) {
-       let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html");
+       let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
       window.location.href =
         "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +
         REDIRECT_URI +
@@ -88,7 +88,9 @@ export default {
 
   methods: {
     async getopenId(code){
-      let openId=await login.getOpenId();
+      let openId=await login.getOpenId({
+        code:code
+      });
       console.log(openId);
       return openId;
     },
