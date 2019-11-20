@@ -82,14 +82,14 @@ export default {
             this.$router.push({
               name: "Administrator",
               params: {
-                type: "login"
+                fname: "login"
               }
             });
           } else if (this.role == "salesman") {
             this.$router.push({
               name: "salesman",
               params: {
-                type: "login"
+                fname: "login"
               }
             });
           }

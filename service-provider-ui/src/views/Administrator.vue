@@ -108,7 +108,7 @@ export default {
         this.getOpenId(code);
       }
     } else {
-      if ((this.$route.params.type&&this.$route.params.type == "login")) {
+      if ((this.$route.params.fname&&this.$route.params.fname == "login")) {
         this.firstLogin({
           openId: this.$store.state.openId,
           roleId: this.roleId

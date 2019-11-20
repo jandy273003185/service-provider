@@ -61,6 +61,7 @@ export default {
     ...mapState(["checkedState", "incoming", "incomingReturn", "savephotos"])
   },
   created() {
+    console.log(this.$route.params);
     this.params = Object.assign(
       {
         userId: this.$store.state.userId

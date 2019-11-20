@@ -90,7 +90,8 @@ export default {
     }else{
       console.log("获取传参。。。。。。");
       console.log(this.$route.params);
-      if(this.$route.params.type&&this.$route.params.type=="login"){
+      console.log("hhhhhh");
+      if(this.$route.params.fname&&this.$route.params.fname=="login"){
         console.log("islogin");
         this.firstLogin({
         openId: this.$store.state.openId,
