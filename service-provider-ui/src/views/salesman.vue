@@ -19,7 +19,7 @@
       <div class="situation">
         <div class="titleBox">
           <div class="line"></div>
-          <p class="titleBar">商户进件情况{{openId}}</p>
+          <p class="titleBar">商户进件情况</p>
           <div class="line"></div>
         </div>
 
@@ -69,7 +69,7 @@ export default {
     this.$store.commit("setincoming", {});
     this.$store.commit("setPhotos", []);
     this.$store.commit("setCheckedState", ""); //snsapi_base
-    var code =this.getUrlParam("code");//'06145ykj2B3GLE0t58lj2stAkj245yks'//this.getUrlParam("code");//'001O242u1WfLAe0O300u1Ppn2u1O242N'//
+    var code = this.getUrlParam("code"); //'06145ykj2B3GLE0t58lj2stAkj245yks'//this.getUrlParam("code");//'001O242u1WfLAe0O300u1Ppn2u1O242N'//
     if (!code) {
       //  let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
       let REDIRECT_URI = encodeURIComponent(
@@ -80,14 +80,7 @@ export default {
         REDIRECT_URI +
         "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     } else {
-      let openId = this.getOpenId(code);
-      if (openId) {
-        this.openId = openId;
-        this.setOpenID(this.openId);
-        this.setRole(this.roleId);
-        this.setRoleId("3");
-        this.firstLogin();
-      }
+      this.getOpenId(code);
     }
   },
   mounted() {},
@@ -100,7 +93,13 @@ export default {
       });
       let openId = res.data.resultMsg;
       console.log(openId);
-      return openId;
+      if (openId) {
+        this.openId = openId;
+        this.setOpenID(this.openId);
+        this.setRole(this.roleId);
+        this.setRoleId("3");
+        this.firstLogin();
+      }
     },
     getUrlParam(name) {
       //获取code
@@ -123,7 +122,8 @@ export default {
         openId: this.openId,
         roleId: this.roleId
       };
-      const { data } = await login.firstLogin(params);//获取绑定状态
+      console.log(params);
+      const { data } = await login.firstLogin(params); //获取绑定状态
       console.log(data);
       if (data.resultCode == "0") {
         //未绑定

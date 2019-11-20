@@ -32,7 +32,7 @@ axios.interceptors.response.use(res => {
         Dialog({
           message: '网络异常，请查看您的网络状态！'
         });
-        router.go(-1);
+       /*  router.go(-1); */
       }
     }
   }
