@@ -88,6 +88,7 @@ export default {
         this.getOpenId(code);
       }
     }else{
+      console.log("获取传参。。。。。。");
       console.log(this.$router.params);
       if(this.$router.params.type&&this.$router.params.type=="login"){
         console.log("islogin");
