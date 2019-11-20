@@ -119,7 +119,7 @@ export default {
     async firstLogin() {
       //初次进入主页，传OpenId到后台，判断是否有绑定过账户
       const params = {
-        openId:'17',
+        openId: this.openId,
         roleId: this.roleId
       };
       console.log(params);

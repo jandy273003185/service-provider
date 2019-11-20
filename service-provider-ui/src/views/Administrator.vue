@@ -102,17 +102,16 @@ export default {
         REDIRECT_URI +
         "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     } else {
-      this.getOpenId();
+      console.log(code);
+      this.getOpenId(code);
     }
   },
   mounted() {},
-  updated() {
-    console.log(location.href);
-  },
   computed: {},
   methods: {
     async getOpenId(code) {
       //获取openid
+      console.log("管理员" + code);
       let res = await login.getOpenId({
         code: code
       });
@@ -122,7 +121,7 @@ export default {
         this.openId = openId;
         this.setOpenID(this.openId);
         this.setRole(this.roleId);
-        this.setRoleId("3");
+        this.setRoleId("2");
         this.firstLogin();
       }
     },
@@ -177,39 +176,29 @@ export default {
         this.numList = list;
       }
     },
-
     async firstLogin() {
       //初次进入主页，传OpenId到后台，判断是否有绑定过账户
-      const getOpenId = await login.getOpenId();
-      this.openId = getOpenId.resultMsg;
-      this.setOpenID(this.openId);
-      console.log(this.openId);
-      if (this.openId) {
-        const params = {
-          openId: this.openId,
-          roleId: this.roleId
-        };
-        const userData = await login.firstLogin(params);
-        console.log(userData);
-        if (userData.data.resultCode == "1") {
-          console.log(userData.data.resultMsg.token);
-          this.setToken(userData.data.resultMsg.token);
-          this.setUserId(userData.data.resultMsg.userId);
-          localStorage.setItem("token", userData.data.resultMsg.token);
-          axios.defaults.headers.common["token"] =
-            userData.data.resultMsg.token;
-          storage.set("userId", userData.data.resultMsg.userId);
-          console.log(storage.get("userId"));
-          this.islogin = true;
-          this.getSalesRanking("0");
-        }
-
-        if (userData.data.resultCode == "0") {
-          this.$router.push("login");
-        }
+      const params = {
+        openId: this.openId,
+        roleId: this.roleId
+      };
+      const userData = await login.firstLogin(params);
+      console.log(userData);
+      if (userData.data.resultCode == "0") {
+        this.$router.push("login");
+      }
+      if (userData.data.resultCode == "1") {
+        console.log(userData.data.resultMsg.token);
+        this.setToken(userData.data.resultMsg.token);
+        this.setUserId(userData.data.resultMsg.userId);
+        localStorage.setItem("token", userData.data.resultMsg.token);
+        axios.defaults.headers.common["token"] = userData.data.resultMsg.token;
+        storage.set("userId", userData.data.resultMsg.userId);
+        console.log(storage.get("userId"));
+        this.islogin = true;
+        this.getSalesRanking("0");
       }
     },
-
     ...mapMutations([
       "setRole",
       "setToken",
