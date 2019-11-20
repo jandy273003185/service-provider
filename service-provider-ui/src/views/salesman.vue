@@ -83,21 +83,21 @@ export default {
           REDIRECT_URI +
           "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
       } else {
-        console.log("setCode"+code);
+        console.log("setCode" + code);
         this.setCode(code);
         this.getOpenId(code);
       }
-    }else{
+    } else {
       console.log("获取传参。。。。。。");
       console.log(this.$route.params);
       console.log("hhhhhh");
-      if(this.$route.params.fname&&this.$route.params.fname=="login"){
+      if (this.$route.params.fname && this.$route.params.fname == "login") {
         console.log("islogin");
         this.firstLogin({
-        openId: this.$store.state.openId,
-        roleId: this.roleId
-        })
-      }else{
+          openId: this.$store.state.openId,
+          roleId: this.roleId
+        });
+      } else {
         console.log("otherpage return");
         this.islogin = true;
         this.salesShopNew();
@@ -120,13 +120,14 @@ export default {
         this.setRole(this.roleId);
         this.setRoleId("3");
         const params = {
-        openId: this.openId,
-        roleId: this.roleId
-      }; console.log(params);
+          openId: this.openId,
+          roleId: this.roleId
+        };
+        console.log(params);
         this.firstLogin({
-        openId: this.openId,
-        roleId: this.roleId
-      });
+          openId: this.openId,
+          roleId: this.roleId
+        });
       }
     },
     getUrlParam(name) {
@@ -134,7 +135,6 @@ export default {
       var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
       var r = window.location.search.substr(1).match(reg);
       if (r != null) {
-        
         return unescape(r[2]);
       }
 
