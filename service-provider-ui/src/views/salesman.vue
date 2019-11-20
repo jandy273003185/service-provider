@@ -69,7 +69,8 @@ export default {
     this.$store.commit("setincoming", {});
     this.$store.commit("setPhotos", []);
     this.$store.commit("setCheckedState", ""); //snsapi_base
-    console.log("createdCode"+this.$store.state.code);
+    console.log("createdCode");
+    console.log(this.$store.state.code);
     if (!this.$store.state.code) {
       var code = this.getUrlParam("code");
       if (!code) {
