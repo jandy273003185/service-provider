@@ -12,6 +12,8 @@ import com.qifenqian.app.user.UserManager;
 import com.sevenpay.agentmanager.jwt.JWTUtil;
 import com.sevenpay.agentmanager.pojo.LoginUser;
 import com.sevenpay.agentmanager.pojo.ResultBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +26,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class LoginController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     @Reference
     private UserLoginManagerService loginManagerService;
@@ -105,9 +109,13 @@ public class LoginController {
     @RequestMapping("/login")
     public ResultBean login(String openId,String roleId){
 
-        System.out.println(openId+"----"+roleId);
+        LOGGER.info("------------"+openId+"--------"+roleId);
 
         UserLoginRelate ifbing = loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
+
+        LOGGER.info("------------"+openId+"--------"+roleId);
+        LOGGER.info("------------"+ifbing+"--------");
+
         if(ifbing == null){
             return new ResultBean("0",openId);  //返回页面去登陆 进行绑定
         }else {
