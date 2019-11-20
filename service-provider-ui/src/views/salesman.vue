@@ -18,7 +18,7 @@
       <div class="situation">
         <div class="titleBox">
           <div class="line"></div>
-          <p class="titleBar">商户进件情况</p>
+          <p class="titleBar">商户进件情况{{openId}}</p>
           <div class="line"></div>
         </div>
 
