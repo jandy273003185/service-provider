@@ -109,12 +109,10 @@ public class LoginController {
     @RequestMapping("/login")
     public ResultBean login(String openId,String roleId){
 
-        LOGGER.info("------------"+openId+"--------"+roleId);
-
         UserLoginRelate ifbing = loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
 
-        LOGGER.info("------------"+openId+"--------"+roleId);
-        LOGGER.info("------------"+ifbing+"--------");
+        System.out.println("123123");
+        System.out.println("8888"+ifbing);
 
         if(ifbing == null){
             return new ResultBean("0",openId);  //返回页面去登陆 进行绑定
