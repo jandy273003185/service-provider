@@ -59,7 +59,7 @@ public class LoginController {
             }
             UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
             if (ifbing != null){
-                return new ResultBean("0","该微信已经被绑定");
+                return new ResultBean("0","该微信已经与七分钱账号绑定");
             }
             UserLoginRelate userLoginRelate = new UserLoginRelate();
             userLoginRelate.setUserId(userInfo.getCustId());
@@ -81,7 +81,7 @@ public class LoginController {
             }
             UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
             if (ifbing != null){
-                return new ResultBean("0","该微信已经被绑定");
+                return new ResultBean("0","该微信已经与七分钱账号绑定");
             }
             UserLoginRelate userLoginRelate = new UserLoginRelate();
             userLoginRelate.setUserId(String.valueOf(userInfo.getId()));

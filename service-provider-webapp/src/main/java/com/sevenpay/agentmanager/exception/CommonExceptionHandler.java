@@ -17,7 +17,7 @@ public class CommonExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResultBean handleException(Exception e){
-        return new ResultBean("10001","哎呀，小七报错了！");
+        return new ResultBean("10001","服务异常，请稍后在试！");
     }
 
 }
