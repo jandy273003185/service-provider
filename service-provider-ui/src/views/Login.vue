@@ -79,7 +79,12 @@ export default {
         Dialog({ message: "登录成功" });
         setTimeout(() => {
           if (this.role == "agent") {
-            this.$router.push("Administrator");
+            this.$router.push({
+              name: "Administrator",
+              params: {
+                type: "login"
+              }
+            });
           } else if (this.role == "salesman") {
             this.$router.push({
               name: "salesman",

@@ -69,6 +69,7 @@ export default {
     this.$store.commit("setincoming", {});
     this.$store.commit("setPhotos", []);
     this.$store.commit("setCheckedState", ""); //snsapi_base
+    console.log("createdCode"+this.$store.state.code);
     if (!this.$store.state.code) {
       var code = this.getUrlParam("code");
       if (!code) {
@@ -81,6 +82,7 @@ export default {
           REDIRECT_URI +
           "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
       } else {
+        console.log("setCode"+code);
         this.setCode(code);
         this.getOpenId(code);
         
@@ -90,7 +92,7 @@ export default {
         this.firstLogin({
         openId: this.$store.state.openId,
         roleId: this.roleId
-      });
+        })
       }else{
         this.islogin = true;
         this.salesShopNew();
