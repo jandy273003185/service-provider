@@ -102,18 +102,16 @@ export default {
         REDIRECT_URI +
         "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     } else {
+      console.log(code);
       this.getOpenId(code);
     }
   },
   mounted() {},
-  updated() {
-    console.log(location.href);
-  },
   computed: {},
   methods: {
     async getOpenId(code) {
       //获取openid
-      console.log("管理员"+code);
+      console.log("管理员" + code);
       let res = await login.getOpenId({
         code: code
       });
@@ -123,7 +121,7 @@ export default {
         this.openId = openId;
         this.setOpenID(this.openId);
         this.setRole(this.roleId);
-        this.setRoleId("3");
+        this.setRoleId("2");
         this.firstLogin();
       }
     },
