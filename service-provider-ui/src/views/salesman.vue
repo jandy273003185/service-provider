@@ -88,7 +88,14 @@ export default {
 
 
     async firstLogin(){//初次进入主页，传OpenId到后台，判断是否有绑定过账户
-        const getOpenId = await login.getOpenId();
+        //const getOpenId = await login.getOpenId();
+        window.location.href = 'https://sp.qifenqian.com/wx/accredit';
+        console.log( window.location.href);
+        const getOpenId = await http.get(window.location.href);
+
+
+
+
         this.openId = getOpenId.resultMsg;
         this.setOpenID(this.openId);
         console.log(this.openId);
@@ -103,6 +110,7 @@ export default {
             this.$router.push('login');
           }
           if(data.resultCode=='1'){
+            this.$router.push('salesman');
             localStorage.setItem('token',data.resultMsg.token);
             axios.defaults.headers.common['token']= data.resultMsg.token;
             this.setToken(data.resultMsg.token);
