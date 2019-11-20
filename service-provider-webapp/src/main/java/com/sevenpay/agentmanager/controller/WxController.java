@@ -64,7 +64,7 @@ public class WxController {
     @GetMapping("/accredit")
     public String wxAccredit() throws UnsupportedEncodingException {
         //url回调地址
-        String backUrl = "https://sp.qifenqian.com/wx/callback.do";
+        String backUrl = "https://sp.qifenqian.com/wx/callback";
         //1、用户同意授权，获取code
         String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+ AuthUtil.APP_ID
                 + "&redirect_uri="+ URLEncoder.encode(backUrl,"UTF-8")
@@ -77,9 +77,7 @@ public class WxController {
 
     /**
      * 公众号微信登录授权回调函数
-     * @param modelMap
      * @param req
-     * @param session
      * @return
      */
     @GetMapping("/callback")
