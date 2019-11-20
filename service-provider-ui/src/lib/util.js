@@ -13,6 +13,7 @@ const util = {
         }
         return obj
     },
+    
     timeFormat: function (time) { // 时间格式化 2019-09-08
         let year = time.getFullYear();
         let month = time.getMonth() + 1;

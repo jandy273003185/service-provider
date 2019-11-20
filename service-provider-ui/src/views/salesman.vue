@@ -69,32 +69,41 @@ export default {
     this.$store.commit("setincoming", {});
     this.$store.commit("setPhotos", []);
     this.$store.commit("setCheckedState", ""); //snsapi_base
-    var code = this.getUrlParam("code");
+    var code =this.getUrlParam("code");//'06145ykj2B3GLE0t58lj2stAkj245yks'//this.getUrlParam("code");//'001O242u1WfLAe0O300u1Ppn2u1O242N'//
     if (!code) {
-       let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
+      //  let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
+      let REDIRECT_URI = encodeURIComponent(
+        "https://sp.qifenqian.com/wx/index.html/#/salesman"
+      );
       window.location.href =
         "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +
         REDIRECT_URI +
         "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     } else {
-      let openId=this.getOpneId(code);
-      console.log("created"+openId);
-     /*  this.setRole(this.roleId);
-      this.setRoleId("3");
-      this.firstLogin(); */
+      let openId = this.getopenId(code);
+      if (openId) {
+        this.openId = openId;
+        this.setOpenID(this.openId);
+        this.setRole(this.roleId);
+        this.setRoleId("3");
+        this.firstLogin();
+      }
     }
   },
   mounted() {},
 
   methods: {
-    async getopenId(code){
-      let openId=await login.getOpenId({
-        code:code
+    async getopenId(code) {
+      //获取openid
+      let res = await login.getOpenId({
+        code: code
       });
+      let openId = res.data.resultMsg;
       console.log(openId);
       return openId;
     },
-    getUrlParam(name) {//获取code
+    getUrlParam(name) {
+      //获取code
       var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
       var r = window.location.search.substr(1).match(reg);
       if (r != null) return unescape(r[2]);
@@ -108,49 +117,31 @@ export default {
     searchshop() {
       this.$router.push("searchShop");
     },
-    async firstLogin(){//初次进入主页，传OpenId到后台，判断是否有绑定过账户
-        //const getOpenId = await login.getOpenId();
-        window.location.href = 'https://sp.qifenqian.com/wx/accredit';
-        console.log( window.location.href);
-        const getOpenId = await http.get(window.location.href);
-        this.openId = getOpenId.resultMsg;
-        this.setOpenID(this.openId);
-        console.log(this.openId);
-        if(this.openId){
-          const params = {
-            openId:this.openId,
-            roleId:this.roleId
-          };
-          const {data} = await login.firstLogin(params);
-          console.log(data);
-          if(data.resultCode=='0'){
-            this.$router.push('login');
-          }
-          if(data.resultCode=='1'){
-            this.$router.push('salesman');
-            localStorage.setItem('token',data.resultMsg.token);
-            axios.defaults.headers.common['token']= data.resultMsg.token;
-            this.setToken(data.resultMsg.token);
-            this.setUserId(data.resultMsg.userId);
-            storage.set("userId", data.resultMsg.userId);
-            console.log(storage.get('userId'));
-            this.islogin=true;
-            this.salesShopNew();
-          }
-        }
-        if (data.resultCode == "1") {
-          localStorage.setItem("token", data.resultMsg.token);
-          axios.defaults.headers.common["token"] = data.resultMsg.token;
-          this.setToken(data.resultMsg.token);
-          this.setUserId(data.resultMsg.userId);
-          storage.set("userId", data.resultMsg.userId);
-          console.log(storage.get("userId"));
-          this.islogin = true;
-          this.salesShopNew();
-        }
+    async firstLogin() {
+      //初次进入主页，传OpenId到后台，判断是否有绑定过账户
+      const params = {
+        openId: this.openId,
+        roleId: this.roleId
+      };
+      const { data } = await login.firstLogin(params);//获取绑定状态
+      console.log(data);
+      if (data.resultCode == "0") {
+        //未绑定
+        this.$router.push("login");
+      }
+      if (data.resultCode == "1") {
+        //已绑定
+        localStorage.setItem("token", data.resultMsg.token);
+        axios.defaults.headers.common["token"] = data.resultMsg.token;
+        this.setToken(data.resultMsg.token);
+        this.setUserId(data.resultMsg.userId);
+        storage.set("userId", data.resultMsg.userId);
+        console.log(storage.get("userId"));
+        this.islogin = true;
+        this.salesShopNew();
+      }
     },
     //业务员主页下部分商户进件最新十条信息
-
     async salesShopNew() {
       let listInfo = await shopAuditInfo.shopAuditInfo({
         userId: storage.get("userId"),
