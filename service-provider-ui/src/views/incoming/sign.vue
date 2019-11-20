@@ -106,10 +106,8 @@ export default {
         };
         prolist.push(proObj);
         this.$refs.dragonfly.className = "row";
-      } else {
-        this.$refs.dragonfly.className = "row active";
-        console.log("请填写sn rate");
       }
+
       if (this.scan) {
         if (this.scanProductRate) {
           proObj = {

@@ -49,31 +49,27 @@
   import axios from "axios";
   import http from "../assets/api/http";
 
+
 export default {
   name: "salesman",
   components: { timeSelect,BaseHeader },
   data() {
     return {
       islogin:false,
-      getOpenId:'666666',
+      openId:'',
       roleId:'salesman',
       statesList:[],
-      userCode:'',
-      userId:'',
-      redirect_uri:'https://sp.qifenqian.com/wx/index.html#/salesman'//https://sp.qifenqian.com'
+      userId:''
     }
   },
   created(){
-    /*this.getUserOpenId();//执行获取用户openID的函数*/
-
     this.$store.commit("setincoming", {});
     this.$store.commit("setPhotos", []);
     this.$store.commit("setCheckedState", "");
     this.firstLogin();
-    this.setOpenID(this.getOpenId);
+
     this.setRole(this.roleId);
     this.setRoleId('3');
-
   },
   mounted() {
 
@@ -82,13 +78,7 @@ export default {
 
   methods:{
 
-    urlencode (str) {//redirect_uri转换格式urlEncode
-    str = (str + '').toString();
-    return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
-  },
-
-
-  toIncoming(){//路由跳转到商户进件页面
+    toIncoming(){//路由跳转到商户进件页面
       console.log("商户进件");
       this.$router.push('baseInfo');
     },
@@ -97,65 +87,33 @@ export default {
     },
 
 
-    //实际环境中获取用户的openId
-    async getUserOpenId(){
-      const  encodeUrl = this.urlencode(this.redirect_uri);
-      //第一步：获取code
-      const getCodeUrl= 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=' +  encodeUrl +'&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
-      console.log(encodeUrl);
-     this.userCode = await http.get(getCodeUrl);
-        console.log(this.userCode);
-      //第二步：使用code换取access_token和OpenId
-
-       /* const getCode = '';
-        const  getOpenIdUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxce65746e62998dce&secret=67c3aebf0e3e397df1fce595b837353b
-        &code='+ getCode +'&grant_type=authorization_code'
-        const userOpenId = await http.get(getOpenIdUrl);
-        console.log(userOpenId);*/
-
-     /* //将openid传给后端做是否绑定的判断
-        const params = {
-          openId:userOpenId.openid,
-          roleId:this.roleId
-        };
-        const {data} = await login.firstLogin(params);
-        console.log(data);
-        if(data.resultCode=='0'){//未绑定此公众号
-          this.$router.push('login');
-        }
-        if(data.resultCode=='1'){//已绑定过此公众号
-          localStorage.setItem('token',data.resultMsg.token);
-          axios.defaults.headers.common['token']= data.resultMsg.token;//设置axios请求头中加入token
-          this.setToken(data.resultMsg.token);
-          this.setUserId(data.resultMsg.userId);
-          storage.set("userId", data.resultMsg.userId);
-          console.log(storage.get('userId'));
-          this.islogin=true;
-          this.salesShopNew();
-        }*/
-
-    },
-
     async firstLogin(){//初次进入主页，传OpenId到后台，判断是否有绑定过账户
-      const params = {
-        openId:this.getOpenId,
-        roleId:this.roleId
-      };
-      const {data} = await login.firstLogin(params);
-      console.log(data);
-      if(data.resultCode=='0'){
-        this.$router.push('login');
-      }
-      if(data.resultCode=='1'){
-        localStorage.setItem('token',data.resultMsg.token);
-        axios.defaults.headers.common['token']= data.resultMsg.token;
-        this.setToken(data.resultMsg.token);
-        this.setUserId(data.resultMsg.userId);
-        storage.set("userId", data.resultMsg.userId);
-        console.log(storage.get('userId'));
-        this.islogin=true;
-        this.salesShopNew();
-      }
+      const getOpenId = await login.getOpenId();
+        this.openId = getOpenId.resultMsg;
+        this.setOpenID(this.openId);
+        console.log(this.openId);
+        if(this.openId){
+          const params = {
+            openId:this.openId,
+            roleId:this.roleId
+          };
+          const {data} = await login.firstLogin(params);
+          console.log(data);
+          if(data.resultCode=='0'){
+            this.$router.push('login');
+          }
+          if(data.resultCode=='1'){
+            localStorage.setItem('token',data.resultMsg.token);
+            axios.defaults.headers.common['token']= data.resultMsg.token;
+            this.setToken(data.resultMsg.token);
+            this.setUserId(data.resultMsg.userId);
+            storage.set("userId", data.resultMsg.userId);
+            console.log(storage.get('userId'));
+            this.islogin=true;
+            this.salesShopNew();
+          }
+        }
+
     },
     //业务员主页下部分商户进件最新十条信息
 
@@ -170,7 +128,7 @@ export default {
       console.log(listInfo);
       this.statesList = listInfo.data.resultMsg.data;
       /*let total=listInfo.data.resultMsg.total;*/
-      
+
     },
     //查看审核失败信息和审核成功信息
   toDetail(state,custId){
