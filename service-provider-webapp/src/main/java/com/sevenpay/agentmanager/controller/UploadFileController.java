@@ -85,31 +85,18 @@ public class UploadFileController {
             //文件base64字符串
             String base64String = request.getParameter("str");
             //图片标识
-            String str = base64String.substring(base64String.lastIndexOf(",")+1);//去掉头部的base64
-            String flag = request.getParameter("flag");//图片类型标识
-            String ext = base64String.substring(base64String.indexOf("/")+1,str.indexOf(";"));//获取图片后缀名
-            //文件名称
-            String uploadFileName = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","") + "."+ext;
-            //存储地址
-            StringBuilder path = new StringBuilder(absolutePaths).append("/").append(uploadFileName);
-            File saveFile = new File(String.valueOf(path));
-            BASE64Decoder decoder = new BASE64Decoder();
-            OutputStream out = new FileOutputStream(saveFile);
-            byte[] b = decoder.decodeBuffer(str);
-            for (int i = 0; i <b.length ; i++) {
-                if (b[i] <0) {
-                    b[i]+=256;
-                }
-            }
-            out.write(b);
-            out.flush();
+            String str = base64String.substring(base64String.lastIndexOf(",")+1);
+            String flag = request.getParameter("flag");
+            logger.info("********************图片上传中********************");
+            //图片上传，返回路径
+            ResultBean<String[]> resultBean = BASE64CodeToBeImage(base64String);
             logger.info("********************图片上传成功********************");
+            String[] resultMsg = resultBean.getResultMsg();
             //解析图片，返回图片信息
             object = youto.youTu(str, flag);
-            logger.info("********************图片上传成功********************");
-            object.put("imagePath",uploadFileName);
+            object.put("imagePath",resultMsg[1]);
             object.put("uri",uri);
-            object.put("url",new StringBuilder(relativePath).append(uploadFileName));
+            object.put("url",new StringBuilder(relativePath).append(resultMsg[1]));
         } catch (Exception e) {
             logger.error("解析图片出现问题" + e);
             object.put("result", "FAIL");
@@ -118,5 +105,35 @@ public class UploadFileController {
         return object.toJSONString();
     }
 
-
+    /**
+     *
+     * @param str bas64字符串
+     * @return 存储地址
+     */
+    public ResultBean<String[]> BASE64CodeToBeImage(String str){
+        String BASE64str = str.substring(str.lastIndexOf(",")+1);
+        //统一图片后缀
+        String ext = str.substring(str.indexOf("/")+1,str.indexOf(";"));
+        //文件名称
+        String uploadFileName = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","") + "."+ext;
+        //存储地址
+        StringBuilder path = new StringBuilder(absolutePaths).append("/").append(uploadFileName);//路径读取不到
+        File saveFile = new File(String.valueOf(path));
+        BASE64Decoder decoder = new BASE64Decoder();
+        try(OutputStream out = new FileOutputStream(saveFile)){
+            byte[] b = decoder.decodeBuffer(BASE64str);
+            for (int i = 0; i <b.length ; i++) {
+                if (b[i] <0) {
+                    b[i]+=256;
+                }
+            }
+            out.write(b);
+            out.flush();
+            String[] result ={path+uploadFileName,uploadFileName};
+            return  new ResultBean<>("",result);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResultBean<>("图片上传失败，请重新上传",null);
+        }
+    }
 }
