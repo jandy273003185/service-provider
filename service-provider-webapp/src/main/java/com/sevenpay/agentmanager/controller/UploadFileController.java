@@ -81,10 +81,11 @@ public class UploadFileController {
             YouTuUtils youto = new YouTuUtils();
             //文件base64字符串
             String base64String = request.getParameter("str");
+            logger.info("********************"+base64String+"+********************");
             //图片标识
             String str = base64String.substring(base64String.lastIndexOf(",")+1);
             String flag = request.getParameter("flag");
-
+            logger.info("********************"+flag+"********************");
             //图片上传，返回路径
             ResultBean<String[]> resultBean = youto.BASE64CodeToBeImage(base64String);
             String[] resultMsg = resultBean.getResultMsg();
