@@ -537,10 +537,10 @@ export default {
         .state{
           font-size: vw(32);
         }
-        .state_0{color: #4dff1a;}
+        .state_0{ color: #3fd016}
         .state_1{color: #aeaeae;}
         .state_4{color: #ff495d;}
-        .state_5{color: #544eec;}
+        .state_5{ color: #3f9aff;}
       }
     }
   }
