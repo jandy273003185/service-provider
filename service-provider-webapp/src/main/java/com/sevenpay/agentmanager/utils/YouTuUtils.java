@@ -174,10 +174,12 @@ public class YouTuUtils {
 		String BASE64str = str.substring(str.lastIndexOf(",")+1);
 		//统一图片后缀
 		String ext = str.substring(str.indexOf("/")+1,str.indexOf(";"));
+		logger.info("********************"+ext+"********************");
 		//文件名称
 		String uploadFileName = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","") + "."+ext;
 		//存储地址
 		StringBuilder path = new StringBuilder(relativePaths).append("/").append(uploadFileName);
+		logger.info("********************"+path+"********************");
 		File saveFile = new File(String.valueOf(path));
 		BASE64Decoder decoder = new BASE64Decoder();
 		try(OutputStream out = new FileOutputStream(saveFile)){
