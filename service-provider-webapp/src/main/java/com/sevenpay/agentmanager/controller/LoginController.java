@@ -61,6 +61,7 @@ public class LoginController {
             if (ifbing != null){
                 return new ResultBean("0","该微信已经与七分钱账号绑定");
             }
+
             UserLoginRelate userLoginRelate = new UserLoginRelate();
             userLoginRelate.setUserId(userInfo.getCustId());
             userLoginRelate.setOpenId(openId);
@@ -82,6 +83,8 @@ public class LoginController {
             UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
             if (ifbing != null){
                 return new ResultBean("0","该微信已经与七分钱账号绑定");
+            }else if (!"agent".equals(ifbing.getUserType())){
+                return new ResultBean("0","该账号不是业务员账号");
             }
             UserLoginRelate userLoginRelate = new UserLoginRelate();
             userLoginRelate.setUserId(String.valueOf(userInfo.getId()));
@@ -120,6 +123,9 @@ public class LoginController {
             loginUser.setUserId(userId);
             try {
                 if("agent".equals(roleId)){  //管理员（服务商）
+                    if (!"agent".equals(ifbing.getUserType())){
+                        return new ResultBean("2","您不是管理员,正在为您跳转业务员页面")；
+                    }
                     Map<String, Object> userInfo = merchantStatusService.getMerchantInfoByCustId(userId);
                     loginUser.setUserInfo(userInfo);
                     //根据用户编号和密码加密生成token
@@ -128,6 +134,9 @@ public class LoginController {
                     return new ResultBean("1",loginUser);
                 }
                 if ("salesman".equals(roleId)) {  //业务员
+                    if (!"salesman".equals(ifbing.getUserType())){
+                        return new ResultBean("2","您不是业务员,正在为您跳转管理员页面")；
+                    }
                     TdSalesmanInfo userInfo = salesmanManagerService.getTdSalesmanInfoById(userId);
                     loginUser.setUserInfo(userInfo);
                     //根据用户编号和密码加密生成token

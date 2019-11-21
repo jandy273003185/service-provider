@@ -56,7 +56,7 @@ public class UploadFileController {
                 // 转存文件
                 file.transferTo(saveDir);
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("imagePath",Filename);
+                jsonObject.put("imagePath",Filename+prefix);
                 jsonObject.put("uri",uri);
                 jsonObject.put("url",new StringBuilder(relativePath).append(Filename).append(prefix));
                 return new ResultBean("200",jsonObject.toJSONString());
