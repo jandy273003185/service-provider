@@ -49,8 +49,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "../../style/views/incoming.scss";
+<style scoped lang="stylus" ref="stylesheet/stylus">
 @import '../../style/common/base.styl';
 .van-button--normal{
   margin: auto;
