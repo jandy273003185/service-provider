@@ -28,7 +28,7 @@
         <div class="btn save" @click="saveIncoming">保存</div>
         <div class="btn" @click="submitIncoming('01')">提交</div>
       </div>
-      <div class="btn" v-if="checkedState=='corvidae'" @click="submitIncoming('05')">编辑</div>
+      <div class="btn" v-if="checkedState=='corvidae'" @click="submitIncoming('05')">提交</div> <!-- 完善保存资料提交 -->
       <div class="btn back" @click="getPreStep">返回</div>
     </div>
   </div>
@@ -103,10 +103,9 @@ export default {
         state: "05"
       });
       console.log(JSON.stringify(prolist));
-      fullParams.productInfos = JSON.stringify(prolist);
-      fullParams.custScanCopys = JSON.stringify(this.custScanCopys);
+      let custScanCopys = upload.getAllPhotos(this.savephotos); //图片
+      fullParams.custScanCopys = custScanCopys;
       this.$store.commit("setincoming", fullParams);
-      this.$store.commit("custScanCopys", this.custScanCopys);
       this.insertIncoming(fullParams); //提交请求
     },
     submitIncoming(state) {
@@ -123,7 +122,6 @@ export default {
           let custScanCopys = upload.getAllPhotos(this.savephotos); //图片
           fullParams.custScanCopys = custScanCopys;
           this.$store.commit("setincoming", fullParams);
-          this.$store.commit("custScanCopys", this.custScanCopys);
           this.insertIncoming(fullParams); //提交请求
         }
       } else {

@@ -205,7 +205,7 @@ export default {
     async getImgInfo(file) {
       //优图识别
       this.$toast.loading({
-        message: "加载中...",
+        message: "识别中...",
         forbidClick: true,
         duration: 0
       });
