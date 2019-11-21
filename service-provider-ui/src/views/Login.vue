@@ -22,8 +22,6 @@
 </template>
 
 <script >
-/*  import {mapMutations} from 'vuex';*/
-import storage from "../assets/modeljs/storage";
 import { mapState } from "vuex";
 import { login } from "../assets/api/interface";
 import { Dialog } from "vant"; //弹窗函数，可直接调用

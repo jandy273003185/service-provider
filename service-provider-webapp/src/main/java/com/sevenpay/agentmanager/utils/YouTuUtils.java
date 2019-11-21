@@ -172,19 +172,17 @@ public class YouTuUtils {
 	 */
 	public ResultBean<String[]> BASE64CodeToBeImage(String str){
 		String BASE64str = str.substring(str.lastIndexOf(",")+1);
-		//存储地址
-		StringBuilder path = new StringBuilder(relativePaths);
 		//统一图片后缀
 		String ext = str.substring(str.indexOf("/")+1,str.indexOf(";"));
-		File fileDir = new File(String.valueOf(path));
-		if (!fileDir.exists()) {
-			fileDir.mkdirs();
-		}
+		logger.info("********************"+ext+"********************");
 		//文件名称
 		String uploadFileName = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","") + "."+ext;
-		File targetFile = new File(String.valueOf(path), uploadFileName);
+		//存储地址
+		StringBuilder path = new StringBuilder(relativePaths).append("/").append(uploadFileName);
+		logger.info("********************"+path+"********************");
+		File saveFile = new File(String.valueOf(path));
 		BASE64Decoder decoder = new BASE64Decoder();
-		try(OutputStream out = new FileOutputStream(targetFile)){
+		try(OutputStream out = new FileOutputStream(saveFile)){
 			byte[] b = decoder.decodeBuffer(BASE64str);
 			for (int i = 0; i <b.length ; i++) {
 				if (b[i] <0) {

@@ -84,9 +84,9 @@ public class UploadFileController {
             //图片标识
             String str = base64String.substring(base64String.lastIndexOf(",")+1);
             String flag = request.getParameter("flag");
-
             //图片上传，返回路径
             ResultBean<String[]> resultBean = youto.BASE64CodeToBeImage(base64String);
+            logger.info("********************图片上传成功********************");
             String[] resultMsg = resultBean.getResultMsg();
             //解析图片，返回图片信息
             object = youto.youTu(str, flag);

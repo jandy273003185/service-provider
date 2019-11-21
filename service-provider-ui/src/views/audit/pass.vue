@@ -3,7 +3,7 @@
     <van-nav-bar title="审核信息" left-text="返回" left-arrow @click-left="changePrepage" />
     <van-tabs v-model="infoType" color="#699dd7" swipeable>
       <van-tab title="商户基本信息">
-        <form class="stepInfo" ref="baseform">
+        <div class="stepInfo" ref="baseform">
           <div class="row">
             <span class="label">商户编号</span>
             <input v-model="allInfoList.custId" readonly />
@@ -40,7 +40,7 @@
             <span class="label">营业执照截止日期</span>
             <input v-model="allInfoList.businessTermEnd" readonly />
           </div>
-        </form>
+        </div>
       </van-tab>
       <van-tab title="商户产品签约">
         <div class="stepInfo">
@@ -92,22 +92,14 @@
   </div>
 </template>
 <script>
-import form from "@/lib/form.js";
-/* import minify from "@/lib/compressFile.js";
-import util from "@/lib/util.js";
-import API from "@/lib/api.js"; */
-
 import { mapState } from "vuex";
 import { shopAuditInfo } from "../../assets/api/interface";
-import storage from "../../assets/modeljs/storage.js";
 import { Dialog } from 'vant';//弹窗函数，可直接调用
 
 export default {
   name: "audit",
   components: {
-    /*     Modal: () => import("@/components/modal"), */
 
-    Step: () => import("@/components/step")
   },
   created() {
     //this.$route.params.type
