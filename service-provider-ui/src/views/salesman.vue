@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="logined">
     <BaseHeader></BaseHeader>
     <div class="salesman">
       <div class="serachBox">
@@ -52,13 +52,13 @@ import { mapMutations } from "vuex";
 import storage from "../assets/modeljs/storage.js";
 import axios from "axios";
 import http from "../assets/api/http";
-
 export default {
   name: "salesman",
   components: { timeSelect, BaseHeader },
   data() {
     return {
-      islogin: false,
+      logined:false,//控制页面已经在登录状态
+      islogin: false,//组件事件选择控制
       openId: "",
       roleId: "salesman",
       statesList: [],
@@ -83,22 +83,21 @@ export default {
           REDIRECT_URI +
           "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
       } else {
-        console.log("setCode" + code);
+        console.log("业务员主页获取code");
         this.setCode(code);
         this.getOpenId(code);
       }
     } else {
-      console.log("获取传参。。。。。。");
       console.log(this.$route.params);
-      console.log("hhhhhh");
       if (this.$route.params.fname && this.$route.params.fname == "login") {
-        console.log("islogin");
+        console.log("登录页进入");
         this.firstLogin({
           openId: this.$store.state.openId,
           roleId: this.roleId
         });
       } else {
-        console.log("otherpage return");
+        console.log("其他页返回");
+        this.logined=true;
         this.islogin = true;
         this.salesShopNew();
       }
@@ -158,6 +157,7 @@ export default {
       }
       if (data.resultCode == "1") {
         //已绑定
+        this.logined=true;
         localStorage.setItem("token", data.resultMsg.token);
         axios.defaults.headers.common["token"] = data.resultMsg.token;
         this.setToken(data.resultMsg.token);
