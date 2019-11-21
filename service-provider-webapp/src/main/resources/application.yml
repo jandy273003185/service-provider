@@ -42,7 +42,7 @@ swagger.enable: true
 
 images:
   #映射路径
-  relativePaths: /**
+  relativePaths: /pic/**
   #映射存储路径
   absolutePaths: /data/nfsshare/upload/picture
   #映射IP回显

@@ -53,7 +53,7 @@ public class UploadFileController {
                 // 转存文件
                 file.transferTo(saveDir);
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("imagePath",String.valueOf(filePath));
+                jsonObject.put("imagePath",Filename);
                 jsonObject.put("uri",uri);
                 jsonObject.put("url",new StringBuilder(relativePath).append(Filename).append(prefix));
                 return new ResultBean("200",jsonObject.toJSONString());
@@ -90,7 +90,7 @@ public class UploadFileController {
             String[] resultMsg = resultBean.getResultMsg();
             //解析图片，返回图片信息
             object = youto.youTu(str, flag);
-            object.put("imagePath",resultMsg[0]);
+            object.put("imagePath",resultMsg[1]);
             object.put("uri",uri);
             object.put("url",new StringBuilder(relativePath).append(resultMsg[1]));
         } catch (Exception e) {
