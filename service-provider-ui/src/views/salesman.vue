@@ -69,18 +69,39 @@ export default {
     this.$store.commit("setincoming", {});
     this.$store.commit("setPhotos", []);
     this.$store.commit("setCheckedState", ""); //snsapi_base
-    var code = this.getUrlParam("code"); //'06145ykj2B3GLE0t58lj2stAkj245yks'//this.getUrlParam("code");//'001O242u1WfLAe0O300u1Ppn2u1O242N'//
-    if (!code) {
-      //  let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
-      let REDIRECT_URI = encodeURIComponent(
-        "https://sp.qifenqian.com/wx/index.html#salesman"
-      );
-      window.location.href =
-        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +
-        REDIRECT_URI +
-        "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+    console.log("createdCode");
+    console.log(this.$store.state.code);
+    if (!this.$store.state.code) {
+      var code = this.getUrlParam("code");
+      if (!code) {
+        //  let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
+        let REDIRECT_URI = encodeURIComponent(
+          "https://sp.qifenqian.com/wx/index.html#salesman"
+        );
+        window.location.href =
+          "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +
+          REDIRECT_URI +
+          "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+      } else {
+        console.log("setCode" + code);
+        this.setCode(code);
+        this.getOpenId(code);
+      }
     } else {
-      this.getOpenId(code);
+      console.log("获取传参。。。。。。");
+      console.log(this.$route.params);
+      console.log("hhhhhh");
+      if (this.$route.params.fname && this.$route.params.fname == "login") {
+        console.log("islogin");
+        this.firstLogin({
+          openId: this.$store.state.openId,
+          roleId: this.roleId
+        });
+      } else {
+        console.log("otherpage return");
+        this.islogin = true;
+        this.salesShopNew();
+      }
     }
   },
   mounted() {},
@@ -98,14 +119,25 @@ export default {
         this.setOpenID(this.openId);
         this.setRole(this.roleId);
         this.setRoleId("3");
-        this.firstLogin();
+        const params = {
+          openId: this.openId,
+          roleId: this.roleId
+        };
+        console.log(params);
+        this.firstLogin({
+          openId: this.openId,
+          roleId: this.roleId
+        });
       }
     },
     getUrlParam(name) {
       //获取code
       var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
       var r = window.location.search.substr(1).match(reg);
-      if (r != null) return unescape(r[2]);
+      if (r != null) {
+        return unescape(r[2]);
+      }
+
       return null;
     },
     toIncoming() {
@@ -116,13 +148,8 @@ export default {
     searchshop() {
       this.$router.push("searchShop");
     },
-    async firstLogin() {
+    async firstLogin(params) {
       //初次进入主页，传OpenId到后台，判断是否有绑定过账户
-      const params = {
-        openId: this.openId,
-        roleId: this.roleId
-      };
-      console.log(params);
       const { data } = await login.firstLogin(params); //获取绑定状态
       console.log(data);
       if (data.resultCode == "0") {
@@ -177,7 +204,8 @@ export default {
       "setUserId",
       "setToken",
       "setCustId",
-      "setOpenID"
+      "setOpenID",
+      "setCode"
     ])
   }
 };

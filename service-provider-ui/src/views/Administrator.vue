@@ -92,18 +92,31 @@ export default {
     this.$store.commit("setincoming", {});
     this.$store.commit("setPhotos", []);
     this.$store.commit("setCheckedState", "");
-    var code = this.getUrlParam("code"); //'06145ykj2B3GLE0t58lj2stAkj245yks'//this.getUrlParam("code");//'001O242u1WfLAe0O300u1Ppn2u1O242N'//
-    if (!code) {
-      let REDIRECT_URI = encodeURIComponent(
-        "https://sp.qifenqian.com/wx/index.html#Administrator"
-      );
-      window.location.href =
-        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +
-        REDIRECT_URI +
-        "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+    if (!this.$store.state.code) {
+      var code = this.getUrlParam("code");
+      if (!code) {
+        //  let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
+        let REDIRECT_URI = encodeURIComponent(
+          "https://sp.qifenqian.com/wx/index.html#Administrator"
+        );
+        window.location.href =
+          "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +
+          REDIRECT_URI +
+          "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+      } else {
+        this.setCode(code);
+        this.getOpenId(code);
+      }
     } else {
-      console.log(code);
-      this.getOpenId(code);
+      if (this.$route.params.fname&&this.$route.params.fname == "login") {
+        this.firstLogin({
+          openId: this.$store.state.openId,
+          roleId: this.roleId
+        });
+      } else {
+        this.islogin = true;
+        this.getSalesRanking("0");
+      }
     }
   },
   mounted() {},
@@ -111,7 +124,6 @@ export default {
   methods: {
     async getOpenId(code) {
       //获取openid
-      console.log("管理员" + code);
       let res = await login.getOpenId({
         code: code
       });
@@ -122,7 +134,15 @@ export default {
         this.setOpenID(this.openId);
         this.setRole(this.roleId);
         this.setRoleId("2");
-        this.firstLogin();
+        const params = {
+          openId: this.openId,
+          roleId: this.roleId
+        };
+        console.log(params);
+        this.firstLogin({
+          openId: this.openId,
+          roleId: this.roleId
+        });
       }
     },
     getUrlParam(name) {
@@ -176,12 +196,8 @@ export default {
         this.numList = list;
       }
     },
-    async firstLogin() {
-      //初次进入主页，传OpenId到后台，判断是否有绑定过账户
-      const params = {
-        openId: this.openId,
-        roleId: this.roleId
-      };
+    async firstLogin(params) {//初次进入主页，传OpenId到后台，判断是否有绑定过账户
+     
       const userData = await login.firstLogin(params);
       console.log(userData);
       if (userData.data.resultCode == "0") {
@@ -204,7 +220,8 @@ export default {
       "setToken",
       "setUserId",
       "setRoleId",
-      "setOpenID"
+      "setOpenID",
+      "setCode"
     ])
   }
 };

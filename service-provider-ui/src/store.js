@@ -4,6 +4,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        code:'',
         token:'', //localStorage.getItem("token") || null,,
         openId:'', //进入首页即请求openID
         role:'', //进入页面的角色，管理员agent或者业务员salesman，登录时传给后台
@@ -63,6 +64,9 @@ export default new Vuex.Store({
         },
         setPhotos(state,obj){
             state.savephotos=obj;
+        },
+        setCode(state,obj){
+            state.code=obj;
         }
     },
     actions: {
