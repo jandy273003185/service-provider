@@ -28,14 +28,12 @@
         <div class="btn save" @click="saveIncoming">保存</div>
         <div class="btn" @click="submitIncoming('01')">提交</div>
       </div>
-      <div class="btn" v-if="checkedState=='corvidae'" @click="submitIncoming('05')">提交</div>
       <!-- 完善保存资料提交 -->
       <div class="btn back" @click="getPreStep">返回</div>
     </div>
   </div>
 </template>
 <script>
-import upload from "@/lib/upload.js";
 import util from "@/lib/util.js";
 import { mapState } from "vuex";
 import { Dialog } from "vant";
