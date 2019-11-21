@@ -59,8 +59,8 @@ export default {
       /*   URL_BASE: this.$store.state.URL_BASE, */
     };
   },
-  computed: {
-    ...mapState(["checkedState", "incoming", "incomingReturn", "savephotos"])
+  computed: { 
+    ...mapState(["checkedState", "incoming", "incomingReturn", "savephotos",'roleId'])
   },
   created() {
     console.log(this.$route.params);
@@ -106,6 +106,7 @@ export default {
         .then(() => {
           let prolist = this.checkSignGoods();
           let fullParams = Object.assign(this.incoming, this.params, {
+             roleId:this.roleId,
             state: "05"
           });
           console.log(JSON.stringify(prolist));
@@ -131,6 +132,7 @@ export default {
             let prolist = this.checkSignGoods();
             if (prolist.length > 0) {
               let fullParams = Object.assign(this.incoming, this.params, {
+                roleId:this.roleId,
                 state: state
               });
               fullParams.productInfos = JSON.stringify(prolist); //产品
@@ -150,11 +152,11 @@ export default {
     async insertIncoming(params) {
       let info = await incoming.insertIncoming(params);
       if (info.data.resultCode == 1) {
-        if (this.$store.state.roleId == "3") {
+        if (this.roleId == "3") {
           //业务员
           this.$router.push("/salesman");
         }
-        if (this.$store.state.roleId == "2") {
+        if (this.roleId == "2") {
           //管理员
           this.$router.push("/Administrator");
         }

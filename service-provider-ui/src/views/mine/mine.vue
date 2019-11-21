@@ -69,7 +69,7 @@
                     console.log('业务员信息');
                     console.log(infoData);
                 }
-            };
+            }
 
         }
     };
