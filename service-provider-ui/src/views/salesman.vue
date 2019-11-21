@@ -167,6 +167,16 @@ export default {
         this.islogin = true;
         this.salesShopNew();
       }
+      if (data.resultCode == "2") {
+        //业务员进入了管理员入口
+        const _this = this;
+        this.$toast({
+          message:data.resultMsg,
+          onClose:function(){
+            _this.$router.push("Administrator");
+          }
+        });
+      }
     },
     //业务员主页下部分商户进件最新十条信息
     async salesShopNew() {
