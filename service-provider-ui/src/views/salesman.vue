@@ -223,12 +223,12 @@ export default {
     height: vw(92);
     background-color: #699dd7;
     display: flex;
+    justifu-content: center;
     align-items: center;
 
     .search {
-      width: vw(580);
+      width: vw(690);
       height: vw(58);
-      margin-left: vw(34);
       background-color: #eeeeee;
       display: flex;
       align-items: center;

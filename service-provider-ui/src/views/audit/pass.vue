@@ -48,20 +48,35 @@
             <div class="signTit">已签约产品</div>
             <div v-for="(item,idx) in proList" :key="idx">
               <div class="row1" >
-                <van-checkbox class="check" v-if="item.productId==8" v-model="checked" disabled>蜻蜓产品</van-checkbox>
-                <van-checkbox class="check" v-if="item.productId==2" v-model="checked" disabled>app产品</van-checkbox>
-                <van-checkbox class="check" v-if="item.productId==1" v-model="checked" disabled>扫码产品</van-checkbox>
+                <van-checkbox class="check" v-if="item.productId==8 && item.productStatus=='00' " v-model="checked" disabled>蜻蜓产品</van-checkbox>
+                <van-checkbox class="check" v-if="item.productId==2 && item.productStatus=='00' " v-model="checked" disabled>app产品</van-checkbox>
+                <van-checkbox class="check" v-if="item.productId==1 && item.productStatus=='00' " v-model="checked" disabled>扫码产品</van-checkbox>
                 <span class="name">结算费率：</span>
-                <input class="RateNumber" type="text" v-model="item.productRate" readonly />
-                <span class="name succeed" v-if="item.productStatus == '00'" >签约成功</span>
-                <span class="name defeated " v-if="item.productStatus == '09'" >签约失败</span>
-                <span class="name unusual" v-if="item.productStatus == '99'" >签约异常</span>
+                <input  type="text" v-model="item.productRate" readonly />
               </div>
-              <div class="sn" v-if="item.productId==8">
+              <div class="sn" v-if="item.productId==8 && item.productStatus=='00' ">
                 <span>SN:</span>
                 <input type="text" v-model="item.sn"  disabled />
               </div>
             </div>
+
+            <div class="signTit">待审核产品</div>
+            <div v-for="(item,idx) in proList" :key="idx">
+              <div class="row1" >
+                <van-checkbox class="check" v-if="item.productId==8 && item.productStatus=='01' " v-model="checked" disabled>蜻蜓产品</van-checkbox>
+                <van-checkbox class="check" v-if="item.productId==2 && item.productStatus=='01' " v-model="checked" disabled>app产品</van-checkbox>
+                <van-checkbox class="check" v-if="item.productId==1 && item.productStatus=='01' " v-model="checked" disabled>扫码产品</van-checkbox>
+                <span class="name">结算费率：</span>
+                <input  type="text" v-model="item.productRate" readonly />
+              </div>
+              <div class="sn" v-if="item.productId==8 && item.productStatus=='01' ">
+                <span>SN:</span>
+                <input type="text" v-model="item.sn"  disabled />
+              </div>
+            </div>
+
+
+
           </div>
           <div class="unsigned contract">
             <div class="signTit">可签约产品</div>
@@ -106,7 +121,6 @@ export default {
   },
   data() {
     return {
-      hasClicked: false,
       checked: true,
       value: "1",
       pageNum: 1,
@@ -125,7 +139,7 @@ export default {
       sn: "",
       allInfoList: {},
       contractList: "",
-      proList: [{ productId: 1, productRate: "0.38", sn: "122245" }] //已签约产品
+      proList: [{ productId: 1, productRate: "0.38", sn: "122245",productStatus:'00' }] //已签约产品数据格式
     };
   },
 
@@ -161,20 +175,28 @@ export default {
       this.proList = contractInfo.data.resultMsg;
       for (let i = 0; i < this.proList.length; i++) {
         if (this.proList[i].productId == 8) {
-          this.qinting = false;
+          if(this.proList[i].productStatus == '00' || this.proList[i].productStatus == '01' ){
+            this.qinting = false;
+          }
         }
+
         if (this.proList[i].productId == 2) {
-          this.app = false;
+          if(this.proList[i].productStatus == '00' || this.proList[i].productStatus == '01' ){
+            this.app = false;
+          }
         }
+
         if (this.proList[i].productId == 1) {
-          this.scan = false;
+          if(this.proList[i].productStatus == '00' || this.proList[i].productStatus == '01' ){
+            this.scan = false;
+          }
         }
       }
+
     },
 
     async submitContract() {//提交签约
       const _this=this;
-      this.hasClicked = true;
       let obj = {},
         newProlist = [];
       if (this.contract_qinting == true) {
@@ -250,18 +272,6 @@ export default {
       padding-left: vw(20);
       background: #c7dff9;
       color: #666
-    }
-    .RateNumber{
-      width: vw(120);
-    }
-    .succeed{
-      color: #4b55f5;
-    }
-    .defeated{
-      color: #f50f1c;
-    }
-    .unusual{
-      color: #f5b50f;
     }
     .sn{
       height: vw(80);

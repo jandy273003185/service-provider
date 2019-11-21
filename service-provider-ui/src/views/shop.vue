@@ -346,12 +346,16 @@ export default {
     cancelFn(){//取消按钮
       this.show = false;
     },
+    timer(time){//将个位数日期变两位数
+      return time < 10 ? '0' + time : '' + time;
+    },
     timeFormat(time) { // 时间格式化 2019-09-08
       let year = time.getFullYear();
       let month = time.getMonth() + 1;
+      month = this.timer(month);
       let day = time.getDate();
-      return year + '-' + month + '-' + day;
-      /*console.log(year + '-' + month + '-' + day);*/
+      day = this.timer(day);
+      return year + '-' + month + '-' + day
     },
     cancel(){//取消选择自定义日期
       this.showTime = false;
@@ -455,7 +459,15 @@ export default {
               padding:0 vw(30);
               box-sizing: border-box;
               .text{
-                height: vw(60);
+                height: vw(80);
+                button{
+                  width: vw(160);
+                  height: vw(60);
+                  border-radius: 3px;
+                }
+                span{
+                  font-size: vw(30);
+                }
                 .titleBar{
                   font-size: vw(40);
                 }

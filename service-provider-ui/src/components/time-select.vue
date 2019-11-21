@@ -140,10 +140,15 @@ export default {
           /*  event.stopPropagation();*/
             this.show = false;
         },
+        timer(time){//将个位数日期变两位数
+            return time < 10 ? '0' + time : '' + time;
+        },
         timeFormat(time) { // 时间格式化 2019-09-08
             let year = time.getFullYear();
             let month = time.getMonth() + 1;
+            month = this.timer(month);
             let day = time.getDate();
+            day = this.timer(day);
             return year + '-' + month + '-' + day
         },
         nowTime(){
@@ -213,7 +218,7 @@ export default {
         width: vw(690);
         height: vw(314);
         margin: 0 auto;
-        border: vw(1) solid #c5c5c5;
+        border: 1px solid #c5c5c5;
         background-color:#FFFFFF;
 
        .modal-wrap{
@@ -238,6 +243,7 @@ export default {
                box-sizing: border-box;
                .text{
                     height: vw(60);
+                    font-size: vw(30);
                    .titleBar{
                        font-size: vw(40);
                    }
@@ -247,9 +253,9 @@ export default {
                     height: vw(100);
 
                     button{
-                        border: vw(1) solid #797979;
-                        width: vw(170);
+                        border: 1px solid #797979;
                         height: vw(60);
+                        width: vw(200);
                         border-radius: 3px;
                         background-color: #fff;
                         &.active{
@@ -258,10 +264,12 @@ export default {
                         }
                     }
                     .cancel{
+                        width: vw(170);
                         border:none;
                         color: #699dd7;
                     }
                     .affirm{
+                        width: vw(170);
                         background-color: #699dd7;
                         color: #fff;
                         border: none;
@@ -301,7 +309,7 @@ export default {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border-top: vw(1) solid #c5c5c5;
+            border-top: 1px solid #c5c5c5;
 
             div{
                 height: vw(80);
