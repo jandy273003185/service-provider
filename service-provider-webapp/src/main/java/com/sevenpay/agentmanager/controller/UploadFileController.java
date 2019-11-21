@@ -94,6 +94,7 @@ public class UploadFileController {
             String[] resultMsg = resultBean.getResultMsg();
             //解析图片，返回图片信息
             object = youto.youTu(str, flag);
+            logger.info("********************图片解析成功********************");
             object.put("imagePath",resultMsg[1]);
             object.put("uri",uri);
             object.put("url",new StringBuilder(relativePath).append(resultMsg[1]));

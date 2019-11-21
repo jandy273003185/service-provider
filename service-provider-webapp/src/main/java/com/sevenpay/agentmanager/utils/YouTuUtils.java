@@ -46,6 +46,8 @@ public class YouTuUtils {
 	 */
 	public JSONObject youTu(String url,String flag) {
 		logger.info("********************开始解析图片内容********************");
+		logger.info("********************businessPhoto="+flag+"********************");
+
 		JSONObject object = new JSONObject();
 		Youtu faceYoutu = new Youtu(APP_ID, SECRET_ID, SECRET_KEY,Youtu.API_YOUTU_END_POINT);
 		try {
