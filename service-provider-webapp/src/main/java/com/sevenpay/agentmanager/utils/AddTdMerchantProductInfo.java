@@ -25,7 +25,7 @@ public class AddTdMerchantProductInfo {
                 tdMerchantProductInfo.setMchCustId(custId);//商户编号
                 tdMerchantProductInfo.setModifyTime(new Date());
                 tdMerchantProductInfo.setCreateTime(new Date());//创建时间
-                tdMerchantProductInfo.setProductStatus("99");//默认开通异常 99
+                tdMerchantProductInfo.setProductStatus("01");//默认开通待审核状态 01
             }
         return merchantProductInfos;
     }
@@ -36,14 +36,6 @@ public class AddTdMerchantProductInfo {
         @SuppressWarnings("unchecked")
         List<T> ts = (List<T>) JSONArray.parseArray(jsonString, clazz);
         return ts;
-    }
-
-    public static void main(String[] args) {
-        String t = "[{productId:1,productRate:0.38},{productId:2,productRate:1.38}]";
-        List<TdMerchantProductInfo> maps = jsonToList(t, TdMerchantProductInfo.class);
-        int size = maps.size();
-        System.out.println(size);
-
     }
 
 }
