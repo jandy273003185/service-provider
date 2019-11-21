@@ -217,6 +217,16 @@ export default {
         this.islogin = true;
         this.getSalesRanking("0");
       }
+      if (userData.data.resultCode == "2") {
+        //管理员进入了业务员入口
+        const _this = this;
+        this.$toast({
+          message:userData.data.resultMsg,
+          onClose:function(){
+            _this.$router.push("salesman");
+          }
+        });
+      }
     },
     ...mapMutations([
       "setRole",

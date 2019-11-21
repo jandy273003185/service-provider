@@ -138,6 +138,7 @@
               :after-read="uploadImg"
               v-model="photos.shopFrontDesk"
               :max-count="1"
+              :max-size="maxSize"
               preview-size="auto"
             >
               <van-button icon="photo" type="primary">上传门头照照片</van-button>
@@ -157,6 +158,7 @@
               v-model="photos.shopInterior"
               :after-read="uploadImg"
               :max-count="1"
+              :max-size="maxSize"
               preview-size="auto"
             >
               <van-button icon="photo" type="primary">上传店内照片</van-button>
@@ -173,6 +175,7 @@
               :after-read="uploadImg"
               v-model="photos.specialBusiness"
               :max-count="1"
+              :max-size="maxSize"
               preview-size="auto"
             >
               <!-- v-show="!params.specialBusiness" -->
@@ -192,6 +195,7 @@
               v-model="photos.electronicSignaturePhoto"
               :after-read="uploadImg"
               :max-count="1"
+              :max-size="maxSize"
               preview-size="auto"
             >
               <van-button icon="photo" type="primary">上传电子签名照</van-button>
@@ -208,6 +212,7 @@
               v-model="photos.otherPhoto1"
               :after-read="uploadImg"
               :max-count="1"
+              :max-size="maxSize"
               preview-size="auto"
             >
               <!-- v-show="!params.otherPhoto1" -->
@@ -220,6 +225,7 @@
               :after-read="uploadImg"
               v-model="photos.otherPhoto2"
               :max-count="1"
+              :max-size="maxSize"
               preview-size="auto"
             >
               <!--  v-show="!params.otherPhoto2" -->
@@ -246,6 +252,7 @@ export default {
   },
   data() {
     return {
+      maxSize:1148576,
       pagetype: "",
       provincepicker: false,
       citypicker: false,
@@ -466,7 +473,8 @@ export default {
     },
     uploadImg(file) {
       //图片上传
-      upload.uploadImgRequest(this, file.file);
+      upload.blobToBase64( file.file,this);
+    /*  upload.uploadImgRequest( this,file.file) */
     },
     datepickerVisiable(type) {
       this.dateType = type;

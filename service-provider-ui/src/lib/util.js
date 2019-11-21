@@ -89,5 +89,54 @@ const util = {
               }
           }
     },
+    getAllPhotos(obj) {//提交图片集合
+      console.log(obj);
+      let custScanCopys = [];
+      let certifyType;
+      for (let key in obj) {
+        switch (key) {
+          case "businessLicense": //营业执照
+            certifyType = "02";
+            break;
+          case "shopFrontDesk": //门头照
+            certifyType = "20";
+            break;
+          case "shopInterior": //店内照
+            certifyType = "18";
+            break;
+          case "specialBusiness": //行业资质
+            certifyType = "11";
+            break;
+          case "electronicSignaturePhoto": // 电子签名照
+            certifyType = "12";
+            break;
+          case "otherPhoto1": //其他资料照
+            certifyType = "23";
+            break;
+          case "otherPhoto2":
+            certifyType = "24";
+            break;
+          case "identityCardFront": //身份证正
+            certifyType = "00";
+            break;
+          case "identityCardReverse": //身份证反
+            certifyType = "16";
+            break;
+          case "licenceForOpeningAccounts": //开户许可证
+            certifyType = "03";
+            break;
+          default:
+            certifyType = "";
+        }
+        let imgObj = {
+          certifyType: certifyType,
+          scanCopyPath: this.getImgName(obj[key][0].url),
+          certifyNo: ""
+        };
+        custScanCopys.push(imgObj);
+      }
+      console.log(custScanCopys);
+      return JSON.stringify(custScanCopys);
+    },
 }
 export default util

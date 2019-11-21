@@ -81,6 +81,7 @@
               :after-read="uploadImg"
               v-model="photos.licenceForOpeningAccounts"
               :max-count="1"
+              :max-size="maxSize"
               preview-size="auto"
             >
               <van-button icon="photo" type="primary">上传开户许可证照</van-button>
@@ -110,6 +111,7 @@ export default {
   },
   data() {
     return {
+      maxSize:1148576,
       clickedNext: false,
       provincepicker: false,
       citypicker: false,
@@ -252,8 +254,8 @@ export default {
     },
     uploadImg(file) {
       //图片上传
-      upload.uploadImgRequest(this, file.file);
-      // this.$store.dispatch(file.file);
+      upload.blobToBase64( file.file,this);
+      /* upload.uploadImgRequest( this,file.file) */
     }
   }
 };

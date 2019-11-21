@@ -42,10 +42,7 @@ export default {
   },
   watch: {
     currRouter: function() {
-      this.isHome =
-        this.$route.path == "/Administrator" || this.$route.path == "/salesman"
-          ? true
-          : false;
+      this.isHome = this.$route.path == "/Administrator" || this.$route.path == "/salesman"? true : false;
       this.isShop = this.$route.path == "/shop" ? true : false;
       this.isGoods = this.$route.path == "/goods" ? true : false;
       this.isMine = this.$route.path == "/mine" ? true : false;

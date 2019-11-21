@@ -51,7 +51,6 @@ import { shopAuditInfo, login } from "../assets/api/interface";
 import { mapMutations } from "vuex";
 import storage from "../assets/modeljs/storage.js";
 import axios from "axios";
-import http from "../assets/api/http";
 export default {
   name: "salesman",
   components: { timeSelect, BaseHeader },
@@ -167,6 +166,16 @@ export default {
         this.islogin = true;
         this.salesShopNew();
       }
+      if (data.resultCode == "2") {
+        //业务员进入了管理员入口
+        const _this = this;
+        this.$toast({
+          message:data.resultMsg,
+          onClose:function(){
+            _this.$router.push("Administrator");
+          }
+        });
+      }
     },
     //业务员主页下部分商户进件最新十条信息
     async salesShopNew() {
@@ -229,6 +238,7 @@ export default {
     .search {
       width: vw(690);
       height: vw(58);
+      margin:0 auto;
       background-color: #eeeeee;
       display: flex;
       align-items: center;

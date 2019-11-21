@@ -36,6 +36,7 @@
 </template>
 <script>
 import upload from "@/lib/upload.js";
+import util from "@/lib/util.js";
 import { mapState } from "vuex";
 import { Dialog } from "vant";
 import { incoming } from "@/assets/api/interface";
@@ -106,12 +107,12 @@ export default {
         .then(() => {
           let prolist = this.checkSignGoods();
           let fullParams = Object.assign(this.incoming, this.params, {
-             roleId:this.roleId,
+            roleId:this.roleId,
             state: "05"
           });
           console.log(JSON.stringify(prolist));
           fullParams.productInfos = JSON.stringify(prolist); //产品
-          let custScanCopys = upload.getAllPhotos(this.savephotos); //图片
+          let custScanCopys = util.getAllPhotos(this.savephotos); //图片
           fullParams.custScanCopys = custScanCopys;
           this.$store.commit("setincoming", fullParams);
           this.insertIncoming(fullParams); //提交请求
@@ -136,7 +137,7 @@ export default {
                 state: state
               });
               fullParams.productInfos = JSON.stringify(prolist); //产品
-              let custScanCopys = upload.getAllPhotos(this.savephotos); //图片
+              let custScanCopys = util.getAllPhotos(this.savephotos); //图片
               fullParams.custScanCopys = custScanCopys;
               this.$store.commit("setincoming", fullParams);
               this.insertIncoming(fullParams); //提交请求
