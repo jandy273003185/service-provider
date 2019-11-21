@@ -11,40 +11,12 @@ const uploadImg = {
     if (info.data.resultCode == "200") {
       let resultMsg = JSON.parse(info.data.resultMsg);
       let fullUrl = resultMsg.uri + "" + resultMsg.url;
+      console.log("图片路径"+fullUrl);
       /* that[that.uploadType].push(fullUrl );  */
       that.params[that.uploadType] = fullUrl;
       that.photos[that.uploadType] = [{
         url: fullUrl
       }];
-      /*           let certifyType='';
-                switch (that.uploadType) {
-                  case "shopFrontDesk": //门头照
-                    certifyType = "20";
-                    break;
-                  case "shopInterior": //店内照
-                    certifyType = "18";
-                    break;
-                  case "specialBusiness": //行业资质
-                    certifyType = "11";
-                    break;
-                  case "electronicSignaturePhoto": // 电子签名照
-                    certifyType = "12";
-                    break;
-                  case "otherPhoto1": //其他资料照
-                    certifyType = "23";
-                    break;
-                  case "otherPhoto2":
-                    certifyType = "24";
-                    break;
-                  default:
-                    certifyType = "";
-                }
-                let imgObj = {
-                  certifyType: certifyType,
-                  scanCopyPath:resultMsg.imagePath,
-                  certifyNo: ""
-                };
-                that.custScanCopys.push(imgObj); */
     }
   },
   getAllPhotos(obj) {

@@ -6,9 +6,9 @@
 </template>
 
 <script>
-    import BaseHeader from "./components/baser-header";
+
     export default {
-        components: { BaseHeader },
+        components: { },
         data() {
             return {};
         }
