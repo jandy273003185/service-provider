@@ -15,7 +15,7 @@ const uploadImg = {
       /* that[that.uploadType].push(fullUrl );  */
       that.params[that.uploadType] = fullUrl;
       that.photos[that.uploadType] = [{
-        url: fullUrl
+        url: resultMsg.imagePath
       }];
     }
   },
