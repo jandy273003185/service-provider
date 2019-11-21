@@ -214,6 +214,8 @@ export default {
           this.params.representativeName = info.data.cardName;
           this.params.representativeCertNo = info.data.cardId;
         } else {
+          this.photos.identityCardFront = [{ url:'' }];
+          this.params.identityCardFront ='';
           this.$toast("身份证正面信息无法识别！");
         }
       }
@@ -225,6 +227,8 @@ export default {
           this.params.idTermStart = arr[0];
           this.params.idTermEnd = arr[1];
         } else {
+          this.params.identityCardReverse = '';
+          this.photos.identityCardReverse = [{ url: '' }];
           this.$toast("身份证反面信息无法识别！");
         }
       }
