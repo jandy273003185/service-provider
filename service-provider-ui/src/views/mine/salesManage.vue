@@ -101,8 +101,7 @@ export default {
       })
         .then(() => {
           // on confirm
-          common
-            .updateSales({
+          common.updateSales({
               custId: custId,
               id: id,
               status: 0
@@ -123,15 +122,14 @@ export default {
         message: "是否确定解冻账号"
       })
         .then(() => {
-          console.log("1111");
           // on confirm
-          common
-            .updateSales({
+          common.updateSales({
               custId: custId,
               id: id,
               status: 1
             })
             .then(res => {
+              console.log(res);
               this.getInitList();
               console.log("解冻");
             });
