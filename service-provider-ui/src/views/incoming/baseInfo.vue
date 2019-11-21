@@ -115,7 +115,6 @@
               readonly
               @click="datepickerVisiable('businessTermEnd')"
             />
-            <!--  <van-checkbox class="longterm" v-model="longterm">长期</van-checkbox> -->
           </div>
         </div>
         <van-datetime-picker
@@ -139,7 +138,6 @@
               :max-count="1"
               preview-size="auto"
             >
-              <!---->
               <van-button icon="photo" type="primary">上传门头照照片</van-button>
             </van-uploader>
           </div>
@@ -258,7 +256,8 @@ export default {
       uploadType: "",
       clickedNext: false,
       longterm: false,
-      maxDate: new Date(),
+      minDate:new Date(2009,1,1),
+      maxDate: new Date(2029,1,1),
       showDatepicker: false,
       dateType: "",
       photos: {
@@ -420,6 +419,7 @@ export default {
     async onConfirmBlock(value, index) {
       //确认区
       console.log("确认区");
+      console.log(index);
       this.params.country = value.areaId;
       this.params.countryName = value.areaName;
       this.blockpicker = false;
@@ -434,8 +434,9 @@ export default {
         flag: "businessPhoto" //营业执照
       };
       const info = await common.getImgInfo(params);
-      if (info.data.resultMsg && info.data.resultMsg == "1") {
-        const imgUrl = info.data.uri + "/" + info.data.url;
+      if (info.data.result && info.data.result == "SUCCESS") {
+        const imgUrl = info.data.uri + "" + info.data.url;
+        console.log(imgUrl);
         let businessLicense = info.data.businessLicense;
         let businessTermEnd = info.data.businessTermEnd;
         let businessTermStart = info.data.businessTermStart;
@@ -444,9 +445,9 @@ export default {
         this.params.businessTermStart = businessTermStart;
         this.businessLicense = info.data.uri + info.data.url;
         this.photos.businessLicense = [{ url: imgUrl }];
-      }else{
-         this.photos.businessLicense = [{ url:'' }];
-         this.$toast("营业执照信息无法识别！");
+      } else {
+        this.photos.businessLicense = [{ url: "" }];
+        this.$toast("营业执照信息无法识别！");
       }
     },
     deleteImg(type) {
@@ -469,6 +470,12 @@ export default {
     confirmDate(e) {
       let getData = util.timeFormat(e);
       this.params[this.dateType] = getData;
+      if(this.dateType=='businessTermStart'){
+        console.log('businessTermStart');
+        this.minDate=getData
+      }else{
+        this.minDate=new Date(2009,1,1)
+      }
       this.showDatepicker = false;
     }
   }

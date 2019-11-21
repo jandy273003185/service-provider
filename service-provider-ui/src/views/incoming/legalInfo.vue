@@ -106,7 +106,7 @@ export default {
     return {
       clickedNext: false,
       indentifyType: "", //识别类型
-      maxDate: new Date(),
+      maxDate:null,
       showDatepicker: false,
       dateType: "",
       photos: {
@@ -208,7 +208,7 @@ export default {
       const imgUrl = info.data.uri + "/" + info.data.url;
       this.$toast.clear();
       if (this.indentifyType == "certAttribute1") {
-        if (info.data) {
+        if (info.data.result&&info.data.result=="SUCCESS") {
           this.photos.identityCardFront = [{ url: imgUrl }];
           this.params.identityCardFront = imgUrl;
           this.params.representativeName = info.data.cardName;
@@ -220,7 +220,7 @@ export default {
         }
       }
       if (this.indentifyType == "certAttribute2") {
-        if (info.data.cardValidDate) {
+        if (info.data.result&&info.data.result=="SUCCESS") {
           this.params.identityCardReverse = imgUrl;
           this.photos.identityCardReverse = [{ url: imgUrl }];
           let arr = info.data.cardValidDate.split("-");
