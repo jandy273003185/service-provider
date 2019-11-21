@@ -16,7 +16,7 @@ const uploadImg = {
       console.log("图片路径" + fullUrl);
       that.params[that.uploadType] = fullUrl;
       that.photos[that.uploadType] = [{
-        url: resultMsg.imagePath
+        url: fullUrl
       }];
     }
   },
