@@ -342,7 +342,7 @@ export default {
         }
 
         .state_0 {
-          color: #4dff1a;
+          color: #3fd016
         }
 
         .state_1 {
@@ -354,7 +354,7 @@ export default {
         }
 
         .state_5 {
-          color: #544eec;
+          color: #3f9aff;
         }
       }
     }
