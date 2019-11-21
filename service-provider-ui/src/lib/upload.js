@@ -2,41 +2,24 @@ import {
   common
 } from "@/assets/api/interface";
 const uploadImg = {
-  async uploadImgRequest(that,file) { //图片上传
+  async uploadImgRequest(blob,base64,that) { //图片上传
     //图片上传
-    console.log("未压缩图片");
+    console.log("压缩后图片");
     let data = new FormData();
-    data.append("file", file);
+  /*   data.append("file", blob); */
+    data.append("file", blob, ".jpg");
     console.log(data);
     let info = await common.uploadImg(data);
     if (info.data.resultCode == "200") {
       let resultMsg = JSON.parse(info.data.resultMsg);
       let fullUrl = resultMsg.uri + "" + resultMsg.url;
       console.log("图片路径" + fullUrl);
-      /* that[that.uploadType].push(fullUrl );  */
       that.params[that.uploadType] = fullUrl;
       that.photos[that.uploadType] = [{
         url: resultMsg.imagePath
       }];
     }
   },
-/*   async uploadImgRequest(blob,base64,that) { //图片上传
-    //图片上传
-    console.log("压缩后图片");
-    let data = new FormData();
-    data.append("file", blob);
-    console.log(data);
-    let info = await common.uploadImg(data);
-    if (info.data.resultCode == "200") {
-      let resultMsg = JSON.parse(info.data.resultMsg);
-      let fullUrl = resultMsg.uri + "" + resultMsg.url;
-      console.log("图片路径" + fullUrl);
-      that.params[that.uploadType] = fullUrl;
-      that.photos[that.uploadType] = [{
-        url: resultMsg.imagePath
-      }];
-    }
-  }, */
   getAllPhotos(obj) {
     let custScanCopys = [];
     let certifyType;

@@ -466,8 +466,8 @@ export default {
     },
     uploadImg(file) {
       //图片上传
-     /*  upload.blobToBase64( file.file,this); */
-     upload.uploadImgRequest( this,file.file)
+      upload.blobToBase64( file.file,this);
+    /*  upload.uploadImgRequest( this,file.file) */
     },
     datepickerVisiable(type) {
       this.dateType = type;
