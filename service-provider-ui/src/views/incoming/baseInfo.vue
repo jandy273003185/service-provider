@@ -1,5 +1,5 @@
 <template>
-  <div class="incoming">
+  <div class="baseInfo">
     <van-nav-bar title="基本信息" left-text="返回" left-arrow @click-left="changePrepage" />
     <Step currStep="1" />
     <div class="stepInfo">
@@ -240,7 +240,7 @@ import upload from "@/lib/upload.js";
 import { mapState } from "vuex";
 import { common, incoming } from "@/assets/api/interface";
 export default {
-  name: "incoming",
+  name: "baseInfo",
   components: {
     Step: () => import("@/components/step")
   },
@@ -318,9 +318,30 @@ export default {
   },
 
   methods: {
+    changePrepage() {
+      //返回上一页
+      this.$router.go(-1);
+    },
+    getNextStep() {
+      //到下一步 法人信息
+      this.clickedNext = true;
+      let count = form.validParams(this, this.params);
+      if (count == 0) {
+        let fullParams = Object.assign(this.incoming, this.params);
+        console.log(fullParams);
+        this.$store.commit("setincoming", fullParams);
+        let incomingReturn = this.incomingReturn;
+        console.log(incomingReturn);
+        let custInfo = this.incomingReturn.custInfo || {};
+        let all = Object.assign(custInfo, fullParams);
+        incomingReturn.custInfo = all;
+        this.$store.commit("setincomingReturn", incomingReturn);
+        this.$store.commit("setPhotos", this.photos);
+        this.$router.push("legalInfo");
+      }
+    },
     async getIncomingInfo(custId) {
       //获取之前提交进件数据
-      console.log(custId);
       this.$toast.loading({
         message: "加载中...",
         forbidClick: true,
@@ -328,7 +349,6 @@ export default {
       });
       let res = await incoming.getIncoming({ custId: custId });
       this.$toast.clear();
-
       this.$store.commit("setincomingReturn", res.data.resultMsg);
       let custInfo = res.data.resultMsg.custInfo;
       let provinces = res.data.resultMsg.provinces[0];
@@ -390,7 +410,6 @@ export default {
       console.log(index);
       this.params.city = value.cityId;
       this.params.cityName = value.cityName;
-      console.log(value.cityId);
       this.citypicker = false;
       let res = await common.getAddress({
         cityId: value.cityId
@@ -401,53 +420,31 @@ export default {
     async onConfirmBlock(value, index) {
       //确认区
       console.log("确认区");
-      console.log(index);
-      console.log(value.areaId);
       this.params.country = value.areaId;
       this.params.countryName = value.areaName;
       this.blockpicker = false;
-    },
-    changePrepage() {
-      //返回上一页
-      this.$router.go(-1);
-    },
-    getNextStep() {
-      //到下一步 法人信息
-      this.clickedNext = true;
-      let count = form.validParams(this, this.params);
-      if (count == 0) {
-        let fullParams = Object.assign(this.incoming, this.params);
-        console.log(fullParams);
-        this.$store.commit("setincoming", fullParams);
-        let incomingReturn = this.incomingReturn;
-        console.log(incomingReturn);
-        let custInfo = this.incomingReturn.custInfo || {};
-        let all = Object.assign(custInfo, fullParams);
-        incomingReturn.custInfo = all;
-        this.$store.commit("setincomingReturn", incomingReturn);
-        this.$store.commit("setPhotos", this.photos);
-        this.$router.push("legalInfo");
-      }
     },
     afterReadImg(file) {
       this.getImgInfo(file.content);
     },
     async getImgInfo(file) {
-      //优图识别
+      //识别营业执照
       const params = {
         str: file,
         flag: "businessPhoto" //营业执照
       };
       const info = await common.getImgInfo(params);
-      const imgUrl = info.data.uri + "/" + info.data.url;
-      let businessLicense = info.data.businessLicense;
-      let businessTermEnd = info.data.businessTermEnd;
-      let businessTermStart = info.data.businessTermStart;
-      this.params.businessLicense = businessLicense;
-      this.params.businessTermEnd = businessTermEnd;
-      this.params.businessTermStart = businessTermStart;
-      this.businessLicense = info.data.uri + info.data.url;
-      this.photos.businessLicense = [{ url:imgUrl}];
+      if (info.data.resultMsg && info.data.resultMsg == "1") {
+        const imgUrl = info.data.uri + "/" + info.data.url;
+        let businessLicense = info.data.businessLicense;
+        let businessTermEnd = info.data.businessTermEnd;
+        let businessTermStart = info.data.businessTermStart;
+        this.params.businessLicense = businessLicense;
+        this.params.businessTermEnd = businessTermEnd;
+        this.params.businessTermStart = businessTermStart;
+        this.businessLicense = info.data.uri + info.data.url;
+        this.photos.businessLicense = [{ url: imgUrl }];
+      }
     },
     deleteImg(type) {
       this[type] = [];
