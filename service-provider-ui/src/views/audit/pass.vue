@@ -51,8 +51,8 @@
                 <van-checkbox class="check" v-if="item.productId==8 && item.productStatus=='00' " v-model="checked" disabled>蜻蜓产品</van-checkbox>
                 <van-checkbox class="check" v-if="item.productId==2 && item.productStatus=='00' " v-model="checked" disabled>app产品</van-checkbox>
                 <van-checkbox class="check" v-if="item.productId==1 && item.productStatus=='00' " v-model="checked" disabled>扫码产品</van-checkbox>
-                <span class="name">结算费率：</span>
-                <input  type="text" v-model="item.productRate" readonly />
+                <span class="name" v-if="item.productStatus=='00'">结算费率：</span>
+                <input  type="text" v-if="item.productStatus=='00'"  v-model="item.productRate" readonly />
               </div>
               <div class="sn" v-if="item.productId==8 && item.productStatus=='00' ">
                 <span>SN:</span>
@@ -66,8 +66,8 @@
                 <van-checkbox class="check" v-if="item.productId==8 && item.productStatus=='01' " v-model="checked" disabled>蜻蜓产品</van-checkbox>
                 <van-checkbox class="check" v-if="item.productId==2 && item.productStatus=='01' " v-model="checked" disabled>app产品</van-checkbox>
                 <van-checkbox class="check" v-if="item.productId==1 && item.productStatus=='01' " v-model="checked" disabled>扫码产品</van-checkbox>
-                <span class="name">结算费率：</span>
-                <input  type="text" v-model="item.productRate" readonly />
+                <span class="name"  v-if="item.productStatus=='01'">结算费率：</span>
+                <input  type="text" v-if="item.productStatus=='01'" v-model="item.productRate" readonly />
               </div>
               <div class="sn" v-if="item.productId==8 && item.productStatus=='01' ">
                 <span>SN:</span>
