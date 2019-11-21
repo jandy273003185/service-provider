@@ -444,6 +444,9 @@ export default {
         this.params.businessTermStart = businessTermStart;
         this.businessLicense = info.data.uri + info.data.url;
         this.photos.businessLicense = [{ url: imgUrl }];
+      }else{
+         this.photos.businessLicense = [{ url:'' }];
+         this.$toast("营业执照信息无法识别！");
       }
     },
     deleteImg(type) {
