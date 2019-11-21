@@ -28,7 +28,8 @@
         <div class="btn save" @click="saveIncoming">保存</div>
         <div class="btn" @click="submitIncoming('01')">提交</div>
       </div>
-      <div class="btn" v-if="checkedState=='corvidae'" @click="submitIncoming('05')">提交</div> <!-- 完善保存资料提交 -->
+      <div class="btn" v-if="checkedState=='corvidae'" @click="submitIncoming('05')">提交</div>
+      <!-- 完善保存资料提交 -->
       <div class="btn back" @click="getPreStep">返回</div>
     </div>
   </div>
@@ -36,6 +37,7 @@
 <script>
 import upload from "@/lib/upload.js";
 import { mapState } from "vuex";
+import { Dialog } from "vant";
 import { incoming } from "@/assets/api/interface";
 export default {
   name: "incoming",
@@ -98,37 +100,52 @@ export default {
     },
     saveIncoming() {
       //保存
-      let prolist = this.checkSignGoods();
-      let fullParams = Object.assign(this.incoming, this.params, {
-        state: "05"
-      });
-      console.log(JSON.stringify(prolist));
-      let custScanCopys = upload.getAllPhotos(this.savephotos); //图片
-      fullParams.custScanCopys = custScanCopys;
-      this.$store.commit("setincoming", fullParams);
-      this.insertIncoming(fullParams); //提交请求
+      Dialog.confirm({
+        message: "请确认是否保存？"
+      })
+        .then(() => {
+          let prolist = this.checkSignGoods();
+          let fullParams = Object.assign(this.incoming, this.params, {
+            state: "05"
+          });
+          console.log(JSON.stringify(prolist));
+          fullParams.productInfos = JSON.stringify(prolist); //产品
+          let custScanCopys = upload.getAllPhotos(this.savephotos); //图片
+          fullParams.custScanCopys = custScanCopys;
+          this.$store.commit("setincoming", fullParams);
+          this.insertIncoming(fullParams); //提交请求
+        })
+        .catch(() => {
+          // on cancel
+        });
     },
     submitIncoming(state) {
       //提交
       this.clickedNext = true;
       if (this.dragonfly || this.scan || this.app) {
         //至少选择一款
-        let prolist = this.checkSignGoods();
-        if (prolist.length > 0) {
-          let fullParams = Object.assign(this.incoming, this.params, {
-            state: state
+        Dialog.confirm({
+          message: "请确认是否提交？"
+        })
+          .then(() => {
+            let prolist = this.checkSignGoods();
+            if (prolist.length > 0) {
+              let fullParams = Object.assign(this.incoming, this.params, {
+                state: state
+              });
+              fullParams.productInfos = JSON.stringify(prolist); //产品
+              let custScanCopys = upload.getAllPhotos(this.savephotos); //图片
+              fullParams.custScanCopys = custScanCopys;
+              this.$store.commit("setincoming", fullParams);
+              this.insertIncoming(fullParams); //提交请求
+            }
+          })
+          .catch(() => {
+            // on cancel
           });
-          fullParams.productInfos = JSON.stringify(prolist); //产品
-          let custScanCopys = upload.getAllPhotos(this.savephotos); //图片
-          fullParams.custScanCopys = custScanCopys;
-          this.$store.commit("setincoming", fullParams);
-          this.insertIncoming(fullParams); //提交请求
-        }
       } else {
         this.$toast("请至少选择一款签约产品");
       }
-      //this.$router.push("sign");
-      //提交进件信息
     },
     async insertIncoming(params) {
       let info = await incoming.insertIncoming(params);
@@ -145,7 +162,6 @@ export default {
     },
     checkSignGoods() {
       //校验产品签约，至少签约一款
-      /* this.$toast */
       let prolist = [];
       let proObj = {};
       if (this.dragonfly) {
