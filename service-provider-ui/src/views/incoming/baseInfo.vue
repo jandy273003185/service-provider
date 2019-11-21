@@ -434,6 +434,7 @@ export default {
         flag: "businessPhoto" //营业执照
       };
       const info = await common.getImgInfo(params);
+      console.log(info);
       if (info.data.result && info.data.result == "SUCCESS") {
         const imgUrl = info.data.uri + "" + info.data.url;
         console.log(imgUrl);
