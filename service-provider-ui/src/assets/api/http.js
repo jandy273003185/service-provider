@@ -6,8 +6,7 @@ import {
   Dialog
 } from 'vant'; //弹窗函数，可直接调用
 
-
-let cancel;
+var cancel;
 
 const CancelToken = axios.CancelToken;
 axios.defaults.timeout = 30000;

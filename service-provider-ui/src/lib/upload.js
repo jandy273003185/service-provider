@@ -4,11 +4,9 @@ import {
 const uploadImg = {
   async uploadImgRequest(blob,base64,that) { //图片上传
     //图片上传
-    console.log("压缩后图片");
     let data = new FormData();
   /*   data.append("file", blob); */
     data.append("file", blob, ".jpg");
-    console.log(data);
     let info = await common.uploadImg(data);
     if (info.data.resultCode == "200") {
       let resultMsg = JSON.parse(info.data.resultMsg);
@@ -19,54 +17,6 @@ const uploadImg = {
         url: fullUrl
       }];
     }
-  },
-  getAllPhotos(obj) {
-    let custScanCopys = [];
-    let certifyType;
-    for (let key in obj) {
-      switch (key) {
-        case "businessLicense": //营业执照
-          certifyType = "02";
-          break;
-        case "shopFrontDesk": //门头照
-          certifyType = "20";
-          break;
-        case "shopInterior": //店内照
-          certifyType = "18";
-          break;
-        case "specialBusiness": //行业资质
-          certifyType = "11";
-          break;
-        case "electronicSignaturePhoto": // 电子签名照
-          certifyType = "12";
-          break;
-        case "otherPhoto1": //其他资料照
-          certifyType = "23";
-          break;
-        case "otherPhoto2":
-          certifyType = "24";
-          break;
-        case "identityCardFront": //身份证正
-          certifyType = "00";
-          break;
-        case "identityCardReverse": //身份证反
-          certifyType = "16";
-          break;
-        case "licenceForOpeningAccounts": //开户许可证
-          certifyType = "03";
-          break;
-        default:
-          certifyType = "";
-      }
-      let imgObj = {
-        certifyType: certifyType,
-        scanCopyPath: obj[key][0].url,
-        certifyNo: ""
-      };
-      custScanCopys.push(imgObj);
-    }
-    console.log(custScanCopys);
-    return JSON.stringify(custScanCopys);
   },
   /**
    * 获取到的二进制文件 转 base64文件
@@ -101,9 +51,9 @@ const uploadImg = {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       // 转成base64 文件
       let base64 = canvas.toDataURL("image/jpeg");
-      // 根据自己需求填写大小 我的目标是小于3兆
+      // 根据自己需求填写大小
       while (base64.length > 1024 * 1024) {
-        scale -= 0.7;
+        scale -= 0.8;
         base64 = canvas.toDataURL("image/jpeg", scale);
       }
       // baser64 TO blob 这一块如果不懂可以自行百度，我就不加注释了

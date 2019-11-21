@@ -238,6 +238,7 @@ export default {
     .search {
       width: vw(690);
       height: vw(58);
+      margin:0 auto;
       background-color: #eeeeee;
       display: flex;
       align-items: center;
