@@ -138,9 +138,10 @@
               :after-read="uploadImg"
               v-model="photos.shopFrontDesk"
               :max-count="1"
-              :max-size="maxSize"
+             
               preview-size="auto"
             >
+ <!-- :max-size="maxSize" -->
               <van-button icon="photo" type="primary">上传门头照照片</van-button>
             </van-uploader>
           </div>
@@ -252,7 +253,7 @@ export default {
   },
   data() {
     return {
-      maxSize:1148576,
+      maxSize:2097152,
       pagetype: "",
       provincepicker: false,
       citypicker: false,

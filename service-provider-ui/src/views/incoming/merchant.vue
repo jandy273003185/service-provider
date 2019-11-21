@@ -111,7 +111,7 @@ export default {
   },
   data() {
     return {
-      maxSize:1148576,
+      maxSize:2097152,
       clickedNext: false,
       provincepicker: false,
       citypicker: false,
