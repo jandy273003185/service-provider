@@ -178,6 +178,7 @@ public class YouTuUtils {
 		//文件名称
 		String uploadFileName = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","") + "."+ext;
 		logger.info("********************"+uploadFileName+"********************");
+		logger.info("********************"+relativePaths+"********************");
 		//存储地址
 		StringBuilder path = new StringBuilder(relativePaths).append("/").append(uploadFileName);
 		logger.info("********************"+String.valueOf(path)+"********************");
