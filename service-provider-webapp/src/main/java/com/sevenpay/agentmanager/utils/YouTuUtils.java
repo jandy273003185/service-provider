@@ -29,8 +29,8 @@ import java.util.UUID;
 public class YouTuUtils {
 	private Logger logger = LoggerFactory.getLogger(YouTuUtils.class);
 	//存储路径
-	@Value("${images.relativePaths}")
-	private String relativePaths;
+	@Value("${images.absolutePaths}")
+	private String absolutePaths;
 	
 	// appid, secretid secretkey请到http://open.youtu.qq.com/获取
 	// 请正确填写把下面的APP_ID、SECRET_ID和SECRET_KEY
@@ -174,14 +174,10 @@ public class YouTuUtils {
 		String BASE64str = str.substring(str.lastIndexOf(",")+1);
 		//统一图片后缀
 		String ext = str.substring(str.indexOf("/")+1,str.indexOf(";"));
-		logger.info("********************"+ext+"********************");
 		//文件名称
 		String uploadFileName = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","") + "."+ext;
-		logger.info("********************"+uploadFileName+"********************");
-		logger.info("********************"+relativePaths+"********************");
 		//存储地址
-		StringBuilder path = new StringBuilder(relativePaths).append("/").append(uploadFileName);
-		logger.info("********************"+String.valueOf(path)+"********************");
+		StringBuilder path = new StringBuilder(absolutePaths).append("/").append(uploadFileName);//路径读取不到
 		File saveFile = new File(String.valueOf(path));
 		BASE64Decoder decoder = new BASE64Decoder();
 		try(OutputStream out = new FileOutputStream(saveFile)){
