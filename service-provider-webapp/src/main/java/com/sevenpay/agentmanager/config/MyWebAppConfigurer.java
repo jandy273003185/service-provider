@@ -22,6 +22,6 @@ public class MyWebAppConfigurer implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(relativePaths)
-                .addResourceLocations("file://"+absolutePaths);
+                .addResourceLocations(absolutePaths);
     }
 }
