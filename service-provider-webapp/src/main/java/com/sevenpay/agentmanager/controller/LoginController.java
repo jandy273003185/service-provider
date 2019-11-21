@@ -50,7 +50,6 @@ public class LoginController {
 
         //不同的角色获取不同的用户信息表
         LoginUser loginUser=new LoginUser();
-
         //登陆校验
         if ("agent".equals(roleCode)) {//服务商绑定
             UserDTO userInfo = userManager.login(userName, password, roleCode);
@@ -58,9 +57,12 @@ public class LoginController {
                 return new ResultBean("0","账号或密码错误");
             }
             UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
-            if (ifbing != null){
-                return new ResultBean("0","该微信已经与七分钱账号绑定");
-            }else if (!"agent".equals(ifbing.getUserType())){
+//            //查询该账号是否绑定openId
+//            boolean isBinding = loginManagerService.LogincheckIsBinding(userName, password);
+//            if (isBinding) {
+//                return new ResultBean("","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
+//            } else
+                if (!"agent".equals(ifbing.getUserType())){
                 return new ResultBean("0","该账号不是管理员账号");
             }
             UserLoginRelate userLoginRelate = new UserLoginRelate();
