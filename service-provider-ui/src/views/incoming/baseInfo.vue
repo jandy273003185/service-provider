@@ -257,8 +257,8 @@ export default {
       uploadType: "",
       clickedNext: false,
       longterm: false,
-      minDate:new Date(2000, 1, 1),
-      maxDate: new Date(2029,1,1),
+      minDate: new Date(2000, 1, 1),
+      maxDate: new Date(2029, 1, 1),
       showDatepicker: false,
       dateType: "",
       photos: {
@@ -430,12 +430,17 @@ export default {
     },
     async getImgInfo(file) {
       //识别营业执照
+      this.$toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+        duration: 0
+      });
       const params = {
         str: file,
         flag: "businessPhoto" //营业执照
       };
       const info = await common.getImgInfo(params);
-      console.log(info);
+      this.$toast.clear();
       if (info.data.result && info.data.result == "SUCCESS") {
         const imgUrl = info.data.uri + "" + info.data.url;
         console.log(imgUrl);
@@ -472,11 +477,11 @@ export default {
     confirmDate(e) {
       let getData = util.timeFormat(e);
       this.params[this.dateType] = getData;
-      if(this.dateType=='businessTermStart'){
-        console.log('businessTermStart');
-        this.minDate=new Date(getData)
-      }else{
-        this.minDate=new Date(2000, 1, 1)
+      if (this.dateType == "businessTermStart") {
+        console.log("businessTermStart");
+        this.minDate = new Date(getData);
+      } else {
+        this.minDate = new Date(2000, 1, 1);
       }
       this.showDatepicker = false;
     }

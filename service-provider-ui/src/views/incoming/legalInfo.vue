@@ -70,7 +70,8 @@
         class="datepicker"
         v-show="showDatepicker"
         type="year-month"
-        :max-date="maxDate"
+        :min-date="minDate"
+          :max-date="maxDate"
         @confirm="confirmDate"
         @cancel="datepickerHide"
       />
@@ -106,7 +107,8 @@ export default {
     return {
       clickedNext: false,
       indentifyType: "", //识别类型
-      maxDate:null,
+       minDate:new Date(2000, 1, 1),
+      maxDate: new Date(2029,1,1),
       showDatepicker: false,
       dateType: "",
       photos: {
@@ -191,6 +193,11 @@ export default {
     confirmDate(e) {
       let getData = util.timeFormat(e);
       this.params[this.dateType] = getData;
+      if(this.dateType=='idTermStart'){
+        this.minDate=new Date(getData)
+      }else{
+        this.minDate=new Date(2000, 1, 1)
+      }
       this.showDatepicker = false;
     },
     async getImgInfo(file) {
