@@ -24,8 +24,8 @@
         <span class="name">结算费率：</span>
         <input type="number" v-model="appProductRate" placeholder="请输入费率" />
       </div>
-      <div class="mix-btn" v-if="checkedState!='corvidae'">
-        <div class="btn save" @click="saveIncoming">保存</div>
+      <div class="mix-btn" >
+        <div class="btn save" v-if="checkedState!='corvidae'"  @click="saveIncoming">保存</div>
         <div class="btn" @click="submitIncoming('01')">提交</div>
       </div>
       <!-- 完善保存资料提交 -->
@@ -98,6 +98,7 @@ export default {
       this.$router.push("merchant");
     },
     saveIncoming() {
+      console
       //保存
       Dialog.confirm({
         message: "请确认是否保存？"
