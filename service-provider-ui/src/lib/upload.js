@@ -4,6 +4,7 @@ import {
 const uploadImg = {
   async uploadImgRequest(blob,base64,that) { //图片上传
     //图片上传
+    console.log("压缩后图片");
     let data = new FormData();
     data.append("file", blob);
     console.log(data);
