@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="logined">
     <BaseHeader></BaseHeader>
     <div class="admin">
       <div class="serachBox">
@@ -75,6 +75,7 @@ export default {
   components: { timeSelect, BaseHeader },
   data() {
     return {
+      logined:false,//控制页面已经在登录状态
       sortType: 0,
       openId: "",
       roleId: "agent",
@@ -114,6 +115,7 @@ export default {
           roleId: this.roleId
         });
       } else {
+         this.logined=true;
         this.islogin = true;
         this.getSalesRanking("0");
       }
@@ -204,6 +206,7 @@ export default {
         this.$router.push("login");
       }
       if (userData.data.resultCode == "1") {
+         this.logined=true;
         console.log(userData.data.resultMsg.token);
         this.setToken(userData.data.resultMsg.token);
         this.setUserId(userData.data.resultMsg.userId);

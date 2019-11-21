@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 
 import {
+ Loading,
   Toast,
   Picker,
   Image,
@@ -31,7 +32,7 @@ import './style/common/base.styl'
 Vue.config.productionTip = false;
 
 // 全局注册
-Vue.use(Toast).use(Picker).use(Image).use(Cell).use(CellGroup).use(List).use(Icon).use(Tab).use(Tabs).use(Row).use(Col).use(Uploader).use(Button).use(Area).use(Checkbox).use(CheckboxGroup).use(DatetimePicker).use(Popup).use(NavBar).use(Field).use(Search);
+Vue.use(Loading).use(Toast).use(Picker).use(Image).use(Cell).use(CellGroup).use(List).use(Icon).use(Tab).use(Tabs).use(Row).use(Col).use(Uploader).use(Button).use(Area).use(Checkbox).use(CheckboxGroup).use(DatetimePicker).use(Popup).use(NavBar).use(Field).use(Search);
 
 new Vue({
   router,
