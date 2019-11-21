@@ -90,8 +90,8 @@ public class UploadFileController {
             logger.info("********************图片上传中********************");
             //图片上传，返回路径
             ResultBean<String[]> resultBean = BASE64CodeToBeImage(base64String);
-            logger.info("********************图片上传成功********************");
             String[] resultMsg = resultBean.getResultMsg();
+            logger.info("********************图片解析中********************");
             //解析图片，返回图片信息
             object = youto.youTu(str, flag);
             logger.info("********************图片解析成功********************");
@@ -131,9 +131,11 @@ public class UploadFileController {
             out.write(b);
             out.flush();
             String[] result ={path+uploadFileName,uploadFileName};
+            logger.info("********************图片上传成功********************");
             return  new ResultBean<>("",result);
         }catch (Exception e){
             e.printStackTrace();
+            logger.info("********************图片上传失败********************");
             return new ResultBean<>("图片上传失败，请重新上传",null);
         }
     }
