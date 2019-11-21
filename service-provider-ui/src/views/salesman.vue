@@ -51,7 +51,6 @@ import { shopAuditInfo, login } from "../assets/api/interface";
 import { mapMutations } from "vuex";
 import storage from "../assets/modeljs/storage.js";
 import axios from "axios";
-import http from "../assets/api/http";
 export default {
   name: "salesman",
   components: { timeSelect, BaseHeader },

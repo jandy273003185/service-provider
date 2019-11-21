@@ -1,8 +1,7 @@
 import axios from "axios";
 import Qs from "qs";
-import router from '../../router'
+/* import router from '../../router' */
 import store from '../../store'
-import storage from '../modeljs/storage.js';
 import {
   Dialog
 } from 'vant'; //弹窗函数，可直接调用
