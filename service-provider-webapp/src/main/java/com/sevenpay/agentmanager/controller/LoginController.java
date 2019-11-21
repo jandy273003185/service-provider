@@ -124,7 +124,7 @@ public class LoginController {
             try {
                 if("agent".equals(roleId)){  //管理员（服务商）
                     if (!"agent".equals(ifbing.getUserType())){
-                        return new ResultBean("2","您不是管理员,正在为您跳转业务员页面")；
+                        return new ResultBean("2","您不是管理员,正在为您跳转业务员页面");
                     }
                     Map<String, Object> userInfo = merchantStatusService.getMerchantInfoByCustId(userId);
                     loginUser.setUserInfo(userInfo);
@@ -135,7 +135,7 @@ public class LoginController {
                 }
                 if ("salesman".equals(roleId)) {  //业务员
                     if (!"salesman".equals(ifbing.getUserType())){
-                        return new ResultBean("2","您不是业务员,正在为您跳转管理员页面")；
+                        return new ResultBean("2","您不是业务员,正在为您跳转管理员页面");
                     }
                     TdSalesmanInfo userInfo = salesmanManagerService.getTdSalesmanInfoById(userId);
                     loginUser.setUserInfo(userInfo);
