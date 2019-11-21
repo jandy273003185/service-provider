@@ -252,7 +252,7 @@ export default {
     },
     uploadImg(file) {
       //图片上传
-      upload.uploadImgRequest(this, file.file);
+      upload.blobToBase64( file.file,this);
       // this.$store.dispatch(file.file);
     }
   }

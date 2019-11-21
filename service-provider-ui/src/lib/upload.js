@@ -73,6 +73,7 @@ const uploadImg = {
    * @param blob
    */
   blobToBase64(blob, context) {
+    console.log(blob);
     const self = this; // 绑定this
     const reader = new FileReader(); //实例化一个reader文件
     reader.readAsDataURL(blob); // 添加二进制文件
