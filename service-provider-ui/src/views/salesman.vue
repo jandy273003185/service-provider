@@ -223,12 +223,12 @@ export default {
     height: vw(92);
     background-color: #699dd7;
     display: flex;
+    justifu-content: center;
     align-items: center;
 
     .search {
-      width: vw(580);
+      width: vw(690);
       height: vw(58);
-      margin-left: vw(34);
       background-color: #eeeeee;
       display: flex;
       align-items: center;
@@ -342,7 +342,7 @@ export default {
         }
 
         .state_0 {
-          color: #4dff1a;
+          color: #3fd016
         }
 
         .state_1 {
@@ -354,7 +354,7 @@ export default {
         }
 
         .state_5 {
-          color: #544eec;
+          color: #3f9aff;
         }
       }
     }

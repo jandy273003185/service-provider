@@ -70,10 +70,11 @@
         class="datepicker"
         v-show="showDatepicker"
         type="year-month"
-        :max-date="maxDate"
         @confirm="confirmDate"
         @cancel="datepickerHide"
       />
+     <!--  :min-date="minDate"
+          :max-date="maxDate" -->
       <div class="row">
         <span class="label" :class="{'active':(clickedNext&&!params.contactName)}">联系人名字</span>
         <input v-model="params.contactName" placeholder="请输入联系人名字" />
@@ -106,7 +107,8 @@ export default {
     return {
       clickedNext: false,
       indentifyType: "", //识别类型
-      maxDate:null,
+       minDate:new Date(2000, 1, 1),
+      maxDate: new Date(2029,1,1),
       showDatepicker: false,
       dateType: "",
       photos: {
@@ -156,7 +158,9 @@ export default {
     getNextStep() {
       //到下一步 法人信息
       this.clickedNext = true;
-      let count = form.validParams(this.params);
+       console.log(this.params);
+      let count = form.validParams(this,this.params);
+      console.log(count)
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
         this.$store.commit("setincoming", fullParams);
@@ -191,12 +195,17 @@ export default {
     confirmDate(e) {
       let getData = util.timeFormat(e);
       this.params[this.dateType] = getData;
+      /* if(this.dateType=='idTermStart'){
+        this.minDate=new Date(getData)
+      }else{
+        this.minDate=new Date(2000, 1, 1)
+      } */
       this.showDatepicker = false;
     },
     async getImgInfo(file) {
       //优图识别
       this.$toast.loading({
-        message: "加载中...",
+        message: "识别中...",
         forbidClick: true,
         duration: 0
       });

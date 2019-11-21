@@ -121,10 +121,12 @@
           class="datepicker"
           v-show="showDatepicker"
           type="year-month"
-          :max-date="maxDate"
+         
           @confirm="confirmDate"
           @cancel="datepickerHide"
         />
+        <!--  :min-date="minDate"
+          :max-date="maxDate" -->
         <div class="row-img">
           <div class="stit" :class="{'active':(clickedNext&&!params.shopFrontDesk)}">
             <!-- shopFrontDesk -->
@@ -256,8 +258,8 @@ export default {
       uploadType: "",
       clickedNext: false,
       longterm: false,
-      minDate:new Date(2009,1,1),
-      maxDate: new Date(2029,1,1),
+      minDate: new Date(2000, 1, 1),
+      maxDate: new Date(2029, 1, 1),
       showDatepicker: false,
       dateType: "",
       photos: {
@@ -342,7 +344,7 @@ export default {
     async getIncomingInfo(custId) {
       //获取之前提交进件数据
       this.$toast.loading({
-        message: "加载中...",
+        message: "加载中..",
         forbidClick: true,
         duration: 0
       });
@@ -429,12 +431,17 @@ export default {
     },
     async getImgInfo(file) {
       //识别营业执照
+      this.$toast.loading({
+        message: "识别中..",
+        forbidClick: true,
+        duration: 0
+      });
       const params = {
         str: file,
         flag: "businessPhoto" //营业执照
       };
       const info = await common.getImgInfo(params);
-      console.log(info);
+      this.$toast.clear();
       if (info.data.result && info.data.result == "SUCCESS") {
         const imgUrl = info.data.uri + "" + info.data.url;
         console.log(imgUrl);
@@ -471,12 +478,12 @@ export default {
     confirmDate(e) {
       let getData = util.timeFormat(e);
       this.params[this.dateType] = getData;
-      if(this.dateType=='businessTermStart'){
-        console.log('businessTermStart');
-        this.minDate=getData
-      }else{
-        this.minDate=new Date(2009,1,1)
-      }
+      /* if (this.dateType == "businessTermStart") {
+        console.log("businessTermStart");
+        this.minDate = new Date(getData);
+      } else {
+        this.minDate = new Date(2000, 1, 1);
+      } */
       this.showDatepicker = false;
     }
   }

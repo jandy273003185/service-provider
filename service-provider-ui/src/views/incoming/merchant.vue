@@ -220,7 +220,7 @@ export default {
     getNextStep() {
       //到下一步  签约产品
       this.clickedNext = true;
-      let count = form.validParams(this.params);
+      let count = form.validParams(this,this.params);
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
         this.$store.commit("setincoming", fullParams);
