@@ -177,9 +177,10 @@ public class YouTuUtils {
 		logger.info("********************"+ext+"********************");
 		//文件名称
 		String uploadFileName = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","") + "."+ext;
+		logger.info("********************"+uploadFileName+"********************");
 		//存储地址
 		StringBuilder path = new StringBuilder(relativePaths).append("/").append(uploadFileName);
-		logger.info("********************"+path+"********************");
+		logger.info("********************"+String.valueOf(path)+"********************");
 		File saveFile = new File(String.valueOf(path));
 		BASE64Decoder decoder = new BASE64Decoder();
 		try(OutputStream out = new FileOutputStream(saveFile)){
