@@ -1,5 +1,6 @@
 <template>
   <div v-show="logined">
+ <!--管理员-->
     <BaseHeader></BaseHeader>
     <div class="admin">
       <div class="serachBox">
