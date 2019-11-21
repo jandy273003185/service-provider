@@ -121,6 +121,7 @@
           class="datepicker"
           v-show="showDatepicker"
           type="year-month"
+          :min-date="minDate"
           :max-date="maxDate"
           @confirm="confirmDate"
           @cancel="datepickerHide"
@@ -256,7 +257,7 @@ export default {
       uploadType: "",
       clickedNext: false,
       longterm: false,
-      minDate:new Date(2009,1,1),
+      minDate:new Date(2000, 1, 1),
       maxDate: new Date(2029,1,1),
       showDatepicker: false,
       dateType: "",
@@ -473,9 +474,9 @@ export default {
       this.params[this.dateType] = getData;
       if(this.dateType=='businessTermStart'){
         console.log('businessTermStart');
-        this.minDate=getData
+        this.minDate=new Date(getData)
       }else{
-        this.minDate=new Date(2009,1,1)
+        this.minDate=new Date(2000, 1, 1)
       }
       this.showDatepicker = false;
     }
