@@ -2,9 +2,8 @@ const form = {
   validParams: function (that,params) { //校验必填信息 多形态   添加进件
     let arr = Object.keys(params);
     let errCount = 0;
-    arr.map(function (item, index) {
-      console.log(index);
-      if (!params[item]) {
+    arr.map(function (item) {
+      if (!params[item]&&item!='otherPhoto1'&&item!="otherPhoto2") {
         console.log(item);
         errCount++;
       } else {
@@ -20,7 +19,6 @@ const form = {
             errCount++;
           }
         }
-        
       }
     })
     return errCount;
