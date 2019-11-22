@@ -14,7 +14,7 @@
           </div>
           <div class="row">
             <span class="label">商户类型</span>
-            <select v-model="allInfoList.custType||''" readonly>
+            <select v-model="allInfoList.custType" disabled>
               <option value>--</option>
               <option value="0">个人</option>
               <option value="1">企业</option>
@@ -83,7 +83,7 @@
             <div class="row1" ref="qingting" v-if="qinting">
               <van-checkbox class="check" v-model="contract_qinting">蜻蜓产品</van-checkbox>
               <span class="name">结算费率：</span>
-              <input type="text" v-model="qtRate" />
+              <input type="number" v-model="qtRate" />
             </div>
             <div class="row" v-if="qinting">
               <input type="text" v-model="sn" style="border-color:#ccc" placeholder="请输入蜻蜓设备编号SN" />
@@ -91,12 +91,12 @@
             <div class="row1" ref="scan" v-if="scan">
               <van-checkbox v-if="scan" class="check" v-model="contract_scan">扫码产品</van-checkbox>
               <span class="name">结算费率：</span>
-              <input type="text" v-model="scanRate" />
+              <input type="number" v-model="scanRate" />
             </div>
             <div class="row1" ref="app" v-if="app">
               <van-checkbox class="check" v-model="contract_app">app产品</van-checkbox>
               <span class="name">结算费率：</span>
-              <input type="text" v-model="appRate" />
+              <input type="number" v-model="appRate" />
             </div>
           </div>
         </div>

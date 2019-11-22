@@ -51,16 +51,22 @@
 .stepInfo .row1{
     height: vw(80);
     line-height: vw(80);
-  display: flex;
+    display: flex;
     padding: 0 vw(20);
 }
 .stepInfo .row1 .check{
     width: vw(280);
 }
 .stepInfo .row1 .name{
-    width: vw(140);
+    width: vw(180);
     color: #ccc;
 
+}
+.sign .row1  input{
+    height: vw(80);
+    line-height: vw(80);
+    padding-left: vw(50);
+    box-sizing: border-box;
 }
 .row-img .stit{
     height: vw(100);

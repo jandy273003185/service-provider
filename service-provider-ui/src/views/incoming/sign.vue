@@ -4,8 +4,8 @@
     <Step currStep="4" />
     <div class="signTit">签约产品</div>
     <div class="stepInfo sign">
-      <div class="row" ref="dragonfly">
-        <van-checkbox v-model="dragonfly">蜻蜓产品</van-checkbox>
+      <div class="row1" ref="dragonfly">
+        <van-checkbox class="check" v-model="dragonfly">蜻蜓产品</van-checkbox>
         <!--  productId  -->
         <span class="name">结算费率：</span>
         <!--  productRate -->
@@ -14,13 +14,13 @@
       <div class="row" v-show="dragonfly">
         <input type="text" v-model="sn" placeholder="请输入蜻蜓设备编号SN" />
       </div>
-      <div class="row" ref="scan">
-        <van-checkbox v-model="scan">扫码产品</van-checkbox>
+      <div class="row1" ref="scan">
+        <van-checkbox class="check" v-model="scan">扫码产品</van-checkbox>
         <span class="name">结算费率：</span>
         <input type="number" v-model="scanProductRate" placeholder="请输入费率" />
       </div>
-      <div class="row" ref="app">
-        <van-checkbox v-model="app">APP产品</van-checkbox>
+      <div class="row1" ref="app">
+        <van-checkbox class="check" v-model="app">APP产品</van-checkbox>
         <span class="name">结算费率：</span>
         <input type="number" v-model="appProductRate" placeholder="请输入费率" />
       </div>
