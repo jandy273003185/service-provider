@@ -170,6 +170,7 @@ export default {
         axios.defaults.headers.common["token"] = data.resultMsg.token;
         this.setToken(data.resultMsg.token);
         this.setUserId(data.resultMsg.userId);
+        this.setUserName(data.resultMsg.userInfo.userName);
         storage.set("userId", data.resultMsg.userId);
         console.log(storage.get("userId"));
         this.islogin = true;
@@ -228,7 +229,8 @@ export default {
       "setToken",
       "setCustId",
       "setOpenID",
-      "setCode"
+      "setCode",
+      "setUserName"
     ])
   }
 };

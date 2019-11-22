@@ -162,7 +162,6 @@ export default {
     //tab栏调用请求
 
     loadList(){
-      console.log("loadlist");
       this.pageNum+=1;
       this.getAllShopList();
     },
@@ -198,7 +197,6 @@ export default {
 * @param queryEndDate 查询终止时间
 * @param pageSize 页面条数
 * @param pageNum 当前页数*/
-
 
 
 //搜索商户数据
@@ -428,13 +426,19 @@ onSearch(){////将this.value传到后台
       padding:0 vw(30);
       box-sizing: border-box;
       .text{
-        height: vw(60);
+        height: vw(80);
         .titleBar{
           font-size: vw(40);
         }
+        span{
+          font-size: vw(30);
+        }
         button{
+          width: vw(160);
+          height: vw(60);
           background-color: #699dd7;
           color: #fff;
+          border-radius: 3px;
         }
        }
 

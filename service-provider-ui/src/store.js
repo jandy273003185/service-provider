@@ -10,7 +10,7 @@ export default new Vuex.Store({
         role:'', //进入页面的角色，管理员agent或者业务员salesman，登录时传给后台
         salesID:'', //管理员查找业务员时得到的ID，可用于查看业务员个人信息
         LookName:'', //管理员正在查看的业务员的名字
-        /*userId:''  //管理员或者业务员的个人id*/
+        userName:'',//管理员或者业务员的名字
         custId:'',
         userId:'',
         roleId:'',//2是管理员，3是业务员
@@ -67,6 +67,9 @@ export default new Vuex.Store({
         },
         setCode(state,obj){
             state.code=obj;
+        },
+        setUserName(state,obj){
+            state.userName=obj;
         }
     },
     actions: {

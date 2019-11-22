@@ -3,7 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="管理员与业务员互相登录错入口">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/public/MP_verify_LVtMdY24lPWQfWpf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/Administrator.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/Administrator.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/mine/mine.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/mine/mine.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/salesman.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/salesman.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,9 +30,12 @@
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/feedback.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Administrator.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/salesman.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/mine.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/amendPsd.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/companyInfo.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/about.vue" root0="SKIP_INSPECTION" />
   </component>
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
@@ -41,7 +50,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.HTML" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -65,7 +74,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1574345401264</updated>
-      <workItem from="1574391685862" duration="7856000" />
+      <workItem from="1574391685862" duration="13397000" />
     </task>
     <task id="LOCAL-00001" summary="管理员与业务员互相登录错入口">
       <created>1574399372032</created>
@@ -81,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574400459732</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="管理员与业务员互相登录错入口">
+      <created>1574401238643</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1574401238643</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

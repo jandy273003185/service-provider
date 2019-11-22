@@ -2,14 +2,14 @@
     <div class="mine">
         <div class="info">
             <img class="photo"
-                 src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2018939532,1617516463&fm=26&gp=0.jpg"
+                 src="../../assets/images/login/login.png"
             />
             <div class="text">
-                <span>xxxx有限公司</span>
+                <!--<span>xxxx有限公司</span>-->
                 <div class="name">
                     <span v-if="roleId==2">管理员:</span>
                     <span v-if="roleId==3">业务员:</span>
-                    <!--<span>{{userName}}</span>-->
+                    <span>{{userName}}</span>
                 </div>
             </div>
         </div>
@@ -43,22 +43,20 @@
         },
         data(){
             return {
-                userName:'',
-                companyName:''
+
             };
         },
         computed: {
-                ...mapState(['roleId','userId'])
+                ...mapState(['roleId','userId','userName'])
         },
         created(){
 
         },
         mounted(){
-            this.getUserName();
-
+            /*this.getUserName();*/
         },
         methods: {
-            async getUserName(){
+            /*async getUserName(){//获取管理员或者业务员的信息
                 if(this.roleId == '2'){//管理员
                     const infoData=await mineInfo.agent({custId:this.userId});
                     console.log('管理员信息');
@@ -69,7 +67,7 @@
                     console.log('业务员信息');
                     console.log(infoData);
                 }
-            }
+            }*/
 
         }
     };
@@ -78,7 +76,15 @@
     @import "../../style/views/mine.scss";
 
     .mine {
-
+        .info{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            .photo{
+                width: vw(80);
+                height: vw(80);
+            }
+        }
         .menu {
 
             .item {

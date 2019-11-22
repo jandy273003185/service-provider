@@ -228,6 +228,7 @@
             console.log(userData.data.resultMsg.token);
             this.setToken(userData.data.resultMsg.token);
             this.setUserId(userData.data.resultMsg.userId);
+            this.setUserName(userData.data.resultMsg.userInfo.userName);
             localStorage.setItem("token", userData.data.resultMsg.token);
             axios.defaults.headers.common["token"] = userData.data.resultMsg.token;
             storage.set("userId", userData.data.resultMsg.userId);
@@ -257,7 +258,8 @@
           "setRoleId",
           "setOpenID",
           "setCode",
-          "setCustId"
+          "setCustId",
+          "setUserName"
         ])
       }
   }
