@@ -161,6 +161,8 @@ export default {
           //管理员
           this.$router.push("/Administrator");
         }
+      }else{
+        this.$toast("进件信息添加失败！");
       }
     },
     checkSignGoods() {
