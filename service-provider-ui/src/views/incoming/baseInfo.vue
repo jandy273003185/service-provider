@@ -11,7 +11,7 @@
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
           <select v-model="params.custType">
-            <option disabled value>请选择</option>
+            <option disabled value="">请选择</option>
             <option value="0">个人</option>
             <option value="1">企业</option>
           </select>

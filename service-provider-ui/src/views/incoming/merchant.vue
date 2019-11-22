@@ -58,7 +58,7 @@
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcctType)}">结算类型</span>
           <select v-model="params.compMainAcctType">
-            <option disabled value>请选择</option>
+            <option disabled value="">请选择</option>
             <option value="01">企业</option>
             <option value="02">个人</option>
           </select>
