@@ -81,6 +81,8 @@ export default {
         width: vw(400);
         height: vw(80);
         font-size: cw(40);
+        border:none;
+        outline:none;
         color: #FFFFFF;
         background-color: #26a7e9;
       }

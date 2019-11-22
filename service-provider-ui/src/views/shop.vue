@@ -463,6 +463,10 @@ export default {
                 button{
                   width: vw(160);
                   height: vw(60);
+                  border: none;
+                  outline:none;
+                  background-color: #699dd7;
+                  color: #fff;
                   border-radius: 3px;
                 }
                 span{
@@ -470,10 +474,6 @@ export default {
                 }
                 .titleBar{
                   font-size: vw(40);
-                }
-                button{
-                  background-color: #699dd7;
-                  color: #fff;
                 }
               }
 

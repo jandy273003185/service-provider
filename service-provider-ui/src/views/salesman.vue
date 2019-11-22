@@ -94,7 +94,15 @@ export default {
           openId: this.$store.state.openId,
           roleId: this.roleId
         });
-      } else {
+      }else if (this.$route.params.fname && this.$route.params.fname == "Administrator") {//业务员错误的从管理员页面进入
+        this.openId = this.$store.state.openId;
+        this.setRole(this.roleId);
+        this.setRoleId("3");
+        this.firstLogin({
+          openId: this.openId,
+          roleId: this.roleId
+        });
+      }else {
         console.log("其他页返回");
         this.logined=true;
         this.islogin = true;
@@ -173,7 +181,12 @@ export default {
         this.$toast({
           message:data.resultMsg,
           onClose:function(){
-            _this.$router.push("Administrator");
+            _this.$router.push({
+              name: "Administrator",
+              params: {
+                fname: "salesman"
+              }
+            });
           }
         });
       }
