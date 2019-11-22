@@ -452,7 +452,6 @@ export default {
       duration: 0
     });
       upload.blobToBase64( file.file,this);
-    /*  upload.uploadImgRequest( this,file.file) */
     },
     datepickerVisiable(type) {
       this.dateType = type;
