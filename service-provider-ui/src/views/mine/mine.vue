@@ -24,7 +24,7 @@
                 <van-icon class="icon" name="arrow"/>
             </router-link>
             <div class="item">
-                联系客服
+                <span>联系客服</span>
                 <span>400-633-0707</span>
             </div>
         </div>
