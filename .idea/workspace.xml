@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="管理员与业务员互相登录错入口">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/Administrator.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/Administrator.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/mine/feedback.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/mine/feedback.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/salesman.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/salesman.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/style/common/base.styl" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/style/common/base.styl" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -70,8 +63,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1574345401264</updated>
-      <workItem from="1574391685862" duration="6062000" />
+      <workItem from="1574391685862" duration="6979000" />
     </task>
+    <task id="LOCAL-00001" summary="管理员与业务员互相登录错入口">
+      <created>1574399372032</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1574399372032</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -87,5 +88,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="管理员与业务员互相登录错入口" />
+    <option name="LAST_COMMIT_MESSAGE" value="管理员与业务员互相登录错入口" />
   </component>
 </project>
