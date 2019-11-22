@@ -182,35 +182,44 @@ public class AgentController {
                         productInfoService.saveTdMerchantProductInfo(tdMerchantProductInfo);
                     }
                 }
-            }else {//完善后提交（修改操作）
-                tdCustInfo.setMerchantMobile(tdCustInfo.getMerchantAccount());
+                //进件完成
+                return new ResultBean("1", custId);
+            }
+        }else { //完善后提交（修改操作）
                 String custId1 = tdCustInfo.getCustId();//商户编号
+                if (custId1 == null){
+                    return new ResultBean<>("0","商户进件失败");
+                }
+                tdCustInfo.setMerchantMobile(tdCustInfo.getMerchantAccount());
                 tdCustInfo.setModifyTime(new Date());//修改时间
                 tdCustInfo.setModifyId(request.getParameter("userId"));//修改人
-                if (custId1 != null) {
-                    merchantInfoService.updateMerchant(tdCustInfo);
-                    //扫描件路径保存
-                    List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request,custId1);
-                    if (scanCopyList.size() > 0){
-                        for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
-                            merchantInfoService.updateTdCustScanCopy(tdCustScanCopy);
-                        }
+                merchantInfoService.updateMerchant(tdCustInfo);
+                //扫描件路径保存
+                List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request,custId1);
+                if (scanCopyList != null){
+                    for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
+                        merchantInfoService.updateTdCustScanCopy(tdCustScanCopy);
                     }
-                    //产品保存
-                    TdMerchantProductInfo MerchantProductInfo = new TdMerchantProductInfo();
-                    MerchantProductInfo.setMchCustId(custId1);
-                    List<TdMerchantProductInfo> productList = AddTdMerchantProductInfo.add(request, custId1);
-                    List<TdMerchantProductInfo> merchantProductInfos = productInfoService.selectOpenProductInfo(MerchantProductInfo);
+                }
+                //产品保存
+                TdMerchantProductInfo MerchantProductInfo = new TdMerchantProductInfo();
+                MerchantProductInfo.setMchCustId(custId1);
+                List<TdMerchantProductInfo> productList = AddTdMerchantProductInfo.add(request, custId1);
+                List<TdMerchantProductInfo> merchantProductInfos = productInfoService.selectOpenProductInfo(MerchantProductInfo);
+                if (merchantProductInfos.size()>0){
                     for (TdMerchantProductInfo merchantProductInfo : merchantProductInfos) {//删除旧的产品
+                        merchantProductInfo.setMchCustId(custId1);
                         productInfoService.delMerchantProduct(merchantProductInfo);
                     }
+                }
+                if (productList != null){
                     for (TdMerchantProductInfo tdMerchantProductInfo : productList) {//存储新的产品
                         productInfoService.selectOpenProductInfo(tdMerchantProductInfo);
                     }
                 }
-            }
-            //进件完成
-            return new ResultBean("1", custId);
+                //修改进件完成
+                return new ResultBean("1", custId1);
+
         }
        return new ResultBean("0","商户进件失败");
     }

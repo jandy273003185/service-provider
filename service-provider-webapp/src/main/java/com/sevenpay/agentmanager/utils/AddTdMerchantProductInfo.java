@@ -20,6 +20,9 @@ public class AddTdMerchantProductInfo {
         private static List<TdMerchantProductInfo> addTdMerchantProductInfo(HttpServletRequest request,String custId) throws ParseException {
         //扫码
             String productInfos = request.getParameter("productInfos");
+            if (productInfos == null) {
+                return null;
+            }
             List<TdMerchantProductInfo> merchantProductInfos = jsonToList(productInfos, TdMerchantProductInfo.class);//productId、productRate、sn
             for (TdMerchantProductInfo tdMerchantProductInfo : merchantProductInfos) {
                 tdMerchantProductInfo.setMchCustId(custId);//商户编号

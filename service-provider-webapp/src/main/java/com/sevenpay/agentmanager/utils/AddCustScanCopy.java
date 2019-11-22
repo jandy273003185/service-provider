@@ -21,6 +21,9 @@ public class AddCustScanCopy{
         //保存身份证正面00 个人身份证正面  01 税务登记证  02 营业执照 03 开户证件 04商户身份信息 05 银行卡扫描件 06 其他证件 18店内照  11行业资质照  12电子签名照
         //	 * 	13 银行卡正面  14  银行卡反面  15合作证明函  16 个人身份证反面   18 店面内景   19 手持身份证正面   20 店面门头照   21 店面前台照  22 合作证明函
         String custScanCopys = request.getParameter("custScanCopys");
+        if (custScanCopys == null) {
+            return null;
+        }
         List<TdCustScanCopy> tdCustScanCopies = jsonToList(custScanCopys, TdCustScanCopy.class);//类型certifyType和路径scanCopyPath及证件号certifyNo
         for (TdCustScanCopy tdCustScanCopy : tdCustScanCopies) {
             tdCustScanCopy.setCustId(custId);//商户编号

@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/service-provider.iml" filepath="$PROJECT_DIR$/.idea/service-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-provider-webapp/service-provider.iml" filepath="$PROJECT_DIR$/service-provider-webapp/service-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-provider-parent.iml" filepath="$PROJECT_DIR$/service-provider-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-provider-ui/service-provider-ui.iml" filepath="$PROJECT_DIR$/service-provider-ui/service-provider-ui.iml" />
     </modules>
   </component>
 </project>
