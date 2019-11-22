@@ -325,7 +325,6 @@ export default {
         forbidClick: true,
         duration: 0
       });
-      console.log("完善信息的custID"+this.custId);
       let res = await incoming.getIncoming({ custId: this.custId });
       this.$toast.clear();
       this.$store.commit("setincomingReturn", res.data.resultMsg);

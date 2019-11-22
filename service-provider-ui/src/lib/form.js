@@ -3,7 +3,7 @@ const form = {
     let arr = Object.keys(params);
     let errCount = 0;
     arr.map(function (item) {
-      if (!params[item]&&item!='otherPhoto1'&&item!="otherPhoto2") {
+      if (!params[item]&&item!='otherPhoto1'&&item!="otherPhoto2"&&item!="custId") {
         console.log(item);
         errCount++;
       } else {
