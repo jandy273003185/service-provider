@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.gyzb.platform:gyzb-platform-web:classes:1.0">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/gyzb/platform/gyzb-platform-web/1.0/gyzb-platform-web-1.0-classes.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/gyzb/platform/gyzb-platform-web/1.0/gyzb-platform-web-1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/gyzb/platform/gyzb-platform-web/1.0/gyzb-platform-web-1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
