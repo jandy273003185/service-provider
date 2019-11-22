@@ -318,8 +318,7 @@ export default {
       }
       if (type == "corvidae") {
         //待完善
-        let custId = this.custId;
-        this.getIncomingInfo(custId);
+        this.getIncomingInfo();
       }
     } else {
       this.params = Object.assign(this.params, this.incoming);
@@ -349,14 +348,15 @@ export default {
         this.$router.push("legalInfo");
       }
     },
-    async getIncomingInfo(custId) {
+    async getIncomingInfo() {
       //获取之前提交进件数据
       this.$toast.loading({
         message: "加载中..",
         forbidClick: true,
         duration: 0
       });
-      let res = await incoming.getIncoming({ custId: custId });
+      console.log("完善信息的custID"+this.custId);
+      let res = await incoming.getIncoming({ custId: this.custId });
       this.$toast.clear();
       this.$store.commit("setincomingReturn", res.data.resultMsg);
       let custInfo = res.data.resultMsg.custInfo;
