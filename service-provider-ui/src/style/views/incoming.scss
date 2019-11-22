@@ -1,5 +1,6 @@
 @import '../common/base.scss';
 .incoming{
+    background: #fff;
     padding-bottom: vw(60);
 }
 .stepInfo .row{
@@ -114,6 +115,10 @@
     height: vw(195);
     overflow: hidden;
     padding-top: vw(15);
+}
+.row-img .van-uploader{
+    padding-top: 0;
+    height: vw(210);
 }
 .btn{
     width: vw(690);

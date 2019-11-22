@@ -67,29 +67,29 @@
 }
 /* 步骤 */
 .step{
-  width: vw(720);
-  height:vw(100);
-  line-height: vw(100);
-  margin: vw(40) vw(25) vw(5) vw(30);
+  width: vw(750);
+  height:vw(130);
   overflow: hidden;
+  display: flex;
+  text-align: center;
+  border-bottom: 1px solid #f1f1f1;
 }
-.step .item{
+.step .item{ 
+   flex: 1;
     height: 100%;
     position: relative;
 }
+.step .item.last{
+  width: vw(90);
+}
 .step .item .name{
-    line-height: 1em;;
-    position: absolute;
-    bottom: 0;
-    left: 0;;
+    color: #666;
+    line-height: 1.2em;;
 }
-.step div{
- float: left
-}
-.circle {
-  width:vw(56);
-  height:vw(56);
-  line-height: vw(56);
+
+.step .circle {
+  height:vw(60);
+  line-height: vw(60);
   box-sizing:content-box;
   margin: 0 vw(6);
   text-align: center;
@@ -97,32 +97,32 @@
   color: #fff;
 }
 
-.circle .icon{
+.step .circle .icon{
   display: block;
   font-size: vw(56);
   color: #ccc;
 }
-.circle.active .icon{
+.step .circle.active .icon{
   color: #1484FF;
 }
-.circle .num{
+.step .circle .num{
   display: block;
   width:vw(56);
   height:vw(56);
   line-height: vw(56);
   position: absolute;
   top: vw(2);
-  left: 0;
-  z-index: 9;
+  left: vw(59);
   text-align: center;
 }
-.line{
-  width: vw(133);
+.step .line{
+  width: vw(103);
   height: vw(2);
   background: #ccc;
-  margin:vw(26) 0;
+  position: absolute;
+  left: vw(135);
+  top: vw(30);
 }
-.line.hide{
-  width: vw(36);
-  opacity: 0;
+.step .line.hide{
+  display: none;
 }

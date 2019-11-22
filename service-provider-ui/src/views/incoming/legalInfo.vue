@@ -1,5 +1,5 @@
 <template>
-  <div class="incoming">
+  <div class="incoming legalInfo">
     <van-nav-bar title="法人信息" left-text="返回" left-arrow @click-left="changePrepage" />
     <Step currStep="2" />
     <div class="stepInfo" ref="baseform">
@@ -88,7 +88,7 @@ import util from "@/lib/util.js";
 import { mapState } from "vuex";
 import { common } from "@/assets/api/interface";
 export default {
-  name: "incoming",
+  name: "legalInfo",
   components: {
     Step: () => import("@/components/step")
   },

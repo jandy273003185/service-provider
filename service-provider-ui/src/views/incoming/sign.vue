@@ -1,8 +1,8 @@
 <template>
-  <div class="incoming">
+  <div class="incoming sign">
     <van-nav-bar title="产品签约" left-text="返回" left-arrow @click-left="changePrepage" />
     <Step currStep="4" />
-    <div class="signTit">签约产品</div>
+    <div class="signTit" style="margin-top:0">签约产品</div>
     <div class="stepInfo sign">
       <div class="row1" ref="dragonfly">
         <van-checkbox class="check" v-model="dragonfly">蜻蜓产品</van-checkbox>
@@ -37,7 +37,7 @@ import { mapState } from "vuex";
 import { Dialog } from "vant";
 import { incoming } from "@/assets/api/interface";
 export default {
-  name: "incoming",
+  name: "sign",
   components: {
     /*     Modal: () => import("@/components/modal"), */
     Step: () => import("@/components/step")

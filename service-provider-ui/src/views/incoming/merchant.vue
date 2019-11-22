@@ -1,5 +1,5 @@
 <template>
-  <div class="incoming">
+  <div class="incoming merchant">
     <van-nav-bar title="结算信息" left-text="返回" left-arrow @click-left="changePrepage" />
     <Step currStep="3" />
     <div class="stepInfo">
@@ -93,7 +93,7 @@ import bankInfo from "@/lib/bankInfo.js";
 import { mapState } from "vuex";
 import { common } from "@/assets/api/interface";
 export default {
-  name: "incoming",
+  name: "merchant",
   components: {
     /*     Modal: () => import("@/components/modal"), */
 

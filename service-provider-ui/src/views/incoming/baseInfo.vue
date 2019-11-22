@@ -1,5 +1,5 @@
 <template>
-  <div class="baseInfo">
+  <div class="incoming baseInfo">
     <van-nav-bar title="基本信息" left-text="返回" left-arrow @click-left="changePrepage" />
     <Step currStep="1" />
     <div class="stepInfo">
