@@ -170,10 +170,7 @@
           </div>
         </div>
         <div class="row-img">
-          <div
-            class="stit"
-            :class="{'active':(clickedNext&&!params.electronicSignaturePhoto)}"
-          >电子签名照</div
+          <div class="stit" :class="{'active':(clickedNext&&!params.electronicSignaturePhoto)}">电子签名照</div>
           <div @click="beforeUploadImg('electronicSignaturePhoto')">
             <van-uploader
               v-model="photos.electronicSignaturePhoto"
