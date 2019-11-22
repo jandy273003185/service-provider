@@ -141,6 +141,7 @@ export default {
     toIncoming() {
       //路由跳转到商户进件页面
       console.log("商户进件");
+      this.setCustId('');
       this.$router.push("baseInfo");
     },
     searchshop() {
@@ -192,16 +193,16 @@ export default {
     },
     //查看审核失败信息和审核成功信息
     toDetail(state, custId) {
-      if (state == "04") {
+      if (state == "04") {//失败
         this.$router.push("whyFailed");
       }
-      if (state == "00") {
+      if (state == "00") {//成功
         this.$router.push("/audit/pass");
       }
-      if (state == "05") {
+      if (state == "05") {//待完善
         this.$router.push({
           name: "baseInfo",
-          params: { type: "corvidae", custId: custId }
+          params: { type: "corvidae" }
         });
       }
       this.setCustId(custId);

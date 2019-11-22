@@ -167,6 +167,7 @@ export default {
     toIncoming() {
       //路由跳转到商户进件页面
       console.log("商户进件");
+      this.setCustId('');
       this.$router.push("baseInfo");
     },
     searchshop() {
@@ -234,7 +235,8 @@ export default {
       "setUserId",
       "setRoleId",
       "setOpenID",
-      "setCode"
+      "setCode",
+      "setCustId",
     ])
   }
 };

@@ -59,7 +59,7 @@ export default {
     };
   },
   computed: { 
-    ...mapState(["checkedState", "incoming", "incomingReturn", "savephotos",'roleId'])
+    ...mapState(["checkedState", "incoming", "incomingReturn", "savephotos",'roleId','custId'])
   },
   created() {
     console.log(this.$route.params);
@@ -131,10 +131,13 @@ export default {
           .then(() => {
             let prolist = this.checkSignGoods();
             if (prolist.length > 0) {
-              let fullParams = Object.assign(this.incoming, this.params, {
+              let obj={
                 roleId:this.roleId,
-                state: state
-              });
+                state: state,
+                custId:this.custId,
+              }
+              let fullParams = Object.assign(this.incoming, this.params, );
+
               fullParams.productInfos = JSON.stringify(prolist); //产品
               let custScanCopys = util.getAllPhotos(this.savephotos); //图片
               fullParams.custScanCopys = custScanCopys;
