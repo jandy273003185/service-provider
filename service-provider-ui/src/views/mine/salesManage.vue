@@ -10,16 +10,16 @@
     <van-row class="row" v-for="(item,idx) in saleList" :key="idx">
       <van-col span="6">{{item.userName}}</van-col>
       <van-col span="10">{{item.userPhone}}</van-col>
-      <van-col span="5" @click="resetPwd(item.custId,item.id)">重置密码</van-col>
+      <van-col span="5" @click="resetPwd(item.custId,item.salesmanId)">重置密码</van-col>
       <van-col
         span="3"
         v-if="item.status==1"
-        @click="deleteSale(item.custId,item.id,item.status)"
+        @click="deleteSale(item.custId,item.salesmanId,item.status)"
       >冻结</van-col>
       <van-col
         span="3"
         v-if="item.status==0"
-        @click="undeleteSale(item.custId,item.id,item.status)"
+        @click="undeleteSale(item.custId,item.salesmanId,item.status)"
       >解冻</van-col>
     </van-row>
     <van-row class="row" v-show="adding">

@@ -130,7 +130,7 @@
             changeFn() { // 值变化是触发
                 this.changeDate = this.currentDate // Tue Sep 08 2020 00:00:00 GMT+0800 (中国标准时间)
             },
-            confirmFn() { // 日历的确定按钮
+            confirmFn() { // 日历上的确定按钮
                 if(this.type=='timeStart'){
                     this.timeStart = this.timeFormat(this.currentDate);
                 }
@@ -142,10 +142,15 @@
             cancelFn(){//取消按钮
                 this.show = false;
             },
+            timer(time){//将个位数日期变两位数
+                return time < 10 ? '0' + time : '' + time;
+            },
             timeFormat(time) { // 时间格式化 2019-09-08
                 let year = time.getFullYear();
                 let month = time.getMonth() + 1;
+                month = this.timer(month);
                 let day = time.getDate();
+                day = this.timer(day);
                 return year + '-' + month + '-' + day
             },
             nowTime(){
@@ -159,15 +164,26 @@
                 this.showTime = false;
             },
             affirm(){//确认查看日期
-                this.showTime = false;
+
                 if(this.isActive==1){
                     this.timeValue = '近七天';
+                    this.showTime = false;
                 }else {
                     if(this.isActive==2){
                         this.timeValue = '近三十天';
+                        this.showTime = false;
                     }
                     if(this.isActive==3){
-                        this.timeValue = this.timeStart + '到' + this.timeEnd;
+                        this.startMs = new Date(this.timeStart).getTime();//开始日期的毫秒数
+                        this.endMs = new Date(this.timeEnd).getTime();//结束日期的毫秒数
+                        if(this.startMs <= this.endMs){
+                            this.showTime = false;
+                            this.timeValue = this.timeStart + '到' + this.timeEnd;
+                            console.log(this.timeStart,this.timeEnd);
+                        }else {
+                            Dialog({ message: '查看的开始时间必须小于或等于结束时间！！' });
+                            return;
+                        }
                     }
                     this.salesDetail();
                 }

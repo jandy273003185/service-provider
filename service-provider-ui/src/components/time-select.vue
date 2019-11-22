@@ -178,7 +178,8 @@ export default {
                     this.timeValue = this.timeStart + '到' + this.timeEnd;
                     console.log(this.timeStart,this.timeEnd);
                 }else {
-                    Dialog({ message: '查看的开始时间必须小于或等于结束时间！！' })
+                    Dialog({ message: '查看的开始时间必须小于或等于结束时间！！' });
+                  return;
                 }
             }
              this.getHomeShopInfo()

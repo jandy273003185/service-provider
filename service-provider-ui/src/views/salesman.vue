@@ -169,9 +169,9 @@ export default {
         localStorage.setItem("token", data.resultMsg.token);
         axios.defaults.headers.common["token"] = data.resultMsg.token;
         this.setToken(data.resultMsg.token);
-        this.setUserId(data.resultMsg.userId);
+        this.setUserId(data.resultMsg.userInfo.salesmanId);
         this.setUserName(data.resultMsg.userInfo.userName);
-        storage.set("userId", data.resultMsg.userId);
+        storage.set("userId", data.resultMsg.userInfo.salesmanId);
         console.log(storage.get("userId"));
         this.islogin = true;
         this.salesShopNew();
@@ -200,7 +200,6 @@ export default {
         pageNum: "1",
         roleId: "3"
       });
-      console.log(storage.get("userId"));
       console.log(listInfo);
       this.statesList = listInfo.data.resultMsg.data;
       /*let total=listInfo.data.resultMsg.total;*/
@@ -221,7 +220,6 @@ export default {
       }
       this.setCustId(custId);
     },
-
     ...mapMutations([
       "setRole",
       "setRoleId",

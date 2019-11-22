@@ -238,10 +238,15 @@ onSearch(){////将this.value传到后台
     cancelFn(){//取消按钮
       this.show = false;
     },
+    timer(time){//将个位数日期变两位数
+      return time < 10 ? '0' + time : '' + time;
+    },
     timeFormat(time) { // 时间格式化 2019-09-08
       let year = time.getFullYear();
       let month = time.getMonth() + 1;
+      month = this.timer(month);
       let day = time.getDate();
+      day = this.timer(day);
       return year + '-' + month + '-' + day
     },
     cancel(){//取消选择自定义日期
