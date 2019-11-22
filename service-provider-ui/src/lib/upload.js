@@ -11,7 +11,6 @@ const uploadImg = {
     if (info.data.resultCode == "200") {
       let resultMsg = JSON.parse(info.data.resultMsg);
       let fullUrl = resultMsg.uri + "" + resultMsg.url;
-      console.log("图片路径" + fullUrl);
       that.params[that.uploadType] = fullUrl;
       that.photos[that.uploadType] = [{
         url: fullUrl

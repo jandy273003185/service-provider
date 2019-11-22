@@ -305,6 +305,7 @@ export default {
     getNextStep() {
       //到下一步 法人信息
       this.clickedNext = true;
+      console.log(this.params);
       let count = form.validParams(this, this.params);
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
@@ -451,7 +452,7 @@ export default {
       forbidClick: true,
       duration: 0
     });
-      upload.blobToBase64( file.file,this);
+      upload.blobToBase64(file.file,this);
     },
     datepickerVisiable(type) {
       this.dateType = type;
