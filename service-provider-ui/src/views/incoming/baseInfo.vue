@@ -77,7 +77,6 @@
         </div>
         <div class="row-img">
           <div class="stit" :class="{'active':(clickedNext&&!params.businessLicense)}">
-            <!-- businessLicense -->
             营业执照照片
             <span>(必须)</span>
           </div>
@@ -88,11 +87,8 @@
             v-model="photos.businessLicense"
             preview-size="auto"
           >
-            <!--  v-modal="businessLicenseUrl" -->
-            <!-- v-show="!businessLicenseUrl" -->
             <van-button icon="photo" type="primary">上传营业执照</van-button>
           </van-uploader>
-          <!--   <img :src="params.businessLicenseUrl" v-show="params.businessLicenseUrl" /> -->
         </div>
 
         <div class="row">
@@ -101,7 +97,6 @@
         </div>
         <div class="row">
           <span class="label">营业执照有效期</span>
-          <!-- businessTerm -->
           <div class="data">
             <input
               placeholder="开始日期"
@@ -129,7 +124,6 @@
           :max-date="maxDate" -->
         <div class="row-img">
           <div class="stit" :class="{'active':(clickedNext&&!params.shopFrontDesk)}">
-            <!-- shopFrontDesk -->
             门头照照片
             <span>(必须)</span>
           </div>
@@ -138,18 +132,14 @@
               :after-read="uploadImg"
               v-model="photos.shopFrontDesk"
               :max-count="1"
-             
               preview-size="auto"
             >
- <!-- :max-size="maxSize" -->
               <van-button icon="photo" type="primary">上传门头照照片</van-button>
             </van-uploader>
           </div>
-          <!--   <img :src="params.shopFrontDesk" v-show="params.shopFrontDesk" /> -->
         </div>
         <div class="row-img" :class="{'active':(clickedNext&&!params.shopInterior)}">
           <div class="stit" :class="{'active':(clickedNext&&!params.shopInterior)}">
-            <!-- shopInterior -->
             店内照
             <span>(必须)</span>
           </div>
@@ -159,14 +149,11 @@
               v-model="photos.shopInterior"
               :after-read="uploadImg"
               :max-count="1"
-              :max-size="maxSize"
               preview-size="auto"
             >
               <van-button icon="photo" type="primary">上传店内照片</van-button>
             </van-uploader>
           </div>
-
-          <!--   <img :src="params.shopInterior" v-show="params.shopInterior" /> -->
         </div>
         <div class="row-img">
           <!-- specialBusiness -->
@@ -176,64 +163,50 @@
               :after-read="uploadImg"
               v-model="photos.specialBusiness"
               :max-count="1"
-              :max-size="maxSize"
               preview-size="auto"
             >
-              <!-- v-show="!params.specialBusiness" -->
               <van-button icon="photo" type="primary">上传特殊行业资质照</van-button>
             </van-uploader>
           </div>
-          <!--  <img :src="params.specialBusiness" v-show="params.specialBusiness" /> -->
         </div>
         <div class="row-img">
           <div
             class="stit"
             :class="{'active':(clickedNext&&!params.electronicSignaturePhoto)}"
-          >电子签名照</div>
-          <!-- electronicSignaturePhoto -->
+          >电子签名照</div
           <div @click="beforeUploadImg('electronicSignaturePhoto')">
             <van-uploader
               v-model="photos.electronicSignaturePhoto"
               :after-read="uploadImg"
               :max-count="1"
-              :max-size="maxSize"
               preview-size="auto"
             >
               <van-button icon="photo" type="primary">上传电子签名照</van-button>
             </van-uploader>
           </div>
-          <!--  <img :src="params.electronicSignaturePhoto" /> -->
         </div>
         <div class="row-img">
           <div class="stit">其他资料照</div>
-          <!-- :class="{'active':(clickedNext&&!params.otherPhoto1)}" -->
-          <!-- otherPhoto1 2 -->
           <div class="img-col" @click="beforeUploadImg('otherPhoto1')">
             <van-uploader
               v-model="photos.otherPhoto1"
               :after-read="uploadImg"
               :max-count="1"
-              :max-size="maxSize"
               preview-size="auto"
             >
-              <!-- v-show="!params.otherPhoto1" -->
               <van-button icon="photo" type="primary">其他资料照</van-button>
             </van-uploader>
           </div>
-          <!--  <img :src="params.otherPhoto1" v-show="params.otherPhoto1" /> -->
           <div class="img-col" @click="beforeUploadImg('otherPhoto2')">
             <van-uploader
               :after-read="uploadImg"
               v-model="photos.otherPhoto2"
               :max-count="1"
-              :max-size="maxSize"
               preview-size="auto"
             >
-              <!--  v-show="!params.otherPhoto2" -->
               <van-button icon="photo" type="primary">其他资料照</van-button>
             </van-uploader>
           </div>
-          <!--    <img :src="params.otherPhoto2" v-show="params.otherPhoto2" /> -->
         </div>
         <div class="btn" @click="getNextStep">下一步</div>
       </div>
@@ -253,7 +226,6 @@ export default {
   },
   data() {
     return {
-      maxSize:2097152,
       pagetype: "",
       provincepicker: false,
       citypicker: false,

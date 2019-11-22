@@ -6,9 +6,7 @@
     <div class="stepInfo sign">
       <div class="row1" ref="dragonfly">
         <van-checkbox class="check" v-model="dragonfly">蜻蜓产品</van-checkbox>
-        <!--  productId  -->
         <span class="name">结算费率：</span>
-        <!--  productRate -->
         <input type="number" v-model="dragonflyProductRate" placeholder="请输入费率" />
       </div>
       <div class="row" v-show="dragonfly">
@@ -55,7 +53,6 @@ export default {
       scanProductRate: "",
       appProductRate: "",
       params: {}
-      /*   URL_BASE: this.$store.state.URL_BASE, */
     };
   },
   computed: { 

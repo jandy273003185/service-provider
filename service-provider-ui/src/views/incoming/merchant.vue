@@ -6,7 +6,6 @@
       <div ref="baseform">
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcct)}">结算账号</span>
-          <!-- compMainAcct -->
           <input
             v-model="params.compMainAcct"
             placeholder="请输入结算账号"
@@ -15,12 +14,10 @@
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.compAcctBank)}">开户银行</span>
-          <!--  compAcctBank -->
           <input v-model="params.compAcctBank" disabled placeholder="请输入开户银行" />
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.bankProvinceName)}">开户省份</span>
-          <!--  province -->
           <input
             v-model="params.bankProvinceShow"
             placeholder="请选择省份"
@@ -30,7 +27,6 @@
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.bankCityName)}">开户城市</span>
-          <!-- city -->
           <input v-model="params.bankCityShow" placeholder="请选择城市" readonly @click="getCity" />
         </div>
         <van-picker
@@ -53,17 +49,14 @@
         />
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.branchBank)}">开户支行</span>
-          <!--  branchBank -->
           <input v-model="params.branchBank" placeholder="开户支行" />
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.representativeName)}">开户人</span>
-          <!-- representativeName -->
           <input v-model="params.representativeName" placeholder="请输入开户人" />
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcctType)}">结算类型</span>
-          <!--  compMainAcctType -->
           <select v-model="params.compMainAcctType">
             <option disabled value>请选择</option>
             <option value="01">企业</option>
@@ -75,19 +68,16 @@
             开户许可证照片
             <span>(必须)</span>
           </div>
-          <!-- v-show="!params.licenceForOpeningAccounts" -->
           <div @click="beforeUploadImg('licenceForOpeningAccounts')">
             <van-uploader
               :after-read="uploadImg"
               v-model="photos.licenceForOpeningAccounts"
               :max-count="1"
-              :max-size="maxSize"
               preview-size="auto"
             >
               <van-button icon="photo" type="primary">上传开户许可证照</van-button>
             </van-uploader>
           </div>
-          <!--  <img :src="params.licenceForOpeningAccounts" v-show="params.licenceForOpeningAccounts" /> -->
         </div>
         <div class="btn" @click="getNextStep">下一步</div>
         <div class="btn back" @click="getPreStep">返回</div>

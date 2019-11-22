@@ -18,11 +18,9 @@
             :max-count="1"
             preview-size="auto"
           >
-            <!-- v-show="!params.identityCardFront" -->
             <van-button icon="photo" type="primary">身份证正面照</van-button>
           </van-uploader>
         </div>
-        <!--  <img :src="params.identityCardFront" v-show="params.identityCardFront" /> -->
         <div class="img-col" @click="beforeUploadImg('certAttribute2')">
           <van-uploader
             :after-read="afterReadImg"
@@ -30,11 +28,9 @@
             :max-count="1"
             preview-size="auto"
           >
-            <!--  v-show="!params.identityCardReverse" -->
             <van-button icon="photo" type="primary">身份证反面照</van-button>
           </van-uploader>
         </div>
-        <!-- <img :src="params.identityCardFront" v-show="params.identityCardReverse" /> -->
       </div>
       <div class="row">
         <span class="label" :class="{'active':(clickedNext&&!params.representativeName)}">法人名字</span>
@@ -43,7 +39,6 @@
       <div class="row">
         <span class="label" :class="{'active':(clickedNext&&!params.representativeCertNo)}">法人身份证号</span>
         <input v-model="params.representativeCertNo" placeholder="请输入法人身份证号" />
-        <!-- certifyNo  -->
       </div>
       <div class="row">
         <span
@@ -64,7 +59,6 @@
             @click="datepickerVisiable('idTermEnd')"
           />
         </div>
-        <!--  idTermEnd -->
       </div>
       <van-datetime-picker
         class="datepicker"
@@ -93,14 +87,9 @@ import form from "@/lib/form.js";
 import util from "@/lib/util.js";
 import { mapState } from "vuex";
 import { common } from "@/assets/api/interface";
-/* import minify from "@/lib/compressFile.js";
-import util from "@/lib/util.js";
-import API from "@/lib/api.js"; */
 export default {
   name: "incoming",
   components: {
-    /*     Modal: () => import("@/components/modal"), */
-
     Step: () => import("@/components/step")
   },
   data() {
