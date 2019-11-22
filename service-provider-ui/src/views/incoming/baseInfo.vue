@@ -305,7 +305,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["incoming", "savephotos", "incomingReturn"])
+    ...mapState(["incoming", "savephotos", "incomingReturn",'custId'])
   },
   created() {
     let type = this.$route.params.type;
@@ -318,7 +318,7 @@ export default {
       }
       if (type == "corvidae") {
         //待完善
-        let custId = this.$route.params.custId;
+        let custId = this.custId;
         this.getIncomingInfo(custId);
       }
     } else {
