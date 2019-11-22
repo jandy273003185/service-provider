@@ -105,13 +105,15 @@
 }
 .van-uploader__preview{
     width: vw(321);
-    height: vw(195);
+    height: vw(210);
     overflow: hidden;
 	border-radius: 4px;
 }
 .row-img .van-uploader,.row-img .van-uploader__preview-image,.row-img .van-uploader__preview-image img {
     width: vw(321);
-	height: vw(195);
+    height: vw(195);
+    overflow: hidden;
+    padding-top: vw(15);
 }
 .btn{
     width: vw(690);

@@ -101,7 +101,7 @@ export default {
   },
   data() {
     return {
-      maxSize:2097152,
+      maxSize: 2097152,
       clickedNext: false,
       provincepicker: false,
       citypicker: false,
@@ -197,8 +197,8 @@ export default {
       console.log("确认省份");
       this.params.bankProvinceName = value.bankProvinceId;
       this.params.bankProvinceShow = value.bankProvinceName;
-      this.params.bankCityName ='';//清除市数据
-      this.params.bankCityShow ='';
+      this.params.bankCityName = ""; //清除市数据
+      this.params.bankCityShow = "";
       this.provincepicker = false;
     },
 
@@ -212,7 +212,7 @@ export default {
     getNextStep() {
       //到下一步  签约产品
       this.clickedNext = true;
-      let count = form.validParams(this,this.params);
+      let count = form.validParams(this, this.params);
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
         this.$store.commit("setincoming", fullParams);
@@ -244,8 +244,12 @@ export default {
     },
     uploadImg(file) {
       //图片上传
-      upload.blobToBase64( file.file,this);
-      /* upload.uploadImgRequest( this,file.file) */
+      this.$toast.loading({
+        message: "图片上传中..",
+        forbidClick: true,
+        duration: 0
+      });
+      upload.blobToBase64(file.file, this);
     }
   }
 };

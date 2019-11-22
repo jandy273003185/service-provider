@@ -17,6 +17,7 @@ const uploadImg = {
         url: fullUrl
       }];
     }
+    that.$toast.clear();
   },
   /**
    * 获取到的二进制文件 转 base64文件
