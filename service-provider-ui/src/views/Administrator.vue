@@ -4,7 +4,7 @@
     <BaseHeader></BaseHeader>
     <div class="admin">
       <div class="serachBox">
-        <div class="search" @click="searchshop">
+        <div class="search" @click="searchSalesman">
           <img class="searchIcon" src="../assets/images/home/search.png" alt/>
           <div>搜索业务员名字</div>
         </div>
@@ -187,9 +187,15 @@
           this.$router.push("baseInfo");
         }
       ,
-        searchshop(){
-          //搜索商户
-          this.$router.push("SearchSalesman");
+        searchSalesman(){
+          //搜索业务员
+          this.$router.push({
+            name: "searchSalesman",
+            params: {//参数
+              fname: "Administrator"
+            }
+          });
+
         }
       ,
         async getSalesRanking(type) {
@@ -220,10 +226,10 @@
         async firstLogin(params){//初次进入主页，传OpenId到后台，判断是否有绑定过账户
           const userData = await login.firstLogin(params);
           console.log(userData);
-          if (userData.data.resultCode == "0") {
+          if (userData.data.resultCode == "0") {//未绑定用户，跳转至登录页面
             this.$router.push("login");
           }
-          if (userData.data.resultCode == "1") {
+          if (userData.data.resultCode == "1") {//已绑定用户
             this.logined = true;
             console.log(userData.data.resultMsg.token);
             this.setToken(userData.data.resultMsg.token);
@@ -236,9 +242,9 @@
             this.islogin = true;
             this.getSalesRanking("0");
           }
-          if (userData.data.resultCode == "2") {//管理员进入了业务员入口
+          if (userData.data.resultCode == "2") {//业务员进入了管理员入口
             const _this = this;
-            this.$toast({//轻提示，默认2秒后执行onclone函数
+            this.$toast({//轻提示，默认2秒后自动关闭提示是执行onclone函数
               message: userData.data.resultMsg,
               onClose: function () {
                   _this.$router.push({

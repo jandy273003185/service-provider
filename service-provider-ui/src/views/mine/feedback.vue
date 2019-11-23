@@ -20,7 +20,7 @@
         </van-cell-group>
         <div class="phonenumber">
           <van-field v-model="phoneNumber" placeholder="请输入您的联系方式（选填）" />
-          <button class="submit">提交</button>
+          <button class="submit" @click="submit">提 交</button>
         </div>
 
       </div>
@@ -46,6 +46,15 @@ export default {
     onClickLeft() {
       this.$router.go(-1);
     },
+    submit(){
+      console.log(565465);
+      this.$toast({//轻提示，1s后自动关闭
+        message: "暂未开通意见反馈功能，敬请期待",
+        duration:1500,   //提示展示时间
+        closeOnClickOverlay:true
+
+      });
+    }
   }
 };
 </script>
@@ -58,12 +67,12 @@ export default {
 .feedback{
   width:100%;
 
-  .van-nav-bar{
+  /*.van-nav-bar{//topbar修改默认样式
     background-color: #26a7e9;
     .van-icon-arrow-left:before,.van-nav-bar__text,.van-nav-bar__title{
       color: #FFFFFF;
     }
-  }
+  }*/
 
   .textBox{
     width: vw(690);
@@ -78,13 +87,14 @@ export default {
       justify-content: space-between;
       align-items: center;
       .submit{
-        width: vw(400);
-        height: vw(80);
-        font-size: cw(40);
+        width: vw(600);
+        height: vw(60);
+        font-size: vw(30);
         border:none;
         outline:none;
         color: #FFFFFF;
         background-color: #26a7e9;
+        border-radius:vw(5);
       }
     }
   }

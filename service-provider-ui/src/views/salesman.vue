@@ -177,7 +177,7 @@ export default {
         this.salesShopNew();
       }
       if (data.resultCode == "2") {
-        //业务员进入了管理员入口
+        //管理员进入了业务员入口
         const _this = this;
         this.$toast({
           message:data.resultMsg,
