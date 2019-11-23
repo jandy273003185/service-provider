@@ -11,7 +11,7 @@
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
           <select v-model="params.custType">
-            <option disabled value="">请选择</option>
+            <option disabled value>请选择</option>
             <option value="0">个人</option>
             <option value="1">企业</option>
           </select>
@@ -42,8 +42,20 @@
             readonly
             @click="getInitAddress"
           />
-          <input class="address" v-model="params.cityName" placeholder="选择市" readonly />
-          <input class="address" v-model="params.countryName" placeholder="选择区" readonly />
+          <input
+            class="address"
+            v-model="params.cityName"
+            placeholder="选择市"
+            @click="getTapCity"
+            readonly
+          />
+          <input
+            class="address"
+            v-model="params.countryName"
+            placeholder="选择区"
+            @click="getTapCountry"
+            readonly
+          />
         </div>
         <van-picker
           v-if="provincepicker"
@@ -121,7 +133,7 @@
           @confirm="confirmDate"
           @cancel="datepickerHide"
         />
-         
+
         <div class="row-img">
           <div class="stit" :class="{'active':(clickedNext&&!params.shopFrontDesk)}">
             门头照照片
@@ -170,7 +182,10 @@
           </div>
         </div>
         <div class="row-img">
-          <div class="stit" :class="{'active':(clickedNext&&!params.electronicSignaturePhoto)}">电子签名照</div>
+          <div
+            class="stit"
+            :class="{'active':(clickedNext&&!params.electronicSignaturePhoto)}"
+          >电子签名照</div>
           <div @click="beforeUploadImg('electronicSignaturePhoto')">
             <van-uploader
               v-model="photos.electronicSignaturePhoto"
@@ -274,11 +289,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(["incoming", "savephotos", "incomingReturn",'custId'])
+    ...mapState(["incoming", "savephotos", "incomingReturn", "custId"])
   },
   created() {
     let type = this.$route.params.type;
-    this.photos = this.savephotos;
+    this.photos = Object.assign({}, this.savephotos);
     if (type) {
       this.pagetype = type;
       this.$store.commit("setCheckedState", type);
@@ -364,6 +379,28 @@ export default {
       let res = await common.getAddress();
       this.provinceList = res.data.resultMsg;
     },
+    async getTapCity() {
+      if (this.params.province) {
+        let res = await common.getAddress({
+          provinceId: this.params.province
+        });
+        this.cityList = res.data.resultMsg; 
+        this.citypicker = true;
+      } else {
+        this.$toast("请先选择省份");
+      }
+    },
+   async getTapCountry() {
+      if (this.params.province && this.params.city) {
+        let res = await common.getAddress({
+          cityId: this.params.city
+        });
+        this.blockList = res.data.resultMsg;
+        this.blockpicker = true;
+      } else {
+        this.$toast("请先选择省市");
+      }
+    },
     onCancelAdd() {
       this.provincepicker = false;
       this.citypicker = false;
@@ -435,20 +472,17 @@ export default {
         this.$toast("营业执照信息无法识别！");
       }
     },
-    deleteImg(type) {
-      this[type] = [];
-    },
     beforeUploadImg(type) {
       this.uploadType = type;
     },
     uploadImg(file) {
       //图片上传
       this.$toast.loading({
-      message: "图片上传中..",
-      forbidClick: true,
-      duration: 0
-    });
-      upload.blobToBase64(file.file,this);
+        message: "图片上传中..",
+        forbidClick: true,
+        duration: 0
+      });
+      upload.blobToBase64(file.file, this);
     },
     datepickerVisiable(type) {
       this.dateType = type;
@@ -465,7 +499,7 @@ export default {
         this.minDate = new Date(getData);
       } else {
         this.minDate = new Date(2000, 1, 1);
-      } 
+      }
       this.showDatepicker = false;
     }
   }
