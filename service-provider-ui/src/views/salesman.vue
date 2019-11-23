@@ -22,7 +22,7 @@
           <p class="titleBar">商户进件情况</p>
           <div class="line"></div>
         </div>
-
+        <div class="isRanking" v-if="isHave">暂无商户数据</div>
         <ul>
           <li
             v-for="(item, index) in statesList"
@@ -61,7 +61,8 @@ export default {
       openId: "",
       roleId: "salesman",
       statesList: [],
-      userId: ""
+      userId: "",
+      isHave:true
     };
   },
   created() {
@@ -202,6 +203,9 @@ export default {
       });
       console.log(listInfo);
       this.statesList = listInfo.data.resultMsg.data;
+      if(this.statesList || this.statesList.length>=0 ){
+        this.isHave = false;
+      }
       /*let total=listInfo.data.resultMsg.total;*/
     },
     //查看审核失败信息和审核成功信息
@@ -326,7 +330,14 @@ export default {
         font-size: vw(30);
       }
     }
-
+    .isRanking{
+      width: 100%;
+      padding: 0 vw(20);
+      height:vw(110);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     ul {
       width: 100%;
       margin: auto;

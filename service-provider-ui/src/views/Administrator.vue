@@ -26,6 +26,7 @@
             @change="channgeTab"
         >
           <van-tab title="交易额排名">
+            <div class="isRanking" v-if="isHave">暂无业务员排名数据</div>
             <ul>
               <li class="flex_r" v-for="(item, index) in sumList" :key="index">
                 <div>
@@ -43,6 +44,7 @@
             </ul>
           </van-tab>
           <van-tab title="进件数排名">
+            <div class="isRanking" v-if="isHave">暂无业务员排名数据</div>
             <ul>
               <li v-for="(item, index) in numList" :key="index">
                 <div>
@@ -89,6 +91,7 @@
         queryEndDate: util.fun_date(7).timeEnd,
         sumMax: 1, //计算业绩百分比，由第一名的值决定，
         numMax: 1, //计算笔数百分比，由第一名的值决定
+        isHave:true,//是否有业务员排名数据
         sumList: [],
         numList: []
       };
@@ -113,12 +116,12 @@
           this.getOpenId(code);
         }
       } else {
-        if (this.$route.params.fname && this.$route.params.fname == "login") {
+        if (this.$route.params.fname && this.$route.params.fname == "login") {//从登录页进入
           this.firstLogin({
             openId: this.$store.state.openId,
             roleId: this.roleId
           });
-        } else if (this.$route.params.fname && this.$route.params.fname == "salesman") {
+        } else if (this.$route.params.fname && this.$route.params.fname == "salesman") {//从业务员进入
           this.openId = this.$store.state.openId;
           this.setRole(this.roleId);
           this.setRoleId("2");
@@ -126,7 +129,7 @@
             openId: this.openId,
             roleId: this.roleId
           });
-        } else {
+        } else {//从其他页面进入
             this.logined = true;
             this.islogin = true;
             this.getSalesRanking("0");
@@ -212,12 +215,14 @@
           if (type == "0" || this.sortType == "0") {
             if (list[0] && list[0].effectiveNum) {
               this.sumMax = parseFloat(list[0].effectiveNum) * 1.5;
+              this.isHave = false;
             }
             this.sumList = list;
           }
           if (type == "1" || this.sortType == "1") {
             if (list[0] && list[0].effectiveNum) {
               this.numMax = parseFloat(list[0].effectiveNum) * 1.5;
+              this.isHave = false;
             }
 
             this.numList = list;
@@ -344,7 +349,14 @@
       width: vw(690);
       margin: vw(20) auto;
       background-color: #fff;
-
+      .isRanking{
+        width: 100%;
+        padding: 0 vw(20);
+        height:vw(110);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       ul {
         width: 100%;
         padding: 0 vw(20);

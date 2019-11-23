@@ -182,7 +182,7 @@ export default {
                   return;
                 }
             }
-             this.getHomeShopInfo()
+             this.getHomeShopInfo();
              this.$emit('getDataRange',{timeStart:this.timeStart,timeEnd:this.timeEnd});
         },
 
