@@ -1,16 +1,12 @@
 package com.sevenpay.agentmanager.utils;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.sevenpay.agentmanager.pojo.ResultBean;
-import com.sevenpay.agentmanager.utils.youtu.Youtu;
-import com.youtu.sign.Base64Util;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import sun.misc.BASE64Decoder;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +14,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.sevenpay.agentmanager.pojo.ResultBean;
+import com.sevenpay.agentmanager.utils.youtu.Youtu;
+import com.youtu.sign.Base64Util;
+
+import sun.misc.BASE64Decoder;
 
 /**
  * 腾讯优图工具:

@@ -1,9 +1,14 @@
 package com.sevenpay.agentmanager.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.sevenpay.agentmanager.pojo.ResultBean;
-import com.sevenpay.agentmanager.utils.DateUtils;
-import com.sevenpay.agentmanager.utils.YouTuUtils;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,15 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Decoder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.UUID;
+import com.alibaba.fastjson.JSONObject;
+import com.sevenpay.agentmanager.pojo.ResultBean;
+import com.sevenpay.agentmanager.utils.DateUtils;
+import com.sevenpay.agentmanager.utils.YouTuUtils;
+
+import sun.misc.BASE64Decoder;
 
 /**
  * 文件上传和优图解析
@@ -42,7 +45,7 @@ public class UploadFileController {
 
     @PostMapping("upload")
     @ResponseBody
-    public ResultBean fileUpload(@RequestParam("file")MultipartFile file){
+    public ResultBean<?> fileUpload(@RequestParam("file")MultipartFile file){
 
         // 获取文件名后缀名
         String suffix = file.getOriginalFilename();
@@ -59,14 +62,14 @@ public class UploadFileController {
                 jsonObject.put("imagePath",Filename+prefix);
                 jsonObject.put("uri",uri);
                 jsonObject.put("url",new StringBuilder(relativePath).append(Filename).append(prefix));
-                return new ResultBean("200",jsonObject.toJSONString());
+                return new ResultBean<String>("200",jsonObject.toJSONString());
             } catch (IOException e) {
                 e.printStackTrace();
                 logger.error("上传失败");
             }
         }
         logger.error("上传文件为空");
-        return new ResultBean("404","网络延迟，请重新提交");
+        return new ResultBean<String>("404","网络延迟，请重新提交");
 
     }
 

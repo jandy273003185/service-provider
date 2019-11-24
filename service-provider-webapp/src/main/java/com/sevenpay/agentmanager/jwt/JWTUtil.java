@@ -15,7 +15,7 @@ public class JWTUtil {
     /**
      * 过期时间 24 小时
      */
-    private static final long EXPIRE_TIME = 24 * 60 * 60 * 1000;
+    private static final long EXPIRE_TIME = 24 * 60 * 60 * 1000L;
     //private static final long EXPIRE_TIME =  60 * 1000;    测试60秒
     /**
      * 校验token是否正确
@@ -30,6 +30,7 @@ public class JWTUtil {
                     .withClaim("userId", userId)
                     .withClaim("secret", secret)
                     .build();
+            //TODO 这里做什么？为什么直接返回true
             DecodedJWT jwt = verifier.verify(token);
             return true;
         } catch (Exception exception) {

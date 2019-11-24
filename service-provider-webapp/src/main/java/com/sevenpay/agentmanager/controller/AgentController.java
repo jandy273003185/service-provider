@@ -54,7 +54,7 @@ public class AgentController {
      * @return
      */
     @RequestMapping("selectCommercialInfo")
-    public ResultBean selectCommercialInfo(String userId,
+    public ResultBean<?> selectCommercialInfo(String userId,
                                            String custName,
                                            String stateCode,
                                            String filingAuditStatus,
@@ -71,7 +71,7 @@ public class AgentController {
         pager.setData(list);
         pager.setTotal(commerService.selectCommercialInfoCount(userId, custName,stateCode,filingAuditStatus, queryStartDate, queryEndDate,pageSize,page,roleId));
 
-        return new ResultBean("1",pager);
+        return new ResultBean<Pager<TdCustInfo>>("1",pager);
 
 
     }
@@ -108,7 +108,7 @@ public class AgentController {
      * @return
      */
     @RequestMapping("getDealRanking")
-    public ResultBean getDealRanking(String userId,
+    public ResultBean<?> getDealRanking(String userId,
                                      String custName,
                                      String queryStartDate,
                                      String queryEndDate,
@@ -117,7 +117,7 @@ public class AgentController {
                                      int pageNum,
                                      String rankingCode){
         if (roleId == null){
-            return new ResultBean("0","roleId不能为空");
+            return new ResultBean<String>("0","roleId不能为空");
         }
         int page = (pageNum-1)*pageSize;
 
@@ -125,7 +125,7 @@ public class AgentController {
         List<Map<String, Object>> list = commerService.getDealRanking(userId,custName, queryStartDate, queryEndDate,roleId,pageSize,page,rankingCode);
         pager.setData(list);
         pager.setTotal(commerService.getDealRankingCount(userId, custName, queryStartDate, queryEndDate, roleId, pageSize, page, rankingCode));
-        return new ResultBean("1",pager);
+        return new ResultBean<Pager<Map<String, Object>>>("1",pager);
     }
 
 
@@ -152,7 +152,7 @@ public class AgentController {
      * @throws ParseException
      */
     @RequestMapping("insertMerchant")
-    public ResultBean<String> addMerchant(HttpServletRequest request,
+    public ResultBean<?> addMerchant(HttpServletRequest request,
                                           TdCustInfo tdCustInfo) throws ParseException {
 
         TdCustInfo queryResult = merchantInfoService.getMerchantById(tdCustInfo.getCustId());
@@ -183,7 +183,7 @@ public class AgentController {
                     }
                 }
                 //进件完成
-                return new ResultBean("1", custId);
+                return new ResultBean<String>("1", custId);
             }
         }else { //完善后提交（修改操作）
                 String custId1 = tdCustInfo.getCustId();//商户编号
@@ -218,10 +218,10 @@ public class AgentController {
                     }
                 }
                 //修改进件完成
-                return new ResultBean("1", custId1);
+                return new ResultBean<String>("1", custId1);
 
         }
-       return new ResultBean("0","商户进件失败");
+       return new ResultBean<String>("0","商户进件失败");
     }
 
     /**
@@ -230,8 +230,8 @@ public class AgentController {
      * @return
      */
     @RequestMapping("queryMerchant")
-    public ResultBean queryMerchant(TdCustInfo tdCustInfo){
-        Map<String,Object>map = new HashMap<>();
+    public ResultBean<?> queryMerchant(TdCustInfo tdCustInfo){
+        Map<String,Object> map = new HashMap<>();
         //查询商户信息
         TdCustInfo custInfo = merchantInfoService.getCustInfo(tdCustInfo);
         map.put("custInfo",custInfo);
@@ -257,7 +257,7 @@ public class AgentController {
         map.put("uri",uri);
         map.put("url",relativePath);
         map.put("custScanInfoList",tdCustScanCopies);
-        return new ResultBean("1",map);
+        return new ResultBean<Map<String,Object>>("1",map);
     }
 
     /**
@@ -268,21 +268,21 @@ public class AgentController {
      * @throws ParseException
      */
     @RequestMapping("insertProduct")
-    public ResultBean insertProduct(HttpServletRequest request,String custId) throws ParseException, IOException {
+    public ResultBean<?> insertProduct(HttpServletRequest request,String custId) throws ParseException, IOException {
         List<TdMerchantProductInfo> productInfos = AddTdMerchantProductInfo.add(request, custId);
         if (productInfos.size() > 0){
             for (TdMerchantProductInfo productInfo : productInfos) {
                 productInfoService.saveTdMerchantProductInfo(productInfo);
             }
-            return new ResultBean("1","签约产品提交成功,待审核");
+            return new ResultBean<String>("1","签约产品提交成功,待审核");
         }
-        return new ResultBean("0","签约产品提交失败");
+        return new ResultBean<String>("0","签约产品提交失败");
     }
 
     @RequestMapping("delProduct")
-    public ResultBean delProduct(TdMerchantProductInfo tdMerchantProductInfo){
+    public ResultBean<?> delProduct(TdMerchantProductInfo tdMerchantProductInfo){
 
-        return new ResultBean("");
+        return new ResultBean<>("");
     }
 
     /**
@@ -291,9 +291,9 @@ public class AgentController {
      * @return
      */
     @RequestMapping("queryProduct")
-    public ResultBean queryProduct(TdMerchantProductInfo tdMerchantProductInfo) {
+    public ResultBean<?> queryProduct(TdMerchantProductInfo tdMerchantProductInfo) {
         List<TdMerchantProductInfo> merchantProductInfos = productInfoService.selectOpenProductInfo(tdMerchantProductInfo);
-        return new ResultBean("1",merchantProductInfos);
+        return new ResultBean<List<TdMerchantProductInfo>>("1",merchantProductInfos);
     }
 
     /**
@@ -302,9 +302,9 @@ public class AgentController {
      * @return
      */
     @RequestMapping("queryMerchantById")
-    public ResultBean queryProduct(String custId) {
+    public ResultBean<?> queryProduct(String custId) {
         TdCustInfo custInfo = merchantInfoService.getMerchantById(custId);
-        return new ResultBean("1",custInfo);
+        return new ResultBean<TdCustInfo>("1",custInfo);
     }
 
     /**
@@ -313,12 +313,12 @@ public class AgentController {
      * @return
      */
     @RequestMapping("checkSn")
-    public ResultBean checkSn(String sn){
+    public ResultBean<?> checkSn(String sn){
         boolean result = commerService.isPertainToAgent(sn);
         if (result){
-            return new ResultBean("1","校验通过");
+            return new ResultBean<String>("1","校验通过");
         }
-        return new ResultBean("0","校验失败");
+        return new ResultBean<String>("0","校验失败");
     }
 
 

@@ -3,6 +3,9 @@ package com.sevenpay.agentmanager.controller;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.wx.AuthUtil;
 import net.sf.json.JSONObject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("wx")
 public class WxController {
+	
+	private final static  Logger LOGGER = LoggerFactory.getLogger(WxController.class);
 
     /**
      * 切换开发者模式
@@ -40,11 +45,11 @@ public class WxController {
     @GetMapping("/get")
     public void get(String signature,String timestamp,String nonce,String echostr, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
         // 将token、timestamp、nonce三个参数进行字典序排序
-        System.out.println("signature:"+signature);
-        System.out.println("timestamp:"+timestamp);
-        System.out.println("nonce:"+nonce);
-        System.out.println("echostr:"+echostr);
-        System.out.println("TOKEN:"+AuthUtil.TOKEN);
+        
+        if(LOGGER.isDebugEnabled()) {
+        	LOGGER.debug("signature:{}, timestamp:{}, nonce:{}, echostr:{}, TOKEN:{}", signature,timestamp,nonce,echostr,AuthUtil.TOKEN);
+        }
+        
         String[] params = new String[] { AuthUtil.TOKEN, timestamp, nonce };
         Arrays.sort(params);
         // 将三个参数字符串拼接成一个字符串进行sha1加密
@@ -83,7 +88,7 @@ public class WxController {
      */
     @RequestMapping("/callback")
     @ResponseBody
-    public ResultBean callBack(HttpServletRequest req) throws Exception {
+    public ResultBean<?> callBack(HttpServletRequest req) throws Exception {
         //1、获取微信用户的基本信息
         String code = req.getParameter("code");
         //2、通过code获取网页授权access_token
@@ -97,7 +102,7 @@ public class WxController {
         String openId=data.get("openid").toString();
         //String token=data.get("access_token").toString();
 
-        return new ResultBean("1",openId);
+        return new ResultBean<String>("1",openId);
     }
 
 
