@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Base64;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +24,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.DateUtils;
 import com.sevenpay.agentmanager.utils.YouTuUtils;
-
-import sun.misc.BASE64Decoder;
 
 /**
  * 文件上传和优图解析
@@ -123,9 +122,8 @@ public class UploadFileController {
         //存储地址
         StringBuilder path = new StringBuilder(absolutePaths).append("/").append(uploadFileName);//路径读取不到
         File saveFile = new File(String.valueOf(path));
-        BASE64Decoder decoder = new BASE64Decoder();
         try(OutputStream out = new FileOutputStream(saveFile)){
-            byte[] b = decoder.decodeBuffer(BASE64str);
+            byte[] b = Base64.getDecoder().decode(BASE64str); //decoder.decodeBuffer(BASE64str);
             for (int i = 0; i <b.length ; i++) {
                 if (b[i] <0) {
                     b[i]+=256;
