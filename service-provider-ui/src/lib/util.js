@@ -31,9 +31,56 @@ const util = {
     return filename;
   },
   getPhotos(that, urlHead, photos) { //将获取的照片赋值到相应位置
+    let obj={},name;
     for (let i = 0; i < photos.length; i++) {
       let imgname = this.getImgName(photos[i].scanCopyPath);
-      if (photos[i].certifyType == "02") {
+      switch (photos[i].certifyType) {
+        case "02": //营业执照
+          name = "businessLicense";
+          break;
+        case "20": //门头照
+          name = "shopFrontDesk";
+          break;
+        case "18": //店内照
+          name = "shopInterior";
+          break;
+        case "11": //行业资质
+          name = "specialBusiness";
+          break;
+        case "12": // 电子签名照
+          name = "electronicSignaturePhoto";
+          break;
+        case "23": //其他资料照
+          name = "otherPhoto1";
+          break;
+        case "24": //其他资料照
+          name = "otherPhoto2";
+          break;
+        case "00": //身份证正
+         name = "identityCardFront";
+          break;
+        case "16": //身份证反
+          name = "identityCardReverse";
+          break;
+        case "03": //开户许可证
+          name = "licenceForOpeningAccounts";
+          break;
+        default:
+          name = "";
+      }
+      if(name){
+        obj[name]=[{
+            url: urlHead + "" + imgname,
+            isImage: true
+          }]
+        }
+        that.photos[name] = [{
+          url: urlHead + "" + imgname,
+          isImage: true
+        }];
+        that.params.shopFrontDesk = urlHead + "" + imgname;
+      }
+     /*  if (photos[i].certifyType == "02") {
         //营业执照
         that.photos.businessLicense = [{
           url: urlHead + "" + imgname,
@@ -110,8 +157,8 @@ const util = {
           isImage: true
         }];
         that.params.licenceForOpeningAccounts = urlHead + "" + imgname;
-      }
-    }
+      } */
+    return obj;
   },
   getAllPhotos(obj) { //提交图片集合
     console.log(obj);
