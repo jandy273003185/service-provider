@@ -65,7 +65,7 @@ export default {
   methods: {
     async getInitList() {
       let list = await adminIndex.searchSales({
-        custId: ""
+        custId: this.$store.state.userId
       });
   console.log(list);
       this.saleList = list.data.resultMsg;
@@ -152,7 +152,7 @@ export default {
         status: 1
       });
       console.log(res);
-      if (res.data.resultCode == "1") {
+      if (res && res.data.resultCode == "1") {
         this.getInitList();
         Dialog({message: "添加业务员成功"});
         this.adding = false;

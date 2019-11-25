@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="管理员与业务员互相登录错入口">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/config/ShiroConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/config/ShiroConfigBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,13 +23,14 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/feedback.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/companyInfo.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/amendPsd.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/about.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/mine.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/salesman.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Administrator.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/salesman.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/mine.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/amendPsd.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/companyInfo.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/about.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" root0="SKIP_INSPECTION" />
   </component>
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
@@ -71,19 +70,6 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="ServiceProviderApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.sevenpay.agentmanager.ServiceProviderApplication" />
-      <module name="service-provider-webapp" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.sevenpay.agentmanager.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
       <module name="service-provider" />
       <option name="VM_PARAMETERS" />
@@ -131,11 +117,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.ServiceProviderApplication" />
-      </list>
-    </recent_temporary>
+    <configuration name="ServiceProviderApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.sevenpay.agentmanager.ServiceProviderApplication" />
+      <module name="service-provider-webapp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.sevenpay.agentmanager.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -148,6 +142,7 @@
       <option name="presentableId" value="Default" />
       <updated>1574345401264</updated>
       <workItem from="1574391685862" duration="13397000" />
+      <workItem from="1574678356428" duration="1062000" />
     </task>
     <task id="LOCAL-00001" summary="管理员与业务员互相登录错入口">
       <created>1574399372032</created>
@@ -244,30 +239,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="放行静态资源" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/LoginController.java</url>
-          <line>102</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java</url>
-          <line>158</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java</url>
-          <line>66</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java</url>
-          <line>119</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="roleId" />
