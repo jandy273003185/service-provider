@@ -326,8 +326,6 @@ export default {
         console.log("照片");
         console.log(this.photos);
         this.$store.commit("setPhotos",Object.assign({},this.photos));
-        console.log("查看保存照片");
-        console.log(this.$store.state.savephotos);
         this.$router.push("legalInfo");
       }
     },
