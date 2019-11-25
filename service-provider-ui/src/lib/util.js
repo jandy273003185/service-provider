@@ -76,7 +76,7 @@ const util = {
         that.photos[name] = [{
           url: urlHead + "" + imgname
         }];
-        if(name!=businessLicense){
+        if(name!='businessLicense'){
           that.params[name] = urlHead + "" + imgname;
         }
       }
