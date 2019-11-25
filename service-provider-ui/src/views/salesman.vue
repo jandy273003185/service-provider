@@ -106,10 +106,17 @@ export default {
           roleId: this.roleId
         });
       }else {
-        console.log("其他页返回");
-        this.logined=true;
-        this.islogin = true;
-        this.salesShopNew();
+        if(this.$store.state.userId){
+          console.log("其他页返回");
+          this.logined=true;
+          this.islogin = true;
+          this.salesShopNew();
+        }else {
+          this.firstLogin({
+            openId: this.$store.state.openId,
+            roleId: this.roleId
+          });
+        }
       }
     }
   },
