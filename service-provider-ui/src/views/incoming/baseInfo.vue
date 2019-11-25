@@ -285,7 +285,7 @@ export default {
     ...mapState(["incoming", "savephotos", "incomingReturn", "custId"])
   },
   created() {
-    let type =this.$route.params.type;// 
+    let type =this.$route.params.type;
     this.photos = Object.assign({}, this.savephotos);
     if (type) {
       this.pagetype = type;
@@ -314,7 +314,6 @@ export default {
       let count = form.validParams(this, this.params);
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
-        console.log(fullParams);
         this.$store.commit("setincoming", fullParams);
 /*         let incomingReturn = this.incomingReturn;
         console.log(incomingReturn);
@@ -322,8 +321,10 @@ export default {
         let all = Object.assign(custInfo, fullParams);
         incomingReturn.custInfo = all;
         this.$store.commit("setincomingReturn", incomingReturn); */
+        console.log("照片");
         console.log(this.photos);
-        this.$store.commit("setPhotos", this.photos);
+        let _photos=Object.assign(this.savephotos,this.photos);
+        this.$store.commit("setPhotos", _photos);
         this.$router.push("legalInfo");
       }
     },
@@ -359,7 +360,8 @@ export default {
       this.params =Object.assign({},params);
       let photos = res.data.resultMsg.custScanInfoList;
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
-      util.getPhotos(this, urlHead, photos);
+      console.log(util.getPhotos(this, urlHead, photos));
+      this.photos=Object.assign(this.photos,util.getPhotos(this, urlHead, photos));
     },
     async getInitAddress() {
       //获取省份
