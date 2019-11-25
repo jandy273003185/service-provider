@@ -71,7 +71,7 @@ export default new Vuex.Store({
             state.checkedState = obj;
         },
         setPhotos(state, obj) {
-            state.savephotos = obj;
+            state.savephotos = JSON.parse(JSON.stringify(obj));
         },
         setCode(state, obj) {
             state.code = obj;
