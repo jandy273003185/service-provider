@@ -43,7 +43,7 @@ const util = {
               that.photos.shopFrontDesk = [{ url: urlHead + "" + imgname }];
               that.params.shopFrontDesk = urlHead + "" + imgname;
             }
-            if (photos[i].certifyType == "21") {
+            if (photos[i].certifyType == "18") {
               //店内照
               that.photos.shopInterior = [{ url: urlHead + "" + imgname }];
               that.params.shopInterior = urlHead + "" + imgname;
@@ -113,7 +113,7 @@ const util = {
           case "otherPhoto1": //其他资料照
             certifyType = "23";
             break;
-          case "otherPhoto2":
+          case "otherPhoto2"://其他资料照
             certifyType = "24";
             break;
           case "identityCardFront": //身份证正
