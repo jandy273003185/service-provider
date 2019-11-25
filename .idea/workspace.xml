@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="优化">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" afterDir="false" />
-=======
     <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="管理员与业务员互相登录错入口">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/config/ShiroConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/config/ShiroConfigBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/UploadFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/UploadFileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/resources/application.yml" afterDir="false" />
->>>>>>> 2fff645c2d37393f2937d154437f0c6eca94624f
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,6 +39,13 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
   <component name="ProjectId" id="1TxB5LwpExmZHMVFZKERLof7Duz" />
   <component name="PropertiesComponent">
     <property name="HbShouldOpenHtmlAsHb" value="" />
@@ -73,13 +73,60 @@
   <component name="RunManager">
     <configuration name="ServiceProviderApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.sevenpay.agentmanager.ServiceProviderApplication" />
-      <module name="service-provider" />
+      <module name="service-provider-webapp" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.sevenpay.agentmanager.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <module name="service-provider" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <module name="service-provider" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -101,10 +148,6 @@
       <option name="presentableId" value="Default" />
       <updated>1574345401264</updated>
       <workItem from="1574391685862" duration="13397000" />
-<<<<<<< HEAD
-      <workItem from="1574666237847" duration="4253000" />
-=======
->>>>>>> 2fff645c2d37393f2937d154437f0c6eca94624f
     </task>
     <task id="LOCAL-00001" summary="管理员与业务员互相登录错入口">
       <created>1574399372032</created>
@@ -148,7 +191,35 @@
       <option name="project" value="LOCAL" />
       <updated>1574419885865</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="管理员与业务员互相登录错入口">
+      <created>1574670369315</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1574670369315</updated>
+    </task>
+    <task id="LOCAL-00008" summary="管理员与业务员互相登录错入口">
+      <created>1574671805827</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1574671805827</updated>
+    </task>
+    <task id="LOCAL-00009" summary="放行静态资源">
+      <created>1574672456242</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1574672456242</updated>
+    </task>
+    <task id="LOCAL-00010" summary="放行静态资源">
+      <created>1574673524202</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1574673524202</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -169,16 +240,12 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="管理员与业务员互相登录错入口" />
-    <option name="LAST_COMMIT_MESSAGE" value="管理员与业务员互相登录错入口" />
+    <MESSAGE value="放行静态资源" />
+    <option name="LAST_COMMIT_MESSAGE" value="放行静态资源" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/LoginController.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/LoginController.java</url>
           <line>102</line>
@@ -193,6 +260,11 @@
           <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java</url>
           <line>66</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java</url>
+          <line>119</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

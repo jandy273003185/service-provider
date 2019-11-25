@@ -6,20 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="service-provider" />
         <module name="service-provider-ui" />
+        <module name="service-provider-webapp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="service-provider" target="1.8" />
-      <module name="service-provider-parent" target="1.8" />
       <module name="service-provider-ui" target="1.8" />
+      <module name="service-provider-webapp" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="service-provider" options="-parameters" />
       <module name="service-provider-ui" options="-parameters" />
+      <module name="service-provider-webapp" options="-parameters" />
     </option>
   </component>
 </project>
