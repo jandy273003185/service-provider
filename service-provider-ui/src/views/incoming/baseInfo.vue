@@ -325,10 +325,10 @@ export default {
         this.$store.commit("setincomingReturn", incomingReturn);
         console.log("照片");
         console.log(this.photos);
-        let _photos = Object.assign(this.savephotos, this.photos);
+        let _photos = Object.assign(JSON.parse(this.savephotos), this.photos);
         console.log("保存照片");
         console.log(_photos);
-        this.$store.commit("setPhotos",JSON.params( _photos));
+        this.$store.commit("setPhotos",_photos);
         console.log("查看保存照片");
         console.log(this.$store.state.savephotos);
         this.$router.push("legalInfo");
