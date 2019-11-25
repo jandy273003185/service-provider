@@ -289,7 +289,7 @@ export default {
     ...mapState(["incoming", "savephotos", "incomingReturn", "custId"])
   },
   created() {
-    let type =this.$route.params.type;//'corvidae' ;
+    let type = this.$route.params.type; //'corvidae' ;
     this.photos = Object.assign({}, this.savephotos);
     if (type) {
       this.pagetype = type;
@@ -299,6 +299,8 @@ export default {
       }
       if (type == "corvidae") {
         //待完善
+        this.photos = {};
+        this.$store.commit("setPhotos", {});
         this.getIncomingInfo();
       }
     } else {
@@ -325,8 +327,7 @@ export default {
         this.$store.commit("setincomingReturn", incomingReturn);
         console.log("----照片---");
         console.log(this.photos);
-        this.$store.commit("setPhotos",{});
-        this.$store.commit("setPhotos",this.photos);
+        this.$store.commit("setPhotos", this.photos);
         this.$router.push("legalInfo");
       }
     },
@@ -337,7 +338,7 @@ export default {
         forbidClick: true,
         duration: 0
       });
-      let res = await incoming.getIncoming({custId:this.custId });// custId:'c838b2ed3d524b1bb1db444a48572b19'
+      let res = await incoming.getIncoming({ custId: this.custId }); // custId:'c838b2ed3d524b1bb1db444a48572b19'
       this.$toast.clear();
       this.$store.commit("setincomingReturn", res.data.resultMsg);
       let custInfo = res.data.resultMsg.custInfo;
@@ -367,8 +368,7 @@ export default {
       let photos = res.data.resultMsg.custScanInfoList;
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
       console.log(util.getPhotos(this, urlHead, photos));
-      this.photos =
-        util.getPhotos(this, urlHead, photos)
+      this.photos = util.getPhotos(this, urlHead, photos);
     },
     async getInitAddress() {
       //获取省份
