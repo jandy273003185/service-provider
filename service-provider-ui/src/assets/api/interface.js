@@ -35,7 +35,7 @@ export const shopAuditInfo={//商户页面审核信息
 export const goodsInfo={//交易栏的商户交易排名信息
   goodsInfo:param =>http.post1('/merchant/getDealRanking',param)  //交易栏的商户交易排名信息
 };
-export const mineInfo={//我的信息
+/*export const mineInfo={//我的信息
   salesman:param =>http.post1('/salesman/query',param),  //业务员请求个人信息
   agent:param =>http.post1('/merchant/queryMerchantById',param)  //管理员请求个人信息
-};
+};*/

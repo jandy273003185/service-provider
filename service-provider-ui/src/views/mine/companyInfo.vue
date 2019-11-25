@@ -56,13 +56,13 @@ export default {
 @import "../../style/views/incoming.scss";
 .company{
     width: 100%;
-
-    .van-nav-bar{
+    background-color: #fff;
+    /*.van-nav-bar{//topbar修改默认样式
         background-color: #26a7e9;
         .van-icon-arrow-left:before,.van-nav-bar__text,.van-nav-bar__title{
             color: #FFFFFF;
         }
-    }
+    }*/
     .companyDetail{
         width: vw(690);
         margin:auto;
@@ -72,7 +72,7 @@ export default {
             text-indent:vw(54);
         }
         h4{
-            color: #2d2d2d;
+            color: #85baf5;
             height: vw(26);
             line-height: vw(26);
         }
@@ -91,7 +91,7 @@ export default {
             }
         }
         .foot_top{
-            margin-top: vw(200);
+            margin-top: vw(140);
         }
     }
 

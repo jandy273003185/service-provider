@@ -4,7 +4,7 @@
     <BaseHeader></BaseHeader>
     <div class="admin">
       <div class="serachBox">
-        <div class="search" @click="searchshop">
+        <div class="search" @click="searchSalesman">
           <img class="searchIcon" src="../assets/images/home/search.png" alt/>
           <div>搜索业务员名字</div>
         </div>
@@ -26,6 +26,7 @@
             @change="channgeTab"
         >
           <van-tab title="交易额排名">
+            <div class="isRanking" v-if="isHave">暂无业务员排名数据</div>
             <ul>
               <li class="flex_r" v-for="(item, index) in sumList" :key="index">
                 <div>
@@ -43,6 +44,7 @@
             </ul>
           </van-tab>
           <van-tab title="进件数排名">
+            <div class="isRanking" v-if="isHave">暂无业务员排名数据</div>
             <ul>
               <li v-for="(item, index) in numList" :key="index">
                 <div>
@@ -89,14 +91,17 @@
         queryEndDate: util.fun_date(7).timeEnd,
         sumMax: 1, //计算业绩百分比，由第一名的值决定，
         numMax: 1, //计算笔数百分比，由第一名的值决定
+        isHave:true,//是否有业务员排名数据
         sumList: [],
         numList: []
       };
     },
     created() {
-      this.$store.commit("setincoming", {});
-      this.$store.commit("setPhotos", []);
-      this.$store.commit("setCheckedState", "");
+      //进件初始化
+      this.setincoming('');
+      this.setPhotos('');
+      this.setCheckedState('');
+
       if (!this.$store.state.code) {
         var code = this.getUrlParam("code");
         if (!code) {
@@ -113,12 +118,12 @@
           this.getOpenId(code);
         }
       } else {
-        if (this.$route.params.fname && this.$route.params.fname == "login") {
+        if (this.$route.params.fname && this.$route.params.fname == "login") {//从登录页进入
           this.firstLogin({
             openId: this.$store.state.openId,
             roleId: this.roleId
           });
-        } else if (this.$route.params.fname && this.$route.params.fname == "salesman") {
+        } else if (this.$route.params.fname && this.$route.params.fname == "salesman") {//从业务员进入
           this.openId = this.$store.state.openId;
           this.setRole(this.roleId);
           this.setRoleId("2");
@@ -126,7 +131,7 @@
             openId: this.openId,
             roleId: this.roleId
           });
-        } else {
+        } else {//从其他页面进入
             this.logined = true;
             this.islogin = true;
             this.getSalesRanking("0");
@@ -187,9 +192,15 @@
           this.$router.push("baseInfo");
         }
       ,
-        searchshop(){
-          //搜索商户
-          this.$router.push("SearchSalesman");
+        searchSalesman(){
+          //搜索业务员
+          this.$router.push({
+            name: "searchSalesman",
+            params: {//参数
+              fname: "Administrator"
+            }
+          });
+
         }
       ,
         async getSalesRanking(type) {
@@ -203,32 +214,34 @@
           };
           let sales = await adminIndex.SalesRanking(params);
           let list = sales.data.resultMsg;
+          console.log(list);
           if (type == "0" || this.sortType == "0") {
             if (list[0] && list[0].effectiveNum) {
               this.sumMax = parseFloat(list[0].effectiveNum) * 1.5;
+              this.isHave = false;
             }
             this.sumList = list;
           }
           if (type == "1" || this.sortType == "1") {
             if (list[0] && list[0].effectiveNum) {
               this.numMax = parseFloat(list[0].effectiveNum) * 1.5;
+              this.isHave = false;
             }
-
             this.numList = list;
           }
         },
         async firstLogin(params){//初次进入主页，传OpenId到后台，判断是否有绑定过账户
           const userData = await login.firstLogin(params);
           console.log(userData);
-          if (userData.data.resultCode == "0") {
+          if (userData.data.resultCode == "0") {//未绑定用户，跳转至登录页面
             this.$router.push("login");
           }
-          if (userData.data.resultCode == "1") {
+          if (userData.data.resultCode == "1") {//已绑定用户
             this.logined = true;
             console.log(userData.data.resultMsg.token);
             this.setToken(userData.data.resultMsg.token);
             this.setUserId(userData.data.resultMsg.userId);
-            this.setUserName(userData.data.resultMsg.userInfo.userName);
+            this.setUserName(userData.data.resultMsg.userInfo.custName);
             localStorage.setItem("token", userData.data.resultMsg.token);
             axios.defaults.headers.common["token"] = userData.data.resultMsg.token;
             storage.set("userId", userData.data.resultMsg.userId);
@@ -236,9 +249,9 @@
             this.islogin = true;
             this.getSalesRanking("0");
           }
-          if (userData.data.resultCode == "2") {//管理员进入了业务员入口
+          if (userData.data.resultCode == "2") {//业务员进入了管理员入口
             const _this = this;
-            this.$toast({//轻提示，默认2秒后执行onclone函数
+            this.$toast({//轻提示，默认2秒后自动关闭提示是执行onclone函数
               message: userData.data.resultMsg,
               onClose: function () {
                   _this.$router.push({
@@ -259,7 +272,10 @@
           "setOpenID",
           "setCode",
           "setCustId",
-          "setUserName"
+          "setUserName",
+          "setincoming",
+          "setPhotos",
+          "setCheckedState"
         ])
       }
   }
@@ -338,7 +354,14 @@
       width: vw(690);
       margin: vw(20) auto;
       background-color: #fff;
-
+      .isRanking{
+        width: 100%;
+        padding: 0 vw(20);
+        height:vw(110);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       ul {
         width: 100%;
         padding: 0 vw(20);

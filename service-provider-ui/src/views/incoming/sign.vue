@@ -39,7 +39,6 @@ import { incoming } from "@/assets/api/interface";
 export default {
   name: "sign",
   components: {
-    /*     Modal: () => import("@/components/modal"), */
     Step: () => import("@/components/step")
   },
   data() {
@@ -60,12 +59,7 @@ export default {
   },
   created() {
     console.log(this.$route.params);
-    this.params = Object.assign(
-      {
-        userId: this.$store.state.userId
-      },
-      this.incoming
-    );
+    this.params = Object.assign({ userId:this.$store.state.userId},this.incoming);
     if (this.checkedState == "corvidae") {
       let productInfos = this.incomingReturn.productInfoList;
       for (let i = 0; i < productInfos.length; i++) {
@@ -162,8 +156,7 @@ export default {
         this.$toast("进件信息添加失败！");
       }
     },
-    checkSignGoods() {
-      //校验产品签约，至少签约一款
+    checkSignGoods() {//签约产品
       let prolist = [];
       let proObj = {};
       if (this.dragonfly) {
@@ -174,9 +167,7 @@ export default {
             sn: this.sn
           };
           prolist.push(proObj);
-          //this.$refs.dragonfly.className = "row";
         } else {
-          //this.$refs.dragonfly.className = "row active";
           this.$toast("请将蜻蜓产品信息补充完整");
         }
       }
@@ -188,10 +179,8 @@ export default {
             sn: ""
           };
           prolist.push(proObj);
-          // this.$refs.scan.className = "row";
         } else {
           this.$toast("请将填写扫码费率");
-          //this.$refs.scan.className = "row active";
         }
       }
       if (this.app) {
@@ -202,9 +191,7 @@ export default {
             sn: ""
           };
           prolist.push(proObj);
-          // this.$refs.app.className = "row";
         } else {
-          // this.$refs.app.className = "row active";
           this.$toast("请将填写app费率");
         }
       }

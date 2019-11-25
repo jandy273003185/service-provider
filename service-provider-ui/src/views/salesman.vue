@@ -22,7 +22,7 @@
           <p class="titleBar">商户进件情况</p>
           <div class="line"></div>
         </div>
-
+        <div class="isRanking" v-if="isHave">暂无商户数据</div>
         <ul>
           <li
             v-for="(item, index) in statesList"
@@ -61,13 +61,16 @@ export default {
       openId: "",
       roleId: "salesman",
       statesList: [],
-      userId: ""
+      userId: "",
+      isHave:true  //无数据时显示：暂无数据
     };
   },
   created() {
-    this.$store.commit("setincoming", {});
-    this.$store.commit("setPhotos", []);
-    this.$store.commit("setCheckedState", ""); //snsapi_base
+    //进件初始化
+    this.setincoming('');
+    this.setPhotos('');
+    this.setCheckedState('');
+
     console.log("createdCode");
     console.log(this.$store.state.code);
     if (!this.$store.state.code) {
@@ -169,15 +172,15 @@ export default {
         localStorage.setItem("token", data.resultMsg.token);
         axios.defaults.headers.common["token"] = data.resultMsg.token;
         this.setToken(data.resultMsg.token);
-        this.setUserId(data.resultMsg.userId);
+        this.setUserId(data.resultMsg.userInfo.salesmanId);
         this.setUserName(data.resultMsg.userInfo.userName);
-        storage.set("userId", data.resultMsg.userId);
+        storage.set("userId", data.resultMsg.userInfo.salesmanId);
         console.log(storage.get("userId"));
         this.islogin = true;
         this.salesShopNew();
       }
       if (data.resultCode == "2") {
-        //业务员进入了管理员入口
+        //管理员进入了业务员入口
         const _this = this;
         this.$toast({
           message:data.resultMsg,
@@ -200,9 +203,12 @@ export default {
         pageNum: "1",
         roleId: "3"
       });
-      console.log(storage.get("userId"));
       console.log(listInfo);
       this.statesList = listInfo.data.resultMsg.data;
+      let list = listInfo.data.resultMsg.data;
+      if(list || list.length>=0 ){
+        this.isHave = false;//有数据时隐藏掉
+      }
       /*let total=listInfo.data.resultMsg.total;*/
     },
     //查看审核失败信息和审核成功信息
@@ -221,7 +227,6 @@ export default {
       }
       this.setCustId(custId);
     },
-
     ...mapMutations([
       "setRole",
       "setRoleId",
@@ -230,7 +235,10 @@ export default {
       "setCustId",
       "setOpenID",
       "setCode",
-      "setUserName"
+      "setUserName",
+      "setincoming",
+      "setPhotos",
+      "setCheckedState"
     ])
   }
 };
@@ -328,7 +336,14 @@ export default {
         font-size: vw(30);
       }
     }
-
+    .isRanking{
+      width: 100%;
+      padding: 0 vw(20);
+      height:vw(110);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     ul {
       width: 100%;
       margin: auto;

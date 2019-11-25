@@ -64,11 +64,12 @@
         class="datepicker"
         v-show="showDatepicker"
         type="year-month"
+        :min-date="minDate"
+          :max-date="maxDate"
         @confirm="confirmDate"
         @cancel="datepickerHide"
       />
-     <!--  :min-date="minDate"
-          :max-date="maxDate" -->
+     <!--   -->
       <div class="row">
         <span class="label" :class="{'active':(clickedNext&&!params.contactName)}">联系人名字</span>
         <input v-model="params.contactName" placeholder="请输入联系人名字" />
@@ -184,11 +185,11 @@ export default {
     confirmDate(e) {
       let getData = util.timeFormat(e);
       this.params[this.dateType] = getData;
-      /* if(this.dateType=='idTermStart'){
+       if(this.dateType=='idTermStart'){
         this.minDate=new Date(getData)
       }else{
         this.minDate=new Date(2000, 1, 1)
-      } */
+      } 
       this.showDatepicker = false;
     },
     async getImgInfo(file) {

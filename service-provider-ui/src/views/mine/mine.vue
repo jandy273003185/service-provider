@@ -35,7 +35,7 @@
 <script>
     import {mapState} from 'vuex';
     import BaseHeader from "@/components/baser-header.vue";
-    import {mineInfo} from "../../assets/api/interface";
+    /*import {mineInfo} from "../../assets/api/interface";*/
     export default {
         name: "mine",
         components: {

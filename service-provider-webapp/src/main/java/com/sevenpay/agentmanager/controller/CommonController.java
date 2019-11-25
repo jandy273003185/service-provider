@@ -28,9 +28,9 @@ public class CommonController {
      * @return
      */
     @RequestMapping("province")
-    public ResultBean provinceQuery(TbProvincesInfoBean tbProvincesInfoBean){
+    public ResultBean<?> provinceQuery(TbProvincesInfoBean tbProvincesInfoBean){
         List<TbProvincesInfoBean> provinces = merchantInfoService.getProvinces(tbProvincesInfoBean);
-        return new ResultBean("1",provinces);
+        return new ResultBean<List<TbProvincesInfoBean>>("1",provinces);
     }
 
     /**
@@ -39,8 +39,8 @@ public class CommonController {
      * @return
      */
     @RequestMapping("bankProvince")
-    public ResultBean provinceQuery(TbBankProvincesInfoBean tbBankProvincesInfoBean){
+    public ResultBean<?> provinceQuery(TbBankProvincesInfoBean tbBankProvincesInfoBean){
         List<TbBankProvincesInfoBean> bankProvinces = merchantInfoService.getBankProvinces(tbBankProvincesInfoBean);
-        return new ResultBean("1",bankProvinces);
+        return new ResultBean<List<TbBankProvincesInfoBean>>("1",bankProvinces);
     }
 }

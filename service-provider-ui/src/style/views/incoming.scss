@@ -30,6 +30,7 @@
     background: none;
     outline: none;
     border: none;
+    background: #fff;
 }
 .stepInfo .row  input.address{
     width: vw(120);
@@ -41,9 +42,10 @@
 }
 .stepInfo .row .data input{
     flex: none;
-    width: vw(180);
+    width: vw(300);
     text-align: center;
     text-align-last: center;
+    background: #fff;
 }
 .datepicker{
     width: 100%;
@@ -71,6 +73,7 @@
     line-height: vw(80);
     padding-left: vw(50);
     box-sizing: border-box;
+    background: #fff;
 }
 .row-img .stit{
     height: vw(100);

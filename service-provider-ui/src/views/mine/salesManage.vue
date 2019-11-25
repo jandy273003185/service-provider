@@ -1,39 +1,39 @@
 <template>
   <div class="sales">
     <van-nav-bar title="业务员管理" left-text="返回" left-arrow @click-left="changePrepage" />
-    <van-row class="row">
+    <van-row class="row salesInfo">
       <van-col span="6">姓名</van-col>
-      <van-col span="10">账号</van-col>
+      <van-col span="8">账号</van-col>
       <van-col span="5"></van-col>
-      <van-col span="3"></van-col>
+      <van-col span="5"></van-col>
     </van-row>
-    <van-row class="row" v-for="(item,idx) in saleList" :key="idx">
+    <van-row class="salesInfo row" v-if="item.status==1"  v-for="(item,idx) in saleList" :key="idx">
+        <van-col  span="6">{{item.userName}}</van-col>
+        <van-col span="8">{{item.userPhone}}</van-col>
+        <van-col class="textBox" span="5" @click="resetPwd(item.custId,item.salesmanId)"><span class="text">重置密码
+        </span></van-col>
+        <van-col class="textBox" span="5"
+                 @click="deleteSale(item.custId,item.salesmanId,item.status)"><span class="text">冻结</span></van-col>
+    </van-row>
+    <van-row  v-if="item.status==0" class="salesInfo row" v-for="(item,idx) in saleList" :key="idx">
       <van-col span="6">{{item.userName}}</van-col>
-      <van-col span="10">{{item.userPhone}}</van-col>
-      <van-col span="5" @click="resetPwd(item.custId,item.id)">重置密码</van-col>
-      <van-col
-        span="3"
-        v-if="item.status==1"
-        @click="deleteSale(item.custId,item.id,item.status)"
-      >冻结</van-col>
-      <van-col
-        span="3"
-        v-if="item.status==0"
-        @click="undeleteSale(item.custId,item.id,item.status)"
-      >解冻</van-col>
+      <van-col span="8">{{item.userPhone}}</van-col>
+      <van-col class="textBox" span="5" @click="resetPwd(item.custId,item.salesmanId)"><!--<span class="text">重置密码</span>--></van-col>
+      <van-col class="textBox" span="5"
+               @click="undeleteSale(item.custId,item.salesmanId,item.status)"><span class="text unfreeze">解结</span></van-col>
     </van-row>
-    <van-row class="row" v-show="adding">
+    <van-row class="row salesInfo" v-show="adding">
       <van-col span="6">
         <input autofocus v-model="inpName" placeholder="请输入名字" />
       </van-col>
-      <van-col span="10">
+      <van-col span="8">
         <input v-model="inpAccount" placeholder="请输入手机号" />
       </van-col>
-      <van-col span="5">
-        <span @click="saveSales">保存</span>
+      <van-col class="textBox" span="5" >
+        <span class="text" @click="saveSales">保存</span>
       </van-col>
-      <van-col span="3">
-        <span @click="cancelAdding">取消</span>
+      <van-col  class="textBox" span="5">
+        <span class="text" @click="cancelAdding">取消</span>
       </van-col>
     </van-row>
     <div class="add" v-show="!adding" @click="addSales">
@@ -80,6 +80,8 @@ export default {
     },
     cancelAdding() {
       //取消业务员添加
+      this.inpName = '';
+      this.inpAccount = '';
       this.adding = false;
     },
     async resetPwd(custId, id) {
@@ -101,14 +103,16 @@ export default {
       })
         .then(() => {
           // on confirm
+          console.log(status);
           common.updateSales({
               custId: custId,
               id: id,
               status: 0
             })
             .then(res => {
+
               this.getInitList();
-              console.log("冻结");
+              console.log("冻结"+res);
             });
         })
         .catch(() => {
@@ -123,6 +127,7 @@ export default {
       })
         .then(() => {
           // on confirm
+          console.log(status);
           common.updateSales({
               custId: custId,
               id: id,
@@ -160,4 +165,25 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../style/views/mine.scss";
+  .salesInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .textBox{
+      text-align: center;
+      .text{
+        border: 1px solid #699dd7;
+        color: #699dd7;
+        text-align: center;
+        border-radius:vw(5);
+        padding: vw(5) vw(20);
+      }
+      .unfreeze{
+        border-color: #ff3d49;
+        color:#ff3d49;
+      }
+    }
+
+  }
+
 </style>

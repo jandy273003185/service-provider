@@ -51,7 +51,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter{
             // 如果没有抛出异常则代表登入成功，返回true
             return true;
         } catch (AuthenticationException e) {
-            ResponseData responseData = ResponseDataUtil.authorizationFailed( "没有访问权限，原因是:" + e.getMessage());
+            ResponseData<?> responseData = ResponseDataUtil.authorizationFailed( "没有访问权限，原因是:" + e.getMessage());
             //SerializerFeature.WriteMapNullValue为了null属性也输出json的键值对
             Object o = JSONObject.toJSONString(responseData, SerializerFeature.WriteMapNullValue);
             response.setCharacterEncoding("utf-8");

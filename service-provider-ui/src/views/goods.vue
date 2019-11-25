@@ -15,8 +15,14 @@
       </div>
       <van-tabs class="p_f" v-model="active" swipeable @click="onClick"  title-active-color="#699dd7" color="#699dd7" >
         <div class="sunxu">
-          <div @click="number"><span>笔数排名</span><img src="../assets/images/home/up_down.png" alt=""></div>
-          <div @click="sum"><span>金额排名</span><img src="../assets/images/home/up_down.png" alt=""></div>
+          <div :class="{rank:selectRank=='transactionNum'}" @click="number">
+            <span>笔数排名</span>
+            <img   src="../assets/images/home/up_down.png" alt="">
+          </div>
+          <div  :class="{rank:selectRank=='transactionAmount'}" @click="sum">
+            <span>金额排名</span>
+            <img src="../assets/images/home/up_down.png" alt="">
+          </div>
         </div>
         <van-tab title="全部"  name="a">
           <ul>
@@ -144,6 +150,7 @@ export default {
       allShow:true,//全部数据栏是否请求数据，默认false，选取时间后为true
       Numranking:false,
       Amountranking:false,
+      selectRank:'transactionNum',
       rankingCode:'transactionNum desc'//transactionNum  笔数排名  transactionAmount 金额排名 desc大到小，asc小到大
     };
   },
@@ -166,8 +173,7 @@ export default {
       this.getAllShopList();
     },
 
-    //异步请求
-
+    //请求商户交易数据
     async getAllShopList(){
       console.log(897788);
       let listInfo= await goodsInfo.goodsInfo({
@@ -212,10 +218,6 @@ onSearch(){////将this.value传到后台
   this.getAllShopList();
 },
 
-
-
-
-
     //时间选择函数
     showPopFn(tm) {//点击打开日历，通过传值tm判断是开始时间还是结束时间
       this.show = true;
@@ -238,10 +240,15 @@ onSearch(){////将this.value传到后台
     cancelFn(){//取消按钮
       this.show = false;
     },
+    timer(time){//将个位数日期变两位数
+      return time < 10 ? '0' + time : '' + time;
+    },
     timeFormat(time) { // 时间格式化 2019-09-08
       let year = time.getFullYear();
       let month = time.getMonth() + 1;
+      month = this.timer(month);
       let day = time.getDate();
+      day = this.timer(day);
       return year + '-' + month + '-' + day
     },
     cancel(){//取消选择自定义日期
@@ -292,7 +299,7 @@ onSearch(){////将this.value传到后台
         }else {
           this.rankingCode = 'transactionNum desc ';
         }
-
+        this.selectRank = 'transactionNum';
         this.pageNum=1;
         this.getAllShopList();
       },
@@ -304,7 +311,7 @@ onSearch(){////将this.value传到后台
       }else {
         this.rankingCode = 'transactionAmount asc ';
       }
-
+      this.selectRank = 'transactionAmount';
       this.pageNum=1;
       this.getAllShopList();
     },
@@ -346,7 +353,7 @@ onSearch(){////将this.value传到后台
   }
 
   .p_f{
-    position: relative;
+    /*position: relative;*/
 
   .sunxu{
     width:100% ;
@@ -359,6 +366,10 @@ onSearch(){////将this.value传到后台
     position:absolute;
     top:vw(88);
     z-index:999;
+    .rank{
+      color:#699dd7;
+      border-bottom-color:#699dd7;
+    }
 
   div{
     margin-right: vw(30);

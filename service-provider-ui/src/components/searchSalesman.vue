@@ -11,7 +11,7 @@
             <div slot="action" @click="onSearch">搜索</div>
         </van-search>
             <ul>
-            <li v-for="(item, index) in nameList" :key="index" @click="into_result(item.userName,item.id)">
+            <li v-for="(item, index) in nameList" :key="index" @click="into_result(item.userName,item.salesmanId)">
                 {{ item.userName }}
             </li>
         </ul>

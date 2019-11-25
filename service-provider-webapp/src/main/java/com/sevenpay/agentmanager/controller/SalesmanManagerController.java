@@ -32,12 +32,12 @@ public class SalesmanManagerController {
      * @return
      */
     @RequestMapping("regPassword")
-    public ResultBean regSalesman(String custId, String id){
+    public ResultBean<?> regSalesman(String custId, String id){
         Integer result = salesmanManagerService.resetTdSalesmanInfoPassword(custId, id);
         if (result > 0) {
-            return new ResultBean("1");
+            return new ResultBean<>("1");
         }
-        return new ResultBean("0");
+        return new ResultBean<>("0");
     }
 
     /**
@@ -48,12 +48,12 @@ public class SalesmanManagerController {
      * @return
      */
     @RequestMapping("updatePassword")
-    public ResultBean updateSalesman(String id, String oldPassword, String newPassword){
+    public ResultBean<?> updateSalesman(String id, String oldPassword, String newPassword){
         Integer result = salesmanManagerService.updateTdSalesmanInfoPassword(id,oldPassword,newPassword);
         if (result > 0) {
-            return new ResultBean("1");
+            return new ResultBean<>("1");
         }
-        return new ResultBean("0");
+        return new ResultBean<>("0");
     }
 
     /**
@@ -80,7 +80,7 @@ public class SalesmanManagerController {
      * @return
      */
     @RequestMapping("get")
-    public ResultBean getTdSalesmanInfoById(String id,
+    public ResultBean<?> getTdSalesmanInfoById(String id,
                                             String queryStartDate,
                                             String queryEndDate,
                                             String roleId){
@@ -98,13 +98,13 @@ public class SalesmanManagerController {
      * @return
      */
     @RequestMapping("insert")
-    public ResultBean insertTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo){
+    public ResultBean<?> insertTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo){
         Integer result = salesmanManagerService.insertTdSalesmanInfo(tdSalesmanInfo);
         if (result > 0) {//新增成功
-            return new ResultBean("1");
+            return new ResultBean<>("1");
         }
         //新增失败
-        return new ResultBean("0");
+        return new ResultBean<>("0");
     }
 
     /**
@@ -113,13 +113,13 @@ public class SalesmanManagerController {
      * @return
      */
     @RequestMapping("update")
-    public ResultBean updateTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo){
+    public ResultBean<?> updateTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo){
         Integer result = salesmanManagerService.updateTdSalesmanInfo(tdSalesmanInfo);
         if (result > 0) {//更新成功
-            return new ResultBean("1");
+            return new ResultBean<>("1");
         }
         //更新失败
-        return new ResultBean("0");
+        return new ResultBean<>("0");
     }
 
     /**
@@ -131,9 +131,9 @@ public class SalesmanManagerController {
      * @return
      */
     @RequestMapping("performance")
-    public ResultBean selectSalesmanPerformance(String sortType, String userId, String queryStartDate, String queryEndDate){
+    public ResultBean<?> selectSalesmanPerformance(String sortType, String userId, String queryStartDate, String queryEndDate){
         List<Map<String, Object>> maps = salesmanManagerService.selectSalesmanPerformance(sortType, userId, queryStartDate, queryEndDate);
-        return new ResultBean("1",maps);
+        return new ResultBean<List<Map<String, Object>>>("1",maps);
     }
 
 

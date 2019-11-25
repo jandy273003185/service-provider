@@ -163,11 +163,11 @@ export default {
       //获取银行名称
       if (cardNo && cardNo.length > 0) {
         let bank = bankInfo(cardNo);
-        if (bank) {
+        if (bank&&bank.bankName) {
           this.params.compAcctBank = bank.bankName;
-          console.log(this.params.compAcctBank);
         } else {
           this.params.compAcctBank = "";
+          this.$toast("请检查您结算账号！");
         }
       }
     },
