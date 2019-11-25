@@ -263,7 +263,7 @@
             this.$toast({//轻提示，默认2秒后自动关闭提示是执行onclone函数
               message: userData.data.resultMsg,
               onClose: function () {
-                  _this.$router.push({
+                  _this.$router.replace({
                       name: "salesman",
                       params: {
                           fname: "Administrator"

@@ -42,7 +42,12 @@ export default {
         },
 
         onSearch(){//将this.value传到后台
-            this.searchSales();
+            if(this.userName){
+                this.searchSales();
+            }else {
+                this.$toast('请输入业务员名称');
+                return;
+            }
         },
 
         into_result(userName,userId){

@@ -192,7 +192,7 @@ export default {
         this.$toast({
           message:data.resultMsg,
           onClose:function(){
-            _this.$router.push({
+            _this.$router.replace({
               name: "Administrator",
               params: {
                 fname: "salesman"

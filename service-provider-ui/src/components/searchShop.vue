@@ -73,11 +73,17 @@ export default {
             this.$router.go(-1);
         },
         onSearch(){//将this.value传到后台
-            this.pageNum=1;
-            this.timeStart='';//选取的开始时间
-            this.timeEnd='';
-            this.active = true;
-            this.getAllShopList();
+            if(this.value){
+                this.pageNum=1;
+                this.timeStart='';//选取的开始时间
+                this.timeEnd='';
+                this.active = true;
+                this.getAllShopList();
+            }else {
+                this.$toast('请输入商户名称');
+                return;
+            }
+
         },
         loadList(){
             this.pageNum+=1;
