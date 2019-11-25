@@ -52,47 +52,12 @@ export default {
   },
   computed: {},
   created() {
-    /*this.getInitList();*/
+    this.getInitList();
   },
   data() {
     return {
       adding: false,
-      saleList: [
-        {
-          userName:'王斌全',
-          userPhone:131564165165,
-          status:1
-        },
-        {
-          userName:'王斌全',
-          userPhone:131564165165,
-          status:1
-        },
-        {
-          userName:'w',
-          userPhone:131564165165,
-          status:0
-        },
-        {
-          userName:'wang',
-          userPhone:131564165165,
-          status:1
-        },
-        {
-          userName:'wang',
-          userPhone:131564165165,
-          status:1
-        },
-        {
-          userName:'wang',
-          userPhone:131564165165,
-          status:0
-        }
-
-
-
-
-      ],
+      saleList: [],
       inpName: "",
       inpAccount: "",
     };
@@ -138,14 +103,16 @@ export default {
       })
         .then(() => {
           // on confirm
+          console.log(status);
           common.updateSales({
               custId: custId,
               id: id,
               status: 0
             })
             .then(res => {
+
               this.getInitList();
-              console.log("冻结");
+              console.log("冻结"+res);
             });
         })
         .catch(() => {
@@ -160,6 +127,7 @@ export default {
       })
         .then(() => {
           // on confirm
+          console.log(status);
           common.updateSales({
               custId: custId,
               id: id,

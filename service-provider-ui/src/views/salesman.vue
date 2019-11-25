@@ -62,7 +62,7 @@ export default {
       roleId: "salesman",
       statesList: [],
       userId: "",
-      isHave:true
+      isHave:true  //无数据时显示：暂无数据
     };
   },
   created() {
@@ -203,8 +203,9 @@ export default {
       });
       console.log(listInfo);
       this.statesList = listInfo.data.resultMsg.data;
-      if(this.statesList || this.statesList.length>=0 ){
-        this.isHave = false;
+      let list = listInfo.data.resultMsg.data;
+      if(list || list.length>=0 ){
+        this.isHave = false;//有数据时隐藏掉
       }
       /*let total=listInfo.data.resultMsg.total;*/
     },
