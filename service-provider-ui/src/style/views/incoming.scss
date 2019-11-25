@@ -13,6 +13,7 @@
     border-bottom: 1px solid #efefef;
     margin: 0 vw(30);
     display: flex;
+    overflow: hidden;
 }
 .stepInfo .row .label{
     white-space: nowrap;
@@ -42,7 +43,7 @@
 }
 .stepInfo .row .data input{
     flex: none;
-    width: vw(300);
+    width: vw(280);
     text-align: center;
     text-align-last: center;
     background: #fff;
