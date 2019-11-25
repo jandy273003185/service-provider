@@ -227,6 +227,8 @@
           if (type == "0" || this.sortType == "0") {
             if (list[0] && list[0].effectiveNum) {
               this.sumMax = parseFloat(list[0].effectiveNum) * 1.5;
+            }
+            if(list && list.length >0){
               this.isHaveNum = false;
             }
             this.sumList = list;
@@ -234,6 +236,8 @@
           if (type == "1" || this.sortType == "1") {
             if (list[0] && list[0].effectiveNum) {
               this.numMax = parseFloat(list[0].effectiveNum) * 1.5;
+            }
+            if(list && list.length >0){
               this.isHaveSum = false;
             }
             this.numList = list;
