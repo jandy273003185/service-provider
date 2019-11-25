@@ -325,7 +325,7 @@ export default {
         console.log("保存照片");
         console.log( _photos); 
         this.$store.commit("setPhotos", _photos);
-        console.log("保存照片");
+        console.log("查看保存照片");
         console.log(this.$store.state.savephotos);
         this.$router.push("legalInfo");
       }
