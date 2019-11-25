@@ -325,6 +325,7 @@ export default {
         console.log(this.photos);
         let _photos=Object.assign(this.savephotos,this.photos);
         this.$store.commit("setPhotos", _photos);
+        console.log(this.$store.state.savephotos);
         this.$router.push("legalInfo");
       }
     },
