@@ -20,13 +20,13 @@ export default new Vuex.Store({
         incomingReturn: { //请求的保存数据
         },
         savephotos: {
-            businessLicense: [], //营业执照
+           /*  businessLicense: [], //营业执照
             shopFrontDesk: [], //门头照
             shopInterior: [], //店内照
             specialBusiness: [], //特殊行业照
             electronicSignaturePhoto: [], //电子签名照
             otherPhoto1: [], //其他资料照 1
-            otherPhoto2: [] //其他资料照 2
+            otherPhoto2: [] //其他资料照 2 */
         }, //图片
         custScanCopys: [],
         checkedState: '' //审核状态
