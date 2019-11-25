@@ -4,6 +4,9 @@
     <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="管理员与业务员互相登录错入口">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/config/ShiroConfigBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/config/ShiroConfigBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/UploadFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/UploadFileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -125,7 +128,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574418614597</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="管理员与业务员互相登录错入口">
+      <created>1574419885865</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1574419885865</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,7 +171,22 @@
           <line>102</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java</url>
+          <line>158</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java</url>
+          <line>66</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="roleId" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

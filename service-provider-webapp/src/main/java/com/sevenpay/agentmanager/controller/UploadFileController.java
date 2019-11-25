@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +20,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.util.UUID;
 
 /**
@@ -120,9 +121,9 @@ public class UploadFileController {
         //存储地址
         StringBuilder path = new StringBuilder(absolutePaths).append("/").append(uploadFileName);//路径读取不到
         File saveFile = new File(String.valueOf(path));
-        BASE64Decoder decoder = new BASE64Decoder();
+        Decoder decoder = Base64.getDecoder();
         try(OutputStream out = new FileOutputStream(saveFile)){
-            byte[] b = decoder.decodeBuffer(BASE64str);
+            byte[] b = decoder.decode(BASE64str);
             for (int i = 0; i <b.length ; i++) {
                 if (b[i] <0) {
                     b[i]+=256;

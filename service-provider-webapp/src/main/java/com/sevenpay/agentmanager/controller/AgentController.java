@@ -49,6 +49,7 @@ public class AgentController {
      * @param userId 管理员/业务员id
      * @param custName 商户名
      * @param stateCode 客户状态：00 有效；01 待审核；02 注销；03 冻结；04 审核不通过.
+     * @param filingAuditStatus 报备审核状态 00：成功 99：失败 01：待审核 02提交审核',
      * @param queryStartDate 起始时间
      * @param queryEndDate 结束时间
      * @return
@@ -66,7 +67,7 @@ public class AgentController {
         int page = (pageNum-1)*pageSize;
 
         Pager<TdCustInfo> pager = new Pager<TdCustInfo>();
-        List<TdCustInfo> list = commerService.selectCommercialInfo(userId, custName, stateCode, filingAuditStatus, queryStartDate, queryEndDate, pageSize, pageNum, roleId);
+        List<TdCustInfo> list = commerService.selectCommercialInfo(userId, custName, stateCode, filingAuditStatus, queryStartDate, queryEndDate, pageSize, page, roleId);
 
         pager.setData(list);
         pager.setTotal(commerService.selectCommercialInfoCount(userId, custName,stateCode,filingAuditStatus, queryStartDate, queryEndDate,pageSize,page,roleId));
