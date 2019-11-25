@@ -6,7 +6,7 @@
       <div ref="baseform">
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.merchantAccount)}">商户账号</span>
-          <input v-model="params.merchantAccount" placeholder="请输入手机号" />
+          <input :readonly="pagetype=='corvidae'" v-model="params.merchantAccount" placeholder="请输入手机号" />
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
@@ -278,8 +278,6 @@ export default {
         shopInterior: "", //店内照
         specialBusiness: "", //特殊行业照
         electronicSignaturePhoto: "", //电子签名照
-        otherPhoto1: "", //其他资料照 1
-        otherPhoto2: "" //其他资料照 2
       }
     };
   },
@@ -318,12 +316,12 @@ export default {
         let fullParams = Object.assign(this.incoming, this.params);
         console.log(fullParams);
         this.$store.commit("setincoming", fullParams);
-        let incomingReturn = this.incomingReturn;
+/*         let incomingReturn = this.incomingReturn;
         console.log(incomingReturn);
         let custInfo = this.incomingReturn.custInfo || {};
         let all = Object.assign(custInfo, fullParams);
         incomingReturn.custInfo = all;
-        this.$store.commit("setincomingReturn", incomingReturn);
+        this.$store.commit("setincomingReturn", incomingReturn); */
         this.$store.commit("setPhotos", this.photos);
         this.$router.push("legalInfo");
       }
@@ -357,7 +355,7 @@ export default {
         businessTermStart: custInfo.businessTermStart, //有效期
         businessTermEnd: custInfo.businessTermEnd,
       };
-      this.params = params;
+      this.params =Object.assign({},params);
       let photos = res.data.resultMsg.custScanInfoList;
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
       util.getPhotos(this, urlHead, photos);

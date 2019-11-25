@@ -143,7 +143,7 @@ export default {
 
   methods: {
     changePrepage() {
-        this.$router.push("baseInfo");
+      this.$router.go(-1);
     },
     getNextStep() {
       //到下一步 法人信息
