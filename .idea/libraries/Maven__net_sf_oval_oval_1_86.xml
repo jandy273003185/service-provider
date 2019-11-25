@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/net/sf/oval/oval/1.86/oval-1.86.jar!/" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/net/sf/oval/oval/1.86/oval-1.86-sources.jar!/" />
     </SOURCES>
