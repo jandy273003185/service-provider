@@ -29,11 +29,6 @@
           <input v-model="params.contactPhone" placeholder="请输入客服电话号码" />
         </div>
         <div class="row">
-          <!-- params.custAdd -->
-          <!--  province;// 省份代码
-            city;// 城市代码
-            country;// 区县码
-          custAdd;地址.-->
           <span class="label" :class="{'active':(clickedNext&&!params.custAdd)}">商户地址</span>
           <input
             class="address"
@@ -133,7 +128,6 @@
           @confirm="confirmDate"
           @cancel="datepickerHide"
         />
-
         <div class="row-img">
           <div class="stit" :class="{'active':(clickedNext&&!params.shopFrontDesk)}">
             门头照照片
@@ -292,7 +286,7 @@ export default {
     ...mapState(["incoming", "savephotos", "incomingReturn", "custId"])
   },
   created() {
-    let type = this.$route.params.type;
+    let type ='corvidae'// this.$route.params.type;
     this.photos = Object.assign({}, this.savephotos);
     if (type) {
       this.pagetype = type;
@@ -340,7 +334,7 @@ export default {
         forbidClick: true,
         duration: 0
       });
-      let res = await incoming.getIncoming({ custId: this.custId });
+      let res = await incoming.getIncoming({ custId:this.custId });
       this.$toast.clear();
       this.$store.commit("setincomingReturn", res.data.resultMsg);
       let custInfo = res.data.resultMsg.custInfo;
@@ -361,12 +355,6 @@ export default {
         businessLicense: custInfo.businessLicense, //营业执照编号
         businessTermStart: custInfo.businessTermStart, //有效期
         businessTermEnd: custInfo.businessTermEnd,
-        shopFrontDesk: "", //门头照
-        shopInterior: "", //店内照
-        specialBusiness: "", //特殊行业照
-        electronicSignaturePhoto: "", //电子签名照
-        otherPhoto1: "", //其他资料照 1
-        otherPhoto2: "" //其他资料照 2
       };
       let photos = res.data.resultMsg.custScanInfoList;
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
