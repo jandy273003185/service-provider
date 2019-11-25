@@ -325,7 +325,7 @@ export default {
         this.$store.commit("setincomingReturn", incomingReturn);
         console.log("照片");
         console.log(this.photos);
-        this.$store.commit("setPhotos", this.photos);
+        this.$store.commit("setPhotos",this.photos);
         console.log("查看保存照片");
         console.log(this.$store.state.savephotos);
         this.$router.push("legalInfo");
