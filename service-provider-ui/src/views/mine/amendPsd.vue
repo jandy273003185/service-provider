@@ -97,12 +97,12 @@ export default {
   .amendPsd{
     width:100%;
 
-      .van-nav-bar{
+     /* .van-nav-bar{//更改topbar背景色和字体颜色
         background-color: #26a7e9;
         .van-icon-arrow-left:before,.van-nav-bar__text,.van-nav-bar__title{
           color: #FFFFFF;
         }
-      }
+      }*/
 
       .van-cell--required{
         margin: vw(20) auto;

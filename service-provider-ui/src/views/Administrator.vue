@@ -97,9 +97,11 @@
       };
     },
     created() {
-      this.$store.commit("setincoming", {});
-      this.$store.commit("setPhotos", []);
-      this.$store.commit("setCheckedState", "");
+      //进件初始化
+      this.setincoming('');
+      this.setPhotos('');
+      this.setCheckedState('');
+
       if (!this.$store.state.code) {
         var code = this.getUrlParam("code");
         if (!code) {
@@ -212,6 +214,7 @@
           };
           let sales = await adminIndex.SalesRanking(params);
           let list = sales.data.resultMsg;
+          console.log(list);
           if (type == "0" || this.sortType == "0") {
             if (list[0] && list[0].effectiveNum) {
               this.sumMax = parseFloat(list[0].effectiveNum) * 1.5;
@@ -224,7 +227,6 @@
               this.numMax = parseFloat(list[0].effectiveNum) * 1.5;
               this.isHave = false;
             }
-
             this.numList = list;
           }
         },
@@ -239,7 +241,7 @@
             console.log(userData.data.resultMsg.token);
             this.setToken(userData.data.resultMsg.token);
             this.setUserId(userData.data.resultMsg.userId);
-            this.setUserName(userData.data.resultMsg.userInfo.userName);
+            this.setUserName(userData.data.resultMsg.userInfo.custName);
             localStorage.setItem("token", userData.data.resultMsg.token);
             axios.defaults.headers.common["token"] = userData.data.resultMsg.token;
             storage.set("userId", userData.data.resultMsg.userId);
@@ -270,7 +272,10 @@
           "setOpenID",
           "setCode",
           "setCustId",
-          "setUserName"
+          "setUserName",
+          "setincoming",
+          "setPhotos",
+          "setCheckedState"
         ])
       }
   }

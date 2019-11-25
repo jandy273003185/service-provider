@@ -66,9 +66,11 @@ export default {
     };
   },
   created() {
-    this.$store.commit("setincoming", {});
-    this.$store.commit("setPhotos", []);
-    this.$store.commit("setCheckedState", ""); //snsapi_base
+    //进件初始化
+    this.setincoming('');
+    this.setPhotos('');
+    this.setCheckedState('');
+
     console.log("createdCode");
     console.log(this.$store.state.code);
     if (!this.$store.state.code) {
@@ -233,7 +235,10 @@ export default {
       "setCustId",
       "setOpenID",
       "setCode",
-      "setUserName"
+      "setUserName",
+      "setincoming",
+      "setPhotos",
+      "setCheckedState"
     ])
   }
 };
