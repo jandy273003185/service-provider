@@ -147,11 +147,11 @@ public class LoginController {
     public ResultBean<?> login(String openId,String roleId){
 
         UserLoginRelate ifbing = loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
-        if (org.apache.commons.lang3.StringUtils.equals("0", ifbing.getIfUnbind())){
-            return new ResultBean<String>("0",openId); //返回页面重新绑定
-        }
+
         if(ifbing == null){
             return new ResultBean<String>("0",openId);  //返回页面去登陆 进行绑定
+        }else if ("0".equals(ifbing.getIfUnbind())){
+            return new ResultBean<String>("0",openId); //返回页面重新绑定
         }else {
             String userId = ifbing.getUserId();//获取角色
             //不同的角色获取不同的用户信息表

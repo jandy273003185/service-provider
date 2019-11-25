@@ -108,7 +108,7 @@ public class UploadFileController {
     }
 
     /**
-     *
+     * base64转图片
      * @param str bas64字符串
      * @return 存储地址
      */

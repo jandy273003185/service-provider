@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/com/sevenpay/sevenpay-external-dubbo-api/5.1.5-SNAPSHOT/sevenpay-external-dubbo-api-5.1.5-SNAPSHOT.jar!/" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/com/sevenpay/sevenpay-external-dubbo-api/5.1.5-SNAPSHOT/sevenpay-external-dubbo-api-5.1.5-SNAPSHOT-sources.jar!/" />
     </SOURCES>
