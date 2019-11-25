@@ -356,10 +356,10 @@ export default {
         businessTermStart: custInfo.businessTermStart, //有效期
         businessTermEnd: custInfo.businessTermEnd,
       };
+        this.params =Object.assign(this.params,params);
       let photos = res.data.resultMsg.custScanInfoList;
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
       util.getPhotos(this, urlHead, photos);
-      this.params = params;
     },
     async getInitAddress() {
       //获取省份
