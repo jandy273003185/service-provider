@@ -56,6 +56,7 @@ export default {
   },
   created() {
     this.getInitList();
+    console.log(this.userId);
   },
   data() {
     return {
@@ -99,7 +100,7 @@ export default {
       }
     },
     deleteSale(custId, id, status) {
-      //删除业务员
+      //冻结业务员
       Dialog.confirm({
         title: "提示",
         message: "是否确定冻结账号"
@@ -109,7 +110,7 @@ export default {
           console.log(status);
           common.updateSales({
               custId: custId,
-              id: id,
+              salesmanId: id,
               status: 0
             })
             .then(res => {
@@ -133,7 +134,7 @@ export default {
           console.log(status);
           common.updateSales({
               custId: custId,
-              id: id,
+            salesmanId: id,
               status: 1
             })
             .then(res => {
