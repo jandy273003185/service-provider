@@ -71,12 +71,10 @@ const util = {
       if(name){
         obj[name]=[{
             url: urlHead + "" + imgname,
-            isImage: true
           }]
         }
         that.photos[name] = [{
-          url: urlHead + "" + imgname,
-          isImage: true
+          url: urlHead + "" + imgname
         }];
         that.params[name] = urlHead + "" + imgname;
       }

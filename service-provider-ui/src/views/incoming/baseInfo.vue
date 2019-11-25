@@ -314,17 +314,16 @@ export default {
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
         this.$store.commit("setincoming", fullParams);
-/*         let incomingReturn = this.incomingReturn;
-        console.log(incomingReturn);
+       let incomingReturn = this.incomingReturn;
         let custInfo = this.incomingReturn.custInfo || {};
         let all = Object.assign(custInfo, fullParams);
         incomingReturn.custInfo = all;
-        this.$store.commit("setincomingReturn", incomingReturn); */
+        this.$store.commit("setincomingReturn", incomingReturn); 
         console.log("照片");
         console.log(this.photos);
         let _photos=Object.assign(this.savephotos,this.photos);
         console.log("保存照片");
-        console.log( _photos);
+        console.log( _photos); 
         this.$store.commit("setPhotos", _photos);
         console.log("保存照片");
         console.log(this.$store.state.savephotos);

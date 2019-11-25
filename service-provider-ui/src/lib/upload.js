@@ -13,8 +13,7 @@ const uploadImg = {
       let fullUrl = resultMsg.uri + "" + resultMsg.url;
       that.params[that.uploadType] = fullUrl;
       that.photos[that.uploadType] = [{
-        url: fullUrl,
-        isImage: true
+        url: fullUrl
       }];
     }
     that.$toast.clear();
