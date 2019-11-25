@@ -16,8 +16,8 @@ axios.interceptors.request.use(config => {
   if (store.state.token) { //已登录登陆
     config.headers.common['token'] = store.state.token
   }
-/*   config.headers.common['token']='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZWNyZXQiOiJvaEV0bnN3Z28xRFMzaG1wd3lvOHd3eGd2UDNNIiwiZXhwIjoxNTc0NDc4MDUzLCJ1c2VySWQiOiIxNyJ9.1xMm7axNNPgfX7fzRGDWL8gYc8cx1lRnFU0l4Tk2mNc';
-   */
+/*   config.headers.common['token']='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZWNyZXQiOiJvaEV0bnN3Z28xRFMzaG1wd3lvOHd3eGd2UDNNIiwiZXhwIjoxNTc0NzYyNzYxLCJ1c2VySWQiOiJTMTIyMjIyMjIyMjIifQ.Fs6tUqgN1MYgL_DkuNxJhVe6vO3bFEzjAUtz6nTjO5Q';
+    */
   return config
 }, error => {
   return Promise.reject(error)
