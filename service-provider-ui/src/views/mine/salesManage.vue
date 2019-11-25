@@ -44,13 +44,16 @@
 <script>
 import { adminIndex, common } from "@/assets/api/interface";
 import { Dialog } from "vant";
+import {mapState} from 'vuex';
 
 export default {
   name: "sales",
   components: {
 
   },
-  computed: {},
+  computed: {
+    ...mapState(['userId'])
+  },
   created() {
     this.getInitList();
   },
@@ -65,7 +68,7 @@ export default {
   methods: {
     async getInitList() {
       let list = await adminIndex.searchSales({
-        custId: this.$store.state.userId
+        custId: this.userId
       });
   console.log(list);
       this.saleList = list.data.resultMsg;
@@ -143,12 +146,12 @@ export default {
           // on cancel
         });
     },
-    async saveSales() {
+    async saveSales() {//保存
       let res = await common.insertSales({
         userName: this.inpName,
         password: "123456",
         userPhone: this.inpAccount,
-        custId: this.$store.state.userId,//管理员的userId
+        custId: this.userId,//管理员的userId
         status: 1
       });
       console.log(res);

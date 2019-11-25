@@ -63,7 +63,6 @@ export default {
             if(sales.data){
                 console.log(sales.data);
                 this.nameList = sales.data.resultMsg;
-
             }
         },
 
@@ -88,7 +87,7 @@ export default {
                 display: flex;
                 justify-content:space-between;
                 align-items: center;
-                border-bottom: vw(1) solid #EEEEEE;
+                border-bottom: 1px solid #EEEEEE;
 
                 div{
                     height: 100%;
