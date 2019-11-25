@@ -358,6 +358,10 @@ export default {
         businessLicense: custInfo.businessLicense, //营业执照编号
         businessTermStart: custInfo.businessTermStart, //有效期
         businessTermEnd: custInfo.businessTermEnd,
+          shopFrontDesk: "", //门头照
+        shopInterior: "", //店内照
+        specialBusiness: "", //特殊行业照
+        electronicSignaturePhoto: "", //电子签名照
       };
       this.params =Object.assign({},params);
       let photos = res.data.resultMsg.custScanInfoList;
