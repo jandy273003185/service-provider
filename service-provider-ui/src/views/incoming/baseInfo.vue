@@ -325,7 +325,7 @@ export default {
         this.$store.commit("setincomingReturn", incomingReturn);
         console.log("照片");
         console.log(this.photos);
-        this.$store.commit("setPhotos",Object.assign({},this.photos));
+        this.$store.commit("setPhotos",this.photos);
         this.$router.push("legalInfo");
       }
     },
