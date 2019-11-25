@@ -106,10 +106,17 @@ export default {
           roleId: this.roleId
         });
       }else {
-        console.log("其他页返回");
-        this.logined=true;
-        this.islogin = true;
-        this.salesShopNew();
+        if(this.$store.state.userId){
+          console.log("其他页返回");
+          this.logined=true;
+          this.islogin = true;
+          this.salesShopNew();
+        }else {
+          this.firstLogin({
+            openId: this.$store.state.openId,
+            roleId: this.roleId
+          });
+        }
       }
     }
   },
@@ -185,7 +192,7 @@ export default {
         this.$toast({
           message:data.resultMsg,
           onClose:function(){
-            _this.$router.push({
+            _this.$router.replace({
               name: "Administrator",
               params: {
                 fname: "salesman"

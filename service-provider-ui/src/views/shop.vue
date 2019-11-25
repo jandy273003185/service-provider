@@ -315,10 +315,16 @@ export default {
 
 
     onSearch(){////将this.value传到后台
-    this.pageNum=1;
-    this.timeStart='';//选取的开始时间
-    this.timeEnd='';
-    this.getAllShopList();
+      if(this.mchName){
+        this.pageNum=1;
+        this.timeStart='';//选取的开始时间
+        this.timeEnd='';
+        this.getAllShopList();
+      }else {
+        this.$toast('请输入商户名称');
+        return;
+      }
+
     },
 
     selectTime(){//点击选择查看自定义时间

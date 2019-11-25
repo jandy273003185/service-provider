@@ -26,7 +26,7 @@
             @change="channgeTab"
         >
           <van-tab title="交易额排名">
-            <div class="isRanking" v-if="isHave">暂无业务员排名数据</div>
+            <div class="isRanking" v-if="isHaveNum">暂无业务员排名数据</div>
             <ul>
               <li class="flex_r" v-for="(item, index) in sumList" :key="index">
                 <div>
@@ -44,7 +44,7 @@
             </ul>
           </van-tab>
           <van-tab title="进件数排名">
-            <div class="isRanking" v-if="isHave">暂无业务员排名数据</div>
+            <div class="isRanking" v-if="isHaveSum">暂无业务员排名数据</div>
             <ul>
               <li v-for="(item, index) in numList" :key="index">
                 <div>
@@ -91,7 +91,8 @@
         queryEndDate: util.fun_date(7).timeEnd,
         sumMax: 1, //计算业绩百分比，由第一名的值决定，
         numMax: 1, //计算笔数百分比，由第一名的值决定
-        isHave:true,//是否有业务员排名数据
+        isHaveNum:true,//是否有业务员交易额排名数据
+        isHaveSum:true,//是否有业务员进件排名数据
         sumList: [],
         numList: []
       };
@@ -101,7 +102,7 @@
       this.setincoming('');
       this.setPhotos('');
       this.setCheckedState('');
-
+      //判断是否有code
       if (!this.$store.state.code) {
         var code = this.getUrlParam("code");
         if (!code) {
@@ -132,9 +133,17 @@
             roleId: this.roleId
           });
         } else {//从其他页面进入
-            this.logined = true;
-            this.islogin = true;
-            this.getSalesRanking("0");
+            if(this.$store.state.userId){
+              this.logined = true;
+              this.islogin = true;
+              this.getSalesRanking("0");
+            }else {
+              this.firstLogin({
+                openId: this.$store.state.openId,
+                roleId: this.roleId
+              });
+            }
+
         }
       }
     },
@@ -218,14 +227,14 @@
           if (type == "0" || this.sortType == "0") {
             if (list[0] && list[0].effectiveNum) {
               this.sumMax = parseFloat(list[0].effectiveNum) * 1.5;
-              this.isHave = false;
+              this.isHaveNum = false;
             }
             this.sumList = list;
           }
           if (type == "1" || this.sortType == "1") {
             if (list[0] && list[0].effectiveNum) {
               this.numMax = parseFloat(list[0].effectiveNum) * 1.5;
-              this.isHave = false;
+              this.isHaveSum = false;
             }
             this.numList = list;
           }
@@ -254,7 +263,7 @@
             this.$toast({//轻提示，默认2秒后自动关闭提示是执行onclone函数
               message: userData.data.resultMsg,
               onClose: function () {
-                  _this.$router.push({
+                  _this.$router.replace({
                       name: "salesman",
                       params: {
                           fname: "Administrator"

@@ -5,18 +5,34 @@
         <img src="../assets/images/login/login.png" alt />
         <span>七分钱进件系统</span>
       </div>
-      <p class="logintype">账号密码登录</p>
-      <div class="item">
-        <input v-model.trim="userName" type="text" placeholder="手机号码/邮箱" />
-        <van-icon @click="clearName" name="close" />
+      <p v-if="selectLogin=='psd'" class="logintype">账号密码登录</p>
+      <p v-if="selectLogin=='code'" class="logintype">验证码登录</p>
+      <div v-if="selectLogin=='psd'" >
+        <div class="item userName">
+          <input v-model.trim="userName" type="text" placeholder="手机号码/邮箱" />
+          <van-icon @click="clearName" name="close" />
+        </div>
+        <div class="item">
+          <input v-model.trim="password" type="password" placeholder="登录密码" />
+          <van-icon @click="clearPsd" name="close" />
+        </div>
       </div>
-      <div class="item">
-        <input v-model.trim="password" type="password" placeholder="登录密码" />
-        <van-icon @click="clearPsd" name="close" />
+      <div v-if="selectLogin=='code'" >
+        <div class="item userName">
+          <input v-model.trim="userPhone" type="text" placeholder="输入手机号码" />
+          <van-icon @click="clearName" name="close" />
+        </div>
+        <div class="item">
+          <input v-model.trim="userCode" type="text" placeholder="输入验证码" />
+         <!-- <van-icon @click="clearPsd" name="close" />-->
+          <div class="getCode" @click="getCode">获取验证码</div>
+        </div>
       </div>
-      <div class="item">
+      <div class="item edter">
         <button @click="submitLogin">登录</button>
       </div>
+      <div v-if="selectLogin=='psd'" class="selectLogin" @click="selectInto('code')">短信验证码登录</div>
+      <div v-if="selectLogin=='code'" class="selectLogin" @click="selectInto('psd')">账号密码登录</div>
     </div>
   </div>
 </template>
@@ -30,7 +46,10 @@ export default {
   data() {
     return {
       userName: null,
-      password: null
+      password: null,
+      selectLogin:'psd',
+      userCode:'',
+      userPhone:''
     };
   },
   mounted() {
@@ -41,17 +60,60 @@ export default {
     ...mapState(["role", "openId"])
   },
   methods: {
+    //选择登录方式
+    selectInto(way){
+      this.selectLogin=way;
+      console.log(this.selectLogin);
+    },
+    //获取短信验证码
+    getCode(){
+      Dialog({ message: "已发送短信验证码，请前往查看" });
+    },
+
     //判断账号密码非空
     submitLogin() {
-      if (!this.userName) {
-        Dialog({ message: "用户名账号不能为空" });
-        return;
+      const params={};
+      if(this.selectLogin=='psd'){
+        if (!this.userName) {
+          Dialog({ message: "用户名账号不能为空" });
+          return;
+        }
+        if (!this.password) {
+          Dialog({ message: "密码不能为空" });
+          return;
+        }
+       params = {
+          userName: this.userName,
+          password: this.password,
+          openId: this.openId,
+          roleCode: this.role
+        };
+        console.log(params.userName);
+        console.log(params.password);
+        console.log(params.openId);
+        console.log(params.roleCode);
+      }else if(this.selectLogin=='code'){
+        if (!this.userPhone) {
+          Dialog({ message: "手机号码不能为空" });
+          return;
+        }
+        if (!this.userCode) {
+          Dialog({ message: "验证码不能为空" });
+          return;
+        }
+        params = {
+          userName: this.userPhone,
+          password: this.userCode,
+          openId: this.openId,
+          roleCode: this.role
+        };
+        console.log(params.userPhone);
+        console.log(params.userCode);
+        console.log(params.openId);
+        console.log(params.roleCode);
       }
-      if (!this.password) {
-        Dialog({ message: "密码不能为空" });
-        return;
-      }
-      this.loginPost(); //登录请求
+
+      this.loginPost(params); //登录请求
     },
     clearName() {
       this.userName = "";
@@ -59,18 +121,7 @@ export default {
     clearPsd() {
       this.password = "";
     },
-    async loginPost() {
-      const params = {
-        userName: this.userName,
-        password: this.password,
-        openId: this.openId,
-        roleCode: this.role
-      };
-      console.log(params.userName);
-      console.log(params.password);
-      console.log(params.openId);
-      console.log(params.roleCode);
-
+    async loginPost(params) {
       const loginData = await login.login(params);
       console.log(loginData);
       if (loginData.data.resultCode == 1) {
@@ -147,7 +198,7 @@ export default {
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
-      border-bottom: vw(1) solid #d9d9d9;
+      border-bottom: 1px solid #d9d9d9;
 
       input {
         height: 80%;
@@ -171,15 +222,35 @@ export default {
         font-size: vw(36);
         cursor: pointer;
 
-        &:hover {
+        button:hover {
           background-color: #271fb4;
         }
       }
+      .getCode{
+        width vw(240)
+        height 80%
+        color #fff
+        display: flex;
+        align-items: center;
+        justify-content:center;
+        background-color: #07c160
+        border-radius vw(5)
+      }
     }
 
-    .item:last-child {
+    .edter {
       margin-top: vw(80);
       border: none;
+    }
+
+    .userName {
+      border-top: 1px solid #d9d9d9;
+    }
+    .selectLogin{
+      font-size:vw(28);
+      margin-top:vw(30);
+      text-align:center;
+      color #424242
     }
   }
 }

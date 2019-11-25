@@ -209,13 +209,19 @@ export default {
 
 
 onSearch(){////将this.value传到后台
-  this.pageNum=1;
-  this.active = 'a';
-  this.customShow = false;//将自定义栏false
-  this.allShow = true;//将“全部”栏显示
-  this.timeEnd='';
-  this.timeStart='';
-  this.getAllShopList();
+  if(this.mchName){
+    this.pageNum=1;
+    this.active = 'a';
+    this.customShow = false;//将自定义栏false
+    this.allShow = true;//将“全部”栏显示
+    this.timeEnd='';
+    this.timeStart='';
+    this.getAllShopList();
+  }else {
+    this.$toast('请输入商户名称');
+    return;
+  }
+
 },
 
     //时间选择函数
