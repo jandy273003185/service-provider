@@ -11,7 +11,9 @@ const uploadImg = {
     if (info.data.resultCode == "200") {
       let resultMsg = JSON.parse(info.data.resultMsg);
       let fullUrl = resultMsg.uri + "" + resultMsg.url;
-      that.params[that.uploadType] = fullUrl;
+      if(that.uploadType!='businessLicense'){
+        that.params[that.uploadType] = fullUrl;
+      }
       that.photos[that.uploadType] = [{
         url: fullUrl
       }];

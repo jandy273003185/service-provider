@@ -76,7 +76,9 @@ const util = {
         that.photos[name] = [{
           url: urlHead + "" + imgname
         }];
-        that.params[name] = urlHead + "" + imgname;
+        if(name!=businessLicense){
+          that.params[name] = urlHead + "" + imgname;
+        }
       }
      /*  if (photos[i].certifyType == "02") {
         //营业执照
