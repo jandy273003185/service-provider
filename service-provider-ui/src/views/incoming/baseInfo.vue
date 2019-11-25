@@ -310,7 +310,6 @@ export default {
     getNextStep() {
       //到下一步 法人信息
       this.clickedNext = true;
-      console.log(this.params);
       let count = form.validParams(this, this.params);
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
@@ -324,7 +323,10 @@ export default {
         console.log("照片");
         console.log(this.photos);
         let _photos=Object.assign(this.savephotos,this.photos);
+        console.log("保存照片");
+        console.log( _photos);
         this.$store.commit("setPhotos", _photos);
+        console.log("查看保存照片");
         console.log(this.$store.state.savephotos);
         this.$router.push("legalInfo");
       }
