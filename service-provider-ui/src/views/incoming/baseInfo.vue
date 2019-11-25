@@ -286,7 +286,7 @@ export default {
     ...mapState(["incoming", "savephotos", "incomingReturn", "custId"])
   },
   created() {
-    let type ='corvidae'// this.$route.params.type;
+    let type = this.$route.params.type;
     this.photos = Object.assign({}, this.savephotos);
     if (type) {
       this.pagetype = type;
