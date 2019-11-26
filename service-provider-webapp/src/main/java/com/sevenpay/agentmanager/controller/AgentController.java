@@ -12,6 +12,7 @@ import com.sevenpay.agentmanager.utils.AddCustScanCopy;
 import com.sevenpay.agentmanager.utils.AddTdMerchantProductInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -322,7 +323,18 @@ public class AgentController {
         return new ResultBean<String>("0","校验失败");
     }
 
-
-
+    /**
+     * 查询该商户手机号是否绑定过
+     * @param merchantAccount 手机账号字段
+     * @return
+     */
+    @RequestMapping("checkMobile")
+    public ResultBean checkMobile(String merchantAccount){
+        boolean result = merchantStatusService.isBindingMobile(merchantAccount);
+        if (result){
+            return new ResultBean("0","手机号已注册，如有疑问请联系客服！");
+        }
+        return new ResultBean("1");
+    }
 
 }
