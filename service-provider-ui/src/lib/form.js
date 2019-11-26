@@ -8,9 +8,11 @@ const form = {
         errCount++;
       } else {
         if(that.params.compMainAcctType=='01'&& !params['licenceForOpeningAccounts']){
+          console.log("未上传营业执照");
           errCount++;
         }
         if(that.params.compMainAcctType=='02'&& !params['bankCardFront']){
+          console.log("未上传银行卡照片");
           errCount++;
         }
         if (item == 'merchantAccount' || item == 'contactMobile') {
