@@ -368,8 +368,8 @@ export default {
       this.params = Object.assign({}, params);
       let photos = res.data.resultMsg.custScanInfoList;
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
-      console.log(util.getPhotos(this, urlHead, photos));
-      this.photos = util.getPhotos(this, urlHead, photos);
+      let getPhotos=util.getPhotos(this, urlHead, photos);
+      this.photos = Object.assign({},getPhotos);
     },
     async getInitAddress() {
       //获取省份
