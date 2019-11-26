@@ -224,10 +224,6 @@ export default {
      intoRole:'',
       /*商户审核信息*/
       allStateList:[{
-        custName:"wang",
-        createTime:'2019',
-        state:'01'
-
       }]
     };
   },
