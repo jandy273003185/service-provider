@@ -205,13 +205,14 @@ export default {
          listInfo= await goodsInfo.allGoodsInfo(params);
       }
       console.log(listInfo);
-      this.shopList = listInfo.data.resultMsg.data;
+      let list= listInfo.data.resultMsg.data;
+      this.shopList = this.shopList.concat(list);
       let total=listInfo.data.resultMsg.total;
 
       console.log(this.shopList);
+      this.loading = false;
       if(this.shopList.length>=total){//判断已加载完成
         this.finished=true;
-        this.loading = false;
       }
     },
 

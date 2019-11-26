@@ -296,14 +296,13 @@ export default {
       if(this.intoRole=='2'){//管理员的商户数据
           listInfo=await shopAuditInfo.allShopAuditInfo(params);
       }
-      this.allStateList = listInfo.data.resultMsg.data;
-      var newArr = arr.concat(arr2);
-      this.allStateList = .concat()
+      let list= listInfo.data.resultMsg.data;
+      this.allStateList = this.allStateList.concat(list);
       let total=listInfo.data.resultMsg.total;
       console.log(listInfo);
+      this.loading = false;
       if(this.allStateList.length>=total){//判断已加载完成
         this.finished=true;
-        this.loading = false;
       }
     },
 
