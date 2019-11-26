@@ -206,7 +206,11 @@ export default {
       }
       console.log(listInfo);
       let list= listInfo.data.resultMsg.data;
+      console.log("before");
+      console.log(this.shopList);
       this.shopList = this.shopList.concat(list);
+      console.log("after");
+      console.log(this.shopList);
       let total=listInfo.data.resultMsg.total;
 
       this.loading = false;
