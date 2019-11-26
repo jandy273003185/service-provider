@@ -63,7 +63,7 @@
             <option value="02">个人</option>
           </select>
         </div>
-        <div class="row-img">
+        <div class="row-img" v-if="params.compMainAcctType=='01'">
           <div class="stit" :class="{'active':(clickedNext&&!params.licenceForOpeningAccounts)}">
             开户许可证照片
             <span>(必须)</span>
@@ -79,8 +79,24 @@
             </van-uploader>
           </div>
         </div>
+        <div class="row-img" v-if="params.compMainAcctType=='02'">
+          <div class="stit" :class="{'active':(clickedNext&&!params.licenceForOpeningAccounts)}">
+            银行卡照片
+            <span>(必须)</span>
+          </div>
+          <div @click="beforeUploadImg('bankCardFront')">
+            <van-uploader
+              :after-read="uploadImg"
+              v-model="photos.bankCardFront"
+              :max-count="1"
+              preview-size="auto"
+            >
+              <van-button icon="photo" type="primary">上传银行卡照片</van-button>
+            </van-uploader>
+          </div>
+        </div>
         <div class="btn" @click="getNextStep">下一步</div>
-        <div class="btn back" @click="getPreStep">返回</div>
+        <div class="btn back" @click="changePrepage">返回</div>
       </div>
     </div>
   </div>
@@ -95,8 +111,6 @@ import { common } from "@/assets/api/interface";
 export default {
   name: "merchant",
   components: {
-    /*     Modal: () => import("@/components/modal"), */
-
     Step: () => import("@/components/step")
   },
   data() {
@@ -110,7 +124,8 @@ export default {
       provinceId: "",
       cityId: "",
       photos: {
-        licenceForOpeningAccounts: []
+        licenceForOpeningAccounts: [],
+        bankCardFront:[]
       },
       params: {
         compMainAcct: "",
@@ -122,7 +137,8 @@ export default {
         branchBank: "",
         representativeName: "",
         compMainAcctType: "",
-        licenceForOpeningAccounts: ""
+        licenceForOpeningAccounts: "",
+        bankCardFront:''
       }
     };
   },
@@ -130,11 +146,9 @@ export default {
     ...mapState(["checkedState", "incoming", "incomingReturn", "savephotos"])
   },
   created() {
-    //this.$route.params.type
     this.params = Object.assign(this.params, this.incoming);
     this.photos = this.savephotos;
     if (this.checkedState == "corvidae") {
-      console.log("corvidae");
       let custInfo = this.incomingReturn.custInfo;
       let photos = this.incomingReturn.custScanInfoList;
       let urlHead = this.incomingReturn.uri + "" + this.incomingReturn.url;
@@ -157,7 +171,7 @@ export default {
 
   methods: {
     changePrepage() {
-      this.$router.go(-1);
+      this.$router.push("legalInfo");
     },
     getBankName(cardNo) {
       //获取银行名称
@@ -234,10 +248,6 @@ export default {
         this.$store.commit("setCheckedState", this.checkedState);
         this.$router.push("sign");
       }
-    },
-    getPreStep() {
-      //返回  法人信息
-      this.$router.push("legalInfo");
     },
     beforeUploadImg(type) {
       this.uploadType = type;

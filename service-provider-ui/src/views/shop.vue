@@ -6,7 +6,7 @@
         <div class="searchName">
           <van-search
                   v-model="mchName"
-                  placeholder="请输入商户名称（非空）"
+                  placeholder="请输入商户名称"
                   show-action
                   shape="round"
                   @search="onSearch"
@@ -365,18 +365,17 @@ export default {
 
     //查看审核失败信息和审核成功信息
     toDetail(state,custId){
+       this.setCustId(custId);
       if(state=='04'){
         this.$router.push('whyFailed');
-        this.setCustId(custId);
       }
       if(state=='00'){
         this.$router.push('/audit/pass');
-        this.setCustId(custId);
       }
       if (state == "05") {
         this.$router.push({
           name: "baseInfo",
-          params: { type: "corvidae", custId: custId }
+          params: { type: "corvidae" }
         });
       }
     },
@@ -393,8 +392,6 @@ export default {
   .shop{
     width: 100%;
     height: 100%;
-    background-color:#EEEEEE;
-
     .searchBar{
         height: vw(120);
         width: 100%;
@@ -488,8 +485,10 @@ export default {
     }
     ul{
       width: 100%;
-      margin-top: vw(20);
+      margin: vw(20) 0 vw(100) 0;
       background-color: #fff;
+      /*padding-bottom vw(100)*/
+
 
       li{
         width: vw(720);
@@ -498,7 +497,7 @@ export default {
         display: flex;
         justify-content:space-between;
         align-items: center;
-        border-bottom: vw(1) solid #EEEEEE;
+        border-bottom: 1px solid #EEEEEE;
 
         div{
           color: #333333;

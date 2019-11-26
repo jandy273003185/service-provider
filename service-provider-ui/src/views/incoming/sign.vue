@@ -22,12 +22,12 @@
         <span class="name">结算费率：</span>
         <input type="number" v-model="appProductRate" placeholder="请输入费率" />
       </div>
-      <div class="mix-btn" >
-        <div class="btn save" v-if="checkedState!='corvidae'"  @click="saveIncoming">保存</div>
+      <div class="mix-btn">
+        <div class="btn save" v-if="checkedState!='corvidae'" @click="saveIncoming">保存</div>
         <div class="btn" @click="submitIncoming('01')">提交</div>
       </div>
       <!-- 完善保存资料提交 -->
-      <div class="btn back" @click="getPreStep">返回</div>
+      <div class="btn back" @click="changePrepage">返回</div>
     </div>
   </div>
 </template>
@@ -54,13 +54,23 @@ export default {
       params: {}
     };
   },
-  computed: { 
-    ...mapState(["checkedState", "incoming", "incomingReturn", "savephotos",'roleId','custId'])
+  computed: {
+    ...mapState([
+      "checkedState",
+      "incoming",
+      "incomingReturn",
+      "savephotos",
+      "roleId",
+      "custId"
+    ])
   },
   created() {
     console.log(this.$route.params);
     console.log(this.photos);
-    this.params = Object.assign({ userId:this.$store.state.userId},this.incoming);
+    this.params = Object.assign(
+      { userId: this.$store.state.userId },
+      this.incoming
+    );
     if (this.checkedState == "corvidae") {
       let productInfos = this.incomingReturn.productInfoList;
       for (let i = 0; i < productInfos.length; i++) {
@@ -83,14 +93,9 @@ export default {
   },
   methods: {
     changePrepage() {
-      this.$router.go(-1);
-    },
-    getPreStep() {
-      //上一步  结算信息
       this.$router.push("merchant");
     },
     saveIncoming() {
-      console
       //保存
       Dialog.confirm({
         message: "请确认是否保存？"
@@ -98,7 +103,7 @@ export default {
         .then(() => {
           let prolist = this.checkSignGoods();
           let fullParams = Object.assign(this.incoming, this.params, {
-            roleId:this.roleId,
+            roleId: this.roleId,
             state: "05"
           });
           console.log(JSON.stringify(prolist));
@@ -123,11 +128,11 @@ export default {
           .then(() => {
             let prolist = this.checkSignGoods();
             if (prolist.length > 0) {
-              let fullParams = Object.assign(this.incoming, this.params,{
-                roleId:this.roleId,
+              let fullParams = Object.assign(this.incoming, this.params, {
+                roleId: this.roleId,
                 state: state,
-                custId:this.custId,
-              } );
+                custId: this.custId
+              });
               fullParams.productInfos = JSON.stringify(prolist); //产品
               let custScanCopys = util.getAllPhotos(this.savephotos); //图片
               fullParams.custScanCopys = custScanCopys;
@@ -145,19 +150,21 @@ export default {
     async insertIncoming(params) {
       let info = await incoming.insertIncoming(params);
       if (info.data.resultCode == 1) {
+        this.$toast.success("成功");
         if (this.roleId == "3") {
           //业务员
-          this.$router.push("/salesman");
+            this.$router.push("/salesman");
         }
         if (this.roleId == "2") {
           //管理员
-          this.$router.push("/Administrator");
+            this.$router.push("/Administrator");
         }
-      }else{
+      } else {
         this.$toast("进件信息添加失败！");
       }
     },
-    checkSignGoods() {//签约产品
+    checkSignGoods() {
+      //签约产品
       let prolist = [];
       let proObj = {};
       if (this.dragonfly) {

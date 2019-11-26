@@ -9,6 +9,7 @@
           <input
             :readonly="pagetype=='corvidae'"
             v-model="params.merchantAccount"
+            @blur="checkPhone(params.merchantAccount)"
             placeholder="请输入手机号"
           />
         </div>
@@ -167,7 +168,6 @@
           </div>
         </div>
         <div class="row-img">
-          <!-- specialBusiness -->
           <div class="stit" :class="{'active':(clickedNext&&!params.specialBusiness)}">特殊行业资质照</div>
           <div @click="beforeUploadImg('specialBusiness')">
             <van-uploader
@@ -228,8 +228,9 @@
 import form from "@/lib/form.js";
 import util from "@/lib/util.js";
 import upload from "@/lib/upload.js";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import { common, incoming } from "@/assets/api/interface";
+import { Dialog } from "vant";
 export default {
   name: "baseInfo",
   components: {
@@ -286,7 +287,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["incoming", "savephotos", "incomingReturn", "custId"])
+    ...mapState(["incoming", "savephotos", "incomingReturn", "custId", "role"])
   },
   created() {
     let type = this.$route.params.type; //'corvidae' ;
@@ -309,9 +310,15 @@ export default {
   },
 
   methods: {
+    ...mapMutations(["setincomingReturn", "setincoming", "setPhotos"]),
     changePrepage() {
       //返回上一页
-      this.$router.go(-1);
+      if (this.role == "salesman") {
+        this.$router.push("/salesman");
+      }
+      if (this.role == "agent") {
+        this.$router.push("/Administrator");
+      }
     },
     getNextStep() {
       //到下一步 法人信息
@@ -319,17 +326,23 @@ export default {
       let count = form.validParams(this, this.params);
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
-        this.$store.commit("setincoming", fullParams);
+        this.setincoming(fullParams);
         let incomingReturn = this.incomingReturn;
         let custInfo = this.incomingReturn.custInfo || {};
         let all = Object.assign(custInfo, fullParams);
         incomingReturn.custInfo = all;
-        this.$store.commit("setincomingReturn", incomingReturn);
-        console.log("this photos");
-        console.log(this.photos);
-        let newPhotos=this.photos;
-        this.$store.commit("setPhotos", newPhotos);
+        this.setincomingReturn(incomingReturn);
+        let newPhotos = this.photos;
+        this.setPhotos(newPhotos);
         this.$router.push("legalInfo");
+      }
+    },
+    async checkPhone(merchantAccount) {
+      //校验商户账号
+      let res = await incoming.checkPhone({ merchantAccount: merchantAccount });
+      if (res.data.resultCode == 0) {
+        //已绑定
+        Dialog({ message: "该商户账号已进件！" });
       }
     },
     async getIncomingInfo() {
@@ -341,7 +354,7 @@ export default {
       });
       let res = await incoming.getIncoming({ custId: this.custId }); // custId:'c838b2ed3d524b1bb1db444a48572b19'
       this.$toast.clear();
-      this.$store.commit("setincomingReturn", res.data.resultMsg);
+      this.setincomingReturn(res.data.resultMsg);
       let custInfo = res.data.resultMsg.custInfo;
       let provinces = res.data.resultMsg.provinces[0];
       let params = {
@@ -368,8 +381,8 @@ export default {
       this.params = Object.assign({}, params);
       let photos = res.data.resultMsg.custScanInfoList;
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
-      let getPhotos=util.getPhotos(this, urlHead, photos);
-      this.photos = Object.assign({},getPhotos);
+      let getPhotos = util.getPhotos(this, urlHead, photos);
+      this.photos = Object.assign({}, getPhotos);
     },
     async getInitAddress() {
       //获取省份
@@ -493,7 +506,6 @@ export default {
       let getData = util.timeFormat(e);
       this.params[this.dateType] = getData;
       if (this.dateType == "businessTermStart") {
-        console.log("businessTermStart");
         this.minDate = new Date(getData);
       } else {
         this.minDate = new Date(2000, 1, 1);

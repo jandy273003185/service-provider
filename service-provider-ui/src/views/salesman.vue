@@ -355,6 +355,7 @@ export default {
     ul {
       width: 100%;
       margin: auto;
+      margin-bottom  vw(120)
       background-color: #fff;
 
       li {
