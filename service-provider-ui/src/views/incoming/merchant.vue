@@ -52,8 +52,8 @@
           <input v-model="params.branchBank" placeholder="开户支行" />
         </div>
         <div class="row">
-          <span class="label" :class="{'active':(clickedNext&&!params.representativeName)}">开户人</span>
-          <input v-model="params.representativeName" placeholder="请输入开户人" />
+          <span class="label" :class="{'active':(clickedNext&&!params.bankAcctName)}">开户人</span>
+          <input v-model="params.bankAcctName" placeholder="请输入开户人" />
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcctType)}">结算类型</span>
@@ -135,7 +135,7 @@ export default {
         bankCityName: "", //市
         bankCityShow: "",
         branchBank: "",
-        representativeName: "",
+        bankAcctName: "",
         compMainAcctType: "",
         licenceForOpeningAccounts: "",
         bankCardFront: ""
