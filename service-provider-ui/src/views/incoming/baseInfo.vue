@@ -6,12 +6,16 @@
       <div ref="baseform">
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.merchantAccount)}">商户账号</span>
-          <input :readonly="pagetype=='corvidae'" v-model="params.merchantAccount" placeholder="请输入手机号" />
+          <input
+            :readonly="pagetype=='corvidae'"
+            v-model="params.merchantAccount"
+            placeholder="请输入手机号"
+          />
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
           <select v-model="params.custType">
-            <option disabled value="">请选择</option>
+            <option disabled value>请选择</option>
             <option value="0">个人</option>
             <option value="1">企业</option>
           </select>
@@ -277,7 +281,7 @@ export default {
         shopFrontDesk: "", //门头照
         shopInterior: "", //店内照
         specialBusiness: "", //特殊行业照
-        electronicSignaturePhoto: "", //电子签名照
+        electronicSignaturePhoto: "" //电子签名照
       }
     };
   },
@@ -285,7 +289,7 @@ export default {
     ...mapState(["incoming", "savephotos", "incomingReturn", "custId"])
   },
   created() {
-    let type =this.$route.params.type;
+    let type = this.$route.params.type; //'corvidae' ;
     this.photos = Object.assign({}, this.savephotos);
     if (type) {
       this.pagetype = type;
@@ -295,6 +299,8 @@ export default {
       }
       if (type == "corvidae") {
         //待完善
+        this.photos = {};
+        this.$store.commit("setPhotos", {});
         this.getIncomingInfo();
       }
     } else {
@@ -310,21 +316,19 @@ export default {
     getNextStep() {
       //到下一步 法人信息
       this.clickedNext = true;
-      console.log(this.params);
       let count = form.validParams(this, this.params);
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
         this.$store.commit("setincoming", fullParams);
-/*         let incomingReturn = this.incomingReturn;
-        console.log(incomingReturn);
+        let incomingReturn = this.incomingReturn;
         let custInfo = this.incomingReturn.custInfo || {};
         let all = Object.assign(custInfo, fullParams);
         incomingReturn.custInfo = all;
-        this.$store.commit("setincomingReturn", incomingReturn); */
-        console.log("照片");
+        this.$store.commit("setincomingReturn", incomingReturn);
+        console.log("this photos");
         console.log(this.photos);
-        let _photos=Object.assign(this.savephotos,this.photos);
-        this.$store.commit("setPhotos", _photos);
+        let newPhotos=this.photos;
+        this.$store.commit("setPhotos", newPhotos);
         this.$router.push("legalInfo");
       }
     },
@@ -335,7 +339,7 @@ export default {
         forbidClick: true,
         duration: 0
       });
-      let res = await incoming.getIncoming({ custId:this.custId });
+      let res = await incoming.getIncoming({ custId: this.custId }); // custId:'c838b2ed3d524b1bb1db444a48572b19'
       this.$toast.clear();
       this.$store.commit("setincomingReturn", res.data.resultMsg);
       let custInfo = res.data.resultMsg.custInfo;
@@ -356,12 +360,16 @@ export default {
         businessLicense: custInfo.businessLicense, //营业执照编号
         businessTermStart: custInfo.businessTermStart, //有效期
         businessTermEnd: custInfo.businessTermEnd,
+        shopFrontDesk: "", //门头照
+        shopInterior: "", //店内照
+        specialBusiness: "", //特殊行业照
+        electronicSignaturePhoto: "" //电子签名照
       };
-      this.params =Object.assign({},params);
+      this.params = Object.assign({}, params);
       let photos = res.data.resultMsg.custScanInfoList;
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
-      console.log(util.getPhotos(this, urlHead, photos));
-      this.photos=Object.assign(this.photos,util.getPhotos(this, urlHead, photos));
+      let getPhotos=util.getPhotos(this, urlHead, photos);
+      this.photos = Object.assign({},getPhotos);
     },
     async getInitAddress() {
       //获取省份
@@ -374,13 +382,13 @@ export default {
         let res = await common.getAddress({
           provinceId: this.params.province
         });
-        this.cityList = res.data.resultMsg; 
+        this.cityList = res.data.resultMsg;
         this.citypicker = true;
       } else {
         this.$toast("请先选择省份");
       }
     },
-   async getTapCountry() {
+    async getTapCountry() {
       if (this.params.province && this.params.city) {
         let res = await common.getAddress({
           cityId: this.params.city

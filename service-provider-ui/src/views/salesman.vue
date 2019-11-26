@@ -112,7 +112,7 @@ export default {
           this.islogin = true;
           this.salesShopNew();
         }else {
-          this.firstLogin({
+          this.firstLogin({//从登录页按后退键返回到首页
             openId: this.$store.state.openId,
             roleId: this.roleId
           });
@@ -350,6 +350,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      background:#fff;
     }
     ul {
       width: 100%;

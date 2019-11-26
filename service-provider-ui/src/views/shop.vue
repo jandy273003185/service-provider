@@ -220,27 +220,6 @@ export default {
       allStateList:[]
     };
   },
-  //过滤器
-  /*filters: {
-    timeFormat(time){
-
-    var y = time.getFullYear();
-
-    var m = time.getMonth()+1;
-        m = m<10 ? '0'+m:m;
-    var d = time.getDate();
-        d = d<10 ? '0'+d:d;
-    var h = time.getHours();
-        h = h<10 ? '0'+h:h;
-    var mm = time.getMinutes();
-      mm = mm<10 ? '0'+mm:mm;
-    var s = time.getSeconds();
-      s = s<10 ? '0'+s:s;
-      console.log(y,m,d, h,mm,s);
-
-    return y+'-'+m+'-'+d+'  '+h+' : '+mm+' : '+s;
-    },
-  },*/
 
   computed:{
           ...mapState(['roleId'])

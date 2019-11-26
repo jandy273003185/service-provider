@@ -216,7 +216,6 @@
                     queryStartDate: this.timeStart,
                     queryEndDate:this.timeEnd,
                     roleId:'2'
-
                 };
                 console.log(params.id);
                 console.log(params.queryStartDate);
@@ -224,7 +223,7 @@
 
                 const detailResult = await adminIndex.salesDetail(params);
                 console.log(detailResult);
-                if(detailResult.data){
+                if(detailResult || detailResult.data){
                     this.detailList = detailResult.data.resultMsg;
                 }
 
@@ -273,7 +272,7 @@
         height: vw(100);
 
     button{
-        border: vw(1) solid #797979;
+        border: 1px solid #797979;
         width: vw(170);
         height: vw(60);
         border-radius: 3px;
@@ -327,7 +326,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border-top: vw(1) solid #c5c5c5;
+            border-top: 1px solid #c5c5c5;
             font-weight:bold;
 
             div{

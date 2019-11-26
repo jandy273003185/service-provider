@@ -59,6 +59,7 @@ export default {
   },
   created() {
     console.log(this.$route.params);
+    console.log(this.photos);
     this.params = Object.assign({ userId:this.$store.state.userId},this.incoming);
     if (this.checkedState == "corvidae") {
       let productInfos = this.incomingReturn.productInfoList;

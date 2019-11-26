@@ -26,7 +26,7 @@
             @change="channgeTab"
         >
           <van-tab title="交易额排名">
-            <div class="isRanking" v-if="isHaveNum">暂无业务员排名数据</div>
+            <div class="isRanking" v-if="isHaveNum">暂无业务员交易额排名数据</div>
             <ul>
               <li class="flex_r" v-for="(item, index) in sumList" :key="index">
                 <div>
@@ -44,7 +44,7 @@
             </ul>
           </van-tab>
           <van-tab title="进件数排名">
-            <div class="isRanking" v-if="isHaveSum">暂无业务员排名数据</div>
+            <div class="isRanking" v-if="isHaveSum">暂无业务员进件数排名数据</div>
             <ul>
               <li v-for="(item, index) in numList" :key="index">
                 <div>
@@ -227,6 +227,8 @@
           if (type == "0" || this.sortType == "0") {
             if (list[0] && list[0].effectiveNum) {
               this.sumMax = parseFloat(list[0].effectiveNum) * 1.5;
+            }
+            if(list && list.length >0){
               this.isHaveNum = false;
             }
             this.sumList = list;
@@ -234,6 +236,8 @@
           if (type == "1" || this.sortType == "1") {
             if (list[0] && list[0].effectiveNum) {
               this.numMax = parseFloat(list[0].effectiveNum) * 1.5;
+            }
+            if(list && list.length >0){
               this.isHaveSum = false;
             }
             this.numList = list;

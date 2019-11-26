@@ -20,7 +20,7 @@
       <van-col span="8">{{item.userPhone}}</van-col>
       <van-col class="textBox" span="5" @click="resetPwd(item.custId,item.salesmanId)"><!--<span class="text">重置密码</span>--></van-col>
       <van-col class="textBox" span="5"
-               @click="undeleteSale(item.custId,item.salesmanId,item.status)"><span class="text unfreeze">解结</span></van-col>
+               @click="undeleteSale(item.custId,item.salesmanId,item.status)"><span class="text unfreeze">解冻</span></van-col>
     </van-row>
     <van-row class="row salesInfo" v-show="adding">
       <van-col span="6">
@@ -44,15 +44,19 @@
 <script>
 import { adminIndex, common } from "@/assets/api/interface";
 import { Dialog } from "vant";
+import {mapState} from 'vuex';
 
 export default {
   name: "sales",
   components: {
 
   },
-  computed: {},
+  computed: {
+    ...mapState(['userId'])
+  },
   created() {
     this.getInitList();
+    console.log(this.userId);
   },
   data() {
     return {
@@ -65,7 +69,7 @@ export default {
   methods: {
     async getInitList() {
       let list = await adminIndex.searchSales({
-        custId: ""
+        custId: this.userId
       });
   console.log(list);
       this.saleList = list.data.resultMsg;
@@ -96,7 +100,7 @@ export default {
       }
     },
     deleteSale(custId, id, status) {
-      //删除业务员
+      //冻结业务员
       Dialog.confirm({
         title: "提示",
         message: "是否确定冻结账号"
@@ -106,7 +110,7 @@ export default {
           console.log(status);
           common.updateSales({
               custId: custId,
-              id: id,
+              salesmanId: id,
               status: 0
             })
             .then(res => {
@@ -130,7 +134,7 @@ export default {
           console.log(status);
           common.updateSales({
               custId: custId,
-              id: id,
+            salesmanId: id,
               status: 1
             })
             .then(res => {
@@ -143,16 +147,16 @@ export default {
           // on cancel
         });
     },
-    async saveSales() {
+    async saveSales() {//保存
       let res = await common.insertSales({
         userName: this.inpName,
         password: "123456",
         userPhone: this.inpAccount,
-        custId: this.$store.state.userId,//管理员的userId
+        custId: this.userId,//管理员的userId
         status: 1
       });
       console.log(res);
-      if (res.data.resultCode == "1") {
+      if (res && res.data.resultCode == "1") {
         this.getInitList();
         Dialog({message: "添加业务员成功"});
         this.adding = false;

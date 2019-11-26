@@ -150,7 +150,7 @@ export default {
         display: flex;
         justify-content:space-between;
         align-items: center;
-        border-bottom: vw(1) solid #EEEEEE;
+        border-bottom: 1px solid #EEEEEE;
 
     div{
         color: #333333;

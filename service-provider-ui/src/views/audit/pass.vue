@@ -15,7 +15,7 @@
           <div class="row">
             <span class="label">商户类型</span>
             <select v-model="allInfoList.custType" disabled>
-              <option value>--</option>
+              <option value="">--</option>
               <option value="0">个人</option>
               <option value="1">企业</option>
             </select>
@@ -47,32 +47,37 @@
           <div class="signed contract">
             <div class="signTit">已签约产品</div>
             <div v-for="(item,idx) in proList" :key="idx">
-              <div class="row1" >
-                <van-checkbox class="check" v-if="item.productId==8 && item.productStatus=='00' " v-model="checked" disabled>蜻蜓产品</van-checkbox>
-                <van-checkbox class="check" v-if="item.productId==2 && item.productStatus=='00' " v-model="checked" disabled>app产品</van-checkbox>
-                <van-checkbox class="check" v-if="item.productId==1 && item.productStatus=='00' " v-model="checked" disabled>扫码产品</van-checkbox>
-                <span class="name" v-if="item.productStatus=='00'">结算费率：</span>
-                <input  type="text" v-if="item.productStatus=='00'"  v-model="item.productRate" readonly />
-              </div>
-              <div class="sn" v-if="item.productId==8 && item.productStatus=='00' ">
-                <span>SN:</span>
-                <input type="text" v-model="item.sn"  disabled />
+              <div v-if="item.productStatus=='00'">
+                <div class="row1">
+                  <van-checkbox class="check" v-if="item.productId==8 && item.productStatus=='00' " v-model="checked" disabled>蜻蜓产品</van-checkbox>
+                  <van-checkbox class="check" v-if="item.productId==2 && item.productStatus=='00' " v-model="checked" disabled>app产品</van-checkbox>
+                  <van-checkbox class="check" v-if="item.productId==1 && item.productStatus=='00' " v-model="checked" disabled>扫码产品</van-checkbox>
+                  <span class="name" v-if="item.productStatus=='00'">结算费率：</span>
+                  <input  type="text" v-if="item.productStatus=='00'"  v-model="item.productRate" readonly />
+                </div>
+                <div class="sn" v-if="item.productId==8">
+                  <span>SN:</span>
+                  <input type="text" v-model="item.sn"  disabled />
+                </div>
               </div>
             </div>
 
             <div class="signTit">待审核产品</div>
             <div v-for="(item,idx) in proList" :key="idx">
-              <div class="row1" >
-                <van-checkbox class="check" v-if="item.productId==8 && item.productStatus=='01' " v-model="checked" disabled>蜻蜓产品</van-checkbox>
-                <van-checkbox class="check" v-if="item.productId==2 && item.productStatus=='01' " v-model="checked" disabled>app产品</van-checkbox>
-                <van-checkbox class="check" v-if="item.productId==1 && item.productStatus=='01' " v-model="checked" disabled>扫码产品</van-checkbox>
-                <span class="name"  v-if="item.productStatus=='01'">结算费率：</span>
-                <input  type="text" v-if="item.productStatus=='01'" v-model="item.productRate" readonly />
+              <div v-if="item.productStatus=='01'">
+                <div class="row1" >
+                  <van-checkbox class="check" v-if="item.productId==8 " v-model="checked" disabled>蜻蜓产品</van-checkbox>
+                  <van-checkbox class="check" v-if="item.productId==2 " v-model="checked" disabled>app产品</van-checkbox>
+                  <van-checkbox class="check" v-if="item.productId==1  " v-model="checked" disabled>扫码产品</van-checkbox>
+                  <span class="name">结算费率：</span>
+                  <input  type="text" v-model="item.productRate" readonly />
+                </div>
+                <div class="sn" v-if="item.productId==8">
+                  <span>SN:</span>
+                  <input type="text" v-model="item.sn"  disabled />
+                </div>
               </div>
-              <div class="sn" v-if="item.productId==8 && item.productStatus=='01' ">
-                <span>SN:</span>
-                <input type="text" v-model="item.sn"  disabled />
-              </div>
+
             </div>
 
 

@@ -175,7 +175,6 @@ export default {
 
     //请求商户交易数据
     async getAllShopList(){
-      console.log(897788);
       let listInfo= await goodsInfo.goodsInfo({
         custName:this.mchName,//商户名
         queryStartDate:this.timeStart,//开始时间
