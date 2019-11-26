@@ -299,10 +299,11 @@ export default {
       this.allStateList = listInfo.data.resultMsg.data;
       let total=listInfo.data.resultMsg.total;
       console.log(listInfo);
+       this.loading = false;
       if(this.allStateList.length>=total){//判断已加载完成
         this.finished=true;
-        this.loading = false;
       }
+      
     },
 
   //搜索商户数据
