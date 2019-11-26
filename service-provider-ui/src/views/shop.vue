@@ -51,7 +51,8 @@
             <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
               <div>
                 <span class="shopName">{{ item.custName }}</span>
-                <span class="time">{{ item.createTime }}</span>
+                <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
+                <span v-if="intoRole=='2' " class="time">业务员：</span>
               </div>
               <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
               <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -75,7 +76,8 @@
               <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
-                  <span class="time">{{ item.createTime }}</span>
+                  <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
+                  <span v-if="intoRole=='2' " class="time">业务员：</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -99,7 +101,8 @@
               <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
-                  <span class="time">{{ item.createTime }}</span>
+                  <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
+                  <span v-if="intoRole=='2' " class="time">业务员：</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -121,7 +124,8 @@
               <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
-                  <span class="time">{{ item.createTime }}</span>
+                  <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
+                  <span v-if="intoRole=='2' " class="time">业务员：</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -143,7 +147,8 @@
               <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
-                  <span class="time">{{ item.createTime }}</span>
+                  <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
+                  <span v-if="intoRole=='2' " class="time">业务员：</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -166,7 +171,8 @@
               <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
-                  <span class="time">{{ item.createTime }}</span>
+                  <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
+                  <span v-if="intoRole=='2' " class="time">业务员：</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -215,23 +221,29 @@ export default {
       endMs:'',//选取的结束时间的毫秒数
       showTime:false,//点击选取时间时打开的遮罩层判断
       type:'',
-      userId:'',
+     intoRole:'',
       /*商户审核信息*/
-      allStateList:[]
+      allStateList:[{
+        custName:"wang",
+        createTime:'2019',
+        state:'01'
+
+      }]
     };
   },
 
   computed:{
-          ...mapState(['roleId'])
+          ...mapState(['roleId','userId'])
 },
   created(){
-    this.$store.commit("setincoming", {});
-    this.$store.commit("setPhotos", []);
-    this.$store.commit("setCheckedState", "");
+    this.setincoming({});
+    this.setPhotos([]);
+    this.setCheckedState('');
+
   },
   mounted() {
-    this.userId = storage.get('userId');
     console.log(this.userId + '商户');
+    this.intoRole=this.roleId;
   },
   methods: {
 
@@ -269,19 +281,35 @@ export default {
       if(this.active==4) stateCode='04';
 
       if(this.active==5) stateCode='00';
+      if(this.roleId=='3'){//业务员的商户数据
+        let listInfo=await shopAuditInfo.shopAuditInfo({
+          custName:this.mchName,//商户名
+          queryStartDate:this.timeStart,//开始时间
+          queryEndDate:this.timeEnd,//结束时间
+          stateCode:stateCode,//审核状态
+          userId:this.userId,
+          pageSize:'20',
+          pageNum:this.pageNum,
+          roleId:this.roleId
+        });
+        this.allStateList = listInfo.data.resultMsg.data;
+        let total=listInfo.data.resultMsg.total;
+      }
+      if(this.roleId=='2'){//管理员的商户数据
+        let listInfo=await shopAuditInfo.allShopAuditInfo({
+          custName:this.mchName,//商户名
+          queryStartDate:this.timeStart,//开始时间
+          queryEndDate:this.timeEnd,//结束时间
+          stateCode:stateCode,//审核状态
+          userId:this.userId,
+          pageSize:'20',
+          pageNum:this.pageNum,
+        });
+        console.log(listInfo);
+        /*this.allStateList = listInfo.data.resultMsg.data;
+        let total=listInfo.data.resultMsg.total;*/
+      }
 
-      let listInfo=await shopAuditInfo.shopAuditInfo({
-        custName:this.mchName,//商户名
-        queryStartDate:this.timeStart,//开始时间
-        queryEndDate:this.timeEnd,//结束时间
-        stateCode:stateCode,//审核状态
-        userId:this.userId,
-        pageSize:'20',
-        pageNum:this.pageNum,
-        roleId:this.roleId
-      });
-    this.allStateList = listInfo.data.resultMsg.data;
-      let total=listInfo.data.resultMsg.total;
 
     console.log(listInfo);
       if(this.allStateList.length>=total){//判断已加载完成
@@ -380,7 +408,8 @@ export default {
       }
     },
 
-      ...mapMutations(['setCustId'])
+      ...mapMutations(['setCustId','setincoming','setPhotos','setCheckedState'])
+
   }
 };
 

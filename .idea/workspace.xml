@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="管理员与业务员互相登录错入口">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/assets/api/interface.js" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/assets/api/interface.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/incoming/baseInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/incoming/baseInfo.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -149,7 +152,7 @@
       <option name="presentableId" value="Default" />
       <updated>1574345401264</updated>
       <workItem from="1574391685862" duration="13397000" />
-      <workItem from="1574678356428" duration="20191000" />
+      <workItem from="1574678356428" duration="27106000" />
     </task>
     <task id="LOCAL-00001" summary="管理员与业务员互相登录错入口">
       <created>1574399372032</created>

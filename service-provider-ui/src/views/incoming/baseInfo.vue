@@ -218,7 +218,7 @@
             <van-uploader
               name="otherPhoto2"
               :after-read="uploadImg"
-              v-model="photos.otherPhoto2"
+               v-model="photos.otherPhoto2"
               :max-count="1"
               preview-size="auto"
               :before-delete="deleteImg"
@@ -318,10 +318,6 @@ export default {
 
   methods: {
     ...mapMutations(["setincomingReturn", "setincoming", "setPhotos"]),
-    deleteImg(file, detail) {
-      this.params[detail.name]="";
-      return true;
-    },
     changePrepage() {
       //返回上一页
       if (this.role == "salesman") {
@@ -493,6 +489,10 @@ export default {
         this.photos.businessLicense = [{ url: "" }];
         this.$toast("营业执照信息无法识别！");
       }
+    },
+     deleteImg(file, detail) {
+      this.params[detail.name]="";
+      return true;
     },
     uploadImg(file,detail) {
       //图片上传

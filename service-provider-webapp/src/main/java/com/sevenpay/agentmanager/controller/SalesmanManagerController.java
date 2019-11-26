@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.qifenqian.app.bean.customer.TdSalesmanInfo;
 import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.merchant.CommercialService;
+import com.sevenpay.agentmanager.pojo.Pager;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,71 @@ public class SalesmanManagerController {
 
     @Reference
     private CommercialService commerService;
+
+
+    /**
+     * 管理员下业务员商户审核数据
+     * @param userId
+     * @param custName
+     * @param stateCode
+     * @param filingAuditStatus
+     * @param queryStartDate
+     * @param queryEndDate
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping("selectSalesmanCommercialInfo")
+    public ResultBean selectSalesmanCommercialInfo(String userId,
+                                                   String custName,
+                                                   String stateCode,
+                                                   String filingAuditStatus,
+                                                   String queryStartDate,
+                                                   String queryEndDate,
+                                                   int pageSize,
+                                                   int pageNum){
+        int page = (pageNum-1)*pageSize;
+
+        Pager<Map<String, Object>> pager = new Pager<Map<String, Object>>();
+        List<Map<String, Object>> maps = salesmanManagerService.selectSalesmanMerchentByServiceProviderId(userId, custName, stateCode, filingAuditStatus, queryStartDate, queryEndDate, pageSize, page);
+
+        pager.setData(maps);
+        pager.setTotal(salesmanManagerService.selectServiceProviderCommercialInfoCount(userId, custName,stateCode,filingAuditStatus, queryStartDate, queryEndDate,pageSize,page));
+
+        return new ResultBean<>("1",pager);
+
+
+    }
+
+    /**
+     * 交易排名
+     * @param userId 管理员
+     * @param custName 商户名称
+     * @param queryStartDate 查询起始时间
+     * @param queryEndDate 查询终止时间
+     * @param pageSize 页面条数
+     * @param roleId 2是管理员（服务商），3是业务员
+     * @param pageNum 当前页数
+     * @param rankingCode transactionNum desc      transactionNum asc
+     * @return
+     */
+    @RequestMapping("getServiceProviderDealRanking")
+    public ResultBean<?> getDealRanking(String userId,
+                                        String custName,
+                                        String queryStartDate,
+                                        String queryEndDate,
+                                        int pageSize,
+                                        int pageNum,
+                                        String rankingCode){
+        int page = (pageNum-1)*pageSize;
+
+        Pager<Map<String, Object>> pager = new Pager<Map<String, Object>>();
+        List<Map<String, Object>> list = salesmanManagerService.getServiceProviderDealRanking(userId,custName, queryStartDate, queryEndDate,pageSize,page,rankingCode);
+        pager.setData(list);
+        pager.setTotal(salesmanManagerService.getServiceProviderDealRankingCount(userId, custName, queryStartDate, queryEndDate, pageSize, page, rankingCode));
+        return new ResultBean<Pager<Map<String, Object>>>("1",pager);
+    }
+
 
     /**
      * 重置业务员密码
