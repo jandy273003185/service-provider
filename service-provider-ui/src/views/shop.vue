@@ -291,13 +291,13 @@ export default {
         pageNum:this.pageNum,
         roleId:this.roleId
       };
-
-      if(this.roleId=='3'){//业务员的商户数据
+      console.log(this.intoRole);
+      if(this.intoRole=='3'){//业务员的商户数据
         let listInfo=await shopAuditInfo.shopAuditInfo(params);
         this.allStateList = listInfo.data.resultMsg.data;
         let total=listInfo.data.resultMsg.total;
       }
-      if(this.roleId=='2'){//管理员的商户数据
+      if(this.intoRole=='2'){//管理员的商户数据
         let listInfo=await shopAuditInfo.allShopAuditInfo(params);
         this.allStateList = listInfo.data.resultMsg.data;
         let total=listInfo.data.resultMsg.total;

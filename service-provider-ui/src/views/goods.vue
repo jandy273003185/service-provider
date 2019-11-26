@@ -38,7 +38,7 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span class="salesName">业务员：</span>
+                <span v-if="intoRole=='2' " class="salesName">业务员：</span>
               </li>
             </van-list>
           </ul>
@@ -57,7 +57,7 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span class="salesName">业务员：</span>
+                <span v-if="intoRole=='2' " class="salesName">业务员：</span>
               </li>
             </van-list>
         </ul>
@@ -76,7 +76,7 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span class="salesName">业务员：</span>
+                <span v-if="intoRole=='2' " class="salesName">业务员：</span>
               </li>
             </van-list>
         </ul>
@@ -95,7 +95,7 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span class="salesName">业务员：</span>
+                <span v-if="intoRole=='2' " class="salesName">业务员：</span>
               </li>
             </van-list>
           </ul>
@@ -145,23 +145,7 @@ export default {
       pageNum:0,//页数
       /*//搜索商户*/
       mchName:'',
-      shopList:[
-        {
-        cust_name:"wang",
-        transactionNum:55,
-        transactionAmount:88
-      },
-        {
-          cust_name:"wang",
-          transactionNum:55,
-          transactionAmount:88
-        },
-        {
-          cust_name:"wang",
-          transactionNum:55,
-          transactionAmount:88
-        }
-      ],//交易数据列表
+      shopList:[],//交易数据列表
       intoRole:'',
       /*自定义时间*/
       maxDate: new Date(),
@@ -198,7 +182,7 @@ export default {
 
     loadList(){
       this.pageNum+=1;
-      //this.getAllShopList();
+      this.getAllShopList();
     },
 
     //请求商户交易数据
@@ -459,6 +443,7 @@ onSearch(){////将this.value传到后台
         display inline-block
         text-indent vw(26)
         font-size vw(20)
+        color: #999999;
       }
 
     }
