@@ -327,7 +327,7 @@ export default {
         this.$store.commit("setincomingReturn", incomingReturn);
         console.log("this photos");
         console.log(this.photos);
-        let newPhotos=JSON.parse(JSON.stringify(this.photos));
+        let newPhotos=this.photos;
         this.$store.commit("setPhotos", newPhotos);
         this.$router.push("legalInfo");
       }
