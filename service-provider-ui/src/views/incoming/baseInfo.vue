@@ -9,13 +9,14 @@
           <input
             :readonly="pagetype=='corvidae'"
             v-model="params.merchantAccount"
+            @blur="checkPhone(params.merchantAccount)"
             placeholder="请输入手机号"
           />
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
           <select v-model="params.custType">
-            <option disabled value="">请选择</option>
+            <option disabled value>请选择</option>
             <option value="0">个人</option>
             <option value="1">企业</option>
           </select>
@@ -229,8 +230,9 @@
 import form from "@/lib/form.js";
 import util from "@/lib/util.js";
 import upload from "@/lib/upload.js";
-import { mapState,mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import { common, incoming } from "@/assets/api/interface";
+import { Dialog } from "vant";
 export default {
   name: "baseInfo",
   components: {
@@ -287,7 +289,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["incoming", "savephotos", "incomingReturn", "custId",'role'])
+    ...mapState(["incoming", "savephotos", "incomingReturn", "custId", "role"])
   },
   created() {
     let type = this.$route.params.type; //'corvidae' ;
@@ -310,6 +312,7 @@ export default {
   },
 
   methods: {
+<<<<<<< HEAD
     ...mapMutations(['setincomingReturn','setincoming','setPhotos']),
 
     deleteImg(){
@@ -318,13 +321,16 @@ export default {
     },
 
 
+=======
+    ...mapMutations(["setincomingReturn", "setincoming", "setPhotos"]),
+>>>>>>> 135a99d05c26e8541a33dee4655efd5365a79965
     changePrepage() {
       //返回上一页
-      if(this.role=='salesman'){
-        this.$router.push('/salesman');
+      if (this.role == "salesman") {
+        this.$router.push("/salesman");
       }
-      if(this.role=='agent'){
-        this.$router.push('/Administrator');
+      if (this.role == "agent") {
+        this.$router.push("/Administrator");
       }
     },
     getNextStep() {
@@ -339,9 +345,17 @@ export default {
         let all = Object.assign(custInfo, fullParams);
         incomingReturn.custInfo = all;
         this.setincomingReturn(incomingReturn);
-        let newPhotos=this.photos;
+        let newPhotos = this.photos;
         this.setPhotos(newPhotos);
         this.$router.push("legalInfo");
+      }
+    },
+    async checkPhone(merchantAccount) {
+      //校验商户账号
+      let res = await incoming.checkPhone({ merchantAccount: merchantAccount });
+      if (res.data.resultCode == 0) {
+        //已绑定
+        Dialog({ message: "该商户账号已进件！" });
       }
     },
     async getIncomingInfo() {
@@ -380,8 +394,8 @@ export default {
       this.params = Object.assign({}, params);
       let photos = res.data.resultMsg.custScanInfoList;
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
-      let getPhotos=util.getPhotos(this, urlHead, photos);
-      this.photos = Object.assign({},getPhotos);
+      let getPhotos = util.getPhotos(this, urlHead, photos);
+      this.photos = Object.assign({}, getPhotos);
     },
     async getInitAddress() {
       //获取省份

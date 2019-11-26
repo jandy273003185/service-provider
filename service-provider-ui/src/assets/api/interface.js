@@ -9,6 +9,7 @@ export const common={//图片识别 上传
   insertSales:params=>http.post1('/salesman/insert',params),//新增业务员
 }
 export const incoming={//进件
+  checkPhone:params=>http.post1('/merchant/checkMobile',params),//校验商户账号
   insertIncoming: params =>http.post1('/merchant/insertMerchant',params),
   getIncoming:params=>http.post1('/merchant/queryMerchant',params),  //获取进件信息
 };

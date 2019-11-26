@@ -150,18 +150,14 @@ export default {
     async insertIncoming(params) {
       let info = await incoming.insertIncoming(params);
       if (info.data.resultCode == 1) {
-        this.$toast.success("成功！");
+        this.$toast.success("成功");
         if (this.roleId == "3") {
           //业务员
-          setTimeout(function() {
             this.$router.push("/salesman");
-          }, 1200);
         }
         if (this.roleId == "2") {
           //管理员
-          setTimeout(function() {
             this.$router.push("/Administrator");
-          }, 1200);
         }
       } else {
         this.$toast("进件信息添加失败！");
