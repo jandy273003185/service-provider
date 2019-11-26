@@ -150,7 +150,6 @@ export default {
       this.clickedNext = true;
        console.log(this.params);
       let count = form.validParams(this,this.params);
-      console.log(count)
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
         this.$store.commit("setincoming", fullParams);

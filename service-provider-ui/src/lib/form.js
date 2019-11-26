@@ -29,6 +29,7 @@ const form = {
         }
       }
     })
+    console.log("errCount:"+errCount);
     return errCount;
   },
   throttle: function (fn, gapTime) {
