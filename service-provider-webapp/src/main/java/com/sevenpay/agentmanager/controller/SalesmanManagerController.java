@@ -68,7 +68,6 @@ public class SalesmanManagerController {
      * @param queryStartDate 查询起始时间
      * @param queryEndDate 查询终止时间
      * @param pageSize 页面条数
-     * @param roleId 2是管理员（服务商），3是业务员
      * @param pageNum 当前页数
      * @param rankingCode transactionNum desc      transactionNum asc
      * @return
