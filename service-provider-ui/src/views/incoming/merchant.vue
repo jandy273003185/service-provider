@@ -95,8 +95,6 @@ import { common } from "@/assets/api/interface";
 export default {
   name: "merchant",
   components: {
-    /*     Modal: () => import("@/components/modal"), */
-
     Step: () => import("@/components/step")
   },
   data() {
@@ -130,11 +128,9 @@ export default {
     ...mapState(["checkedState", "incoming", "incomingReturn", "savephotos"])
   },
   created() {
-    //this.$route.params.type
     this.params = Object.assign(this.params, this.incoming);
     this.photos = this.savephotos;
     if (this.checkedState == "corvidae") {
-      console.log("corvidae");
       let custInfo = this.incomingReturn.custInfo;
       let photos = this.incomingReturn.custScanInfoList;
       let urlHead = this.incomingReturn.uri + "" + this.incomingReturn.url;
