@@ -149,6 +149,12 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.sevenpay.plugin</groupId>
+			<artifactId>sevenpay-plugin-invoke</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

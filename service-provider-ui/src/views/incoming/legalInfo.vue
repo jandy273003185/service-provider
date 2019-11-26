@@ -11,8 +11,9 @@
           法人身份证照片
           <span>(必须)</span>
         </div>
-        <div class="img-col" @click="beforeUploadImg('certAttribute1')">
+        <div class="img-col">
           <van-uploader
+          name="certAttribute1"
             v-model="photos.identityCardFront"
             :after-read="afterReadImg"
             :max-count="1"
@@ -21,8 +22,9 @@
             <van-button icon="photo" type="primary">身份证正面照</van-button>
           </van-uploader>
         </div>
-        <div class="img-col" @click="beforeUploadImg('certAttribute2')">
+        <div class="img-col">
           <van-uploader
+             name="certAttribute2"
             :after-read="afterReadImg"
             v-model="photos.identityCardReverse"
             :max-count="1"
@@ -95,7 +97,6 @@ export default {
   data() {
     return {
       clickedNext: false,
-      indentifyType: "", //识别类型
        minDate:new Date(2000, 1, 1),
       maxDate: new Date(2029,1,1),
       showDatepicker: false,
@@ -163,12 +164,8 @@ export default {
         this.$router.push("merchant");
       }
     },
-    beforeUploadImg(type) {
-      //识别类型
-      this.indentifyType = type;
-    },
-    afterReadImg(file) {
-      this.getImgInfo(file.content);
+    afterReadImg(file,detail) {
+      this.getImgInfo(file.content,detail.name);
     },
     datepickerVisiable(type) {
       this.dateType = type;
@@ -187,7 +184,7 @@ export default {
       } 
       this.showDatepicker = false;
     },
-    async getImgInfo(file) {
+    async getImgInfo(file,name) {
       //优图识别
       this.$toast.loading({
         message: "识别中...",
@@ -196,12 +193,12 @@ export default {
       });
       const params = {
         str: file,
-        flag: this.indentifyType
+        flag: name
       };
       const info = await common.getImgInfo(params);
       const imgUrl = info.data.uri + "/" + info.data.url;
       this.$toast.clear();
-      if (this.indentifyType == "certAttribute1") {
+      if (name == "certAttribute1") {
         if (info.data.result&&info.data.result=="SUCCESS") {
           this.photos.identityCardFront = [{ url: imgUrl }];
           this.params.identityCardFront = imgUrl;
@@ -213,7 +210,7 @@ export default {
           this.$toast("身份证正面信息无法识别！");
         }
       }
-      if (this.indentifyType == "certAttribute2") {
+      if (name == "certAttribute2") {
         if (info.data.result&&info.data.result=="SUCCESS") {
           this.params.identityCardReverse = imgUrl;
           this.photos.identityCardReverse = [{ url: imgUrl }];
