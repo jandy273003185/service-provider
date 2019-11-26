@@ -48,8 +48,8 @@ export default {
       userName: null,
       password: null,
       selectLogin:'psd',
-      userCode:'',
-      userPhone:''
+      userCode:'',//手机号
+      userPhone:''//短信验证码
     };
   },
   mounted() {
@@ -62,12 +62,14 @@ export default {
   methods: {
     //选择登录方式
     selectInto(way){
-      this.selectLogin=way;
-      console.log(this.selectLogin);
+      if(way=='code'){
+        this.$toast({message: "验证码登录暂未开通，敬请期待",duration:1000 });
+      }
+     /* this.selectLogin=way;*/
     },
     //获取短信验证码
     getCode(){
-      Dialog({ message: "已发送短信验证码，请前往查看" });
+      this.$toast({ message: "已发送短信验证码，请前往查看" });
     },
 
     //判断账号密码非空
@@ -75,11 +77,11 @@ export default {
       const params={};
       if(this.selectLogin=='psd'){
         if (!this.userName) {
-          Dialog({ message: "用户名账号不能为空" });
+          this.$toast({message: "请填写用户名账号",duration:1000 });
           return;
         }
         if (!this.password) {
-          Dialog({ message: "密码不能为空" });
+          this.$toast({message: "请填写密码",duration:1000 });
           return;
         }
        params = {
@@ -125,24 +127,28 @@ export default {
       const loginData = await login.login(params);
       console.log(loginData);
       if (loginData.data.resultCode == 1) {
-        Dialog({ message: "登录成功" });
-        setTimeout(() => {
-          if (this.role == "agent") {
-            this.$router.push({
-              name: "Administrator",
-              params: {
-                fname: "login"
-              }
-            });
-          } else if (this.role == "salesman") {
-            this.$router.push({
-              name: "salesman",
-              params: {
-                fname: "login"
-              }
-            });
+        const _this = this;
+        this.$toast({
+          message:"登录成功",
+          duration:500,
+          onClose:function(){
+            if (this.role == "agent") {
+              _this.$router.replace({
+                name: "Administrator",
+                params: {
+                  fname: "login"
+                }
+              });
+            } else if (this.role == "salesman") {
+              _this.$router.replace({
+                name: "salesman",
+                params: {
+                  fname: "login"
+                }
+              });
+            }
           }
-        }, 500);
+        });
       } else {
         Dialog({ message: loginData.data.resultMsg });
       }
