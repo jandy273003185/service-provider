@@ -148,6 +148,7 @@ export default {
       }
     },
     async insertIncoming(params) {
+      console.log("请求开始");
       let info = await incoming.insertIncoming(params);
       if (info.data.resultCode == 1) {
         this.$toast.success("成功");
