@@ -312,7 +312,7 @@ export default {
 
   methods: {
     ...mapMutations(['setincomingReturn','setincoming','setPhotos']),
-    
+
     changePrepage() {
       //返回上一页
       if (this.role == "salesman") {
