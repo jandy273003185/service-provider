@@ -113,7 +113,6 @@ export default {
             if(shopInfo){
                 this.shopList = shopInfo.data.resultMsg;
             }
-
         },
 
 

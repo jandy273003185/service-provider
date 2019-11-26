@@ -325,6 +325,7 @@ onSearch(){////将this.value传到后台
         }
         this.selectRank = 'transactionNum';
         this.pageNum=1;
+        this.shopList='';
         this.getAllShopList();
       },
 
@@ -337,6 +338,7 @@ onSearch(){////将this.value传到后台
       }
       this.selectRank = 'transactionAmount';
       this.pageNum=1;
+      this.shopList='';
       this.getAllShopList();
     },
 
