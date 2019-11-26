@@ -162,7 +162,7 @@ export default {
         bankCityName: bankProvinces.bankCityId, //市
         bankCityShow: bankProvinces.bankCityName,
         branchBank: custInfo.branchBank,
-        representativeName: custInfo.representativeName,
+        bankAcctName: custInfo.bankAcctName,
         compMainAcctType: custInfo.compMainAcctType
       };
       this.params = Object.assign(this.params, params);
