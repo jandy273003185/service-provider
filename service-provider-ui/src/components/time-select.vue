@@ -106,7 +106,7 @@ export default {
             if(this.roleId=='3'){
               shopInfo = await homeShopInfo.shopInfo(params);
             }
-            if(this.roleId=='3'){
+            if(this.roleId=='2'){
               shopInfo = await homeShopInfo.allShopInfo(params);
             }
             console.log(shopInfo);
