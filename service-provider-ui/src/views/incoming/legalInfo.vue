@@ -77,7 +77,7 @@
       </div>
       <div class="row">
         <span class="label" :class="{'active':(clickedNext&&!params.contactMobile)}">联系人手机</span>
-        <input v-model="params.contactMobile" placeholder="请输入联系人手机" />
+        <input type="number" v-model="params.contactMobile" placeholder="请输入联系人手机" />
       </div>
       <div class="btn" @click="getNextStep">下一步</div>
       <div class="btn back" @click="changePrepage">返回</div>

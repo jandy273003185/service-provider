@@ -7,6 +7,7 @@
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.merchantAccount)}">商户账号</span>
           <input
+            type="number"
             :readonly="pagetype=='corvidae'"
             v-model="params.merchantAccount"
             @blur="checkPhone(params.merchantAccount)"
@@ -31,7 +32,7 @@
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.contactPhone)}">客服号码</span>
-          <input v-model="params.contactPhone" placeholder="请输入客服电话号码" />
+          <input type="number" v-model="params.contactPhone" placeholder="请输入客服电话号码" />
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custAdd)}">商户地址</span>
