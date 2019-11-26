@@ -91,7 +91,7 @@ export default {
       /*  商户信息请求*/
 
         async getHomeShopInfo(){
-            const userId = this.$store.state.userId ||  storage.get('userId');
+            const userId = this.userId ||  storage.get('userId');
             console.log(userId);
             const params = {
                 userId:userId,
@@ -102,7 +102,13 @@ export default {
             console.log(params.userId);
             console.log(params.queryStartDate);
             console.log(params.queryEndDate);
-            const shopInfo = await homeShopInfo.shopInfo(params);
+            var shopInfo;
+            if(this.roleId=='3'){
+              shopInfo = await homeShopInfo.shopInfo(params);
+            }
+            if(this.roleId=='2'){
+              shopInfo = await homeShopInfo.allShopInfo(params);
+            }
             console.log(shopInfo);
             if(shopInfo){
                 this.shopList = shopInfo.data.resultMsg

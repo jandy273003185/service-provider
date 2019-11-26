@@ -2,6 +2,7 @@
 .incoming{
     background: #fff;
     padding-bottom: vw(60);
+    clear: both;
 }
 .stepInfo{
     clear: both;
@@ -32,6 +33,11 @@
     outline: none;
     border: none;
     background: #fff;
+}
+.stepInfo .row select::after{
+    content: "";
+    width: 100%;
+    display: inherit;
 }
 .stepInfo .row  input.address{
     width: vw(120);

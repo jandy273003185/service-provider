@@ -52,8 +52,8 @@
           <input v-model="params.branchBank" placeholder="开户支行" />
         </div>
         <div class="row">
-          <span class="label" :class="{'active':(clickedNext&&!params.representativeName)}">开户人</span>
-          <input v-model="params.representativeName" placeholder="请输入开户人" />
+          <span class="label" :class="{'active':(clickedNext&&!params.bankAcctName)}">开户人</span>
+          <input v-model="params.bankAcctName" placeholder="请输入开户人" />
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcctType)}">结算类型</span>
@@ -80,7 +80,7 @@
           </van-uploader>
         </div>
         <div class="row-img" v-if="params.compMainAcctType=='02'">
-          <div class="stit" :class="{'active':(clickedNext&&!params.licenceForOpeningAccounts)}">
+          <div class="stit" :class="{'active':(clickedNext&&!params.bankCardFront)}">
             银行卡照片
             <span>(必须)</span>
           </div>
@@ -135,7 +135,7 @@ export default {
         bankCityName: "", //市
         bankCityShow: "",
         branchBank: "",
-        representativeName: "",
+        bankAcctName: "",
         compMainAcctType: "",
         licenceForOpeningAccounts: "",
         bankCardFront: ""
@@ -162,7 +162,7 @@ export default {
         bankCityName: bankProvinces.bankCityId, //市
         bankCityShow: bankProvinces.bankCityName,
         branchBank: custInfo.branchBank,
-        representativeName: custInfo.representativeName,
+        bankAcctName: custInfo.bankAcctName,
         compMainAcctType: custInfo.compMainAcctType
       };
       this.params = Object.assign(this.params, params);

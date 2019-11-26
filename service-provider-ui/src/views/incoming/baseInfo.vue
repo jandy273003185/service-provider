@@ -7,6 +7,7 @@
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.merchantAccount)}">商户账号</span>
           <input
+            type="number"
             :readonly="pagetype=='corvidae'"
             v-model="params.merchantAccount"
             @blur="checkPhone(params.merchantAccount)"
@@ -16,7 +17,7 @@
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
           <select v-model="params.custType">
-            <option disabled value="">请选择</option>
+            <option disabled value>请选择</option>
             <option value="0">个人</option>
             <option value="1">企业</option>
           </select>
@@ -31,7 +32,7 @@
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.contactPhone)}">客服号码</span>
-          <input v-model="params.contactPhone" placeholder="请输入客服电话号码" />
+          <input type="number" v-model="params.contactPhone" placeholder="请输入客服电话号码" />
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custAdd)}">商户地址</span>
@@ -156,17 +157,17 @@
             店内照
             <span>(必须)</span>
           </div>
-            <van-uploader
-              name="shopInterior"
-              ref="shopInterior"
-              v-model="photos.shopInterior"
-              :after-read="uploadImg"
-              :max-count="1"
-              preview-size="auto"
-              :before-delete="deleteImg"
-            >
-              <van-button icon="photo" type="primary">上传店内照片</van-button>
-            </van-uploader>
+          <van-uploader
+            name="shopInterior"
+            ref="shopInterior"
+            v-model="photos.shopInterior"
+            :after-read="uploadImg"
+            :max-count="1"
+            preview-size="auto"
+            :before-delete="deleteImg"
+          >
+            <van-button icon="photo" type="primary">上传店内照片</van-button>
+          </van-uploader>
         </div>
         <div class="row-img">
           <div class="stit" :class="{'active':(clickedNext&&!params.specialBusiness)}">特殊行业资质照</div>
@@ -189,16 +190,16 @@
             :class="{'active':(clickedNext&&!params.electronicSignaturePhoto)}"
           >电子签名照</div>
 
-            <van-uploader
-              name="electronicSignaturePhoto"
-              v-model="photos.electronicSignaturePhoto"
-              :after-read="uploadImg"
-              :max-count="1"
-              preview-size="auto"
-              :before-delete="deleteImg"
-            >
-              <van-button icon="photo" type="primary">上传电子签名照</van-button>
-            </van-uploader>
+          <van-uploader
+            name="electronicSignaturePhoto"
+            v-model="photos.electronicSignaturePhoto"
+            :after-read="uploadImg"
+            :max-count="1"
+            preview-size="auto"
+            :before-delete="deleteImg"
+          >
+            <van-button icon="photo" type="primary">上传电子签名照</van-button>
+          </van-uploader>
         </div>
         <div class="row-img">
           <div class="stit">其他资料照</div>
@@ -218,7 +219,7 @@
             <van-uploader
               name="otherPhoto2"
               :after-read="uploadImg"
-               v-model="photos.otherPhoto2"
+              v-model="photos.otherPhoto2"
               :max-count="1"
               preview-size="auto"
               :before-delete="deleteImg"
@@ -317,7 +318,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['setincomingReturn','setincoming','setPhotos']),
+    ...mapMutations(["setincomingReturn", "setincoming", "setPhotos"]),
     changePrepage() {
       //返回上一页
       if (this.role == "salesman") {
@@ -346,10 +347,14 @@ export default {
     },
     async checkPhone(merchantAccount) {
       //校验商户账号
-      let res = await incoming.checkPhone({ merchantAccount: merchantAccount });
-      if (res.data.resultCode == 0) {
-        //已绑定
-        Dialog({ message: "该商户账号已进件！" });
+      if (merchantAccount) {
+        let res = await incoming.checkPhone({
+          merchantAccount: merchantAccount
+        });
+        if (res.data.resultCode == 0) {
+          //已绑定
+          Dialog({ message: "该商户账号已进件！" });
+        }
       }
     },
     async getIncomingInfo() {
@@ -490,18 +495,18 @@ export default {
         this.$toast("营业执照信息无法识别！");
       }
     },
-     deleteImg(file, detail) {
-      this.params[detail.name]="";
+    deleteImg(file, detail) {
+      this.params[detail.name] = "";
       return true;
     },
-    uploadImg(file,detail) {
+    uploadImg(file, detail) {
       //图片上传
       this.$toast.loading({
         message: "图片上传中..",
         forbidClick: true,
         duration: 0
       });
-      upload.blobToBase64(file.file,detail.name, this);
+      upload.blobToBase64(file.file, detail.name, this);
     },
     datepickerVisiable(type) {
       this.dateType = type;

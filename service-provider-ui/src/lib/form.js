@@ -5,13 +5,14 @@ const form = {
     arr.map(function (item) {
       if (!params[item]&&item!='otherPhoto1'&&item!="otherPhoto2"&&item!="custId"&&item!='userId'&&item!='roleId'&&item!='custId'&&item!='licenceForOpeningAccounts'&&item!='bankCardFront') {
         console.log(item);
-       
         errCount++;
       } else {
-        if(that.compMainAcctType=='01'&& params['licenceForOpeningAccounts']){
+        if(that.params.compMainAcctType=='01'&& !params['licenceForOpeningAccounts']){
+          console.log("未上传营业执照");
           errCount++;
         }
-        if(that.compMainAcctType=='02'&& params['bankCardFront']){
+        if(that.params.compMainAcctType=='02'&& !params['bankCardFront']){
+          console.log("未上传银行卡照片");
           errCount++;
         }
         if (item == 'merchantAccount' || item == 'contactMobile') {
@@ -28,6 +29,7 @@ const form = {
         }
       }
     })
+    console.log("errCount:"+errCount);
     return errCount;
   },
   throttle: function (fn, gapTime) {

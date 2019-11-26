@@ -24,7 +24,8 @@ export const login={//登录接口
   getOpenId:param =>http.post1('/wx/callback',param)//获取openid
 };
 export const homeShopInfo={//首页里的商户信息
-  shopInfo:param =>http.post1('/merchant/getStatCommercial',param)  //首页商户信息
+  shopInfo:param =>http.post1('/merchant/getStatCommercial',param)  //业务员首页商户信息
+  allShopInfo:param =>http.post1('/merchant/getSPStatCommercial',param)  //商户首页商户信息
 };
 export const shopAuditInfo={//商户页面审核信息
   allShopAuditInfo:param =>http.post1('/salesman/selectSalesmanCommercialInfo',param),  //管理员商户页面审核信息接口

@@ -13,7 +13,7 @@
         </div>
         <div class="img-col">
           <van-uploader
-          name="certAttribute1"
+            name="certAttribute1"
             v-model="photos.identityCardFront"
             :after-read="afterReadImg"
             :max-count="1"
@@ -67,7 +67,7 @@
         v-show="showDatepicker"
         type="year-month"
         :min-date="minDate"
-          :max-date="maxDate"
+        :max-date="maxDate"
         @confirm="confirmDate"
         @cancel="datepickerHide"
       />
@@ -77,7 +77,7 @@
       </div>
       <div class="row">
         <span class="label" :class="{'active':(clickedNext&&!params.contactMobile)}">联系人手机</span>
-        <input v-model="params.contactMobile" placeholder="请输入联系人手机" />
+        <input type="number" v-model="params.contactMobile" placeholder="请输入联系人手机" />
       </div>
       <div class="btn" @click="getNextStep">下一步</div>
       <div class="btn back" @click="changePrepage">返回</div>
@@ -150,7 +150,6 @@ export default {
       this.clickedNext = true;
        console.log(this.params);
       let count = form.validParams(this,this.params);
-      console.log(count)
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
         this.$store.commit("setincoming", fullParams);

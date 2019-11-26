@@ -2,15 +2,15 @@
   <div>
     <BaseHeader></BaseHeader>
     <div class="goods">
-      <div class="searchBob">
+      <div class="searchBob" @click="onSearch" >
         <van-search
                 v-model="mchName"
                 placeholder="请输入商户名称"
                 show-action
                 shape="round"
-                @search="onSearch"
+                @search=""
         >
-          <div slot="action" @click="onSearch">搜索</div>
+          <div slot="action">搜索</div>
         </van-search>
       </div>
       <van-tabs class="p_f" v-model="active" swipeable @click="onClick"  title-active-color="#699dd7" color="#699dd7" >
@@ -33,9 +33,12 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                <span class="number  wd">{{ item.transactionNum }} 笔</span>
-                <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                <div>
+                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                </div>
+                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
               </li>
             </van-list>
           </ul>
@@ -49,9 +52,12 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                <span class="number  wd">{{ item.transactionNum }} 笔</span>
-                <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                <div>
+                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                </div>
+                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
               </li>
             </van-list>
         </ul>
@@ -65,9 +71,12 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                <span class="number  wd">{{ item.transactionNum }} 笔</span>
-                <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                <div>
+                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                </div>
+                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
               </li>
             </van-list>
         </ul>
@@ -81,9 +90,12 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                <span class="number wd">{{ item.transactionNum }} 笔</span>
-                <span class="sum wd">{{ item.transactionAmount }} 元</span>
+                <div>
+                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                </div>
+                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
               </li>
             </van-list>
           </ul>
@@ -134,6 +146,7 @@ export default {
       /*//搜索商户*/
       mchName:'',
       shopList:[],//交易数据列表
+      intoRole:'',
       /*自定义时间*/
       maxDate: new Date(),
       currentDate: new Date(),
@@ -157,6 +170,7 @@ export default {
           ...mapState(['roleId','userId'])
 },
   mounted() {
+    this.intoRole=this.roleId;
     console.log(this.userId + '交易');
     console.log(this.timeStart);
     console.log(this.timeEnd);
@@ -183,11 +197,12 @@ export default {
         rankingCode:this.rankingCode,
         roleId:this.roleId
       };
+      var listInfo
       if(this.roleId=='3'){
-        let listInfo= await goodsInfo.goodsInfo(params);
+        listInfo= await goodsInfo.goodsInfo(params);
       }
       if(this.roleId=='2'){
-        let listInfo= await goodsInfo.allGoodsInfo(params);
+         listInfo= await goodsInfo.allGoodsInfo(params);
       }
       console.log(listInfo);
       this.shopList = listInfo.data.resultMsg.data;
@@ -208,12 +223,10 @@ export default {
 * @param pageSize 页面条数
 * @param pageNum 当前页数*/
 
-
 //搜索商户数据
 
-
 onSearch(){////将this.value传到后台
-  if(this.mchName){
+  /*if(this.mchName){
     this.pageNum=1;
     this.active = 'a';
     this.customShow = false;//将自定义栏false
@@ -224,8 +237,8 @@ onSearch(){////将this.value传到后台
   }else {
     this.$toast('请输入商户名称');
     return;
-  }
-
+  }*/
+  this.$router.push("searchShop");//搜索商户审核状态
 },
 
     //时间选择函数
@@ -401,30 +414,39 @@ onSearch(){////将this.value传到后台
 
     li {
       width: 100%;
-      height: vw(94);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding  vw(20) 0
       border-bottom: 1px solid #EEEEEE;
       background-color: #ffffff;
-      .shopName{
-        font-size: vw(32);
-        color: #333333;
-        width: vw(360);
+      div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .shopName{
+          font-size: vw(32);
+          color: #333333;
+          width: vw(360);
 
+        }
+        .number{
+          text-align: left;
+        }
+        .sum{
+          text-align: right;
+        }
+        .wd{
+          font-size: vw(28);
+          color: #999999;
+          width: vw(200);
+          display: inline-block;
+        }
       }
-      .number{
-        text-align: left;
-      }
-      .sum{
-        text-align: right;
-      }
-      .wd{
-        font-size: vw(28);
+      .salesName{
+        display inline-block
+        text-indent vw(26)
+        font-size vw(20)
         color: #999999;
-        width: vw(200);
-        display: inline-block;
       }
+
     }
   }
   .modal-wrap{
