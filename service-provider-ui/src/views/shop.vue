@@ -488,9 +488,10 @@ export default {
     }
     ul{
       width: 100%;
-      margin-top: vw(20);
+      margin: vw(20) 0 vw(100) 0;
       background-color: #fff;
-      padding-bottom vw(100)
+      /*padding-bottom vw(100)*/
+
 
       li{
         width: vw(720);

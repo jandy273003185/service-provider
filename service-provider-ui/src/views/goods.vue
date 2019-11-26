@@ -389,7 +389,8 @@ onSearch(){////将this.value传到后台
 
   ul {
     width: 100%;
-    padding: vw(60) vw(40) vw(100) vw(40);
+    padding: vw(60) vw(40) 0 vw(40);
+    margin-bottom  vw(100)
     box-sizing:border-box;
     background-color:#fff;
 

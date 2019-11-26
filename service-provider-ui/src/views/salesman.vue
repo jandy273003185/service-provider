@@ -355,7 +355,7 @@ export default {
     ul {
       width: 100%;
       margin: auto;
-      padding-bottom vw(100)
+      margin-bottom  vw(100)
       background-color: #fff;
 
       li {
