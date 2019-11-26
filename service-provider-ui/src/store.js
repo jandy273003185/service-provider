@@ -73,11 +73,7 @@ export default new Vuex.Store({
         setPhotos(state, obj) {
             console.log("obj");
             console.log(obj);
-            console.log("state before");
-            console.log(state.savephotos);
-            state.savephotos = JSON.parse(JSON.stringify(obj));
-            console.log("state");
-            console.log(state.savephotos);
+            state.savephotos = obj;
         },
         setCode(state, obj) {
             state.code = obj;

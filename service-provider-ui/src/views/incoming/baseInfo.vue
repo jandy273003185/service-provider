@@ -325,9 +325,10 @@ export default {
         let all = Object.assign(custInfo, fullParams);
         incomingReturn.custInfo = all;
         this.$store.commit("setincomingReturn", incomingReturn);
-        console.log("----照片---");
+        console.log("this photos");
         console.log(this.photos);
-        this.$store.commit("setPhotos", this.photos);
+        let newPhotos=JSON.parse(JSON.stringify(this.photos));
+        this.$store.commit("setPhotos", newPhotos);
         this.$router.push("legalInfo");
       }
     },
