@@ -211,7 +211,6 @@
           <div class="img-col" @click="beforeUploadImg('otherPhoto2')">
             <van-uploader
               :after-read="uploadImg"
-              :before-delete='deleteImg'
                v-model="photos.otherPhoto2"
               :max-count="1"
               preview-size="auto"
@@ -312,18 +311,8 @@ export default {
   },
 
   methods: {
-<<<<<<< HEAD
     ...mapMutations(['setincomingReturn','setincoming','setPhotos']),
-
-    deleteImg(){
-      console.log(666666);
-      return true;
-    },
-
-
-=======
-    ...mapMutations(["setincomingReturn", "setincoming", "setPhotos"]),
->>>>>>> 135a99d05c26e8541a33dee4655efd5365a79965
+    
     changePrepage() {
       //返回上一页
       if (this.role == "salesman") {
