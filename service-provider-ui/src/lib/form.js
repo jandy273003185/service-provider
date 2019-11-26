@@ -3,10 +3,17 @@ const form = {
     let arr = Object.keys(params);
     let errCount = 0;
     arr.map(function (item) {
-      if (!params[item]&&item!='otherPhoto1'&&item!="otherPhoto2"&&item!="custId"&&item!='userId'&&item!='roleId'&&item!='custId') {
+      if (!params[item]&&item!='otherPhoto1'&&item!="otherPhoto2"&&item!="custId"&&item!='userId'&&item!='roleId'&&item!='custId'&&item!='licenceForOpeningAccounts'&&item!='bankCardFront') {
         console.log(item);
+       
         errCount++;
       } else {
+        if(that.compMainAcctType=='01'&& params['licenceForOpeningAccounts']){
+          errCount++;
+        }
+        if(that.compMainAcctType=='02'&& params['bankCardFront']){
+          errCount++;
+        }
         if (item == 'merchantAccount' || item == 'contactMobile') {
           if (!(/^1[3456789]\d{9}$/.test(params[item]))) {
             that.$toast("手机号码格式有误！")

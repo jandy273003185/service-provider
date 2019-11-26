@@ -15,7 +15,7 @@
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
           <select v-model="params.custType">
-            <option disabled value>请选择</option>
+            <option disabled value="">请选择</option>
             <option value="0">个人</option>
             <option value="1">企业</option>
           </select>
@@ -167,7 +167,6 @@
           </div>
         </div>
         <div class="row-img">
-          <!-- specialBusiness -->
           <div class="stit" :class="{'active':(clickedNext&&!params.specialBusiness)}">特殊行业资质照</div>
           <div @click="beforeUploadImg('specialBusiness')">
             <van-uploader
@@ -228,7 +227,7 @@
 import form from "@/lib/form.js";
 import util from "@/lib/util.js";
 import upload from "@/lib/upload.js";
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
 import { common, incoming } from "@/assets/api/interface";
 export default {
   name: "baseInfo",
@@ -286,7 +285,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["incoming", "savephotos", "incomingReturn", "custId"])
+    ...mapState(["incoming", "savephotos", "incomingReturn", "custId",'role'])
   },
   created() {
     let type = this.$route.params.type; //'corvidae' ;
@@ -309,9 +308,15 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setincomingReturn','setincoming','setPhotos']),
     changePrepage() {
       //返回上一页
-      this.$router.go(-1);
+      if(this.role=='salesman'){
+        this.$router.push('/salesman');
+      }
+      if(this.role=='agent'){
+        this.$router.push('/Administrator');
+      }
     },
     getNextStep() {
       //到下一步 法人信息
@@ -319,16 +324,14 @@ export default {
       let count = form.validParams(this, this.params);
       if (count == 0) {
         let fullParams = Object.assign(this.incoming, this.params);
-        this.$store.commit("setincoming", fullParams);
+        this.setincoming(fullParams);
         let incomingReturn = this.incomingReturn;
         let custInfo = this.incomingReturn.custInfo || {};
         let all = Object.assign(custInfo, fullParams);
         incomingReturn.custInfo = all;
-        this.$store.commit("setincomingReturn", incomingReturn);
-        console.log("this photos");
-        console.log(this.photos);
+        this.setincomingReturn(incomingReturn);
         let newPhotos=this.photos;
-        this.$store.commit("setPhotos", newPhotos);
+        this.setPhotos(newPhotos);
         this.$router.push("legalInfo");
       }
     },
@@ -341,7 +344,7 @@ export default {
       });
       let res = await incoming.getIncoming({ custId: this.custId }); // custId:'c838b2ed3d524b1bb1db444a48572b19'
       this.$toast.clear();
-      this.$store.commit("setincomingReturn", res.data.resultMsg);
+      this.setincomingReturn(res.data.resultMsg);
       let custInfo = res.data.resultMsg.custInfo;
       let provinces = res.data.resultMsg.provinces[0];
       let params = {
@@ -493,7 +496,6 @@ export default {
       let getData = util.timeFormat(e);
       this.params[this.dateType] = getData;
       if (this.dateType == "businessTermStart") {
-        console.log("businessTermStart");
         this.minDate = new Date(getData);
       } else {
         this.minDate = new Date(2000, 1, 1);

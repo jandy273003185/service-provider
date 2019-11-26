@@ -69,7 +69,6 @@
         @confirm="confirmDate"
         @cancel="datepickerHide"
       />
-     <!--   -->
       <div class="row">
         <span class="label" :class="{'active':(clickedNext&&!params.contactName)}">联系人名字</span>
         <input v-model="params.contactName" placeholder="请输入联系人名字" />
@@ -79,7 +78,7 @@
         <input v-model="params.contactMobile" placeholder="请输入联系人手机" />
       </div>
       <div class="btn" @click="getNextStep">下一步</div>
-      <div class="btn back" @click="getPreStep">返回</div>
+      <div class="btn back" @click="changePrepage">返回</div>
     </div>
   </div>
 </template>
@@ -142,8 +141,8 @@ export default {
   },
 
   methods: {
-    changePrepage() {
-      this.$router.go(-1);
+    changePrepage() {//返回
+      this.$router.push("baseInfo");
     },
     getNextStep() {
       //到下一步 法人信息
@@ -163,10 +162,6 @@ export default {
         this.$store.commit("setCheckedState", this.checkedState);
         this.$router.push("merchant");
       }
-    },
-    getPreStep() {
-      //返回
-      this.$router.push("baseInfo");
     },
     beforeUploadImg(type) {
       //识别类型

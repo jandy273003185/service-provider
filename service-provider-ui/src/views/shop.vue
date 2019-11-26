@@ -365,18 +365,17 @@ export default {
 
     //查看审核失败信息和审核成功信息
     toDetail(state,custId){
+       this.setCustId(custId);
       if(state=='04'){
         this.$router.push('whyFailed');
-        this.setCustId(custId);
       }
       if(state=='00'){
         this.$router.push('/audit/pass');
-        this.setCustId(custId);
       }
       if (state == "05") {
         this.$router.push({
           name: "baseInfo",
-          params: { type: "corvidae", custId: custId }
+          params: { type: "corvidae" }
         });
       }
     },
@@ -393,8 +392,6 @@ export default {
   .shop{
     width: 100%;
     height: 100%;
-    background-color:#EEEEEE;
-
     .searchBar{
         height: vw(120);
         width: 100%;
