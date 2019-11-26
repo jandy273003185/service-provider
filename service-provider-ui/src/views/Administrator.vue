@@ -377,7 +377,7 @@
       }
       ul {
         width: 100%;
-        padding: 0 vw(20);
+        padding: 0 vw(20) vw(100) vw(20);
 
         li {
           height: vw(110);

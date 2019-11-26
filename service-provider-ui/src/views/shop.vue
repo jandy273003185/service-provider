@@ -490,6 +490,7 @@ export default {
       width: 100%;
       margin-top: vw(20);
       background-color: #fff;
+      padding-bottom vw(100)
 
       li{
         width: vw(720);
