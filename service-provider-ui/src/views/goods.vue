@@ -197,7 +197,7 @@ export default {
         rankingCode:this.rankingCode,
         roleId:this.roleId
       };
-      var listInfo
+      var listInfo;
       if(this.roleId=='3'){
         listInfo= await goodsInfo.goodsInfo(params);
       }

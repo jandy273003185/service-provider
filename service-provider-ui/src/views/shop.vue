@@ -332,7 +332,7 @@ export default {
       this.type = tm;
     },
     changeFn() { // 值变化是触发
-      this.changeDate = this.currentDate // Tue Sep 08 2020 00:00:00 GMT+0800 (中国标准时间)
+      this.changeDate = this.currentDate; // Tue Sep 08 2020 00:00:00 GMT+0800 (中国标准时间)
     },
     confirmFn() { // 日历上的确定按钮
       console.log(this.type);
