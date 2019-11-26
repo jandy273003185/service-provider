@@ -29,7 +29,7 @@ public class AddCustScanCopy{
             tdCustScanCopy.setCustId(custId);//商户编号
             tdCustScanCopy.setCreateId(request.getParameter("userId"));//创建人（服务商、业务员）
             tdCustScanCopy.setCertifyEndTime(request.getParameter("certifyEndTime"));//证件有效期
-            tdCustScanCopy.setStatus("01");//状态
+            tdCustScanCopy.setStatus("00");//状态
         }
         return tdCustScanCopies;
     }
