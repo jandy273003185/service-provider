@@ -215,7 +215,7 @@
                     id:this.salesID ,
                     queryStartDate: this.timeStart,
                     queryEndDate:this.timeEnd,
-                    roleId:'2'
+                    roleId:'3'
                 };
                 console.log(params.id);
                 console.log(params.queryStartDate);

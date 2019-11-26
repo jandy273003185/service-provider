@@ -297,6 +297,8 @@ export default {
           listInfo=await shopAuditInfo.allShopAuditInfo(params);
       }
       this.allStateList = listInfo.data.resultMsg.data;
+      var newArr = arr.concat(arr2);
+      this.allStateList = .concat()
       let total=listInfo.data.resultMsg.total;
       console.log(listInfo);
        this.loading = false;
