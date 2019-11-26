@@ -6,7 +6,7 @@
         <div class="searchName">
           <van-search
                   v-model="mchName"
-                  placeholder="请输入商户名称（非空）"
+                  placeholder="请输入商户名称"
                   show-action
                   shape="round"
                   @search="onSearch"
