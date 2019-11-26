@@ -4,6 +4,7 @@ import {
 const uploadImg = {
   async uploadImgRequest(blob,base64,name,that) { //图片上传
     //图片上传
+    console.log(name);
     let data = new FormData();
     data.append("file", blob, ".jpg");
     let info = await common.uploadImg(data);

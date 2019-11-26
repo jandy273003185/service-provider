@@ -13,7 +13,7 @@
         </div>
         <div class="img-col">
           <van-uploader
-          name="certAttribute1"
+            name="certAttribute1"
             v-model="photos.identityCardFront"
             :after-read="afterReadImg"
             :max-count="1"
@@ -67,7 +67,7 @@
         v-show="showDatepicker"
         type="year-month"
         :min-date="minDate"
-          :max-date="maxDate"
+        :max-date="maxDate"
         @confirm="confirmDate"
         @cancel="datepickerHide"
       />
