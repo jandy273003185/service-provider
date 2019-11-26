@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.qifenqian.app.bean.*;
 import com.qifenqian.app.customer.MerchantInfoService;
 import com.qifenqian.app.customer.MerchantStatusService;
+import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.merchant.CommercialService;
 import com.qifenqian.app.product.ProductInfoService;
 import com.sevenpay.agentmanager.pojo.Pager;
@@ -38,6 +39,9 @@ public class AgentController {
     private ProductInfoService productInfoService;
     @Reference
     private MerchantStatusService merchantStatusService;
+    @Reference
+    private SalesmanManagerService salesmanManagerService;
+
 
     @Value("${images.uri}")
     private String uri;
@@ -80,7 +84,25 @@ public class AgentController {
 
     /**
      * 统计服务商下的商户数据
-     * @param userId 管理员/业务员id
+     * @param userId 管理员（服务商）id
+     * @param queryStartDate 开始时间
+     * @param queryEndDate 结束时间
+     * @return
+     */
+    @RequestMapping("getSPStatCommercial")
+    public ResultBean<Map<String , Object>> getSPStatCommercial(String userId,
+                                                              String queryStartDate,
+                                                              String queryEndDate){
+        Map<String,Object> map = commerService.getSPStatCommercial(userId, queryStartDate, queryEndDate);
+        if (map != null) {
+            return new ResultBean<>("1",map);
+        }
+        return new ResultBean<>("0");
+    }
+
+    /**
+     * 统计服务商下的商户数据
+     * @param userId 业务员id
      * @param queryStartDate 开始时间
      * @param queryEndDate 结束时间
      * @return
