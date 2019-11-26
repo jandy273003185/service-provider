@@ -304,6 +304,7 @@ export default {
       if(this.allStateList.length>=total){//判断已加载完成
         this.finished=true;
       }
+      
     },
 
   //搜索商户数据

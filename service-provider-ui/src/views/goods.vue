@@ -8,7 +8,7 @@
                 placeholder="请输入商户名称"
                 show-action
                 shape="round"
-                @search=""
+                readonly
         >
           <div slot="action">搜索</div>
         </van-search>
