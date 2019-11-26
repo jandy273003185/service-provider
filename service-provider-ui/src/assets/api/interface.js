@@ -27,7 +27,8 @@ export const homeShopInfo={//首页里的商户信息
   shopInfo:param =>http.post1('/merchant/getStatCommercial',param)  //首页商户信息
 };
 export const shopAuditInfo={//商户页面审核信息
-  shopAuditInfo:param =>http.post1('/merchant/selectCommercialInfo',param),  //商户页面审核信息接口
+  allShopAuditInfo:param =>http.post1('/merchant/selectCommercialInfo',param),  //管理员商户页面审核信息接口
+  shopAuditInfo:param =>http.post1('/merchant/selectCommercialInfo',param),  //业务员商户页面审核信息接口
   shopsucceedInfo:param =>http.post1('/merchant/queryMerchantById',param),  //审核通过信息接口
   shopDefeatedInfo:param =>http.post1('/merchant/getCommerAuditCause',param),  //审核失败信息接口
   pro_contract:param =>http.post1('/merchant/insertProduct',param),//商户审核通过后的产品签约提交

@@ -211,9 +211,10 @@
           <div class="img-col" @click="beforeUploadImg('otherPhoto2')">
             <van-uploader
               :after-read="uploadImg"
-              v-model="photos.otherPhoto2"
+               v-model="photos.otherPhoto2"
               :max-count="1"
               preview-size="auto"
+
             >
               <van-button icon="photo" type="primary">其他资料照</van-button>
             </van-uploader>
@@ -310,7 +311,8 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["setincomingReturn", "setincoming", "setPhotos"]),
+    ...mapMutations(['setincomingReturn','setincoming','setPhotos']),
+    
     changePrepage() {
       //返回上一页
       if (this.role == "salesman") {
