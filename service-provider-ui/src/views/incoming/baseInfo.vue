@@ -317,12 +317,7 @@ export default {
   },
 
   methods: {
-<<<<<<< HEAD
     ...mapMutations(['setincomingReturn','setincoming','setPhotos']),
-
-=======
-    ...mapMutations(["setincomingReturn", "setincoming", "setPhotos"]),
->>>>>>> 5d302b720eea311f54e496ba40aef2948ecf8e75
     changePrepage() {
       //返回上一页
       if (this.role == "salesman") {
