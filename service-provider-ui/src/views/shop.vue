@@ -292,7 +292,6 @@ export default {
         roleId:this.roleId
       };
 
-
       if(this.roleId=='3'){//业务员的商户数据
         let listInfo=await shopAuditInfo.shopAuditInfo(params);
         this.allStateList = listInfo.data.resultMsg.data;
@@ -300,10 +299,9 @@ export default {
       }
       if(this.roleId=='2'){//管理员的商户数据
         let listInfo=await shopAuditInfo.allShopAuditInfo(params);
-        /*this.allStateList = listInfo.data.resultMsg.data;
-        let total=listInfo.data.resultMsg.total;*/
+        this.allStateList = listInfo.data.resultMsg.data;
+        let total=listInfo.data.resultMsg.total;
       }
-
 
     console.log(listInfo);
       if(this.allStateList.length>=total){//判断已加载完成

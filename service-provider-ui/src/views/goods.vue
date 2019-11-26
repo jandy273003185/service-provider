@@ -33,9 +33,12 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                <span class="number  wd">{{ item.transactionNum }} 笔</span>
-                <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                <div>
+                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                </div>
+                <span class="salesName">业务员：</span>
               </li>
             </van-list>
           </ul>
@@ -49,9 +52,12 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                <span class="number  wd">{{ item.transactionNum }} 笔</span>
-                <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                <div>
+                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                </div>
+                <span class="salesName">业务员：</span>
               </li>
             </van-list>
         </ul>
@@ -65,9 +71,12 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                <span class="number  wd">{{ item.transactionNum }} 笔</span>
-                <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                <div>
+                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                </div>
+                <span class="salesName">业务员：</span>
               </li>
             </van-list>
         </ul>
@@ -81,9 +90,12 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                <span class="number wd">{{ item.transactionNum }} 笔</span>
-                <span class="sum wd">{{ item.transactionAmount }} 元</span>
+                <div>
+                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                </div>
+                <span class="salesName">业务员：</span>
               </li>
             </van-list>
           </ul>
@@ -133,7 +145,24 @@ export default {
       pageNum:0,//页数
       /*//搜索商户*/
       mchName:'',
-      shopList:[],//交易数据列表
+      shopList:[
+        {
+        cust_name:"wang",
+        transactionNum:55,
+        transactionAmount:88
+      },
+        {
+          cust_name:"wang",
+          transactionNum:55,
+          transactionAmount:88
+        },
+        {
+          cust_name:"wang",
+          transactionNum:55,
+          transactionAmount:88
+        }
+      ],//交易数据列表
+      intoRole:'',
       /*自定义时间*/
       maxDate: new Date(),
       currentDate: new Date(),
@@ -157,6 +186,7 @@ export default {
           ...mapState(['roleId','userId'])
 },
   mounted() {
+    this.intoRole=this.roleId;
     console.log(this.userId + '交易');
     console.log(this.timeStart);
     console.log(this.timeEnd);
@@ -168,7 +198,7 @@ export default {
 
     loadList(){
       this.pageNum+=1;
-      this.getAllShopList();
+      //this.getAllShopList();
     },
 
     //请求商户交易数据
@@ -208,9 +238,7 @@ export default {
 * @param pageSize 页面条数
 * @param pageNum 当前页数*/
 
-
 //搜索商户数据
-
 
 onSearch(){////将this.value传到后台
   if(this.mchName){
@@ -401,30 +429,38 @@ onSearch(){////将this.value传到后台
 
     li {
       width: 100%;
-      height: vw(94);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding  vw(20) 0
       border-bottom: 1px solid #EEEEEE;
       background-color: #ffffff;
-      .shopName{
-        font-size: vw(32);
-        color: #333333;
-        width: vw(360);
+      div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .shopName{
+          font-size: vw(32);
+          color: #333333;
+          width: vw(360);
 
+        }
+        .number{
+          text-align: left;
+        }
+        .sum{
+          text-align: right;
+        }
+        .wd{
+          font-size: vw(28);
+          color: #999999;
+          width: vw(200);
+          display: inline-block;
+        }
       }
-      .number{
-        text-align: left;
+      .salesName{
+        display inline-block
+        text-indent vw(26)
+        font-size vw(20)
       }
-      .sum{
-        text-align: right;
-      }
-      .wd{
-        font-size: vw(28);
-        color: #999999;
-        width: vw(200);
-        display: inline-block;
-      }
+
     }
   }
   .modal-wrap{
