@@ -262,6 +262,7 @@ export default {
 
     loadList(){
       this.pageNum+=1;
+      console.log(this.pageNum);
       this.getAllShopList();
     },
 
@@ -510,13 +511,12 @@ export default {
 
 
       li{
-        width: vw(720);
+        width: vw(690);
         height: vw(94);
         margin: 0 auto;
         display: flex;
         justify-content:space-between;
         align-items: center;
-        padding 0 vw(10)
         border-bottom: 1px solid #EEEEEE;
 
         div{
