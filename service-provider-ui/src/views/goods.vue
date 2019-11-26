@@ -209,7 +209,6 @@ export default {
       this.shopList = this.shopList.concat(list);
       let total=listInfo.data.resultMsg.total;
 
-      console.log(this.shopList);
       this.loading = false;
       if(this.shopList.length>=total){//判断已加载完成
         this.finished=true;
@@ -325,7 +324,7 @@ onSearch(){////将this.value传到后台
         }
         this.selectRank = 'transactionNum';
         this.pageNum=1;
-        this.shopList='';
+        this.shopList=[];
         this.getAllShopList();
       },
 
@@ -338,7 +337,7 @@ onSearch(){////将this.value传到后台
       }
       this.selectRank = 'transactionAmount';
       this.pageNum=1;
-      this.shopList='';
+      this.shopList=[];
       this.getAllShopList();
     },
 
