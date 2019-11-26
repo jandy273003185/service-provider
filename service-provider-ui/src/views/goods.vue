@@ -360,31 +360,31 @@ onSearch(){////将this.value传到后台
   .p_f{
     /*position: relative;*/
 
-  .sunxu{
-    width:100% ;
-    height: vw(60);
-    font-size: vw(28);
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    background-color: #eeeeee;
-    position:absolute;
-    top:vw(88);
-    z-index:999;
-    .rank{
-      color:#699dd7;
-      border-bottom-color:#699dd7;
+    .sunxu{
+      width:100% ;
+      height: vw(60);
+      font-size: vw(28);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      background-color: #eeeeee;
+      position:absolute;
+      top:vw(88);
+      z-index:999;
+      .rank{
+        color:#699dd7;
+        border-bottom-color:#699dd7;
+      }
+
+      div{
+        margin-right: vw(30);
+
+        img{
+          width: vw(22);
+          height: vw(22);
+        }
+      }
     }
-
-  div{
-    margin-right: vw(30);
-
-  img{
-    width: vw(22);
-    height: vw(22);
-  }
-  }
-  }
   }
 
   ul {
@@ -466,7 +466,6 @@ onSearch(){////将this.value传到后台
         width: vw(170);
         height: vw(60);
         border-radius: 3px;
-
       }
       .cancel{
         border:none;
