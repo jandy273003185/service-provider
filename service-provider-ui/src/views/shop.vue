@@ -281,31 +281,25 @@ export default {
       if(this.active==4) stateCode='04';
 
       if(this.active==5) stateCode='00';
+      let params={
+        custName:this.mchName,//商户名
+        queryStartDate:this.timeStart,//开始时间
+        queryEndDate:this.timeEnd,//结束时间
+        stateCode:stateCode,//审核状态
+        userId:this.userId,
+        pageSize:'20',
+        pageNum:this.pageNum,
+        roleId:this.roleId
+      };
+
+
       if(this.roleId=='3'){//业务员的商户数据
-        let listInfo=await shopAuditInfo.shopAuditInfo({
-          custName:this.mchName,//商户名
-          queryStartDate:this.timeStart,//开始时间
-          queryEndDate:this.timeEnd,//结束时间
-          stateCode:stateCode,//审核状态
-          userId:this.userId,
-          pageSize:'20',
-          pageNum:this.pageNum,
-          roleId:this.roleId
-        });
+        let listInfo=await shopAuditInfo.shopAuditInfo(params);
         this.allStateList = listInfo.data.resultMsg.data;
         let total=listInfo.data.resultMsg.total;
       }
       if(this.roleId=='2'){//管理员的商户数据
-        let listInfo=await shopAuditInfo.allShopAuditInfo({
-          custName:this.mchName,//商户名
-          queryStartDate:this.timeStart,//开始时间
-          queryEndDate:this.timeEnd,//结束时间
-          stateCode:stateCode,//审核状态
-          userId:this.userId,
-          pageSize:'20',
-          pageNum:this.pageNum,
-        });
-        console.log(listInfo);
+        let listInfo=await shopAuditInfo.allShopAuditInfo(params);
         /*this.allStateList = listInfo.data.resultMsg.data;
         let total=listInfo.data.resultMsg.total;*/
       }

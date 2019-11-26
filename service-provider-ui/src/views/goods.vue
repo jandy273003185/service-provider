@@ -134,7 +134,6 @@ export default {
       /*//搜索商户*/
       mchName:'',
       shopList:[],//交易数据列表
-      userId:'',
       /*自定义时间*/
       maxDate: new Date(),
       currentDate: new Date(),
@@ -155,10 +154,9 @@ export default {
     };
   },
   computed:{
-          ...mapState(['roleId'])
+          ...mapState(['roleId','userId'])
 },
   mounted() {
-    this.userId = storage.get('userId');
     console.log(this.userId + '交易');
     console.log(this.timeStart);
     console.log(this.timeEnd);
@@ -175,7 +173,7 @@ export default {
 
     //请求商户交易数据
     async getAllShopList(){
-      let listInfo= await goodsInfo.goodsInfo({
+      const params = {
         custName:this.mchName,//商户名
         queryStartDate:this.timeStart,//开始时间
         queryEndDate:this.timeEnd,//结束时间
@@ -184,10 +182,17 @@ export default {
         pageNum:this.pageNum, //请求哪一页
         rankingCode:this.rankingCode,
         roleId:this.roleId
-      });
+      };
+      if(this.roleId=='3'){
+        let listInfo= await goodsInfo.goodsInfo(params);
+      }
+      if(this.roleId=='2'){
+        let listInfo= await goodsInfo.allGoodsInfo(params);
+      }
+      console.log(listInfo);
       this.shopList = listInfo.data.resultMsg.data;
       let total=listInfo.data.resultMsg.total;
-      console.log(listInfo);
+
       console.log(this.shopList);
       if(this.shopList.length>=total){//判断已加载完成
         this.finished=true;

@@ -16,7 +16,7 @@
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
           <select v-model="params.custType">
-            <option disabled value>请选择</option>
+            <option disabled value="">请选择</option>
             <option value="0">个人</option>
             <option value="1">企业</option>
           </select>
@@ -95,6 +95,7 @@
           <van-uploader
             name="businessLicense"
             :after-read="afterReadImg"
+            :before-delete="deleteImg"
             :max-count="1"
             v-model="photos.businessLicense"
             preview-size="auto"
@@ -139,42 +140,44 @@
             门头照照片
             <span>(必须)</span>
           </div>
-          <div @click="beforeUploadImg('shopFrontDesk')">
-            <van-uploader
-              :after-read="uploadImg"
-              v-model="photos.shopFrontDesk"
-              :max-count="1"
-              preview-size="auto"
-            >
-              <van-button icon="photo" type="primary">上传门头照照片</van-button>
-            </van-uploader>
-          </div>
+          <van-uploader
+            name="shopFrontDesk"
+            :after-read="uploadImg"
+            v-model="photos.shopFrontDesk"
+            :max-count="1"
+            preview-size="auto"
+            :before-delete="deleteImg"
+          >
+            <van-button icon="photo" type="primary">上传门头照照片</van-button>
+          </van-uploader>
         </div>
         <div class="row-img" :class="{'active':(clickedNext&&!params.shopInterior)}">
           <div class="stit" :class="{'active':(clickedNext&&!params.shopInterior)}">
             店内照
             <span>(必须)</span>
           </div>
-          <div @click="beforeUploadImg('shopInterior')">
             <van-uploader
+              name="shopInterior"
               ref="shopInterior"
               v-model="photos.shopInterior"
               :after-read="uploadImg"
               :max-count="1"
               preview-size="auto"
+              :before-delete="deleteImg"
             >
               <van-button icon="photo" type="primary">上传店内照片</van-button>
             </van-uploader>
-          </div>
         </div>
         <div class="row-img">
           <div class="stit" :class="{'active':(clickedNext&&!params.specialBusiness)}">特殊行业资质照</div>
-          <div @click="beforeUploadImg('specialBusiness')">
+          <div>
             <van-uploader
+              name="specialBusiness"
               :after-read="uploadImg"
               v-model="photos.specialBusiness"
               :max-count="1"
               preview-size="auto"
+              :before-delete="deleteImg"
             >
               <van-button icon="photo" type="primary">上传特殊行业资质照</van-button>
             </van-uploader>
@@ -185,36 +188,40 @@
             class="stit"
             :class="{'active':(clickedNext&&!params.electronicSignaturePhoto)}"
           >电子签名照</div>
-          <div @click="beforeUploadImg('electronicSignaturePhoto')">
+
             <van-uploader
+              name="electronicSignaturePhoto"
               v-model="photos.electronicSignaturePhoto"
               :after-read="uploadImg"
               :max-count="1"
               preview-size="auto"
+              :before-delete="deleteImg"
             >
               <van-button icon="photo" type="primary">上传电子签名照</van-button>
             </van-uploader>
-          </div>
         </div>
         <div class="row-img">
           <div class="stit">其他资料照</div>
-          <div class="img-col" @click="beforeUploadImg('otherPhoto1')">
+          <div class="img-col">
             <van-uploader
+              name="otherPhoto1"
               v-model="photos.otherPhoto1"
               :after-read="uploadImg"
               :max-count="1"
               preview-size="auto"
+              :before-delete="deleteImg"
             >
               <van-button icon="photo" type="primary">其他资料照</van-button>
             </van-uploader>
           </div>
-          <div class="img-col" @click="beforeUploadImg('otherPhoto2')">
+          <div class="img-col">
             <van-uploader
+              name="otherPhoto2"
               :after-read="uploadImg"
                v-model="photos.otherPhoto2"
               :max-count="1"
               preview-size="auto"
-
+              :before-delete="deleteImg"
             >
               <van-button icon="photo" type="primary">其他资料照</van-button>
             </van-uploader>
@@ -248,7 +255,6 @@ export default {
       blockList: [],
       provinceId: "",
       cityId: "",
-      uploadType: "",
       clickedNext: false,
       longterm: false,
       minDate: new Date(2000, 1, 1),
@@ -312,7 +318,6 @@ export default {
 
   methods: {
     ...mapMutations(['setincomingReturn','setincoming','setPhotos']),
-    
     changePrepage() {
       //返回上一页
       if (this.role == "salesman") {
@@ -485,17 +490,18 @@ export default {
         this.$toast("营业执照信息无法识别！");
       }
     },
-    beforeUploadImg(type) {
-      this.uploadType = type;
+     deleteImg(file, detail) {
+      this.params[detail.name]="";
+      return true;
     },
-    uploadImg(file) {
+    uploadImg(file,detail) {
       //图片上传
       this.$toast.loading({
         message: "图片上传中..",
         forbidClick: true,
         duration: 0
       });
-      upload.blobToBase64(file.file, this);
+      upload.blobToBase64(file.file,detail.name, this);
     },
     datepickerVisiable(type) {
       this.dateType = type;

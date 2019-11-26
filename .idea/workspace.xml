@@ -3,7 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="管理员与业务员互相登录错入口">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/assets/api/interface.js" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/assets/api/interface.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/incoming/baseInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/incoming/baseInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" afterDir="false" />
+=======
       <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/SalesmanManagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/SalesmanManagerController.java" afterDir="false" />
+>>>>>>> 5d302b720eea311f54e496ba40aef2948ecf8e75
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -105,7 +112,11 @@
       <option name="presentableId" value="Default" />
       <updated>1574345401264</updated>
       <workItem from="1574391685862" duration="13397000" />
+<<<<<<< HEAD
+      <workItem from="1574678356428" duration="28457000" />
+=======
       <workItem from="1574678356428" duration="12508000" />
+>>>>>>> 5d302b720eea311f54e496ba40aef2948ecf8e75
     </task>
     <task id="LOCAL-00001" summary="管理员与业务员互相登录错入口">
       <created>1574399372032</created>
