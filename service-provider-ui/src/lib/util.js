@@ -31,7 +31,8 @@ const util = {
     return filename;
   },
   getPhotos(that, urlHead, photos) { //将获取的照片赋值到相应位置
-    let obj={},name;
+    let obj = {},
+      name;
     for (let i = 0; i < photos.length; i++) {
       let imgname = this.getImgName(photos[i].scanCopyPath);
       switch (photos[i].certifyType) {
@@ -57,7 +58,7 @@ const util = {
           name = "otherPhoto2";
           break;
         case "00": //身份证正
-         name = "identityCardFront";
+          name = "identityCardFront";
           break;
         case "16": //身份证反
           name = "identityCardReverse";
@@ -65,21 +66,24 @@ const util = {
         case "03": //开户许可证
           name = "licenceForOpeningAccounts";
           break;
+        case "13": //银行卡正面
+          name = "bankCardFront"
+          break;
         default:
           name = "";
       }
-      if(name){
-        obj[name]=[{
-            url: urlHead + "" + imgname,
-          }]
-        }
-       /*  that.photos[name] = [{
-          url: urlHead + "" + imgname
-        }]; */
-        if(name!='businessLicense'){
-          that.params[name] = urlHead + "" + imgname;
-        }
+      if (name) {
+        obj[name] = [{
+          url: urlHead + "" + imgname,
+        }]
       }
+      /*  that.photos[name] = [{
+         url: urlHead + "" + imgname
+       }]; */
+      if (name != 'businessLicense') {
+        that.params[name] = urlHead + "" + imgname;
+      }
+    }
     return obj;
   },
   getAllPhotos(obj) { //提交图片集合
@@ -117,6 +121,9 @@ const util = {
           break;
         case "licenceForOpeningAccounts": //开户许可证
           certifyType = "03";
+          break;
+        case "bankCardFront": //银行卡正面
+          certifyType = "13";
           break;
         default:
           certifyType = "";
