@@ -58,7 +58,7 @@
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcctType)}">结算类型</span>
           <select v-model="params.compMainAcctType">
-            <option disabled value="">请选择</option>
+            <option disabled value>请选择</option>
             <option value="01">企业</option>
             <option value="02">个人</option>
           </select>
@@ -68,32 +68,32 @@
             开户许可证照片
             <span>(必须)</span>
           </div>
-          <div @click="beforeUploadImg('licenceForOpeningAccounts')">
-            <van-uploader
-              :after-read="uploadImg"
-              v-model="photos.licenceForOpeningAccounts"
-              :max-count="1"
-              preview-size="auto"
-            >
-              <van-button icon="photo" type="primary">上传开户许可证照</van-button>
-            </van-uploader>
-          </div>
+          <van-uploader
+            name="licenceForOpeningAccounts"
+            :after-read="uploadImg"
+             :before-delete="deleteImg"
+            v-model="photos.licenceForOpeningAccounts"
+            :max-count="1"
+            preview-size="auto"
+          >
+            <van-button icon="photo" type="primary">上传开户许可证照</van-button>
+          </van-uploader>
         </div>
         <div class="row-img" v-if="params.compMainAcctType=='02'">
           <div class="stit" :class="{'active':(clickedNext&&!params.licenceForOpeningAccounts)}">
             银行卡照片
             <span>(必须)</span>
           </div>
-          <div @click="beforeUploadImg('bankCardFront')">
-            <van-uploader
-              :after-read="uploadImg"
-              v-model="photos.bankCardFront"
-              :max-count="1"
-              preview-size="auto"
-            >
-              <van-button icon="photo" type="primary">上传银行卡照片</van-button>
-            </van-uploader>
-          </div>
+          <van-uploader
+            name="bankCardFront"
+            :after-read="uploadImg"
+            :before-delete="deleteImg"
+            v-model="photos.bankCardFront"
+            :max-count="1"
+            preview-size="auto"
+          >
+            <van-button icon="photo" type="primary">上传银行卡照片</van-button>
+          </van-uploader>
         </div>
         <div class="btn" @click="getNextStep">下一步</div>
         <div class="btn back" @click="changePrepage">返回</div>
@@ -125,7 +125,7 @@ export default {
       cityId: "",
       photos: {
         licenceForOpeningAccounts: [],
-        bankCardFront:[]
+        bankCardFront: []
       },
       params: {
         compMainAcct: "",
@@ -138,7 +138,7 @@ export default {
         representativeName: "",
         compMainAcctType: "",
         licenceForOpeningAccounts: "",
-        bankCardFront:''
+        bankCardFront: ""
       }
     };
   },
@@ -177,7 +177,7 @@ export default {
       //获取银行名称
       if (cardNo && cardNo.length > 0) {
         let bank = bankInfo(cardNo);
-        if (bank&&bank.bankName) {
+        if (bank && bank.bankName) {
           this.params.compAcctBank = bank.bankName;
         } else {
           this.params.compAcctBank = "";
@@ -249,17 +249,18 @@ export default {
         this.$router.push("sign");
       }
     },
-    beforeUploadImg(type) {
-      this.uploadType = type;
+    deleteImg(file, detail) {
+      this.params[detail.name]="";
+      return true;
     },
-    uploadImg(file) {
+    uploadImg(file,detail) {
       //图片上传
       this.$toast.loading({
         message: "图片上传中..",
         forbidClick: true,
         duration: 0
       });
-      upload.blobToBase64(file.file, this);
+      upload.blobToBase64(file.file,detail.name, this);
     }
   }
 };
