@@ -52,7 +52,7 @@
               <div>
                 <span class="shopName">{{ item.custName }}</span>
                 <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                <span v-if="intoRole=='2' " class="time">业务员：</span>
+                <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
               </div>
               <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
               <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -77,7 +77,7 @@
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                  <span v-if="intoRole=='2' " class="time">业务员：</span>
+                  <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -102,7 +102,7 @@
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                  <span v-if="intoRole=='2' " class="time">业务员：</span>
+                  <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -125,7 +125,7 @@
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                  <span v-if="intoRole=='2' " class="time">业务员：</span>
+                  <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -148,7 +148,7 @@
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                  <span v-if="intoRole=='2' " class="time">业务员：</span>
+                  <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -172,7 +172,7 @@
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                  <span v-if="intoRole=='2' " class="time">业务员：</span>
+                  <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -292,20 +292,16 @@ export default {
         roleId:this.roleId
       };
       console.log(this.intoRole);
+      var listInfo;
       if(this.intoRole=='3'){//业务员的商户数据
-        let listInfo=await shopAuditInfo.shopAuditInfo(params);
-        this.allStateList = listInfo.data.resultMsg.data;
-        let total=listInfo.data.resultMsg.total;
-        console.log(listInfo);
+         listInfo=await shopAuditInfo.shopAuditInfo(params);
       }
       if(this.intoRole=='2'){//管理员的商户数据
-        let listInfo=await shopAuditInfo.allShopAuditInfo(params);
-        this.allStateList = listInfo.data.resultMsg.data;
-        let total=listInfo.data.resultMsg.total;
-        console.log(listInfo);
+          listInfo=await shopAuditInfo.allShopAuditInfo(params);
       }
-
-
+      this.allStateList = listInfo.data.resultMsg.data;
+      let total=listInfo.data.resultMsg.total;
+      console.log(listInfo);
       if(this.allStateList.length>=total){//判断已加载完成
         this.finished=true;
         this.loading = false;
@@ -520,6 +516,7 @@ export default {
         display: flex;
         justify-content:space-between;
         align-items: center;
+        padding 0 vw(10)
         border-bottom: 1px solid #EEEEEE;
 
         div{

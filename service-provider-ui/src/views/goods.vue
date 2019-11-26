@@ -2,15 +2,15 @@
   <div>
     <BaseHeader></BaseHeader>
     <div class="goods">
-      <div class="searchBob">
+      <div class="searchBob" @click="onSearch" >
         <van-search
                 v-model="mchName"
                 placeholder="请输入商户名称"
                 show-action
                 shape="round"
-                @search="onSearch"
+                @search=""
         >
-          <div slot="action" @click="onSearch">搜索</div>
+          <div slot="action">搜索</div>
         </van-search>
       </div>
       <van-tabs class="p_f" v-model="active" swipeable @click="onClick"  title-active-color="#699dd7" color="#699dd7" >
@@ -38,7 +38,7 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span v-if="intoRole=='2' " class="salesName">业务员：</span>
+                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
               </li>
             </van-list>
           </ul>
@@ -57,7 +57,7 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span v-if="intoRole=='2' " class="salesName">业务员：</span>
+                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
               </li>
             </van-list>
         </ul>
@@ -76,7 +76,7 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span v-if="intoRole=='2' " class="salesName">业务员：</span>
+                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
               </li>
             </van-list>
         </ul>
@@ -95,7 +95,7 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span v-if="intoRole=='2' " class="salesName">业务员：</span>
+                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
               </li>
             </van-list>
           </ul>
@@ -197,11 +197,12 @@ export default {
         rankingCode:this.rankingCode,
         roleId:this.roleId
       };
+      var listInfo
       if(this.roleId=='3'){
-        let listInfo= await goodsInfo.goodsInfo(params);
+        listInfo= await goodsInfo.goodsInfo(params);
       }
       if(this.roleId=='2'){
-        let listInfo= await goodsInfo.allGoodsInfo(params);
+         listInfo= await goodsInfo.allGoodsInfo(params);
       }
       console.log(listInfo);
       this.shopList = listInfo.data.resultMsg.data;
@@ -225,7 +226,7 @@ export default {
 //搜索商户数据
 
 onSearch(){////将this.value传到后台
-  if(this.mchName){
+  /*if(this.mchName){
     this.pageNum=1;
     this.active = 'a';
     this.customShow = false;//将自定义栏false
@@ -236,8 +237,8 @@ onSearch(){////将this.value传到后台
   }else {
     this.$toast('请输入商户名称');
     return;
-  }
-
+  }*/
+  this.$router.push("searchShop");//搜索商户审核状态
 },
 
     //时间选择函数

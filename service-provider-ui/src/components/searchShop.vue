@@ -52,12 +52,11 @@ export default {
             pageNum:0,//页数
             value:'',
             active:false,
-            userId:'',
             statesList:[]
         }
     },
     computed:{
-        ...mapState(['roleId'])
+        ...mapState(['roleId','userId'])
     },
     created(){
         this.$store.commit("setincoming", {});
@@ -65,7 +64,6 @@ export default {
         this.$store.commit("setCheckedState", "");
     },
     mounted(){
-        this.userId = storage.get('userId');
         console.log(this.userId + '商户');
     },
     methods: {
