@@ -80,7 +80,7 @@
           </van-uploader>
         </div>
         <div class="row-img" v-if="params.compMainAcctType=='02'">
-          <div class="stit" :class="{'active':(clickedNext&&!params.licenceForOpeningAccounts)}">
+          <div class="stit" :class="{'active':(clickedNext&&!params.bankCardFront)}">
             银行卡照片
             <span>(必须)</span>
           </div>

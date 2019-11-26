@@ -7,10 +7,10 @@ const form = {
         console.log(item);
         errCount++;
       } else {
-        if(that.params.compMainAcctType=='01'&& params['licenceForOpeningAccounts']){
+        if(that.params.compMainAcctType=='01'&& !params['licenceForOpeningAccounts']){
           errCount++;
         }
-        if(that.params.compMainAcctType=='02'&& params['bankCardFront']){
+        if(that.params.compMainAcctType=='02'&& !params['bankCardFront']){
           errCount++;
         }
         if (item == 'merchantAccount' || item == 'contactMobile') {
