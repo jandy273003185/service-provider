@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="管理员与业务员互相登录错入口">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" afterDir="false" />
+    <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="jiangzonglin">
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/service-provider-ui.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/service-provider-ui.iml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,27 +17,27 @@
     <favorites_list name="service-provider" />
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/feedback.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/mine.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/salesman.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Administrator.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/audit/pass.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/feedback.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/components/salesmanResult.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/components/time-select.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/companyInfo.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/amendPsd.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/about.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/incoming/baseInfo.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/components/whyFailed.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Administrator.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/components/baser-header.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/lib/upload.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/salesman.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/mine.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/amendPsd.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/companyInfo.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/about.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" root0="SKIP_INSPECTION" />
   </component>
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
@@ -94,6 +93,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ServiceProviderApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -107,7 +111,10 @@
       <updated>1574345401264</updated>
       <workItem from="1574391685862" duration="13397000" />
       <workItem from="1574678356428" duration="12508000" />
+<<<<<<< HEAD
       <workItem from="1574773254901" duration="20882000" />
+=======
+>>>>>>> ff759bd76968e651855ade7b7bd403227abda925
     </task>
     <task id="LOCAL-00001" summary="管理员与业务员互相登录错入口">
       <created>1574399372032</created>
@@ -193,7 +200,49 @@
       <option name="project" value="LOCAL" />
       <updated>1574762044091</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="jiangzonglin">
+      <created>1574772759671</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1574772759671</updated>
+    </task>
+    <task id="LOCAL-00014" summary="jiangzonglin">
+      <created>1574822185727</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1574822185727</updated>
+    </task>
+    <task id="LOCAL-00015" summary="jiangzonglin">
+      <created>1574836657390</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1574836657390</updated>
+    </task>
+    <task id="LOCAL-00016" summary="jiangzonglin">
+      <created>1574836730267</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1574836730267</updated>
+    </task>
+    <task id="LOCAL-00017" summary="jiangzonglin">
+      <created>1574836936832</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1574836936832</updated>
+    </task>
+    <task id="LOCAL-00018" summary="jiangzonglin">
+      <created>1574837013964</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1574837013964</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,9 +264,29 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="放行静态资源" />
     <MESSAGE value="管理员与业务员互相登录错入口" />
-    <option name="LAST_COMMIT_MESSAGE" value="管理员与业务员互相登录错入口" />
+    <MESSAGE value="jiangzonglin" />
+    <option name="LAST_COMMIT_MESSAGE" value="jiangzonglin" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/SalesmanManagerController.java</url>
+          <line>100</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/SalesmanManagerController.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java</url>
+          <line>96</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="roleId" />
