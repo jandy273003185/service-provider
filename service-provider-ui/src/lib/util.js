@@ -13,7 +13,6 @@ const util = {
     }
     return obj
   },
-
   timeFormat: function (time) { // 时间格式化 2019-09-08
     let year = time.getFullYear();
     let month = time.getMonth() + 1;
@@ -31,8 +30,7 @@ const util = {
     return filename;
   },
   getPhotos(that, urlHead, photos) { //将获取的照片赋值到相应位置
-    let obj = {},
-      name;
+    let obj = {},name;
     for (let i = 0; i < photos.length; i++) {
       let imgname = this.getImgName(photos[i].scanCopyPath);
       switch (photos[i].certifyType) {
@@ -89,8 +87,8 @@ const util = {
   getAllPhotos(obj) { //提交图片集合
     let custScanCopys = [];
     let certifyType;
+    console.log(obj);
     for (let key in obj) {
-      console.log(obj[key][0].url);
       switch (key) {
         case "businessLicense": //营业执照
           certifyType = "02";
@@ -128,7 +126,7 @@ const util = {
         default:
           certifyType = "";
       }
-      if(obj[key][0].url){
+      if(obj[key].length>0&&obj[key][0].url){
         let imgObj = {
           certifyType: certifyType,
           scanCopyPath: this.getImgName(obj[key][0].url),

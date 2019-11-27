@@ -158,14 +158,14 @@ export default {
         bankCardFront: []
       },
       params: {
-        compMainAcct: "",
-        compAcctBank: "",
+        compMainAcct: "",//账号
+        compAcctBank: "",//开户行
         bankProvinceName: "", //省
         bankProvinceShow: "",
         bankCityName: "", //市
         bankCityShow: "",
-        branchBank: "",
-        bankAcctName: "",
+        branchBank: "",//开户支行
+        bankAcctName: "",//开户人
         bankName: "", //显示 开户行
         bankbranchName: "", //显示  支行
         compMainAcctType: "",
@@ -198,14 +198,16 @@ export default {
       util.getPhotos(this, urlHead, photos);
       let bankProvinces = this.incomingReturn.bankProvinces[0];
       let params = {
-        compMainAcct: custInfo.compMainAcct,
-        compAcctBank: custInfo.compAcctBank,
+        compMainAcct: custInfo.compMainAcct,//银行卡号
+        compAcctBank: custInfo.compAcctBank,//开户行
         bankProvinceName: bankProvinces.bankProvinceId, //省
-        bankProvinceShow: bankProvinces.bankProvinceName,
+        bankProvinceShow: bankProvinces.bankProvinceName,//省 显示
         bankCityName: bankProvinces.bankCityId, //市
-        bankCityShow: bankProvinces.bankCityName,
-        branchBank: custInfo.branchBank,
-        bankAcctName: custInfo.bankAcctName,
+        bankCityShow: bankProvinces.bankCityName,//市 显示
+        branchBank: custInfo.branchBank,//开户支行
+        bankAcctName: custInfo.bankAcctName,//开户人
+        bankName:custInfo, //显示 开户行
+        bankbranchName: custInfo, //显示  支行
         compMainAcctType: custInfo.compMainAcctType
       };
       this.params = Object.assign(this.params, params);
