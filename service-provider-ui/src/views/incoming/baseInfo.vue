@@ -17,7 +17,7 @@
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
           <select v-model="params.custType">
-            <option disabled value>请选择</option>
+            <option disabled value="">请选择</option>
             <option value="0">个人</option>
             <option value="1">企业</option>
           </select>
@@ -429,10 +429,8 @@ export default {
       this.citypicker = false;
       this.blockpicker = false;
     },
-    async onConfirmProvince(value, index) {
+    async onConfirmProvince(value) {
       //确认省
-      console.log("确认省份");
-      console.log(index);
       this.params.province = value.provinceId;
       this.params.provinceName = value.provinceName;
       this.provincepicker = false;
@@ -442,10 +440,8 @@ export default {
       this.cityList = res.data.resultMsg;
       this.citypicker = true;
     },
-    async onConfirmCity(value, index) {
+    async onConfirmCity(value) {
       //确认市
-      console.log("确认市");
-      console.log(index);
       this.params.city = value.cityId;
       this.params.cityName = value.cityName;
       this.citypicker = false;
@@ -455,10 +451,8 @@ export default {
       this.blockList = res.data.resultMsg;
       this.blockpicker = true;
     },
-    async onConfirmBlock(value, index) {
+    async onConfirmBlock(value) {
       //确认区
-      console.log("确认区");
-      console.log(index);
       this.params.country = value.areaId;
       this.params.countryName = value.areaName;
       this.blockpicker = false;

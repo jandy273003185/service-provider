@@ -289,10 +289,12 @@ onSearch(){////将this.value传到后台
           //请求分页数据数据
           this.shopList=[]; //清空数组
           this.customShow = false;
+          console.log(this.customShow);
           setTimeout(function (){
             console.log("自定义");
             this.customShow = true;
-          },13);
+            console.log(this.customShow);
+          },20);
         }else {
           Dialog({ message: '查看的开始时间必须小于或等于结束时间！！' })
         }

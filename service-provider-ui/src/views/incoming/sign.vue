@@ -101,17 +101,21 @@ export default {
         message: "请确认是否保存？"
       })
         .then(() => {
-          let prolist = this.checkSignGoods();
-          let fullParams = Object.assign(this.incoming, this.params, {
-            roleId: this.roleId,
-            state: "05"
-          });
-          console.log(JSON.stringify(prolist));
-          fullParams.productInfos = JSON.stringify(prolist); //产品
-          let custScanCopys = util.getAllPhotos(this.savephotos); //图片
-          fullParams.custScanCopys = custScanCopys;
-          this.$store.commit("setincoming", fullParams);
-          this.insertIncoming(fullParams); //提交请求
+          let count = 0;
+          if (count < 1) {
+            count++;
+            let prolist = this.checkSignGoods();
+            let fullParams = Object.assign(this.incoming, this.params, {
+              roleId: this.roleId,
+              state: "05"
+            });
+            console.log(JSON.stringify(prolist));
+            fullParams.productInfos = JSON.stringify(prolist); //产品
+            let custScanCopys = util.getAllPhotos(this.savephotos); //图片
+            fullParams.custScanCopys = custScanCopys;
+            this.$store.commit("setincoming", fullParams);
+            this.insertIncoming(fullParams); //提交请求
+          }
         })
         .catch(() => {
           // on cancel
@@ -126,18 +130,22 @@ export default {
           message: "请确认是否提交？"
         })
           .then(() => {
-            let prolist = this.checkSignGoods();
-            if (prolist.length > 0) {
-              let fullParams = Object.assign(this.incoming, this.params, {
-                roleId: this.roleId,
-                state: state,
-                custId: this.custId
-              });
-              fullParams.productInfos = JSON.stringify(prolist); //产品
-              let custScanCopys = util.getAllPhotos(this.savephotos); //图片
-              fullParams.custScanCopys = custScanCopys;
-              this.$store.commit("setincoming", fullParams);
-              this.insertIncoming(fullParams); //提交请求
+            let count = 0;
+            if (count < 1) {
+              count++;
+              let prolist = this.checkSignGoods();
+              if (prolist.length > 0) {
+                let fullParams = Object.assign(this.incoming, this.params, {
+                  roleId: this.roleId,
+                  state: state,
+                  custId: this.custId
+                });
+                fullParams.productInfos = JSON.stringify(prolist); //产品
+                let custScanCopys = util.getAllPhotos(this.savephotos); //图片
+                fullParams.custScanCopys = custScanCopys;
+                this.$store.commit("setincoming", fullParams);
+                this.insertIncoming(fullParams); //提交请求
+              }
             }
           })
           .catch(() => {
@@ -154,11 +162,11 @@ export default {
         this.$toast.success("成功");
         if (this.roleId == "3") {
           //业务员
-            this.$router.push("/salesman");
+          this.$router.push("/salesman");
         }
         if (this.roleId == "2") {
           //管理员
-            this.$router.push("/Administrator");
+          this.$router.push("/Administrator");
         }
       } else {
         this.$toast("进件信息添加失败！");
