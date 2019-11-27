@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <van-tabs v-model="active" swipeable @click="changeTab" title-active-color="#699dd7" color="#699dd7">
+      <van-tabs v-model="active" swipeable @change="changeTab" title-active-color="#699dd7" color="#699dd7">
         <van-tab title="全部">
           <ul>
             <van-list v-if="active==0"
@@ -251,14 +251,14 @@ export default {
       this.timeStart='';//选取的开始时间
       this.timeEnd='';//选取的结束时间
       this.mchName='';//搜索的商户名
-      this.allStateList=[]//清空数组
+      this.allStateList=[];//清空数组
+      console.log('tab');
     },
 
     //tab栏调用请求
 
     loadList(){
       this.pageNum+=1;
-      console.log(this.pageNum);
       this.getAllShopList();
     },
 
@@ -315,6 +315,7 @@ export default {
         this.pageNum=1;
         this.timeStart='';//选取的开始时间
         this.timeEnd='';
+        this.allStateList=[];
         this.getAllShopList();
       }else {
         this.$toast('请输入商户名称');

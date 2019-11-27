@@ -75,6 +75,7 @@ export default {
                 this.pageNum=1;
                 this.timeStart='';//选取的开始时间
                 this.timeEnd='';
+                this.statesList=[];//重新搜索时将数据清空
                 this.active = true;
                 this.getAllShopList();
             }else {
@@ -100,8 +101,6 @@ export default {
             let total=listInfo.data.resultMsg.total;
             let list = listInfo.data.resultMsg.data;
             this.statesList = this.statesList.concat(list);
-
-
             console.log(listInfo.data.resultMsg.list);
             console.log(this.statesList.length);
             this.loading = false;
