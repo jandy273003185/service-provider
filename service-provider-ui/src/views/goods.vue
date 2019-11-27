@@ -290,8 +290,9 @@ onSearch(){////将this.value传到后台
           this.shopList=[]; //清空数组
           this.customShow = false;
           setTimeout(function (){
+            console.log("自定义");
             this.customShow = true;
-          },0);
+          },13);
         }else {
           Dialog({ message: '查看的开始时间必须小于或等于结束时间！！' })
         }
