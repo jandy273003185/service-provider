@@ -274,11 +274,18 @@ public class AgentController {
         map.put("bankProvinces",bankProvinces);
         //查询银行总行支行信息
         Bank bank = bankInfoService.selectBankByBankCode(custInfo.getCompAcctBank());
-        bank.setBranchBankCode(custInfo.getBranchBank());
-        bank.setCityCode(custInfo.getBankCityName());
-        List<Bank> banks = bankInfoService.selectBranchBanks(bank);
-        banks.add(bank);
-        map.put("banks",banks);
+        if (bank != null) {
+            bank.setBranchBankCode(custInfo.getBranchBank());
+            bank.setCityCode(custInfo.getBankCityName());
+            List<Bank> banks = bankInfoService.selectBranchBanks(bank);
+            if (banks.size()>0) {
+                for (Bank bank1 : banks) {
+                    bank1.setBankCode(bank.getBankCode());
+                    bank1.setBankName(bank.getBankName());
+                }
+            }
+            map.put("banks",banks);
+        }
         //查询商户签约产品
         TdMerchantProductInfo tdMerchantProductInfo = new TdMerchantProductInfo();
         tdMerchantProductInfo.setMchCustId(tdCustInfo.getCustId());
