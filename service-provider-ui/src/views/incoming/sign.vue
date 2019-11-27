@@ -156,20 +156,19 @@ export default {
       }
     },
     async insertIncoming(params) {
-      console.log("请求开始");
       let info = await incoming.insertIncoming(params);
       if (info.data.resultCode == 1) {
         this.$toast.success("成功");
-        if (this.roleId == "3") {
-          //业务员
-          this.$router.push("/salesman");
-        }
-        if (this.roleId == "2") {
-          //管理员
-          this.$router.push("/Administrator");
-        }
       } else {
         this.$toast("进件信息添加失败！");
+      }
+      if (this.roleId == "3") {
+        //业务员
+        this.$router.push("/salesman");
+      }
+      if (this.roleId == "2") {
+        //管理员
+        this.$router.push("/Administrator");
       }
     },
     checkSignGoods() {
