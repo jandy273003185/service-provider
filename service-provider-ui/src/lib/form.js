@@ -35,7 +35,6 @@ const form = {
    throttle: function (fn, delay) { //节流函数
     let delays = delay || 800,
       timer=null;
-      console.log("ss");
     return function () {
       const context=this;
       let args=arguments;
