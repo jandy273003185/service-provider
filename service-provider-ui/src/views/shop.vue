@@ -223,8 +223,7 @@ export default {
       type:'',
      intoRole:'',
       /*商户审核信息*/
-      allStateList:[{
-      }]
+      allStateList:[]
     };
   },
 
