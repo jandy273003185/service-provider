@@ -76,13 +76,13 @@ const util = {
         obj[name] = [{
           url: urlHead + "" + imgname,
         }]
+        if (name != 'businessLicense') {
+          that.params[name] = urlHead + "" + imgname;
+        }
       }
       /*  that.photos[name] = [{
          url: urlHead + "" + imgname
        }]; */
-      if (name != 'businessLicense') {
-        that.params[name] = urlHead + "" + imgname;
-      }
     }
     return obj;
   },
@@ -90,7 +90,7 @@ const util = {
     let custScanCopys = [];
     let certifyType;
     for (let key in obj) {
-      console.log(key);
+      console.log(obj[key][0].url);
       switch (key) {
         case "businessLicense": //营业执照
           certifyType = "02";
@@ -128,12 +128,15 @@ const util = {
         default:
           certifyType = "";
       }
-      let imgObj = {
-        certifyType: certifyType,
-        scanCopyPath: this.getImgName(obj[key][0].url),
-        certifyNo: ""
-      };
-      custScanCopys.push(imgObj);
+      if(obj[key][0].url){
+        let imgObj = {
+          certifyType: certifyType,
+          scanCopyPath: this.getImgName(obj[key][0].url),
+          certifyNo: ""
+        };
+        custScanCopys.push(imgObj);
+      }
+    
     }
     console.log(custScanCopys);
     return JSON.stringify(custScanCopys);
