@@ -288,7 +288,6 @@ onSearch(){////将this.value传到后台
           console.log(this.timeStart,this.timeEnd);
           //请求分页数据数据
           this.shopList=[]; //清空数组
-
           console.log(this.customShow);
           this.customShow = true;//打开list,重新请求数据
           console.log(this.customShow);
