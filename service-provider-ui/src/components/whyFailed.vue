@@ -2,9 +2,10 @@
   <div class="failedBox">
     <van-nav-bar class="navBar" left-text="返回" title="详情"  left-arrow @click-left="onClickLeft" />
     <div class="failed">
-      <img src="../assets/images/home/warning.png" alt="失败" />
+
       <div>
-        <span>审核失败原因</span>
+        <img src="../assets/images/home/warning.png" alt="失败" />
+        <span class="time">审核失败原因</span>
         <span class="font_E">{{allInfoList.audit_time}}</span>
       </div>
       <div>
@@ -12,7 +13,7 @@
       </div>
     </div>
     <div class="buttonBox">
-      <van-button color="#699dd7" type="primary" @click="toUpdatePage" size="large">更新资料</van-button>
+      <button  @click="toUpdatePage" >更新资料</button>
       <div class="retuan" @click="onClickLeft">返回</div>
     </div>
   </div>
@@ -62,7 +63,6 @@ export default {
 @import '../style/common/base.styl';
 
 .failedBox {
-  background-color: #eeeeee;
 
   .failed {
     width: 100%;
@@ -70,23 +70,29 @@ export default {
     margin: vw(20) auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     background-color: #ffffff;
 
-    img {
-      width: vw(120);
-      height: vw(120);
-    }
+
 
     div {
+      width 90%
       display: flex;
       flex-direction: column;
       justify-content: space-around;
       align-items: center;
-
+      flex-wrap: wrap;
+      img {
+        width: vw(120);
+        height: vw(120);
+      }
+      .time{
+        margin-top vw(20)
+      }
       .font_E {
-        color: #9a9a9a;
+        color: #767676;
+        margin-top vw(20)
       }
     }
   }
@@ -94,14 +100,26 @@ export default {
   .buttonBox {
     width: 90%;
     margin: vw(60) auto;
-    height: vw(170);
+    height: vw(150);
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-
+    font-size vw(34)
+    button{
+      height vw(70)
+      width 100%
+      color #fff
+      border-radius vw(5)
+      background-color: #699dd7;
+    }
     .retuan {
       color: #699dd7;
+      width vw(100)
+      height vw(50)
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 }
