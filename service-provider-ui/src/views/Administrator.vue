@@ -35,10 +35,10 @@
                 </div>
                 <div>
                   <span
-                      :style="'width:'+(parseFloat(item.effectiveNum)*100/sumMax)+'%'"
+                      :style="'width:'+(parseFloat(item.tradeAmtSum)*100/sumMax)+'%'"
                       class="process"
                   ></span>
-                  <span class="sum">{{ item.effectiveNum }}元</span>
+                  <span class="sum">{{ item.tradeAmtSum }}元</span>
                 </div>
               </li>
             </ul>
@@ -49,13 +49,13 @@
               <li v-for="(item, index) in numList" :key="index">
                 <div>
                   <span class="num">NO.{{ index+1 }}</span>
-                  <span class="name">{{ item.name }}</span>
+                  <span class="name">{{ item.userName }}</span>
                 </div>
                 <div>
-                    <span :style="'width:'+(parseFloat(item.sum)*100/numMax)+'%'"
+                    <span :style="'width:'+(parseFloat(item.effectiveNum)*100/numMax)+'%'"
                           class="process">
                     </span>
-                  <span class="sum">{{ item.sum }}件</span>
+                  <span class="sum">{{ item.effectiveNum }}件</span>
                 </div>
               </li>
             </ul>
