@@ -87,7 +87,7 @@ public class CommonController {
             return new ResultBean("1",banks);
         }
         Bank bankHeadOffice = bankInfoService.selectBankByBankCode(bank.getBankCode());
-        return new ResultBean("0",bankHeadOffice);
+        return new ResultBean("1",bankHeadOffice);
     }
 
     /**
