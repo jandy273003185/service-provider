@@ -343,6 +343,8 @@ export default {
         let newPhotos = this.photos;
         this.setPhotos(newPhotos);
         this.$router.push("legalInfo");
+      }else{
+        this.$toast("请检查填写的信息得正确性！");
       }
     },
     async checkPhone(merchantAccount) {
