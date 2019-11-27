@@ -136,7 +136,7 @@
             if(this.$store.state.userId){
               this.logined = true;
               this.islogin = true;
-              this.getSalesRanking("0");
+              this.getSalesRanking("1");
             }else {
               this.firstLogin({
                 openId: this.$store.state.openId,
