@@ -2,6 +2,7 @@ package com.sevenpay.agentmanager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.qifenqian.app.bean.*;
+import com.qifenqian.app.common.BankInfoService;
 import com.qifenqian.app.customer.MerchantInfoService;
 import com.qifenqian.app.customer.MerchantStatusService;
 import com.qifenqian.app.customer.SalesmanManagerService;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import sun.swing.BakedArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -41,7 +43,8 @@ public class AgentController {
     private MerchantStatusService merchantStatusService;
     @Reference
     private SalesmanManagerService salesmanManagerService;
-
+    @Reference
+    private BankInfoService bankInfoService;
 
     @Value("${images.uri}")
     private String uri;
@@ -269,6 +272,13 @@ public class AgentController {
         tbBankProvincesInfoBean.setBankProvinceId(custInfo.getBankProvinceName());
         List<TbBankProvincesInfoBean> bankProvinces = merchantInfoService.getBankProvinces(tbBankProvincesInfoBean);
         map.put("bankProvinces",bankProvinces);
+        //查询银行总行支行信息
+        Bank bank = bankInfoService.selectBankByBankCode(custInfo.getCompAcctBank());
+        bank.setBranchBankCode(custInfo.getBranchBank());
+        bank.setCityCode(custInfo.getBankCityName());
+        List<Bank> banks = bankInfoService.selectBranchBanks(bank);
+        banks.add(bank);
+        map.put("banks",banks);
         //查询商户签约产品
         TdMerchantProductInfo tdMerchantProductInfo = new TdMerchantProductInfo();
         tdMerchantProductInfo.setMchCustId(tdCustInfo.getCustId());
