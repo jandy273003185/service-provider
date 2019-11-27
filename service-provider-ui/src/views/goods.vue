@@ -24,9 +24,9 @@
             <img src="../assets/images/home/up_down.png" alt="">
           </div>
         </div>
-        <van-tab title="全部"  name="a">
+        <van-tab title="全部">
           <ul>
-            <van-list v-if="allShow"
+            <van-list v-if="active=='0'"
                       v-model="loading"
                       :finished="finished"
                       finished-text="暂无更多数据"
@@ -43,9 +43,9 @@
             </van-list>
           </ul>
         </van-tab>
-        <van-tab title="近7天"  name="b">
+        <van-tab title="近7天">
           <ul>
-            <van-list v-if="active=='b'"
+            <van-list v-if="active=='1'"
                       v-model="loading"
                       :finished="finished"
                       finished-text="暂无更多数据"
@@ -62,9 +62,9 @@
             </van-list>
         </ul>
         </van-tab>
-        <van-tab title="近30天"  name="c">
+        <van-tab title="近30天">
           <ul>
-            <van-list v-if="active=='c'"
+            <van-list v-if="active==2"
                       v-model="loading"
                       :finished="finished"
                       finished-text="暂无更多数据"
@@ -81,7 +81,7 @@
             </van-list>
         </ul>
         </van-tab>
-        <van-tab title="自定义时间" name="d" >
+        <van-tab title="自定义时间" >
           <ul>
             <van-list v-if="customShow"
                       v-model="loading"
@@ -159,7 +159,7 @@ export default {
       showTime:false,//点击选取时间时打开的遮罩层判断
       type:'',
       customShow:false, //自定义栏是否请求数据，默认false，选取时间后为true
-      allShow:true,//全部数据栏是否请求数据，默认false，选取时间后为true
+      /*allShow:true,//全部数据栏是否请求数据，默认false，选取时间后为true*/
       Numranking:false,
       Amountranking:false,
       selectRank:'transactionNum',
@@ -246,7 +246,7 @@ onSearch(){////将this.value传到后台
 },
 
     //时间选择函数
-    showPopFn(tm) {//点击打开日历，通过传值tm判断是开始时间还是结束时间
+    showPopFn(tm) {//点击选项（开始时间或者结束时间）打开日历，通过传值tm判断是开始时间还是结束时间
       this.show = true;
       this.type = tm;
     },
@@ -264,7 +264,7 @@ onSearch(){////将this.value传到后台
       }
       this.show = false;
     },
-    cancelFn(){//取消按钮
+    cancelFn(){//日历上的取消按钮
       this.show = false;
     },
     timer(time){//将个位数日期变两位数
@@ -346,22 +346,21 @@ onSearch(){////将this.value传到后台
     },
 
 
-    onClick(name) {//点击切换tab，数据初始化
-      this.allShow = false;
+    onClick() {//点击切换tab，数据初始化
+      /*this.allShow = false;*/
       this.customShow = false;
-      console.log(name);
-      if(name=='a'){
-        this.allShow = true;
+      console.log(this.active);
+      if(this.active==0){
         this.timeEnd='';
         this.timeStart='';
       }
-      if(name=='b'){
+      if(this.active==1){
         this.time_7();
       }
-      if(name=='c'){
+      if(this.active==2){
         this.time_30();
       }
-      if(name=='d'){
+      if(this.active==3){
         this.showTime = true;
       }
       this.loading=false;
