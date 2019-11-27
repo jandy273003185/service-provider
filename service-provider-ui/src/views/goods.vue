@@ -13,7 +13,9 @@
           <div slot="action">搜索</div>
         </van-search>
       </div>
-      <van-tabs class="p_f" v-model="active" swipeable @change="onClick"  title-active-color="#699dd7" color="#699dd7" >
+      <van-tabs class="p_f" v-model="active" swipeable @change="onClick" @click="clickCustom"
+                title-active-color="#699dd7"
+                color="#699dd7" >
         <div class="sunxu">
           <div :class="{rank:selectRank=='transactionNum'}" @click="number">
             <span>笔数排名</span>
@@ -188,7 +190,7 @@ export default {
     //请求商户交易数据
     async getAllShopList(){
       const params = {
-        custName:this.mchName,//商户名
+        custName:'',//商户名
         queryStartDate:this.timeStart,//开始时间
         queryEndDate:this.timeEnd,//结束时间
         userId:this.userId,//用户Id
@@ -206,11 +208,7 @@ export default {
       }
       console.log(listInfo);
       let list= listInfo.data.resultMsg.data;
-      console.log("before");
-      console.log(this.shopList);
       this.shopList = this.shopList.concat(list);
-      console.log("after");
-      console.log(this.shopList);
       let total=listInfo.data.resultMsg.total;
 
       this.loading = false;
@@ -289,7 +287,11 @@ onSearch(){////将this.value传到后台
           this.showTime = false;
           console.log(this.timeStart,this.timeEnd);
           //请求分页数据数据
-          this.customShow = true;
+          this.shopList=[]; //清空数组
+          this.customShow = false;
+          setTimeout(function (){
+            this.customShow = true;
+          },0);
         }else {
           Dialog({ message: '查看的开始时间必须小于或等于结束时间！！' })
         }
@@ -346,7 +348,7 @@ onSearch(){////将this.value传到后台
     },
 
 
-    onClick() {//点击切换tab，数据初始化
+    onClick() {//滑动切换tab，数据初始化
       /*this.allShow = false;*/
       this.customShow = false;
       console.log(this.active);
@@ -366,9 +368,19 @@ onSearch(){////将this.value传到后台
       this.loading=false;
       this.finished=false;
       this.pageNum=0;//页码重置
-      this.mchName='';//搜索的商户名
+      /*this.mchName='';//搜索的商户名*/
       this.shopList=[]; //清空数组
 
+    },
+    clickCustom(){//查看多次自定义时间
+      if(this.active==3){
+        this.showTime = true;
+        this.loading=false;
+        this.finished=false;
+        this.pageNum=0;//页码重置
+       /* this.mchName='';//搜索的商户名*/
+
+      }
     }
   }
 };
