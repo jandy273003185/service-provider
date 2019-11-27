@@ -13,7 +13,7 @@
           <div slot="action">搜索</div>
         </van-search>
       </div>
-      <van-tabs class="p_f" v-model="active" swipeable @click="onClick"  title-active-color="#699dd7" color="#699dd7" >
+      <van-tabs class="p_f" v-model="active" swipeable @change="onClick"  title-active-color="#699dd7" color="#699dd7" >
         <div class="sunxu">
           <div :class="{rank:selectRank=='transactionNum'}" @click="number">
             <span>笔数排名</span>
