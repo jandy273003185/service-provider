@@ -35,10 +35,10 @@
                 </div>
                 <div>
                   <span
-                      :style="'width:'+(parseFloat(item.effectiveNum)*100/sumMax)+'%'"
+                      :style="'width:'+(parseFloat(item.tradeAmtSum)*100/sumMax)+'%'"
                       class="process"
                   ></span>
-                  <span class="sum">{{ item.effectiveNum }}元</span>
+                  <span class="sum">{{ item.tradeAmtSum }}元</span>
                 </div>
               </li>
             </ul>
@@ -49,13 +49,13 @@
               <li v-for="(item, index) in numList" :key="index">
                 <div>
                   <span class="num">NO.{{ index+1 }}</span>
-                  <span class="name">{{ item.name }}</span>
+                  <span class="name">{{ item.userName }}</span>
                 </div>
                 <div>
-                    <span :style="'width:'+(parseFloat(item.sum)*100/numMax)+'%'"
+                    <span :style="'width:'+(parseFloat(item.effectiveNum)*100/numMax)+'%'"
                           class="process">
                     </span>
-                  <span class="sum">{{ item.sum }}件</span>
+                  <span class="sum">{{ item.effectiveNum }}件</span>
                 </div>
               </li>
             </ul>
@@ -136,7 +136,7 @@
             if(this.$store.state.userId){
               this.logined = true;
               this.islogin = true;
-              this.getSalesRanking("0");
+              this.getSalesRanking("1");
             }else {
               this.firstLogin({
                 openId: this.$store.state.openId,
@@ -183,7 +183,13 @@
         }
       ,
         channgeTab(e){
-          this.getSalesRanking(e);
+          console.log(e);
+          if(e=='0'){
+            this.getSalesRanking(1);
+          }
+          if(e=='1'){
+            this.getSalesRanking(0);
+          }
         }
       ,
         getDataRange(obj){
@@ -191,7 +197,7 @@
           this.queryStartDate = obj.timeStart;
           this.queryEndDate = obj.timeEnd;
           this.sortType = 0;
-          this.getSalesRanking("0");
+          this.getSalesRanking("1");
         }
       ,
         toIncoming(){
@@ -215,7 +221,7 @@
         async getSalesRanking(type) {
           //业务员排名
           const params = {
-            sortType: type || this.sortType,
+            sortType: type ,
             userId: this.$store.state.userId,
             queryStartDate: this.queryStartDate,
             queryEndDate: this.queryEndDate,
@@ -224,7 +230,7 @@
           let sales = await adminIndex.SalesRanking(params);
           let list = sales.data.resultMsg;
           console.log(list);
-          if (type == "0" || this.sortType == "0") {
+          if (type == "1") {
             if (list[0] && list[0].effectiveNum) {
               this.sumMax = parseFloat(list[0].effectiveNum) * 1.5;
             }
@@ -233,7 +239,7 @@
             }
             this.sumList = list;
           }
-          if (type == "1" || this.sortType == "1") {
+          if (type == "0") {
             if (list[0] && list[0].effectiveNum) {
               this.numMax = parseFloat(list[0].effectiveNum) * 1.5;
             }
@@ -260,7 +266,7 @@
             storage.set("userId", userData.data.resultMsg.userId);
             console.log(storage.get("userId"));
             this.islogin = true;
-            this.getSalesRanking("0");
+            this.getSalesRanking("1");
           }
           if (userData.data.resultCode == "2") {//业务员进入了管理员入口
             const _this = this;

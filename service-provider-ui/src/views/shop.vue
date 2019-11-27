@@ -223,8 +223,7 @@ export default {
       type:'',
      intoRole:'',
       /*商户审核信息*/
-      allStateList:[{
-      }]
+      allStateList:[]
     };
   },
 
@@ -244,7 +243,7 @@ export default {
   methods: {
 
     //tab栏切换时重置参数信息
-    changeTab(){
+    changeTab(){//绑定到change事件中，滑动和点击tab时均可以触发
       this.loading=false;
       this.finished=false;
       this.pageNum=0;//页码重置
@@ -252,7 +251,6 @@ export default {
       this.timeEnd='';//选取的结束时间
       this.mchName='';//搜索的商户名
       this.allStateList=[];//清空数组
-      console.log('tab');
     },
 
     //tab栏调用请求
