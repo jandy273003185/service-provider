@@ -15,7 +15,7 @@
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.compAcctBank)}">开户银行</span>
           <!-- v-model="params.compAcctBank" -->
-          <input v-model.trim="bankName" placeholder="请输入开户银行" />
+          <input v-model.trim="params.bankName" placeholder="请输入开户银行" />
         </div>
         <van-picker
           v-show="bankpicker"
@@ -59,14 +59,19 @@
         />
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.branchBank)}">开户支行</span>
-          <input v-model="bankbranchName" readonly placeholder="选择开户支行" @click="getBankBranch" />
+          <input
+            v-model="params.bankbranchName"
+            readonly
+            placeholder="选择开户支行"
+            @click="getBankBranch"
+          />
         </div>
         <van-picker
           v-show="bankbranchpicker"
           show-toolbar
           title="开户支行"
           :columns="bankbranchList"
-          value-key="bankName"
+          value-key="branchBankName"
           @cancel="onCancelBankbranch"
           @confirm="onConfirmBankbranch"
         />
@@ -147,8 +152,7 @@ export default {
       bankbranchList: [],
       provinceId: "",
       cityId: "",
-      bankName: "",
-      bankbranchName: "",
+      canChange: false,
       photos: {
         licenceForOpeningAccounts: [],
         bankCardFront: []
@@ -162,6 +166,8 @@ export default {
         bankCityShow: "",
         branchBank: "",
         bankAcctName: "",
+        bankName: "", //显示 开户行
+        bankbranchName: "", //显示  支行
         compMainAcctType: "",
         licenceForOpeningAccounts: "",
         bankCardFront: ""
@@ -172,8 +178,14 @@ export default {
     ...mapState(["checkedState", "incoming", "incomingReturn", "savephotos"])
   },
   watch: {
-    bankName: function(val) {
-      this.changeBankHead(val);
+    "params.bankName": function(newVal, oldVal) {
+      if (newVal && oldVal) {
+        this.changeBankHead(newVal);
+      } else {
+        if (this.canChange) {
+          this.changeBankHead(newVal);
+        }
+      }
     }
   },
   created() {
@@ -206,17 +218,16 @@ export default {
     },
     getBankName(cardNo) {
       //识别银行卡号
+      this.canChange = true;
       if (cardNo && cardNo.length > 0) {
         let bank = bankInfo(cardNo);
         if (bank && bank.bankName) {
-          this.bankName = bank.bankName;
+          this.params.bankName = bank.bankName;
         } else {
-          this.bankName = "";
+          this.params.bankName = "";
+          this.bankList = [];
           this.$toast("请检查您结算账号！");
         }
-      } else {
-        this.bankName = "";
-        this.bankList = [];
       }
     },
     async changeBankHead(name = "") {
@@ -224,30 +235,34 @@ export default {
       if (res.data.resultCode == 1) {
         this.bankpicker = true;
         this.bankList = res.data.resultMsg;
-      }else{
+        this.bankbranchName = ""; //清除支行数据
+        this.params.branchBank = "";
+        this.bankbranchpicker = false;
+      } else {
         this.$toast("无法获取开户银行");
       }
     },
     onCancelBank() {
       //开户行取消
-      this.bankName = "";
+      this.params.bankName = "";
       this.params.compAcctBank = "";
       this.bankpicker = false;
     },
     onConfirmBank(value) {
       //开户行确认
+      this.params.bankName = value.bankName;
       this.params.compAcctBank = value.bankCode;
       this.bankpicker = false;
-      if (this.bankName != value.bankName) {
-        this.bankName = value.bankName;
-      }
+      this.params.bankbranchName = ""; //清除支行数据
+      this.params.branchBank = "";
+      this.bankbranchpicker = false;
     },
     async getBankBranch() {
       //获取支行信息
       if (!this.params.compAcctBank || !this.params.bankCityName) {
         this.$toast("请确认是否选择省市及开户行！");
       } else {
-        if (this.provincepicker||this.citypicker) {
+        if (this.provincepicker || this.citypicker) {
           this.$toast("请先确认省市！");
         } else {
           let res = await incoming.bankBranch({
@@ -269,13 +284,12 @@ export default {
     },
     onConfirmBankbranch(value) {
       //确认支行
-      if (this.bankbranchName != value.bankName) {
-        this.bankbranchName = value.bankName;
-      }
-      this.params.branchBank = value.bankCode;
+      this.params.bankbranchName = value.branchBankName;
+      this.params.branchBank = value.branchBankCode;
       this.bankbranchpicker = false;
     },
-    async getInitAddress() {//获取省份
+    async getInitAddress() {
+      //获取省份
       if (this.bankpicker) {
         this.$toast("请确认开户银行！");
       } else {
@@ -305,26 +319,24 @@ export default {
       this.citypicker = false;
       this.blockpicker = false;
     },
-    async onConfirmProvince(value, index) {
+    async onConfirmProvince(value) {
       //确认省
-      console.log("确认省份");
       this.params.bankProvinceName = value.bankProvinceId;
       this.params.bankProvinceShow = value.bankProvinceName;
       this.params.bankCityName = ""; //清除市数据
       this.params.bankCityShow = "";
       this.provincepicker = false;
-      this.bankbranchName = ""; //清除支行数据
+      this.params.bankbranchName = ""; //清除支行数据
       this.params.branchBank = "";
       this.bankbranchpicker = false;
     },
 
-    async onConfirmCity(value, index) {
+    async onConfirmCity(value) {
       //确认市
-      console.log("确认市");
       this.params.bankCityName = value.bankCityId;
       this.params.bankCityShow = value.bankCityName;
       this.citypicker = false;
-       this.bankbranchName = ""; //清除支行数据
+      this.params.bankbranchName = ""; //清除支行数据
       this.params.branchBank = "";
       this.bankbranchpicker = false;
     },
