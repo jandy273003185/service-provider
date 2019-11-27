@@ -1,6 +1,6 @@
 <template>
   <div class="failedBox">
-    <van-nav-bar class="navBar" left-text="详情" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar class="navBar" left-text="返回" title="详情"  left-arrow @click-left="onClickLeft" />
     <div class="failed">
       <img src="../assets/images/home/warning.png" alt="失败" />
       <div>
