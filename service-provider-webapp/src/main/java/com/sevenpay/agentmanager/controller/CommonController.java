@@ -99,11 +99,11 @@ public class CommonController {
     public ResultBean verifyCode(HttpServletRequest request, MessageDTO messageDTO){
         Date sendTime = (Date)request.getSession().getAttribute("REGISTER_VERIFY_SEND_TIME");
 
-        //短信发送间隔必须超过55s
-        if(null != sendTime && ToolsUtil.calTimeSec(new Date(), sendTime) < 55)
-        {
-            return new ResultBean("0","验证码发送间隔为60s");
-        }
+//        //短信发送间隔必须超过55s
+//        if(null != sendTime && ToolsUtil.calTimeSec(new Date(), sendTime) < 55)
+//        {
+//            return new ResultBean("0","验证码发送间隔为60s");
+//        }
 
         //生成验证码
         String smsVerifyCode = GenSN.getRandomNum(6);
