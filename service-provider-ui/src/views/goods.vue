@@ -288,13 +288,14 @@ onSearch(){////将this.value传到后台
           console.log(this.timeStart,this.timeEnd);
           //请求分页数据数据
           this.shopList=[]; //清空数组
-          this.customShow = false;
           console.log(this.customShow);
-          setTimeout(function (){
+          this.customShow = true;//打开list,重新请求数据
+          console.log(this.customShow);
+         /* setTimeout(function (){
             console.log("自定义");
-            this.customShow = true;
+            this.customShow = true;//打开list,重新请求数据
             console.log(this.customShow);
-          },20);
+          },20);*/
         }else {
           Dialog({ message: '查看的开始时间必须小于或等于结束时间！！' })
         }
@@ -381,7 +382,7 @@ onSearch(){////将this.value传到后台
         this.loading=false;
         this.finished=false;
         this.pageNum=0;//页码重置
-       /* this.mchName='';//搜索的商户名*/
+        this.customShow = false;//关闭掉list
 
       }
     }

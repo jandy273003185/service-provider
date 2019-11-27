@@ -1,6 +1,6 @@
 <template>
     <div>
-        <van-nav-bar class="navBar" left-text="搜索商户"  left-arrow @click-left="onClickLeft"/>
+        <van-nav-bar class="navBar" left-text="返回" title="搜索商户"  left-arrow @click-left="onClickLeft"/>
         <van-search
                 v-model="value"
                 placeholder="请输入商户名称"
