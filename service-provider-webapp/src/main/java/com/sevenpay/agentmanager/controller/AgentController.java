@@ -194,13 +194,14 @@ public class AgentController {
             tdCustInfo.setMerchantMobile(tdCustInfo.getMerchantAccount());
             Map<String, Object> map = merchantInfoService.merchantAdd(tdCustInfo);
             String custId = (String) map.get("custId");//商户编号
-            Integer authId = (Integer) map.get("authId");//图片与商户对应的自增长Id
+            Object authId = map.get("authId");//图片与商户对应的自增长Id
+
             if (custId != null) {
                 //扫描件路径保存
                 List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request, custId);
                 if (scanCopyList != null) {
                     for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
-                        tdCustScanCopy.setAuthId(authId);
+                        tdCustScanCopy.setAuthId((int)authId);
                         merchantInfoService.saveTdCustScanCopy(tdCustScanCopy);
                     }
                 }
