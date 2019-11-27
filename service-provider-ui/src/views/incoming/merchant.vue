@@ -193,6 +193,7 @@ export default {
     this.photos = this.savephotos;
     if (this.checkedState == "corvidae") {
       let custInfo = this.incomingReturn.custInfo;
+      let banks=this.incomingReturn.banks[0];
       let photos = this.incomingReturn.custScanInfoList;
       let urlHead = this.incomingReturn.uri + "" + this.incomingReturn.url;
       util.getPhotos(this, urlHead, photos);
@@ -206,8 +207,8 @@ export default {
         bankCityShow: bankProvinces.bankCityName,//市 显示
         branchBank: custInfo.branchBank,//开户支行
         bankAcctName: custInfo.bankAcctName,//开户人
-        bankName:custInfo, //显示 开户行
-        bankbranchName: custInfo, //显示  支行
+        bankName:banks.bankName, //显示 开户行
+        bankbranchName:banks.branchBankName, //显示  支行
         compMainAcctType: custInfo.compMainAcctType
       };
       this.params = Object.assign(this.params, params);
@@ -366,6 +367,8 @@ export default {
         this.$store.commit("setPhotos", this.photos);
         this.$store.commit("setCheckedState", this.checkedState);
         this.$router.push("sign");
+      }else{
+         this.$toast("请检查填写的信息得正确性！");
       }
     },
     deleteImg(file, detail) {
