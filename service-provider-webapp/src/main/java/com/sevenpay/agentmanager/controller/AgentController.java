@@ -280,7 +280,6 @@ public class AgentController {
         Bank bank = bankInfoService.selectBankByBankCode(custInfo.getCompAcctBank());
         if (bank != null) {
             bank.setBranchBankCode(custInfo.getBranchBank());
-            bank.setCityCode(custInfo.getBankCityName());
             List<Bank> banks = bankInfoService.selectBranchBanks(bank);
             if (banks.size()>0) {
                 for (Bank bank1 : banks) {
