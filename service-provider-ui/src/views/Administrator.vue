@@ -183,7 +183,13 @@
         }
       ,
         channgeTab(e){
-          this.getSalesRanking(e);
+          console.log(e);
+          if(e=='0'){
+            this.getSalesRanking(1);
+          }
+          if(e=='1'){
+            this.getSalesRanking(0);
+          }
         }
       ,
         getDataRange(obj){
@@ -191,7 +197,7 @@
           this.queryStartDate = obj.timeStart;
           this.queryEndDate = obj.timeEnd;
           this.sortType = 0;
-          this.getSalesRanking("0");
+          this.getSalesRanking("1");
         }
       ,
         toIncoming(){
@@ -215,7 +221,7 @@
         async getSalesRanking(type) {
           //业务员排名
           const params = {
-            sortType: type || this.sortType,
+            sortType: type ,
             userId: this.$store.state.userId,
             queryStartDate: this.queryStartDate,
             queryEndDate: this.queryEndDate,
@@ -224,7 +230,7 @@
           let sales = await adminIndex.SalesRanking(params);
           let list = sales.data.resultMsg;
           console.log(list);
-          if (type == "0" || this.sortType == "0") {
+          if (type == "1") {
             if (list[0] && list[0].effectiveNum) {
               this.sumMax = parseFloat(list[0].effectiveNum) * 1.5;
             }
@@ -233,7 +239,7 @@
             }
             this.sumList = list;
           }
-          if (type == "1" || this.sortType == "1") {
+          if (type == "0") {
             if (list[0] && list[0].effectiveNum) {
               this.numMax = parseFloat(list[0].effectiveNum) * 1.5;
             }
@@ -260,7 +266,7 @@
             storage.set("userId", userData.data.resultMsg.userId);
             console.log(storage.get("userId"));
             this.islogin = true;
-            this.getSalesRanking("0");
+            this.getSalesRanking("1");
           }
           if (userData.data.resultCode == "2") {//业务员进入了管理员入口
             const _this = this;
