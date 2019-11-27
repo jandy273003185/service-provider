@@ -8,7 +8,7 @@
                 placeholder="请输入商户名称"
                 show-action
                 shape="round"
-                @search=""
+                readonly
         >
           <div slot="action">搜索</div>
         </van-search>
@@ -197,7 +197,7 @@ export default {
         rankingCode:this.rankingCode,
         roleId:this.roleId
       };
-      var listInfo
+      var listInfo;
       if(this.roleId=='3'){
         listInfo= await goodsInfo.goodsInfo(params);
       }
@@ -205,13 +205,17 @@ export default {
          listInfo= await goodsInfo.allGoodsInfo(params);
       }
       console.log(listInfo);
-      this.shopList = listInfo.data.resultMsg.data;
+      let list= listInfo.data.resultMsg.data;
+      console.log("before");
+      console.log(this.shopList);
+      this.shopList = this.shopList.concat(list);
+      console.log("after");
+      console.log(this.shopList);
       let total=listInfo.data.resultMsg.total;
 
-      console.log(this.shopList);
+      this.loading = false;
       if(this.shopList.length>=total){//判断已加载完成
         this.finished=true;
-        this.loading = false;
       }
     },
 
@@ -324,6 +328,7 @@ onSearch(){////将this.value传到后台
         }
         this.selectRank = 'transactionNum';
         this.pageNum=1;
+        this.shopList=[];
         this.getAllShopList();
       },
 
@@ -336,6 +341,7 @@ onSearch(){////将this.value传到后台
       }
       this.selectRank = 'transactionAmount';
       this.pageNum=1;
+      this.shopList=[];
       this.getAllShopList();
     },
 

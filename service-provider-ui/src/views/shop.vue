@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <van-tabs v-model="active" swipeable @click="changeTab" title-active-color="#699dd7" color="#699dd7">
+      <van-tabs v-model="active" swipeable @change="changeTab" title-active-color="#699dd7" color="#699dd7">
         <van-tab title="全部">
           <ul>
             <van-list v-if="active==0"
@@ -251,14 +251,14 @@ export default {
       this.timeStart='';//选取的开始时间
       this.timeEnd='';//选取的结束时间
       this.mchName='';//搜索的商户名
-      this.allStateList=[]//清空数组
+      this.allStateList=[];//清空数组
+      console.log('tab');
     },
 
     //tab栏调用请求
 
     loadList(){
       this.pageNum+=1;
-      console.log(this.pageNum);
       this.getAllShopList();
     },
 
@@ -296,13 +296,15 @@ export default {
       if(this.intoRole=='2'){//管理员的商户数据
           listInfo=await shopAuditInfo.allShopAuditInfo(params);
       }
-      this.allStateList = listInfo.data.resultMsg.data;
+      let list= listInfo.data.resultMsg.data;
+      this.allStateList = this.allStateList.concat(list);
       let total=listInfo.data.resultMsg.total;
       console.log(listInfo);
+      this.loading = false;
       if(this.allStateList.length>=total){//判断已加载完成
         this.finished=true;
-        this.loading = false;
       }
+      
     },
 
   //搜索商户数据
@@ -313,6 +315,7 @@ export default {
         this.pageNum=1;
         this.timeStart='';//选取的开始时间
         this.timeEnd='';
+        this.allStateList=[];
         this.getAllShopList();
       }else {
         this.$toast('请输入商户名称');
@@ -330,7 +333,7 @@ export default {
       this.type = tm;
     },
     changeFn() { // 值变化是触发
-      this.changeDate = this.currentDate // Tue Sep 08 2020 00:00:00 GMT+0800 (中国标准时间)
+      this.changeDate = this.currentDate; // Tue Sep 08 2020 00:00:00 GMT+0800 (中国标准时间)
     },
     confirmFn() { // 日历上的确定按钮
       console.log(this.type);

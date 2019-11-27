@@ -87,10 +87,10 @@ const util = {
     return obj;
   },
   getAllPhotos(obj) { //提交图片集合
-    console.log(obj);
     let custScanCopys = [];
     let certifyType;
     for (let key in obj) {
+      console.log(key);
       switch (key) {
         case "businessLicense": //营业执照
           certifyType = "02";

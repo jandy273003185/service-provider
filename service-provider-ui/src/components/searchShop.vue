@@ -75,6 +75,7 @@ export default {
                 this.pageNum=1;
                 this.timeStart='';//选取的开始时间
                 this.timeEnd='';
+                this.statesList=[];//重新搜索时将数据清空
                 this.active = true;
                 this.getAllShopList();
             }else {
@@ -97,14 +98,14 @@ export default {
                 pageNum:this.pageNum,
                 roleId:this.roleId
             });
-            this.statesList = listInfo.data.resultMsg.data;
             let total=listInfo.data.resultMsg.total;
-
+            let list = listInfo.data.resultMsg.data;
+            this.statesList = this.statesList.concat(list);
             console.log(listInfo.data.resultMsg.list);
             console.log(this.statesList.length);
+            this.loading = false;
             if(this.statesList.length>=total){//判断已加载完成
                 this.finished=true;
-                this.loading = false;
             }
         },
         //查看审核失败信息和审核成功信息
