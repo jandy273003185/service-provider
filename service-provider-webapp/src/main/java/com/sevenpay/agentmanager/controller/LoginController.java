@@ -56,10 +56,10 @@ public class LoginController {
                 return new ResultBean<String>("0","账号或密码错误");
             }
            //查询该账号是否绑定openId
-//            boolean isBinding = loginManagerService.LogincheckIsBinding(userName, roleCode);
-//            if (isBinding) {
-//                return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
-//            }
+            boolean isBinding = loginManagerService.LogincheckIsBinding(userName, roleCode);
+            if (isBinding) {
+                return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
+            }
             UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
             if (ifbing!=null) {
                 if (ifbing.getIfUnbind().equals("0")){
@@ -95,11 +95,11 @@ public class LoginController {
             if(StringUtils.isEmpty(userInfo)){
                 return new ResultBean<String>("0","账号或密码错误");
             }
-//            //查询该账号是否绑定openId
-//            boolean isBinding = loginManagerService.LogincheckIsBinding(userName, roleCode);
-//            if (isBinding) {
-//                return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
-//            }
+            //查询该账号是否绑定openId
+            boolean isBinding = loginManagerService.LogincheckIsBinding(userName, roleCode);
+            if (isBinding) {
+                return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
+            }
             UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定过openId
             if (ifbing!=null) {
                 if (ifbing.getIfUnbind().equals("0")){
