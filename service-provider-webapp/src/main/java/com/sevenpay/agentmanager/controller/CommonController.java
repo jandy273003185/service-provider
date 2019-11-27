@@ -5,7 +5,6 @@ import com.qifenqian.app.bean.Bank;
 import com.qifenqian.app.bean.TbBankProvincesInfoBean;
 import com.qifenqian.app.bean.TbProvincesInfoBean;
 import com.qifenqian.app.bean.dto.MessageDTO;
-import com.qifenqian.app.bean.dto.MessageTemplate;
 import com.qifenqian.app.common.BankInfoService;
 import com.qifenqian.app.common.MessageManager;
 import com.qifenqian.app.customer.MerchantInfoService;
