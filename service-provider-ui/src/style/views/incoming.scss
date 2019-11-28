@@ -4,6 +4,9 @@
     padding-bottom: vw(60);
     clear: both;
 }
+.incoming input{
+    -webkit-user-select :none;
+}
 .stepInfo{
     clear: both;
 }
