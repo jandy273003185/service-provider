@@ -52,7 +52,8 @@
               <div>
                 <span class="shopName">{{ item.custName }}</span>
                 <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
+                <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
+                <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
               </div>
               <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
               <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -77,7 +78,8 @@
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                  <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -102,7 +104,8 @@
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                  <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -125,7 +128,8 @@
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                  <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -148,7 +152,8 @@
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                  <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
@@ -172,7 +177,8 @@
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
-                  <span v-if="intoRole=='2' " class="time">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
                 <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
                 <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
