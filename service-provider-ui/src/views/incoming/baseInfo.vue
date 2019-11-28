@@ -16,12 +16,22 @@
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
-          <select v-model="params.custType">
-            <option disabled value="">请选择</option>
+        <!--   <input type="text" v-model="params.custType" placeholder="请选择"/> -->
+          <select  v-model="params.custType">
+            <option  disabled value="">请选择</option>
             <option value="0">个人</option>
             <option value="1">企业</option>
           </select>
         </div>
+       <!--  <van-picker
+          v-if="provincepicker"
+          show-toolbar
+          title="商户类型"
+          :columns="provinceList"
+          value-key="provinceName"
+          @cancel="onCancelAdd"
+          @confirm="onConfirmProvince"
+        /> -->
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custName)}">商户名字</span>
           <input v-model="params.custName" placeholder="请输入商户名称" />

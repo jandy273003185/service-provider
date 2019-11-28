@@ -165,8 +165,8 @@ export default {
       endMs:'',//选取的结束时间的毫秒数
       showTime:false,//点击选取时间时打开的遮罩层判断
       type:'',
-      customShow:false, //自定义栏是否请求数据，默认false，选取时间后为true
-      /*allShow:true,//全部数据栏是否请求数据，默认false，选取时间后为true*/
+      customShow:true, //自定义栏是否请求数据，默认false，选取时间后为true
+      allShow:false,//全部数据栏是否请求数据，默认false，选取时间后为true
       Numranking:false,
       Amountranking:false,
       selectRank:'transactionNum',
@@ -241,6 +241,7 @@ onSearch(){////将this.value传到后台
     this.timeEnd='';
     this.timeStart='';
     this.shopList=[]; //清空数组
+    this.allShow = true;
     if(this.active!= 0){
       this.active = 0;
       this.pageNum=0;
@@ -363,6 +364,7 @@ onSearch(){////将this.value传到后台
       /*this.allShow = false;*/
       if(!this.isSearch){
         this.customShow = false;
+        this.allShow = false;
         console.log(this.active);
         if(this.active==0){
           this.timeEnd='';
@@ -391,6 +393,15 @@ onSearch(){////将this.value传到后台
         this.finished=false;
         this.pageNum=0;//页码重置
         this.customShow = false;//关闭掉list
+
+      }
+      if(this.allShow){//搜索后的’全部‘栏再次点击
+        this.mchName='';//搜索的商户名
+        this.loading=false;
+        this.finished=false;
+        this.shopList=[]; //清空数组
+        this.pageNum=1;
+        this.getAllShopList();
 
       }
     }

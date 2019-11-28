@@ -7,7 +7,7 @@
       @click-left="changePrepage"
       @click-right="onClickRight"
     >
-      <van-icon name="plus" slot="right" />
+      <van-icon name="add-o" slot="right" size="1.8em" />
     </van-nav-bar>
     <van-tabs v-model="tabActive" swipeable title-active-color="#699dd7" color="#699dd7">
       <van-tab title="未冻结">
