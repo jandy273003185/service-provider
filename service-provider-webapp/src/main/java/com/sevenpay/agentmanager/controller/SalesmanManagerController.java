@@ -128,10 +128,6 @@ public class SalesmanManagerController {
      */
     @RequestMapping("query")
     public ResultBean<List<TdSalesmanInfo>> queryTdSalesmanInfos(TdSalesmanInfo salesmanInfo){
-        Integer id = salesmanInfo.getId();
-        if (id != null) {
-            salesmanInfo.setSalesmanId(id.toString());
-        }
         List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(salesmanInfo);
         return new ResultBean<>("1",tdSalesmanInfos);
     }
