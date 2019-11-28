@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="31c26dcf-6863-4dbd-9209-1cdf0751eb35" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/assets/api/interface.js" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/assets/api/interface.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -276,6 +274,16 @@
     <option name="LAST_COMMIT_MESSAGE" value="jiangzonglin" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/service-provider-ui/src/views/goods.vue</url>
+          <line>252</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="roleId" />
