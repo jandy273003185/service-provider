@@ -54,6 +54,7 @@
                   <van-checkbox class="check" v-if="item.productId==1 && item.productStatus=='00' " v-model="checked" disabled>扫码产品</van-checkbox>
                   <span class="name" v-if="item.productStatus=='00'">结算费率：</span>
                   <input  type="text" v-if="item.productStatus=='00'"  v-model="item.productRate" readonly />
+                  <span class="unit">%</span>
                 </div>
                 <div class="sn" v-if="item.productId==8">
                   <span>SN:</span>
@@ -61,7 +62,6 @@
                 </div>
               </div>
             </div>
-
             <div class="signTit">待审核产品</div>
             <div v-for="(item,idx) in proList" :key="idx">
               <div v-if="item.productStatus=='01'">
@@ -71,17 +71,14 @@
                   <van-checkbox class="check" v-if="item.productId==1  " v-model="checked" disabled>扫码产品</van-checkbox>
                   <span class="name">结算费率：</span>
                   <input  type="text" v-model="item.productRate" readonly />
+                   <span class="unit">%</span>
                 </div>
                 <div class="sn" v-if="item.productId==8">
                   <span>SN:</span>
                   <input type="text" v-model="item.sn"  disabled />
                 </div>
               </div>
-
             </div>
-
-
-
           </div>
           <div class="unsigned contract">
             <div class="signTit">可签约产品</div>
@@ -89,6 +86,7 @@
               <van-checkbox class="check" v-model="contract_qinting">蜻蜓产品</van-checkbox>
               <span class="name">结算费率：</span>
               <input type="number" v-model="qtRate" />
+               <span class="unit">%</span>
             </div>
             <div class="row" v-if="qinting">
               <input type="text" v-model="sn" style="border-color:#ccc" placeholder="请输入蜻蜓设备编号SN" />
@@ -97,15 +95,16 @@
               <van-checkbox v-if="scan" class="check" v-model="contract_scan">扫码产品</van-checkbox>
               <span class="name">结算费率：</span>
               <input type="number" v-model="scanRate" />
+               <span class="unit">%</span>
             </div>
             <div class="row1" ref="app" v-if="app">
               <van-checkbox class="check" v-model="contract_app">app产品</van-checkbox>
               <span class="name">结算费率：</span>
               <input type="number" v-model="appRate" />
+              <span class="unit">%</span>
             </div>
           </div>
         </div>
-
         <div class="btn" @click="submitContract">提交</div>
       </van-tab>
     </van-tabs>
