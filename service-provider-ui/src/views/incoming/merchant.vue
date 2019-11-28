@@ -82,11 +82,16 @@
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcctType)}">结算类型</span>
-          <select v-model="params.compMainAcctType">
-            <option disabled value>请选择</option>
-            <option value="01">企业</option>
-            <option value="02">个人</option>
-          </select>
+          <input type="text" v-model="params.compMainAcctTypeShow" readonly placeholder="请选择" @click="showcomPicker"/>
+           <van-picker
+          v-if="compicker"
+          show-toolbar
+          title="结算类型"
+          :columns="[{name:'企业',val:'01'},{name:'个人',val:'02'}]"
+          value-key="name"
+          @cancel="onCancelAcctType"
+          @confirm="onConfirmAcctType"
+        />
         </div>
         <div class="row-img" v-if="params.compMainAcctType=='01'">
           <div class="stit" :class="{'active':(clickedNext&&!params.licenceForOpeningAccounts)}">
@@ -142,6 +147,7 @@ export default {
     return {
       maxSize: 2097152,
       clickedNext: false,
+      compicker:false,
       provincepicker: false,
       citypicker: false,
       bankpicker: false,
@@ -169,6 +175,7 @@ export default {
         bankName: "", //显示 开户行
         bankbranchName: "", //显示  支行
         compMainAcctType: "",
+        compMainAcctTypeShow:'',
         licenceForOpeningAccounts: "",
         bankCardFront: ""
       }
@@ -198,6 +205,13 @@ export default {
       let urlHead = this.incomingReturn.uri + "" + this.incomingReturn.url;
       util.getPhotos(this, urlHead, photos);
       let bankProvinces = this.incomingReturn.bankProvinces[0];
+      let compMainAcctTypeShow;
+      if(custInfo.compMainAcctType=='01'){
+        compMainAcctTypeShow="企业"
+      }
+       if(custInfo.compMainAcctType=='02'){
+        compMainAcctTypeShow="个人"
+      }
       let params = {
         compMainAcct: custInfo.compMainAcct,//银行卡号
         compAcctBank: custInfo.compAcctBank,//开户行
@@ -209,7 +223,8 @@ export default {
         bankAcctName: custInfo.bankAcctName,//开户人
         bankName:banks.bankName, //显示 开户行
         bankbranchName:banks.branchBankName, //显示  支行
-        compMainAcctType: custInfo.compMainAcctType
+        compMainAcctType: custInfo.compMainAcctType,
+        compMainAcctTypeShow:compMainAcctTypeShow
       };
       this.params = Object.assign(this.params, params);
     }
@@ -218,6 +233,17 @@ export default {
   methods: {
     changePrepage() {
       this.$router.push("legalInfo");
+    },
+    showcomPicker(){
+       this.compicker=true;
+    },
+    onCancelAcctType(){
+      this.compicker=false;
+    },
+    onConfirmAcctType(value){
+      this.params.compMainAcctTypeShow=value.name;
+      this.params.compMainAcctType=value.val;
+      this.compicker=false;
     },
     getBankName(cardNo) {
       //识别银行卡号
