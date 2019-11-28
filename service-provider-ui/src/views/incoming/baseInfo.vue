@@ -502,11 +502,7 @@ export default {
         forbidClick: true,
         duration: 0
       });
-      if(this.pagetype=='corvidae'){
-        upload.blobToBase64(file.file, detail.name, this,'flag');
-      }else{
-        upload.blobToBase64(file.file, detail.name, this);
-      }
+      upload.blobToBase64(file.file, detail.name, this);
     },
     datepickerVisiable(type) {
       this.dateType = type;
