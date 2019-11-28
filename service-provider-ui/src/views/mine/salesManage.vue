@@ -18,7 +18,7 @@
     <van-row  v-if="item.status==0" class="salesInfo row" v-for="(item,idx) in saleList" :key="idx">
       <van-col span="6">{{item.userName}}</van-col>
       <van-col span="8">{{item.userPhone}}</van-col>
-      <van-col class="textBox" span="5" @click="resetPwd(item.custId,item.salesmanId)"><!--<span class="text">重置密码</span>--></van-col>
+      <van-col class="textBox" span="5" @click="resetPwd(item.custId,item.salesmanId)"></van-col>
       <van-col class="textBox" span="5"
                @click="undeleteSale(item.custId,item.salesmanId,item.status)"><span class="text unfreeze">解冻</span></van-col>
     </van-row>
