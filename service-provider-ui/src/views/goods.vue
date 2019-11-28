@@ -8,7 +8,6 @@
                 placeholder="请输入商户名称"
                 show-action
                 shape="round"
-                readonly
                 @search="onSearch"
         >
           <div slot="action" @click="onSearch">搜索</div>
