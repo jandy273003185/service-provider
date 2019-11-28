@@ -278,7 +278,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/service-provider-ui/src/views/goods.vue</url>
-          <line>252</line>
+          <line>251</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="23" />
         </line-breakpoint>
