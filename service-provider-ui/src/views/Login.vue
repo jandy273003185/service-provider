@@ -74,7 +74,7 @@ export default {
 
     //判断账号密码非空
     submitLogin() {
-      const params={};
+      let params={};
       if(this.selectLogin=='psd'){
         if (!this.userName) {
           this.$toast({message: "请填写用户名账号",duration:1000 });
@@ -94,6 +94,7 @@ export default {
         console.log(params.password);
         console.log(params.openId);
         console.log(params.roleCode);
+
       }else if(this.selectLogin=='code'){
         if (!this.userPhone) {
           Dialog({ message: "手机号码不能为空" });
@@ -124,7 +125,7 @@ export default {
       this.password = "";
     },
     async loginPost(params) {
-      const loginData = await login.login(params);
+      let loginData = await login.login(params);
       console.log(loginData);
       if (loginData.data.resultCode == 1) {
         const _this = this;
