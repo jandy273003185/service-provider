@@ -52,7 +52,8 @@ export default {
             pageNum:0,//页数
             value:'',
             active:false,
-            statesList:[]
+            statesList:[],
+            hasSearched:false,
         }
     },
     computed:{
@@ -77,7 +78,9 @@ export default {
                 this.timeEnd='';
                 this.statesList=[];//重新搜索时将数据清空
                 this.active = true;
-                this.getAllShopList();
+                if(this.hasSearched){
+                    this.getAllShopList();
+                }
             }else {
                 this.$toast('请输入商户名称');
                 return;
@@ -85,12 +88,17 @@ export default {
 
         },
         loadList(){
-            this.pageNum+=1;
+            console.log("load");
+            if(this.hasSearched){
+               this.pageNum+=1;
+            }else{
+               this.pageNum=1;
+            }
             this.getAllShopList();
         },
-
         async getAllShopList(){
-
+            console.log("getAllShopList");
+            this.hasSearched=true;
             let listInfo=await shopAuditInfo.shopAuditInfo({
                 custName:this.value,//商户名
                 userId:this.userId,
