@@ -217,6 +217,7 @@ public class AgentController {
             }
         }else { //完善后提交（修改操作）
             String custId1 = tdCustInfo.getCustId();//商户编号
+            Integer authId = queryResult.getAuthId();
             if (custId1 == null){
                 return new ResultBean<>("0","商户进件失败");
             }
@@ -230,6 +231,7 @@ public class AgentController {
                 for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
                     tdCustScanCopy.setStatus("01");
                     merchantInfoService.updateTdCustScanCopy(tdCustScanCopy);
+                    tdCustScanCopy.setAuthId(authId);
                     tdCustScanCopy.setStatus("00");
                     merchantInfoService.saveTdCustScanCopy(tdCustScanCopy);
                 }
