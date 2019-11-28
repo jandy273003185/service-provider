@@ -1,58 +1,100 @@
 <template>
   <div class="sales">
-    <van-nav-bar title="业务员管理" left-text="返回" left-arrow @click-left="changePrepage" />
-    <van-row class="row salesInfo">
-      <van-col span="6">姓名</van-col>
-      <van-col span="8">账号</van-col>
-      <van-col span="5"></van-col>
-      <van-col span="5"></van-col>
-    </van-row>
-    <van-row class="salesInfo row" v-if="item.status==1"  v-for="(item,idx) in saleList" :key="idx">
-        <van-col  span="6">{{item.userName}}</van-col>
-        <van-col span="8">{{item.userPhone}}</van-col>
-        <van-col class="textBox" span="5" @click="resetPwd(item.custId,item.salesmanId)"><span class="text">重置密码
-        </span></van-col>
-        <van-col class="textBox" span="5"
-                 @click="deleteSale(item.custId,item.salesmanId,item.status)"><span class="text">冻结</span></van-col>
-    </van-row>
-    <van-row  v-if="item.status==0" class="salesInfo row" v-for="(item,idx) in saleList" :key="idx">
-      <van-col span="6">{{item.userName}}</van-col>
-      <van-col span="8">{{item.userPhone}}</van-col>
-      <van-col class="textBox" span="5" @click="resetPwd(item.custId,item.salesmanId)"><!--<span class="text">重置密码</span>--></van-col>
-      <van-col class="textBox" span="5"
-               @click="undeleteSale(item.custId,item.salesmanId,item.status)"><span class="text unfreeze">解冻</span></van-col>
-    </van-row>
-    <van-row class="row salesInfo" v-show="adding">
-      <van-col span="6">
-        <input autofocus v-model="inpName" placeholder="请输入名字" />
-      </van-col>
-      <van-col span="8">
-        <input v-model="inpAccount" placeholder="请输入手机号" />
-      </van-col>
-      <van-col class="textBox" span="5" >
-        <span class="text" @click="saveSales">保存</span>
-      </van-col>
-      <van-col  class="textBox" span="5">
-        <span class="text" @click="cancelAdding">取消</span>
-      </van-col>
-    </van-row>
-    <div class="add" v-show="!adding" @click="addSales">
-      <van-icon name="plus" />
+    <van-nav-bar
+      title="业务员管理"
+      left-text="返回"
+      left-arrow
+      @click-left="changePrepage"
+      @click-right="onClickRight"
+    >
+      <van-icon name="plus" slot="right" />
+    </van-nav-bar>
+    <van-tabs v-model="tabActive" swipeable title-active-color="#699dd7" color="#699dd7">
+      <van-tab title="未冻结">
+        <van-row class="row salesInfo">
+          <van-col span="6">姓名</van-col>
+          <van-col span="8">账号</van-col>
+          <van-col span="5"></van-col>
+          <van-col span="5"></van-col>
+        </van-row>
+        <van-row
+          class="salesInfo row"
+          v-show="item.status==1"
+          v-for="(item,idx) in saleList"
+          :key="idx"
+        >
+          <van-col span="6">{{item.userName}}</van-col>
+          <van-col span="8">{{item.userPhone}}</van-col>
+          <van-col class="textBox" span="5" @click="resetPwd(item.custId,item.salesmanId)">
+            <span class="text">重置密码</span>
+          </van-col>
+          <van-col
+            class="textBox"
+            span="5"
+            @click="deleteSale(item.custId,item.salesmanId,item.status)"
+          >
+            <span class="text">冻结</span>
+          </van-col>
+        </van-row>
+      </van-tab>
+      <van-tab title="已冻结">
+        <van-row class="row salesInfo">
+          <van-col span="6">姓名</van-col>
+          <van-col span="8">账号</van-col>
+          <van-col span="5"></van-col>
+          <van-col span="5"></van-col>
+        </van-row>
+        <van-row
+          v-show="item.status==0"
+          class="salesInfo row"
+          v-for="(item,idx) in saleList"
+          :key="idx"
+        >
+          <van-col span="6">{{item.userName}}</van-col>
+          <van-col span="8">{{item.userPhone}}</van-col>
+          <van-col class="textBox" span="5" @click="resetPwd(item.custId,item.salesmanId)">
+            <!--<span class="text">重置密码</span>-->
+          </van-col>
+          <van-col
+            class="textBox"
+            span="5"
+            @click="undeleteSale(item.custId,item.salesmanId,item.status)"
+          >
+            <span class="text unfreeze">解冻</span>
+          </van-col>
+        </van-row>
+      </van-tab>
+    </van-tabs>
+
+    <!-- 添加业务员 -->
+    <div class="modal-wrap" v-show="addingShow">
+      <div class="addSales">
+        <div class="tit">添加业务员</div>
+        <div class="item">
+          <span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span>
+          <input v-model="inpName" placeholder="请输入名字" />
+        </div>
+        <div class="item">
+          <span>手机号码：</span>
+          <input type="number" v-model="inpAccount" placeholder="请输入手机号" />
+        </div>
+        <div class="item buttons">
+          <span class="btn" @click="cancelAdding">取消</span>
+          <span class="btn save" @click="saveSales">保存</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { adminIndex, common } from "@/assets/api/interface";
 import { Dialog } from "vant";
-import {mapState} from 'vuex';
-
+import { mapState } from "vuex";
 export default {
   name: "sales",
-  components: {
-
-  },
+  components: {},
   computed: {
-    ...mapState(['userId'])
+    ...mapState(["userId"])
   },
   created() {
     this.getInitList();
@@ -60,10 +102,11 @@ export default {
   },
   data() {
     return {
-      adding: false,
+      addingShow: false,
       saleList: [],
       inpName: "",
       inpAccount: "",
+      tabActive: 0
     };
   },
   methods: {
@@ -71,22 +114,21 @@ export default {
       let list = await adminIndex.searchSales({
         custId: this.userId
       });
-  console.log(list);
+      console.log(list);
       this.saleList = list.data.resultMsg;
     },
     changePrepage() {
       //;返回
       this.$router.go(-1);
     },
-    addSales() {
-      //添加业务员
-      this.adding = true;
+    onClickRight() {
+      this.addingShow = true;
     },
     cancelAdding() {
       //取消业务员添加
-      this.inpName = '';
-      this.inpAccount = '';
-      this.adding = false;
+      this.inpName = "";
+      this.inpAccount = "";
+      this.addingShow = false;
     },
     async resetPwd(custId, id) {
       //重置密码
@@ -96,7 +138,7 @@ export default {
       });
       if (res.data.resultCode == "1") {
         console.log("重置密码成功");
-        Dialog({message: "重置密码成功"});
+        Dialog({ message: "重置密码成功" });
       }
     },
     deleteSale(custId, id, status) {
@@ -108,15 +150,15 @@ export default {
         .then(() => {
           // on confirm
           console.log(status);
-          common.updateSales({
+          common
+            .updateSales({
               custId: custId,
               salesmanId: id,
               status: 0
             })
             .then(res => {
-
               this.getInitList();
-              console.log("冻结"+res);
+              console.log("冻结" + res);
             });
         })
         .catch(() => {
@@ -132,9 +174,10 @@ export default {
         .then(() => {
           // on confirm
           console.log(status);
-          common.updateSales({
+          common
+            .updateSales({
               custId: custId,
-            salesmanId: id,
+              salesmanId: id,
               status: 1
             })
             .then(res => {
@@ -147,47 +190,34 @@ export default {
           // on cancel
         });
     },
-    async saveSales() {//保存
-      let res = await common.insertSales({
-        userName: this.inpName,
-        password: "123456",
-        userPhone: this.inpAccount,
-        custId: this.userId,//管理员的userId
-        status: 1
-      });
-      console.log(res);
-      if (res && res.data.resultCode == "1") {
-        this.getInitList();
-        Dialog({message: "添加业务员成功"});
-        this.adding = false;
+    async saveSales() {
+      //保存
+      if (
+        this.inpName &&
+        this.inpAccount &&
+        /^1[3456789]\d{9}$/.test(this.inpAccount)
+      ) {
+        let res = await common.insertSales({
+          userName: this.inpName,
+          password: "123456",
+          userPhone: this.inpAccount,
+          custId: this.userId, //管理员的userId
+          status: 1
+        });
+        if (res && res.data.resultCode == "1") {
+          this.getInitList();
+          Dialog({ message: "添加业务员成功" });
+          this.cancelAdding();
+        } else {
+          this.$toast("添加业务员失败！");
+        }
+      } else {
+        this.$toast("请检查是否正确填写业务员姓名和手机号！");
       }
-    },
-
-
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
 @import "../../style/views/mine.scss";
-  .salesInfo{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .textBox{
-      text-align: center;
-      .text{
-        border: 1px solid #699dd7;
-        color: #699dd7;
-        text-align: center;
-        border-radius:vw(5);
-        padding: vw(5) vw(20);
-      }
-      .unfreeze{
-        border-color: #ff3d49;
-        color:#ff3d49;
-      }
-    }
-
-  }
-
 </style>
