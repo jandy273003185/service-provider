@@ -219,8 +219,6 @@
             >
               <van-button icon="photo" type="primary">其他资料照</van-button>
             </van-uploader>
-          </div>
-          <div class="img-col">
             <van-uploader
               name="otherPhoto2"
               :after-read="uploadImg"
