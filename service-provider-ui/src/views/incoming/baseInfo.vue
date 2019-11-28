@@ -16,22 +16,17 @@
         </div>
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
-        <!--   <input type="text" v-model="params.custType" placeholder="请选择"/> -->
-          <select  v-model="params.custType">
-            <option  disabled value="">请选择</option>
-            <option value="0">个人</option>
-            <option value="1">企业</option>
-          </select>
+          <input type="text" readonly v-model="params.custTypeShow" placeholder="请选择" @click="showcustTypePicker"/>
         </div>
-       <!--  <van-picker
-          v-if="provincepicker"
+        <van-picker
+          v-if="custpicker"
           show-toolbar
           title="商户类型"
-          :columns="provinceList"
-          value-key="provinceName"
-          @cancel="onCancelAdd"
-          @confirm="onConfirmProvince"
-        /> -->
+          :columns="[{name:'个人',val:'0'},{name:'企业',val:'1'}]"
+          value-key="name"
+          @cancel="onCancelCusttype"
+          @confirm="onConfirmCusttype"
+        />
         <div class="row">
           <span class="label" :class="{'active':(clickedNext&&!params.custName)}">商户名字</span>
           <input v-model="params.custName" placeholder="请输入商户名称" />
@@ -69,7 +64,7 @@
           />
         </div>
         <van-picker
-          v-if="provincepicker"
+          v-show="provincepicker"
           show-toolbar
           title="省份"
           :columns="provinceList"
@@ -78,7 +73,7 @@
           @confirm="onConfirmProvince"
         />
         <van-picker
-          v-if="citypicker"
+          v-show="citypicker"
           show-toolbar
           title="城市"
           :columns="cityList"
@@ -87,7 +82,7 @@
           @confirm="onConfirmCity"
         />
         <van-picker
-          v-if="blockpicker"
+          v-show="blockpicker"
           show-toolbar
           title="区/县"
           :columns="blockList"
@@ -258,6 +253,7 @@ export default {
   data() {
     return {
       pagetype: "",
+      custpicker:false,
       provincepicker: false,
       citypicker: false,
       blockpicker: false,
@@ -283,6 +279,7 @@ export default {
       },
       params: {
         merchantAccount: "",
+        custTypeShow:'',
         custType: "",
         custName: "",
         shortName: "",
@@ -381,8 +378,16 @@ export default {
       this.setincomingReturn(res.data.resultMsg);
       let custInfo = res.data.resultMsg.custInfo;
       let provinces = res.data.resultMsg.provinces[0];
+      let custTypeShow;
+      if(custInfo.custType=='0'){
+        custTypeShow='个人'
+      }
+      if(custInfo.custType=='1'){
+        custTypeShow='企业'
+      }
       let params = {
         merchantAccount: custInfo.merchantAccount,
+        custTypeShow:custTypeShow,
         custType: custInfo.custType,
         custName: custInfo.custName,
         shortName: custInfo.shortName,
@@ -407,6 +412,17 @@ export default {
       let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
       let getPhotos = util.getPhotos(this, urlHead, photos);
       this.photos = Object.assign({}, getPhotos);
+    },
+    showcustTypePicker(){
+       this.custpicker=true;
+    },
+    onCancelCusttype(){
+      this.custpicker=false;
+    },
+    onConfirmCusttype(value){
+      this.params.custTypeShow=value.name;
+      this.params.custType=value.val;
+      this.custpicker=false;
     },
     async getInitAddress() {
       //获取省份
