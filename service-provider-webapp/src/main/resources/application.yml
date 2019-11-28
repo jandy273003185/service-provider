@@ -16,7 +16,7 @@ server:
 
 dubbo:
   application:
-    name: dubbo-customer-manager
+    name: dubbo-SP
   registry:
     address: zookeeper://192.168.1.159:2181
   protocol:
