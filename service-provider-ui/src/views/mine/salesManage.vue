@@ -229,26 +229,29 @@ export default {
         });
     },
     async saveSales() {
-      //保存
-      if (
-        this.inpName &&
-        this.inpAccount &&
-        /^1[3456789]\d{9}$/.test(this.inpAccount)
-      ) {
-        let res = await common.insertSales({
-          userName: this.inpName,
-          password: "123456",
-          userPhone: this.inpAccount,
-          custId: this.userId, //管理员的userId
-          status: 1
-        });
-        if (res && res.data.resultCode == "1") {
-          this.getInitList();
-          Dialog({ message: "添加业务员成功" });
-          this.cancelAdding();
-        } else {
-          this.$toast("添加业务员失败！");
+      //保存新增业务员addSales
+      if (this.inpName && this.inpAccount && (/^1[3456789]\d{9}$/.test(this.inpAccount))) {
+        let phoneCode = await common.addSales({phone:this.inpAccount});
+        console.log(phoneCode);
+        if(phoneCode.data.resultCode == 0){//手机号可注册
+          let res = await common.insertSales({
+            userName: this.inpName,
+            password: "123456",
+            userPhone: this.inpAccount,
+            custId: this.userId, //管理员的userId
+            status: 1
+          });
+          if (res && res.data.resultCode == "1") {
+            this.getInitList();
+            Dialog({ message: "添加业务员成功" });
+            this.cancelAdding();
+          } else {
+            this.$toast("添加业务员失败！");
+          }
+        }else if(phoneCode.data.resultCode == 1){//手机号重复
+          Dialog({ message: phoneCode.data.resultMsg });
         }
+
       } else {
         this.$toast("请检查是否正确填写业务员姓名和手机号！");
       }

@@ -263,8 +263,6 @@
             this.setUserName(userData.data.resultMsg.userInfo.custName);
             localStorage.setItem("token", userData.data.resultMsg.token);
             axios.defaults.headers.common["token"] = userData.data.resultMsg.token;
-            storage.set("userId", userData.data.resultMsg.userId);
-            console.log(storage.get("userId"));
             this.islogin = true;
             this.getSalesRanking("1");
           }
