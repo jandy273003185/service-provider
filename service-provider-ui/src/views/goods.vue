@@ -151,6 +151,7 @@ export default {
       pageNum:0,//页数
       /*//搜索商户*/
       mchName:'',
+      isSearch:false,
       shopList:[],//交易数据列表
       intoRole:'',
       /*自定义时间*/
@@ -211,6 +212,7 @@ export default {
          listInfo= await goodsInfo.allGoodsInfo(params);
       }
       console.log(listInfo);
+      this.isSearch=false;//
       let list= listInfo.data.resultMsg.data;
       this.shopList = this.shopList.concat(list);
       let total=listInfo.data.resultMsg.total;
@@ -233,14 +235,21 @@ export default {
 
 onSearch(){////将this.value传到后台
   if(this.mchName){
-    this.pageNum=1;
-    this.active = '0';
+    this.isSearch=true;
     this.customShow = false;//将自定义栏false
     /*this.allShow = true;//将“全部”栏显示*/
     this.timeEnd='';
     this.timeStart='';
     this.shopList=[]; //清空数组
-    this.getAllShopList();
+    if(this.active!= 0){
+      this.active = 0;
+      this.pageNum=0;
+    }
+    if(this.active== 0){
+      this.pageNum=1;
+      this.getAllShopList();
+    }
+
   }else {
     this.$toast('请输入商户名称');
     return;
@@ -352,27 +361,28 @@ onSearch(){////将this.value传到后台
 
     onClick() {//滑动切换tab，数据初始化
       /*this.allShow = false;*/
-      this.customShow = false;
-      console.log(this.active);
-      if(this.active==0){
-        this.timeEnd='';
-        this.timeStart='';
+      if(!this.isSearch){
+        this.customShow = false;
+        console.log(this.active);
+        if(this.active==0){
+          this.timeEnd='';
+          this.timeStart='';
+        }
+        if(this.active==1){
+          this.time_7();
+        }
+        if(this.active==2){
+          this.time_30();
+        }
+        if(this.active==3){
+          this.showTime = true;
+        }
+        this.loading=false;
+        this.finished=false;
+        this.pageNum=0;//页码重置
+        this.mchName='';//搜索的商户名
+        this.shopList=[]; //清空数组
       }
-      if(this.active==1){
-        this.time_7();
-      }
-      if(this.active==2){
-        this.time_30();
-      }
-      if(this.active==3){
-        this.showTime = true;
-      }
-      this.loading=false;
-      this.finished=false;
-      this.pageNum=0;//页码重置
-      this.mchName='';//搜索的商户名
-      this.shopList=[]; //清空数组
-
     },
     clickCustom(){//查看多次自定义时间
       if(this.active==3){
