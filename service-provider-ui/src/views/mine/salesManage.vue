@@ -9,13 +9,24 @@
     >
       <van-icon name="add-o" slot="right" size="1.8em" />
     </van-nav-bar>
-    <van-tabs v-model="tabActive" swipeable title-active-color="#699dd7" color="#699dd7">
+    <van-tabs v-model="tabActive" swipeable title-active-color="#699dd7" color="#699dd7" @change="onClick">
       <van-tab title="未冻结">
         <van-row class="row salesInfo">
           <van-col span="6">姓名</van-col>
-          <van-col span="8">账号</van-col>
-          <van-col span="5"></van-col>
-          <van-col span="5"></van-col>
+          <van-col span="4">账号</van-col>
+          <van-col span="13">
+            <van-search
+                v-model="salesName"
+                placeholder="请输入业务员名字"
+                show-action
+                shape="round"
+                background="#f7f7f7"
+                @search="onSearch"
+            >
+              <div slot="action" @click="onSearch">&nbsp;搜&nbsp;索</div>
+            </van-search>
+          </van-col>
+          <van-col span="1"></van-col>
         </van-row>
         <van-row
           class="salesInfo row"
@@ -40,9 +51,20 @@
       <van-tab title="已冻结">
         <van-row class="row salesInfo">
           <van-col span="6">姓名</van-col>
-          <van-col span="8">账号</van-col>
-          <van-col span="5"></van-col>
-          <van-col span="5"></van-col>
+          <van-col span="4">账号</van-col>
+          <van-col span="13">
+            <van-search
+                v-model="salesName"
+                placeholder="请输入业务员名字"
+                show-action
+                shape="round"
+                background="#f7f7f7"
+                @search="onSearch"
+            >
+              <div slot="action" @click="onSearch">&nbsp;搜&nbsp;索</div>
+            </van-search>
+          </van-col>
+          <van-col span="1"></van-col>
         </van-row>
         <van-row
           v-show="item.status==0"
@@ -93,27 +115,43 @@ import { mapState } from "vuex";
 export default {
   name: "sales",
   components: {},
-  computed: {
-    ...mapState(["userId"])
-  },
-  created() {
-    this.getInitList();
-    console.log(this.userId);
-  },
   data() {
     return {
       addingShow: false,
       saleList: [],
       inpName: "",
       inpAccount: "",
-      tabActive: 0
+      tabActive: 0,
+      salesName:''
     };
   },
+  computed: {
+    ...mapState(["userId"])
+  },
+  created() {
+
+    console.log(this.userId);
+  },
+
+  mounted(){
+    let params = {custId: this.userId};
+    this.getInitList(params);
+  },
   methods: {
-    async getInitList() {
-      let list = await adminIndex.searchSales({
-        custId: this.userId
-      });
+    onSearch(){//搜索业务员
+      if(this.salesName){
+        let params = {userName:this.salesName};
+        this.getInitList(params);
+      }
+    },
+    onClick(){
+      this.salesName='';
+      let params = {custId: this.userId};
+      this.getInitList(params);
+    },
+
+    async getInitList(params) {
+      let list = await adminIndex.searchSales(params);
       console.log(list);
       this.saleList = list.data.resultMsg;
     },
@@ -220,4 +258,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../style/views/mine.scss";
+.van-search .van-cell{
+  background-color: #efefef;
+  border-radius: 6px;
+}
+.van-search__action{
+  color: #3f9aff;
+}
 </style>
