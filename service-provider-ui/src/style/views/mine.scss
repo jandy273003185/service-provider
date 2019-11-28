@@ -85,10 +85,64 @@
     text-align: center;
     margin-top: vw(6);
 }
-/* 关于 */
-.about{
-
+.addSales{
+    width: vw(600);
+    position: fixed;
+    padding:vw(30) vw(50);
+    top: 40%;
+    left: 50%;
+    transform:translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    background: #fff;
+    border-radius: vw(14);
 }
+.addSales .tit{
+    height: vw(60);
+    line-height: vw(60);
+    text-align: center;
+    font-size: vw(30);
+}
+.addSales .item{
+    height: vw(80);
+    line-height: vw(80);
+    color: #555;
+   
+}
+.buttons{
+    display: flex;
+    margin-top: vw(10);
+    .btn{ 
+        flex: 1;
+        text-align: center;
+        font-size: vw(30);
+    }
+    .save{
+        color: #1989fa;
+    }
+}
+.salesInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .textBox{
+      text-align: center;
+      .text{
+        border: 1px solid #699dd7;
+        color: #699dd7;
+        text-align: center;
+        border-radius:vw(5);
+        padding: vw(5) vw(20);
+      }
+      .unfreeze{
+        border-color: #ff3d49;
+        color:#ff3d49;
+      }
+    }
+
+  }
+
+/* 关于 */
 .about .item{
     width: 100%;
     height:vw(70);

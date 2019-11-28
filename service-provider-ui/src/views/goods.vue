@@ -2,15 +2,16 @@
   <div>
     <BaseHeader></BaseHeader>
     <div class="goods">
-      <div class="searchBob" @click="onSearch" >
+      <div class="searchBob">
         <van-search
                 v-model="mchName"
                 placeholder="请输入商户名称"
                 show-action
                 shape="round"
                 readonly
+                @search="onSearch"
         >
-          <div slot="action">搜索</div>
+          <div slot="action" @click="onSearch">搜索</div>
         </van-search>
       </div>
       <van-tabs class="p_f" v-model="active" swipeable @change="onClick" @click="clickCustom"
@@ -40,7 +41,8 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
+                <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
+                <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
               </li>
             </van-list>
           </ul>
@@ -59,7 +61,8 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
+                <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
+                <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
               </li>
             </van-list>
         </ul>
@@ -78,7 +81,8 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
+                <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
+                <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
               </li>
             </van-list>
         </ul>
@@ -97,7 +101,8 @@
                   <span class="number  wd">{{ item.transactionNum }} 笔</span>
                   <span class="sum  wd">{{ item.transactionAmount }} 元</span>
                 </div>
-                <span v-if="intoRole=='2' " class="salesName">业务员: {{item.userName}}</span>
+                <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
+                <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
               </li>
             </van-list>
           </ul>
@@ -190,7 +195,7 @@ export default {
     //请求商户交易数据
     async getAllShopList(){
       const params = {
-        custName:'',//商户名
+        custName:this.mchName,//商户名
         queryStartDate:this.timeStart,//开始时间
         queryEndDate:this.timeEnd,//结束时间
         userId:this.userId,//用户Id
@@ -200,10 +205,10 @@ export default {
         roleId:this.roleId
       };
       var listInfo;
-      if(this.roleId=='3'){
+      if(this.roleId=='3'){//业务员交易栏数据
         listInfo= await goodsInfo.goodsInfo(params);
       }
-      if(this.roleId=='2'){
+      if(this.roleId=='2'){//管理员交易栏数据
          listInfo= await goodsInfo.allGoodsInfo(params);
       }
       console.log(listInfo);
@@ -228,19 +233,20 @@ export default {
 //搜索商户数据
 
 onSearch(){////将this.value传到后台
-  /*if(this.mchName){
+  if(this.mchName){
     this.pageNum=1;
-    this.active = 'a';
+    this.active = '0';
     this.customShow = false;//将自定义栏false
-    this.allShow = true;//将“全部”栏显示
+    /*this.allShow = true;//将“全部”栏显示*/
     this.timeEnd='';
     this.timeStart='';
+    this.shopList=[]; //清空数组
     this.getAllShopList();
   }else {
     this.$toast('请输入商户名称');
     return;
-  }*/
-  this.$router.push("searchShop");//搜索商户审核状态
+  }
+  /*this.$router.push("searchShop");//搜索商户审核状态*/
 },
 
     //时间选择函数
@@ -288,14 +294,7 @@ onSearch(){////将this.value传到后台
           console.log(this.timeStart,this.timeEnd);
           //请求分页数据数据
           this.shopList=[]; //清空数组
-          console.log(this.customShow);
           this.customShow = true;//打开list,重新请求数据
-          console.log(this.customShow);
-         /* setTimeout(function (){
-            console.log("自定义");
-            this.customShow = true;//打开list,重新请求数据
-            console.log(this.customShow);
-          },20);*/
         }else {
           Dialog({ message: '查看的开始时间必须小于或等于结束时间！！' })
         }
@@ -372,7 +371,7 @@ onSearch(){////将this.value传到后台
       this.loading=false;
       this.finished=false;
       this.pageNum=0;//页码重置
-      /*this.mchName='';//搜索的商户名*/
+      this.mchName='';//搜索的商户名
       this.shopList=[]; //清空数组
 
     },

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31c26dcf-6863-4dbd-9209-1cdf0751eb35" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/components/whyFailed.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/components/whyFailed.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,6 +23,7 @@
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/audit/pass.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/components/searchShop.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/components/salesmanResult.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/incoming/sign.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/incoming/baseInfo.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/components/whyFailed.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Administrator.vue" root0="SKIP_INSPECTION" />
@@ -272,6 +274,16 @@
     <option name="LAST_COMMIT_MESSAGE" value="jiangzonglin" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/service-provider-ui/src/views/goods.vue</url>
+          <line>252</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="roleId" />
