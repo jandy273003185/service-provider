@@ -26,8 +26,6 @@
                     <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
                     <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
                     <span v-if="item.state=='05'" class=" state state_5">待完善</span>
-
-
                 </li>
             </van-list>
         </ul>
