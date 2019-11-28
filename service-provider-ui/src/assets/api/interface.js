@@ -7,7 +7,8 @@ export const common={
   resetPwd:params=>http.post1('/salesman/regPassword',params),//重置密码
   updateSales:params=>http.post1('/salesman/update',params),//更新业务员
   insertSales:params=>http.post1('/salesman/insert',params),//新增业务员
-}
+  addSales: param =>http.post1('/salesman/checkPhone',param),//新增业务员时手机号码校验
+};
 export const incoming={//进件
   bankHead:params=>http.post1('/common/bankHeadOffice',params),//获取总行信息
   bankBranch :params=>http.post1('/common/bankBranch',params),//获取支行信息
