@@ -4,10 +4,7 @@
     <Step currStep="2" />
     <div class="stepInfo" ref="baseform">
       <div class="row-img">
-        <div
-          class="stit"
-          :class="{'active':(clickedNext&&(!params.identityCardFront||!params.identityCardReverse))}"
-        >
+        <div class="stit"  :class="{'active':(clickedNext&&(!params.identityCardFront||!params.identityCardReverse))}" >
           法人身份证照片
           <span>(必须)</span>
         </div>
@@ -21,8 +18,6 @@
           >
             <van-button icon="photo" type="primary">身份证正面照</van-button>
           </van-uploader>
-        </div>
-        <div class="img-col">
           <van-uploader
              name="certAttribute2"
             :after-read="afterReadImg"
