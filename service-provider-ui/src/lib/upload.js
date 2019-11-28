@@ -2,7 +2,7 @@ import {
   common
 } from "@/assets/api/interface";
 const uploadImg = {
-  async uploadImgRequest(blob,base64,name,that) { //图片上传
+  async uploadImgRequest(blob,base64,name,that,flag) { //图片上传
     //图片上传
     console.log(name);
     let data = new FormData();
@@ -14,9 +14,17 @@ const uploadImg = {
       if(name!='businessLicense'){
         that.params[name] = fullUrl;
       }
-      that.photos[name] = [{
-        url: fullUrl
-      }];
+      if(flag){
+        that.photos[name] = [{
+          url: fullUrl,
+          flag:1
+        }];
+      }else{
+        that.photos[name] = [{
+          url: fullUrl
+        }];
+      }
+      
     }
     that.$toast.clear();
   },
@@ -24,7 +32,7 @@ const uploadImg = {
    * 获取到的二进制文件 转 base64文件
    * @param blob
    */
-  blobToBase64(blob,name, context) {
+  blobToBase64(blob,name, context,flag) {
     const self = this; // 绑定this
     const reader = new FileReader(); //实例化一个reader文件
     reader.readAsDataURL(blob); // 添加二进制文件
@@ -40,7 +48,7 @@ const uploadImg = {
    * @param scale ----压缩比例 画面质量0-9，数字越小文件越小画质越差
    * @param callback ---回调函数
    */
-  compressImg(base64, scale,name, context, callback) {
+  compressImg(base64, scale,name, context, callback,flag) {
     const img = new Image();
     img.src = base64;
     img.onload = function () {
@@ -70,7 +78,7 @@ const uploadImg = {
         type: mime
       });
       // 回调函数 根据需求返回二进制数据或者base64数据，我的项目都给返回了
-      callback(blob, base64, name,context);
+      callback(blob, base64, name,context,flag);
     };
   },
 }

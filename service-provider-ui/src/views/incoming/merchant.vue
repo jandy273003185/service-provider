@@ -382,7 +382,11 @@ export default {
         forbidClick: true,
         duration: 0
       });
-      upload.blobToBase64(file.file, detail.name, this);
+      if(this.checkedState=='corvidae'){
+        upload.blobToBase64(file.file, detail.name, this,'flag');
+      }else{
+        upload.blobToBase64(file.file, detail.name, this);
+      }
     }
   }
 };
