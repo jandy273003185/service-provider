@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="31c26dcf-6863-4dbd-9209-1cdf0751eb35" name="Default Changelist" comment="">
+    <list default="true" id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="jiangzonglin">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java" afterDir="false" />
+>>>>>>> 4a297bfc7e8aacb6d0a2a24afe80ae8a3f51a881
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,25 +24,23 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/feedback.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/mine.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/salesman.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Administrator.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/audit/pass.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/components/searchShop.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/feedback.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/components/salesmanResult.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/incoming/sign.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/companyInfo.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/amendPsd.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/about.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/incoming/baseInfo.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/components/whyFailed.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Administrator.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/components/baser-header.vue" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/service-provider-ui/src/lib/upload.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/shop.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/salesman.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/mine.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/amendPsd.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/companyInfo.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/about.vue" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" root0="SKIP_INSPECTION" />
   </component>
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
@@ -94,6 +96,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ServiceProviderApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -249,7 +256,105 @@
       <option name="project" value="LOCAL" />
       <updated>1574837130679</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="jiangzonglin">
+      <created>1574837910639</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1574837910639</updated>
+    </task>
+    <task id="LOCAL-00022" summary="jiangzonglin">
+      <created>1574839722760</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1574839722760</updated>
+    </task>
+    <task id="LOCAL-00023" summary="jiangzonglin">
+      <created>1574841930928</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1574841930928</updated>
+    </task>
+    <task id="LOCAL-00024" summary="jiangzonglin">
+      <created>1574842397909</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1574842397910</updated>
+    </task>
+    <task id="LOCAL-00025" summary="jiangzonglin">
+      <created>1574846897009</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1574846897009</updated>
+    </task>
+    <task id="LOCAL-00026" summary="jiangzonglin">
+      <created>1574847195804</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1574847195804</updated>
+    </task>
+    <task id="LOCAL-00027" summary="jiangzonglin">
+      <created>1574847841360</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1574847841360</updated>
+    </task>
+    <task id="LOCAL-00028" summary="jiangzonglin">
+      <created>1574849170064</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1574849170064</updated>
+    </task>
+    <task id="LOCAL-00029" summary="jiangzonglin">
+      <created>1574850338145</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1574850338145</updated>
+    </task>
+    <task id="LOCAL-00030" summary="jiangzonglin">
+      <created>1574852497773</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1574852497773</updated>
+    </task>
+    <task id="LOCAL-00031" summary="jiangzonglin">
+      <created>1574854654883</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1574854654883</updated>
+    </task>
+    <task id="LOCAL-00032" summary="jiangzonglin">
+      <created>1574924047270</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1574924047270</updated>
+    </task>
+    <task id="LOCAL-00033" summary="jiangzonglin">
+      <created>1574926007671</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1574926007671</updated>
+    </task>
+    <task id="LOCAL-00034" summary="jiangzonglin">
+      <created>1574930521169</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1574930521169</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -258,6 +363,31 @@
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:D:/project/sevenpay_app/service-provider/service-provider/service-provider-webapp" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State>
@@ -267,6 +397,11 @@
         </entry>
       </map>
     </option>
+    <option name="OPEN_TABS">
+      <set>
+        <option value="1" />
+      </set>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="放行静态资源" />
@@ -275,6 +410,25 @@
     <option name="LAST_COMMIT_MESSAGE" value="jiangzonglin" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/SalesmanManagerController.java</url>
+          <line>100</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/SalesmanManagerController.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java</url>
+          <line>99</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="roleId" />

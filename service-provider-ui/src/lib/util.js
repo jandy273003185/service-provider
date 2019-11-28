@@ -37,7 +37,7 @@ const util = {
         case "02": //营业执照
           name = "businessLicense";
           break;
-        case "20": //门头照
+        case "08": //门头照
           name = "shopFrontDesk";
           break;
         case "18": //店内照
@@ -55,16 +55,16 @@ const util = {
         case "24": //其他资料照
           name = "otherPhoto2";
           break;
-        case "00": //身份证正
+        case "04": //身份证正
           name = "identityCardFront";
           break;
-        case "16": //身份证反
+        case "31": //身份证反
           name = "identityCardReverse";
           break;
         case "03": //开户许可证
           name = "licenceForOpeningAccounts";
           break;
-        case "13": //银行卡正面
+        case "07": //银行卡正面
           name = "bankCardFront"
           break;
         default:
@@ -94,7 +94,7 @@ const util = {
           certifyType = "02";
           break;
         case "shopFrontDesk": //门头照
-          certifyType = "20";
+          certifyType = "08";
           break;
         case "shopInterior": //店内照
           certifyType = "18";
@@ -112,16 +112,16 @@ const util = {
           certifyType = "24";
           break;
         case "identityCardFront": //身份证正
-          certifyType = "00";
+          certifyType = "04";
           break;
         case "identityCardReverse": //身份证反
-          certifyType = "16";
+          certifyType = "31";
           break;
         case "licenceForOpeningAccounts": //开户许可证
           certifyType = "03";
           break;
         case "bankCardFront": //银行卡正面
-          certifyType = "13";
+          certifyType = "07";
           break;
         default:
           certifyType = "";

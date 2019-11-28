@@ -1,10 +1,10 @@
 <component name="libraryTable">
   <library name="Maven: com.sevenpay:sevenpay-external-dubbo-bean:5.1.5-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/sevenpay/sevenpay-external-dubbo-bean/5.1.5-SNAPSHOT/sevenpay-external-dubbo-bean-5.1.5-SNAPSHOT.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/sevenpay/sevenpay-external-dubbo-bean/5.1.5-SNAPSHOT/sevenpay-external-dubbo-bean-5.1.5-20191128.070620-97.jar!/" />
     </CLASSES>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/sevenpay/sevenpay-external-dubbo-bean/5.1.5-SNAPSHOT/sevenpay-external-dubbo-bean-5.1.5-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/sevenpay/sevenpay-external-dubbo-bean/5.1.5-SNAPSHOT/sevenpay-external-dubbo-bean-5.1.5-20191128.070620-97-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

@@ -229,8 +229,11 @@ public class AgentController {
             List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request,custId1);
             if (scanCopyList != null){
                 for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
-                    tdCustScanCopy.setAuthId(authId);
+                    tdCustScanCopy.setStatus("01");
                     merchantInfoService.updateTdCustScanCopy(tdCustScanCopy);
+                    tdCustScanCopy.setAuthId(authId);
+                    tdCustScanCopy.setStatus("00");
+                    merchantInfoService.saveTdCustScanCopy(tdCustScanCopy);
                 }
             }
             //产品保存
