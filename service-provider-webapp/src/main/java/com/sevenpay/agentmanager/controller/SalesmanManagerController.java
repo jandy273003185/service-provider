@@ -197,5 +197,18 @@ public class SalesmanManagerController {
         return new ResultBean<List<Map<String, Object>>>("1",maps);
     }
 
+    /**
+     * 校验该业务员手机账号是否绑定过
+     * @param phone
+     * @return
+     */
+    @RequestMapping("checkPhone")
+    public ResultBean checkPhone(String phone){
+        boolean b = salesmanManagerService.checkPhone(phone);
+        if (!b){
+            return new ResultBean("0","该业务员手机号已绑定");
+        }
+        return new ResultBean("1","绑定成功");
+    }
 
 }
