@@ -208,7 +208,7 @@ public class SalesmanManagerController {
         if (!b){
             return new ResultBean("0","该业务员手机号已绑定");
         }
-        return new ResultBean("1","绑定成功");
+        return new ResultBean("1","可绑定");
     }
 
 }

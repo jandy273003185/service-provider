@@ -135,9 +135,13 @@
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_5_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_5_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_19.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_19.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/assets/api/interface.js" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/assets/api/interface.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider.iml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/SalesmanManagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/SalesmanManagerController.java" afterDir="false" />
+>>>>>>> 4d101aba0ba881d1c086e9240a18e398b766a74d
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -501,7 +505,21 @@
       <option name="project" value="LOCAL" />
       <updated>1574935604363</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="jiangzonglin">
+      <created>1574936195130</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1574936195131</updated>
+    </task>
+    <task id="LOCAL-00039" summary="jiangzonglin">
+      <created>1574936677058</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1574936677058</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
