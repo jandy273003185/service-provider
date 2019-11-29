@@ -395,10 +395,10 @@ public class AgentController {
     public ResultBean getAgentInfo(TdCustInfo tdCustInfo){
         //查询商户信息
         TdCustInfo custInfo = merchantInfoService.getCustInfo(tdCustInfo);
-        if (custInfo ==null) {
+        if (custInfo == null) {
             return new ResultBean("0");
         }
-        return new ResultBean("1");
+        return new ResultBean("1",custInfo.getCustName());
     }
 
 
