@@ -305,10 +305,10 @@ onSearch(){////将this.value传到后台
           this.shopList=[]; //清空数组
           this.customShow = true;//打开list,重新请求数据
         }else {
-          Dialog({ message: '查看的开始时间必须小于或等于结束时间！！' })
+          Dialog({ message: '查看的开始时间必须小于或等于结束时间！！' });
         }
       }else {
-        Dialog({ message: '请选择查看开始时间及结束时间！！' })
+        Dialog({ message: '请选择查看开始时间及结束时间！！' });
       }
 
     },

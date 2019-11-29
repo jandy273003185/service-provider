@@ -4,6 +4,8 @@
     <list default="true" id="5da86aee-4955-4b9f-8ce7-c1f504dce408" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -100,7 +102,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4bbd726d-d59f-4074-a1f1-b1a6afa6b2d7" name="Default" comment="" />
+      <changelist id="5da86aee-4955-4b9f-8ce7-c1f504dce408" name="Default Changelist" comment="" />
       <created>1574345401264</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -108,6 +110,8 @@
       <workItem from="1574391685862" duration="13397000" />
       <workItem from="1574678356428" duration="12508000" />
       <workItem from="1574773254901" duration="20882000" />
+      <workItem from="1575016435832" duration="576000" />
+      <workItem from="1575017028808" duration="4779000" />
     </task>
     <task id="LOCAL-00001" summary="管理员与业务员互相登录错入口">
       <created>1574399372032</created>

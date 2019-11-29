@@ -9,7 +9,7 @@
     >
       <van-icon name="add-o" slot="right" size="1.8em" />
     </van-nav-bar>
-    <van-tabs v-model="tabActive" swipeable title-active-color="#699dd7" color="#699dd7" @change="onClick">
+    <van-tabs v-model="tabActive"  title-active-color="#699dd7" color="#699dd7" @click="onClick" >
       <van-tab title="未冻结">
         <van-row class="row salesInfo">
           <van-col span="6">姓名</van-col>
@@ -122,7 +122,8 @@ export default {
       inpName: "",
       inpAccount: "",
       tabActive: 0,
-      salesName:''
+      salesName:'',
+      currentActive:''
     };
   },
   computed: {
@@ -142,8 +143,11 @@ export default {
       if(this.salesName){
         let params = {userName:this.salesName};
         this.getInitList(params);
+      }else {
+        Dialog({ message: "请输入业务员名字" });
       }
     },
+
     onClick(){
       this.salesName='';
       let params = {custId: this.userId};
@@ -275,8 +279,10 @@ export default {
 .van-search .van-cell{
   background-color: #efefef;
   border-radius: 6px;
+  padding-left: 5px;
 }
 .van-search__action{
   color: #3f9aff;
 }
+
 </style>

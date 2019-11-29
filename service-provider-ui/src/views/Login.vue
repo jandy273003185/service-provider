@@ -61,16 +61,16 @@ export default {
   },
   methods: {
     //选择登录方式
-    selectInto(way){
+   /* selectInto(way){
       if(way=='code'){
         this.$toast({message: "验证码登录暂未开通，敬请期待",duration:1000 });
       }
-     /* this.selectLogin=way;*/
-    },
+     /!* this.selectLogin=way;*!/
+    },*/
     //获取短信验证码
-    getCode(){
+   /* getCode(){
       this.$toast({ message: "已发送短信验证码，请前往查看" });
-    },
+    },*/
 
     //判断账号密码非空
     submitLogin() {
