@@ -30,14 +30,17 @@
         </div>
       </div>
       <div class="row">
+        <span class="must">*</span>
         <span class="label" :class="{'active':(clickedNext&&!params.representativeName)}">法人名字</span>
         <input v-model="params.representativeName" placeholder="请输入法人名字" />
       </div>
       <div class="row">
+        <span class="must">*</span>
         <span class="label" :class="{'active':(clickedNext&&!params.representativeCertNo)}">法人身份证号</span>
         <input v-model="params.representativeCertNo" placeholder="请输入法人身份证号" />
       </div>
       <div class="row">
+        <span class="must">*</span>
         <span
           class="label"
           :class="{'active':(clickedNext&&!params.idTermStart&&!params.idTermEnd)}"
@@ -68,10 +71,12 @@
         @cancel="datepickerHide"
       />
       <div class="row">
+        <span class="must">*</span>
         <span class="label" :class="{'active':(clickedNext&&!params.contactName)}">联系人名字</span>
         <input v-model="params.contactName" placeholder="请输入联系人名字" />
       </div>
       <div class="row">
+        <span class="must">*</span>
         <span class="label" :class="{'active':(clickedNext&&!params.contactMobile)}">联系人手机</span>
         <input type="number" v-model="params.contactMobile" placeholder="请输入联系人手机" />
       </div>

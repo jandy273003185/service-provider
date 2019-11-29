@@ -5,6 +5,7 @@
     <div class="stepInfo">
       <div ref="baseform">
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcct)}">结算账号</span>
           <input
             @blur="getBankName(params.compMainAcct)"
@@ -14,6 +15,7 @@
           />
         </div>
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.compAcctBank)}">开户银行</span>
           <!-- v-model="params.compAcctBank" -->
           <input v-model.trim="params.bankName" placeholder="请输入开户银行" />
@@ -28,6 +30,7 @@
           @confirm="onConfirmBank"
         />
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.bankProvinceName)}">开户省份</span>
           <input
             v-model="params.bankProvinceShow"
@@ -37,6 +40,7 @@
           />
         </div>
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.bankCityName)}">开户城市</span>
           <input v-model="params.bankCityShow" placeholder="请选择城市" readonly @click="getCity" />
         </div>
@@ -59,6 +63,7 @@
           @confirm="onConfirmCity"
         />
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.branchBank)}">开户支行</span>
           <input
             v-model="params.bankbranchName"
@@ -78,10 +83,12 @@
         />
 
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.bankAcctName)}">开户人</span>
           <input v-model="params.bankAcctName" placeholder="请输入开户人" />
         </div>
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcctType)}">结算类型</span>
           <input type="text" v-model="params.compMainAcctTypeShow" readonly placeholder="请选择" @click="showcomPicker"/>
            <van-picker
