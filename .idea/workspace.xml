@@ -135,6 +135,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_5_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_5_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_19.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_19.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/mine/amendPsd.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/mine/amendPsd.vue" afterDir="false" />
@@ -242,13 +245,6 @@
       <workItem from="1574391685862" duration="13397000" />
       <workItem from="1574678356428" duration="12508000" />
       <workItem from="1574773254901" duration="20882000" />
-    </task>
-    <task id="LOCAL-00001" summary="管理员与业务员互相登录错入口">
-      <created>1574399372032</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1574399372032</updated>
     </task>
     <task id="LOCAL-00002" summary="管理员与业务员互相登录错入口">
       <created>1574400459732</created>
@@ -586,7 +582,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575009223464</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="jiangzonglin">
+      <created>1575009799007</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1575009799008</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
