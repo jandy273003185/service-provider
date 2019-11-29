@@ -257,7 +257,7 @@ public class AgentController {
             }
             if (productList != null){
                 for (TdMerchantProductInfo tdMerchantProductInfo : productList) {//存储新的产品
-                    productInfoService.selectOpenProductInfo(tdMerchantProductInfo);
+                    productInfoService.saveTdMerchantProductInfo(tdMerchantProductInfo);
                 }
             }
             //修改进件完成
