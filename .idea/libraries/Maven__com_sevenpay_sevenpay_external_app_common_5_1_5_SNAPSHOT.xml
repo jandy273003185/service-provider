@@ -3,12 +3,9 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/com/sevenpay/sevenpay-external-app-common/5.1.5-SNAPSHOT/sevenpay-external-app-common-5.1.5-SNAPSHOT.jar!/" />
     </CLASSES>
-<<<<<<< HEAD
-=======
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/com/sevenpay/sevenpay-external-app-common/5.1.5-SNAPSHOT/sevenpay-external-app-common-5.1.5-SNAPSHOT-javadoc.jar!/" />
     </JAVADOC>
->>>>>>> 46ef164bec37965e5204dfa5ef5722273a8851ad
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/com/sevenpay/sevenpay-external-app-common/5.1.5-SNAPSHOT/sevenpay-external-app-common-5.1.5-SNAPSHOT-sources.jar!/" />
     </SOURCES>
