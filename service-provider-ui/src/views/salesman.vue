@@ -181,6 +181,8 @@ export default {
         this.setToken(data.resultMsg.token);
         this.setUserId(data.resultMsg.userInfo.salesmanId);
         this.setUserName(data.resultMsg.userInfo.userName);
+        storage.set("userId", data.resultMsg.userInfo.salesmanId);
+        console.log(storage.get("userId"));
         this.islogin = true;
         this.salesShopNew();
       }
