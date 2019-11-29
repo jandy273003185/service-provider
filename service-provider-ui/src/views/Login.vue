@@ -89,7 +89,7 @@ export default {
           password: this.password,
           openId: this.openId,
           roleCode: this.role
-        };
+       };
         console.log(params);
 
       }else if(this.selectLogin=='code'){
