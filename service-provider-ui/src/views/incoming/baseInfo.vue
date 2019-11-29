@@ -182,7 +182,7 @@
           </van-uploader>
         </div>
         <div class="row-img">
-          <div class="stit" :class="{'active':(clickedNext&&!params.specialBusiness)}">特殊行业资质照 <span>(必须)</span></div>
+          <div class="stit" :class="{'active':(clickedNext&&!params.specialBusiness)}">特殊行业资质照 <span></span></div>
           <div>
             <van-uploader
               name="specialBusiness"
