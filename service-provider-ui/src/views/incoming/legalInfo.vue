@@ -6,7 +6,7 @@
       <div class="row-img">
         <div class="stit"  :class="{'active':(clickedNext&&(!params.identityCardFront||!params.identityCardReverse))}" >
           法人身份证照片
-          <span>(必须)</span>
+          <span>(必须且&le;3M)</span>
         </div>
         <div class="img-col">
           <van-uploader
@@ -17,7 +17,7 @@
             :max-count="1"
             preview-size="auto"
           >
-            <van-button icon="photo" type="primary">身份证正面照(必须且小于3M)</van-button>
+            <van-button icon="photo" type="primary">身份证正面照</van-button>
           </van-uploader>
           <van-uploader
              :max-size="3145728"
@@ -27,7 +27,7 @@
             :max-count="1"
             preview-size="auto"
           >
-            <van-button icon="photo" type="primary">身份证反面照(必须且小于3M)</van-button>
+            <van-button icon="photo" type="primary">身份证反面照</van-button>
           </van-uploader>
         </div>
       </div>

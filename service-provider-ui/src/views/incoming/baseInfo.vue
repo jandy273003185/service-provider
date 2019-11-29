@@ -102,7 +102,7 @@
         <div class="row-img">
           <div class="stit" :class="{'active':(clickedNext&&!params.businessLicense)}">
             营业执照照片
-            <span>(必须且小于3M)</span>
+            <span>(必须且&le;3M)</span>
           </div>
           <van-uploader
             :max-size="3145728"
