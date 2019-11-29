@@ -122,8 +122,7 @@ export default {
       inpName: "",
       inpAccount: "",
       tabActive: 0,
-      salesName:'',
-      currentActive:''
+      salesName:''
     };
   },
   computed: {
