@@ -391,4 +391,15 @@ public class AgentController {
         return new ResultBean("1");
     }
 
+    @RequestMapping("getAgentInfo")
+    public ResultBean getAgentInfo(TdCustInfo tdCustInfo){
+        //查询商户信息
+        TdCustInfo custInfo = merchantInfoService.getCustInfo(tdCustInfo);
+        if (custInfo ==null) {
+            return new ResultBean("0");
+        }
+        return new ResultBean("1");
+    }
+
+
 }
