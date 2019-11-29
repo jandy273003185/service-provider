@@ -102,9 +102,10 @@
         <div class="row-img">
           <div class="stit" :class="{'active':(clickedNext&&!params.businessLicense)}">
             营业执照照片
-            <span>(必须)</span>
+            <span>(必须且小于3M)</span>
           </div>
           <van-uploader
+            :max-size="3145728"
             name="businessLicense"
             :after-read="afterReadImg"
             :before-delete="deleteImg"
@@ -181,8 +182,8 @@
             <van-button icon="photo" type="primary">上传店内照片</van-button>
           </van-uploader>
         </div>
-        <div class="row-img">
-          <div class="stit" :class="{'active':(clickedNext&&!params.specialBusiness)}">特殊行业资质照 <span></span></div>
+        <div class="row-img"> <!--  :class="{'active':(clickedNext&&!params.specialBusiness)}" -->
+          <div class="stit">特殊行业资质照 <span>(必须)</span></div>
           <div>
             <van-uploader
               name="specialBusiness"
@@ -500,10 +501,9 @@ export default {
       this.blockpicker = false;
     },
     afterReadImg(file) {
-      //this.getImgInfo(file.content);
-      this.getImgImpress(file.content);
+      this.getImgInfo(file.content);
     },
-    async getImgInfo(blob,base64,name,that) {
+    async getImgInfo(file) {
       //识别营业执照
       this.$toast.loading({
         message: "识别中..",
@@ -511,7 +511,7 @@ export default {
         duration: 0
       });
       const params = {
-        str: base64,
+        str: file,
         flag: "businessPhoto" //营业执照
       };
       const info = await common.getImgInfo(params);
@@ -531,9 +531,6 @@ export default {
         this.photos.businessLicense = [{ url: "" }];
         this.$toast("营业执照信息无法识别！");
       }
-    },
-    getImgImpress(base64){
-      upload.compressImg(base64, 0.8,'', this, this.getImgInfo)
     },
     deleteImg(file, detail) {
       this.params[detail.name] = "";

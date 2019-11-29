@@ -10,22 +10,24 @@
         </div>
         <div class="img-col">
           <van-uploader
+          :max-size="3145728"
             name="certAttribute1"
             v-model="photos.identityCardFront"
             :after-read="afterReadImg"
             :max-count="1"
             preview-size="auto"
           >
-            <van-button icon="photo" type="primary">身份证正面照</van-button>
+            <van-button icon="photo" type="primary">身份证正面照(必须且小于3M)</van-button>
           </van-uploader>
           <van-uploader
+             :max-size="3145728"
              name="certAttribute2"
             :after-read="afterReadImg"
             v-model="photos.identityCardReverse"
             :max-count="1"
             preview-size="auto"
           >
-            <van-button icon="photo" type="primary">身份证反面照</van-button>
+            <van-button icon="photo" type="primary">身份证反面照(必须且小于3M)</van-button>
           </van-uploader>
         </div>
       </div>
@@ -166,7 +168,9 @@ export default {
          this.$toast("请检查填写的信息得正确性！");
       }
     },
-    
+    afterReadImg(file,detail) {
+      this.getImgInfo(file.content,detail.name);
+    },
     datepickerVisiable(type) {
       this.dateType = type;
       this.showDatepicker = true;
@@ -184,15 +188,7 @@ export default {
       } 
       this.showDatepicker = false;
     },
-    afterReadImg(file,detail) {
-      //this.getImgInfo(file.content,detail.name);
-
-       this.getImgImpress(file.content,detail.name);
-    },
-     getImgImpress(base64,name){
-      upload.compressImg(base64, 0.8,name, this, this.getImgInfo)
-    },
-    async getImgInfo(blob,base64,name,that) {
+    async getImgInfo(file,name) {
       //优图识别
       this.$toast.loading({
         message: "识别中...",
@@ -200,7 +196,7 @@ export default {
         duration: 0
       });
       const params = {
-        str: base64,
+        str: file,
         flag: name
       };
       const info = await common.getImgInfo(params);
