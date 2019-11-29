@@ -336,9 +336,9 @@ onSearch(){////将this.value传到后台
     number(){//笔数排名
         this.Numranking=! this.Numranking
         if(this.Numranking){
-          this.rankingCode = 'transactionNum asc ';
+          this.rankingCode = 'transactionNum asc';
         }else {
-          this.rankingCode = 'transactionNum desc ';
+          this.rankingCode = 'transactionNum desc';
         }
         this.selectRank = 'transactionNum';
         this.pageNum=1;
@@ -351,7 +351,7 @@ onSearch(){////将this.value传到后台
       if(this.Amountranking){
         this.rankingCode = 'transactionAmount  desc';
       }else {
-        this.rankingCode = 'transactionAmount asc ';
+        this.rankingCode = 'transactionAmount asc';
       }
       this.selectRank = 'transactionAmount';
       this.pageNum=1;

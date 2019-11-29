@@ -9,7 +9,7 @@
       <p v-if="selectLogin=='code'" class="logintype">验证码登录</p>
       <div v-if="selectLogin=='psd'" ><!--//账号密码登录-->
         <div class="item userName">
-          <input v-model.trim="userName" type="text" placeholder="请输入账号" />
+          <input v-model.trim="userName" type="text" placeholder="手机号码/邮箱" />
           <van-icon @click="clearName" name="close" />
         </div>
         <div class="item">
@@ -174,7 +174,8 @@ export default {
 
       span {
         font-size: vw(20);
-        margin-top: vw(5);
+        margin-top: vw(10);
+        color #4b4b4b
       }
 
       img {
@@ -186,6 +187,7 @@ export default {
     .logintype {
       font-size: vw(50);
       font-weight: vw(20);
+      color #4c4c4c
       height: vw(80);
       line-height: vw(80);
     }
@@ -239,7 +241,9 @@ export default {
 
     .edter {
       margin-top: vw(80);
+      font-size vw(30)
       border: none;
+      height vw(70)
     }
 
     .userName {

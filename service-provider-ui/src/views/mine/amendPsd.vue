@@ -110,7 +110,8 @@ export default {
       .submit{
         display: block;
         width: vw(600);
-        height: vw(80);
+        height: vw(70);
+        border-radius vw(5)
         font-size: cw(40);
         color: #FFFFFF;
         background-color: #26a7e9;
