@@ -225,12 +225,20 @@ public class AgentController {
             tdCustInfo.setModifyTime(new Date());//修改时间
             tdCustInfo.setModifyId(request.getParameter("userId"));//修改人
             merchantInfoService.updateMerchant(tdCustInfo);
-            //扫描件路径保存
-            List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request,custId1);
-            if (scanCopyList != null){
-                for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
+            TdCustScanCopy tSC = new TdCustScanCopy();
+            tSC.setCustId(custId1);
+            //查询待完善图片
+            List<TdCustScanCopy> tdCustScanCopies = merchantInfoService.selectCustScanCopy(tSC);
+            if (tdCustScanCopies.size()>0) {
+                for (TdCustScanCopy tdCustScanCopy : tdCustScanCopies) {
                     tdCustScanCopy.setStatus("01");
                     merchantInfoService.updateTdCustScanCopy(tdCustScanCopy);
+                }
+            }
+            //扫描件路径保存
+            List<TdCustScanCopy> scanCopyList = AddCustScanCopy.add(request,custId1);
+            if (scanCopyList.size()> 0){
+                for (TdCustScanCopy tdCustScanCopy : scanCopyList) {
                     tdCustScanCopy.setAuthId(authId);
                     tdCustScanCopy.setStatus("00");
                     merchantInfoService.saveTdCustScanCopy(tdCustScanCopy);
