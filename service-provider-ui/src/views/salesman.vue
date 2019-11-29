@@ -211,7 +211,7 @@ export default {
       console.log(listInfo);
       this.statesList = listInfo.data.resultMsg.data;
       let list = listInfo.data.resultMsg.data;
-      if(list || list.length>=0 ){
+      if(list || list.length>0 ){
         this.isHave = false;//有数据时隐藏掉
       }
       /*let total=listInfo.data.resultMsg.total;*/
