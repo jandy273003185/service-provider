@@ -122,6 +122,7 @@ export default {
       let loginData = await login.login(params);
       console.log(loginData);
       if (loginData.data.resultCode == 1) {
+            this.$toast("登录成功");
             if (this.role == "agent") {
               console.log(this.role);
               this.$router.replace({
