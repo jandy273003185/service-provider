@@ -137,9 +137,9 @@ export default {
       contract_qinting: false, //选中可签约产品
       contract_scan: false,
       contract_app: false,
-      qtRate: "",
-      scanRate: "",
-      appRate: "",
+      qtRate: 0.38,
+      scanRate: 0.38,
+      appRate: 0.38,
       sn: "",
       allInfoList: {},
       contractList: "",

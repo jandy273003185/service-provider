@@ -51,9 +51,9 @@ export default {
       scan: false,
       app: false,
       sn: "",
-      dragonflyProductRate: "",
-      scanProductRate: "",
-      appProductRate: "",
+      dragonflyProductRate: 0.38,
+      scanProductRate: 0.38,
+      appProductRate: 0.38,
       params: {}
     };
   },
@@ -189,6 +189,7 @@ export default {
           prolist.push(proObj);
         } else {
           this.$toast("请将蜻蜓产品信息补充完整");
+          return;
         }
       }
       if (this.scan) {
@@ -201,6 +202,7 @@ export default {
           prolist.push(proObj);
         } else {
           this.$toast("请将填写扫码费率");
+          return;
         }
       }
       if (this.app) {
@@ -213,6 +215,7 @@ export default {
           prolist.push(proObj);
         } else {
           this.$toast("请将填写app费率");
+          return;
         }
       }
       return prolist;
