@@ -77,19 +77,18 @@ export default {
     if (this.checkedState == "corvidae") {
       let productInfos = this.incomingReturn.productInfoList;
       for (let i = 0; i < productInfos.length; i++) {
-        if (productInfos[i].productId == "1") {
+        if (productInfos[i].productId == "1") {//扫码
           this.scan = true;
           this.scanProductRate = productInfos[i].productRate;
-          this.sn = productInfos[i].sn;
         }
-        if (productInfos[i].productId == "2") {
+        if (productInfos[i].productId == "2") {//app
           this.app = true;
           this.appProductRate = productInfos[i].productRate;
         }
-        if (productInfos[i].productId == "8") {
+        if (productInfos[i].productId == "8") {//蜻蜓
           this.dragonfly = true;
-          console.log(productInfos[i].productRate);
           this.dragonflyProductRate = productInfos[i].productRate;
+          this.sn = productInfos[i].sn;
         }
       }
     }
