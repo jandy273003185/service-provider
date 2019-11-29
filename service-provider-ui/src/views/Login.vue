@@ -131,16 +131,17 @@ export default {
         const _this = this;
         this.$toast({
           message:"登录成功",
-          duration:500,
           onClose:function(){
             if (this.role == "agent") {
+              console.log(this.role);
               _this.$router.replace({
                 name: "Administrator",
                 params: {
                   fname: "login"
                 }
               });
-            } else if (this.role == "salesman") {
+            } else if(this.role == "salesman") {
+              console.log(this.role);
               _this.$router.replace({
                 name: "salesman",
                 params: {

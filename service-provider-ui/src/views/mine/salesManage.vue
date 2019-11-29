@@ -122,8 +122,7 @@ export default {
       inpName: "",
       inpAccount: "",
       tabActive: 0,
-      salesName:'',
-      saving:false
+      salesName:''
     };
   },
   computed: {
@@ -257,7 +256,6 @@ export default {
             Dialog({ message: "添加业务员失败！" });
           }
         }else{//手机号重复
-          /*this.saving=false;*/
           if(phoneCode.data&&phoneCode.data.resultMsg){
             Dialog({ message: phoneCode.data.resultMsg });
           }else{
