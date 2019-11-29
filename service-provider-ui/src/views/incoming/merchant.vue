@@ -8,11 +8,11 @@
           <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcct)}">结算账号</span>
           <input
-            @blur="getBankName(params.compMainAcct)"
             type="number"
             v-model="params.compMainAcct"
             placeholder="请输入结算账号"
           />
+           <!--   @blur="getBankName(params.compMainAcct)" -->
         </div>
         <div class="row">
           <span class="must">*</span>
@@ -95,7 +95,7 @@
           v-if="compicker"
           show-toolbar
           title="结算类型"
-          :columns="[{name:'企业',val:'01'},{name:'个人',val:'02'}]"
+          :columns="[{name:'对公',val:'01'},{name:'对私',val:'02'}]"
           value-key="name"
           @cancel="onCancelAcctType"
           @confirm="onConfirmAcctType"
@@ -215,10 +215,10 @@ export default {
       let bankProvinces = this.incomingReturn.bankProvinces[0];
       let compMainAcctTypeShow;
       if(custInfo.compMainAcctType=='01'){
-        compMainAcctTypeShow="企业"
+        compMainAcctTypeShow="对公"
       }
        if(custInfo.compMainAcctType=='02'){
-        compMainAcctTypeShow="个人"
+        compMainAcctTypeShow="对私"
       }
       let params = {
         compMainAcct: custInfo.compMainAcct,//银行卡号

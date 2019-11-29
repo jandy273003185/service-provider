@@ -500,9 +500,10 @@ export default {
       this.blockpicker = false;
     },
     afterReadImg(file) {
-      this.getImgInfo(file.content);
+      //this.getImgInfo(file.content);
+      this.getImgImpress(file.content);
     },
-    async getImgInfo(file) {
+    async getImgInfo(blob,base64,name,that) {
       //识别营业执照
       this.$toast.loading({
         message: "识别中..",
@@ -510,7 +511,7 @@ export default {
         duration: 0
       });
       const params = {
-        str: file,
+        str: base64,
         flag: "businessPhoto" //营业执照
       };
       const info = await common.getImgInfo(params);
@@ -530,6 +531,9 @@ export default {
         this.photos.businessLicense = [{ url: "" }];
         this.$toast("营业执照信息无法识别！");
       }
+    },
+    getImgImpress(base64){
+      upload.compressImg(base64, 0.8,'', this, this.getImgInfo)
     },
     deleteImg(file, detail) {
       this.params[detail.name] = "";

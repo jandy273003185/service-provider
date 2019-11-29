@@ -166,9 +166,7 @@ export default {
          this.$toast("请检查填写的信息得正确性！");
       }
     },
-    afterReadImg(file,detail) {
-      this.getImgInfo(file.content,detail.name);
-    },
+    
     datepickerVisiable(type) {
       this.dateType = type;
       this.showDatepicker = true;
@@ -186,7 +184,15 @@ export default {
       } 
       this.showDatepicker = false;
     },
-    async getImgInfo(file,name) {
+    afterReadImg(file,detail) {
+      //this.getImgInfo(file.content,detail.name);
+
+       this.getImgImpress(file.content,detail.name);
+    },
+     getImgImpress(base64,name){
+      upload.compressImg(base64, 0.8,name, this, this.getImgInfo)
+    },
+    async getImgInfo(blob,base64,name,that) {
       //优图识别
       this.$toast.loading({
         message: "识别中...",
@@ -194,7 +200,7 @@ export default {
         duration: 0
       });
       const params = {
-        str: file,
+        str: base64,
         flag: name
       };
       const info = await common.getImgInfo(params);

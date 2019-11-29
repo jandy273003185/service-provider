@@ -153,7 +153,6 @@ export default {
       if (r != null) {
         return unescape(r[2]);
       }
-
       return null;
     },
     toIncoming() {
