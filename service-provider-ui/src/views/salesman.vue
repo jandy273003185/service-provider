@@ -268,6 +268,7 @@ export default {
     .search {
       width: vw(690);
       height: vw(58);
+      line-height: vw(58);
       margin:0 auto;
       background-color: #eeeeee;
       display: flex;
@@ -276,8 +277,8 @@ export default {
       border-radius: vw(10);
 
       .searchIcon {
-        width: vw(50);
-        height: vw(50);
+        width: vw(40);
+        height: vw(40);
       }
 
       div {
