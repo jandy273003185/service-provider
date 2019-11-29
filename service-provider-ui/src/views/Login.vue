@@ -122,13 +122,9 @@ export default {
       let loginData = await login.login(params);
       console.log(loginData);
       if (loginData.data.resultCode == 1) {
-        const _this = this;
-        this.$toast({
-          message:"登录成功",
-          onClose:function(){
             if (this.role == "agent") {
               console.log(this.role);
-              _this.$router.replace({
+              this.$router.replace({
                 name: "Administrator",
                 params: {
                   fname: "login"
@@ -136,15 +132,15 @@ export default {
               });
             } else if(this.role == "salesman") {
               console.log(this.role);
-              _this.$router.replace({
+              this.$router.replace({
                 name: "salesman",
                 params: {
                   fname: "login"
                 }
               });
             }
-          }
-        });
+
+
       } else {
         Dialog({ message: loginData.data.resultMsg });
       }
