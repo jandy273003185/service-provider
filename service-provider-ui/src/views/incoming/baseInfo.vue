@@ -132,6 +132,7 @@
           </div>
         </div>
         <van-datetime-picker
+          title="日期选择"
           class="datepicker"
           v-show="showDatepicker"
           type="year-month"
@@ -424,9 +425,11 @@ export default {
     },
     async getInitAddress() {
       //获取省份
-      this.provincepicker = true;
       let res = await common.getAddress();
-      this.provinceList = res.data.resultMsg;
+      if(res.data&&res.data.resultMsg){
+        this.provincepicker = true;
+        this.provinceList = res.data.resultMsg;
+      }
     },
     async getTapCity() {
       if (this.params.province) {
