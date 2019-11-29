@@ -257,8 +257,6 @@ export default {
 .salesman {
   width: 100%;
   height: 100%;
-  background-color: #EEEEEE;
-
   .serachBox {
     width: 100%;
     height: vw(92);
@@ -347,6 +345,7 @@ export default {
     .isRanking{
       width: 100%;
       padding: 0 vw(20);
+      box-sizing :border-box;
       height:vw(110);
       display: flex;
       justify-content: center;
