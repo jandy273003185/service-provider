@@ -3,7 +3,6 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/com/gyzb/platform/gyzb-platform-common/1.0/gyzb-platform-common-1.0.jar!/" />
     </CLASSES>
-    <JAVADOC />
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/com/gyzb/platform/gyzb-platform-common/1.0/gyzb-platform-common-1.0-sources.jar!/" />
     </SOURCES>
