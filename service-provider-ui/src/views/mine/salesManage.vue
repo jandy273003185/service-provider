@@ -87,7 +87,6 @@
         </van-row>
       </van-tab>
     </van-tabs>
-
     <!-- 添加业务员 -->
     <div class="modal-wrap" v-show="addingShow">
       <div class="addSales">
@@ -100,6 +99,7 @@
           <span>手机号码：</span>
           <input type="number" v-model="inpAccount" placeholder="请输入手机号" />
         </div>
+
         <div class="item buttons">
           <span class="btn" @click="cancelAdding">取消</span>
           <span class="btn save" @click="saveSales">保存</span>
@@ -122,7 +122,8 @@ export default {
       inpName: "",
       inpAccount: "",
       tabActive: 0,
-      salesName:''
+      salesName:'',
+      saving:false
     };
   },
   computed: {
@@ -188,14 +189,14 @@ export default {
         .then(() => {
           // on confirm
           console.log(status);
-          common
-            .updateSales({
+          common.updateSales({
               custId: custId,
               salesmanId: id,
               status: 0
             })
             .then(res => {
-              this.getInitList();
+              let params = {custId: this.userId};
+              this.getInitList(params);
               console.log("冻结" + res);
             });
         })
@@ -212,15 +213,15 @@ export default {
         .then(() => {
           // on confirm
           console.log(status);
-          common
-            .updateSales({
+          common.updateSales({
               custId: custId,
               salesmanId: id,
               status: 1
             })
             .then(res => {
               console.log(res);
-              this.getInitList();
+              let params = {custId: this.userId};
+              this.getInitList(params);
               console.log("解冻");
             });
         })
@@ -231,8 +232,14 @@ export default {
     async saveSales() {
       //保存新增业务员addSales
       if (this.inpName && this.inpAccount && (/^1[3456789]\d{9}$/.test(this.inpAccount))) {
+        this.$toast.loading({
+          message: "注册中..",
+          forbidClick: true,
+          duration: 0
+        });
         let phoneCode = await common.addSales({phone:this.inpAccount});
         console.log(phoneCode);
+        this.$toast.clear();
         if(phoneCode.data.resultCode == 1){//手机号可注册
           let res = await common.insertSales({
             userName: this.inpName,
@@ -242,16 +249,22 @@ export default {
             status: 1
           });
           if (res && res.data.resultCode == "1") {
-            this.getInitList();
-            Dialog({ message: "添加业务员成功" });
+            let params = {custId: this.userId};
+            this.getInitList(params);
+            this.$toast("添加业务员成功！");
             this.cancelAdding();
           } else {
-            this.$toast("添加业务员失败！");
+            Dialog({ message: "添加业务员失败！" });
           }
-        }else if(phoneCode.data.resultCode == 0){//手机号重复
-          Dialog({ message: phoneCode.data.resultMsg });
-        }
+        }else{//手机号重复
+          /*this.saving=false;*/
+          if(phoneCode.data&&phoneCode.data.resultMsg){
+            Dialog({ message: phoneCode.data.resultMsg });
+          }else{
+            Dialog({ message:"请求异常！" });
+          }
 
+        }
       } else {
         this.$toast("请检查是否正确填写业务员姓名和手机号！");
       }
