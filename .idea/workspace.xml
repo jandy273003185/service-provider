@@ -135,17 +135,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_5_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_5_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_19.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_19.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/AgentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/CommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/java/com/sevenpay/agentmanager/controller/CommonController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/resources/application.yml" afterDir="false" />
->>>>>>> 09ef2717222f30b203ca664eacfe25ab16987dac
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -257,13 +252,6 @@
       <workItem from="1574773254901" duration="20882000" />
       <workItem from="1575016435832" duration="576000" />
       <workItem from="1575017028808" duration="4779000" />
-    </task>
-    <task id="LOCAL-00003" summary="管理员与业务员互相登录错入口">
-      <created>1574401238643</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1574401238643</updated>
     </task>
     <task id="LOCAL-00004" summary="管理员与业务员互相登录错入口">
       <created>1574418547627</created>
@@ -601,7 +589,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575016159896</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="jiangzonglin">
+      <created>1575023105169</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1575023105169</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
