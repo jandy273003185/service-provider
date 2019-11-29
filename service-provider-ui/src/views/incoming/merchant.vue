@@ -8,6 +8,7 @@
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcct)}">结算账号</span>
           <input
             @blur="getBankName(params.compMainAcct)"
+            type="number"
             v-model="params.compMainAcct"
             placeholder="请输入结算账号"
           />

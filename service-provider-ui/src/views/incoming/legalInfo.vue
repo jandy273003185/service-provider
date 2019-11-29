@@ -58,6 +58,7 @@
         </div>
       </div>
       <van-datetime-picker
+        title="日期选择"
         class="datepicker"
         v-show="showDatepicker"
         type="year-month"

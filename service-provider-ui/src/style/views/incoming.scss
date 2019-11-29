@@ -38,6 +38,9 @@
     border: none;
     background: #fff;
 }
+.stepInfo .row input{ box-sizing: border-box;
+    height: vw(95);
+    line-height: vw(95);}
 .stepInfo .row select::after{
     content: "";
     width: 100%;
