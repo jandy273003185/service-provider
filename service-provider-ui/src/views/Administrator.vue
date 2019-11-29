@@ -260,7 +260,6 @@
             console.log(userData.data.resultMsg.token);
             this.setToken(userData.data.resultMsg.token);
             this.setUserId(userData.data.resultMsg.userId);
-            this.setUserName(userData.data.resultMsg.userInfo.custName);
             localStorage.setItem("token", userData.data.resultMsg.token);
             axios.defaults.headers.common["token"] = userData.data.resultMsg.token;
             this.islogin = true;

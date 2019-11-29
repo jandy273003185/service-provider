@@ -9,7 +9,7 @@
                 <div class="name">
                     <span v-if="roleId==2">管理员:</span>
                     <span v-if="roleId==3">业务员:</span>
-                    <span>{{userName}}</span>
+                    <span>{{showName}}</span>
                 </div>
             </div>
         </div>
@@ -33,9 +33,9 @@
     </div>
 </template>
 <script>
+    import {mineInfo } from "@/assets/api/interface";
     import {mapState} from 'vuex';
     import BaseHeader from "@/components/baser-header.vue";
-    /*import {mineInfo} from "../../assets/api/interface";*/
     export default {
         name: "mine",
         components: {
@@ -43,7 +43,7 @@
         },
         data(){
             return {
-
+               showName:''
             };
         },
         computed: {
@@ -53,21 +53,30 @@
 
         },
         mounted(){
-            /*this.getUserName();*/
+            this.getUserName();
+            if(this.roleId == '3'){
+                this.showName=this.userName;
+            }
         },
         methods: {
-            /*async getUserName(){//获取管理员或者业务员的信息
+            async getUserName(){//获取管理员
                 if(this.roleId == '2'){//管理员
                     const infoData=await mineInfo.agent({custId:this.userId});
                     console.log('管理员信息');
                     console.log(infoData);
+                    if(infoData.data.resultMsg){
+                        this.showName=infoData.data.resultMsg
+                    }else {
+                        this.showName='战略服务商';
+                    }
+
                 }
-                if(this.roleId == '3'){//业务员
+               /* if(this.roleId == '3'){//业务员
                     const infoData=await mineInfo.salesman({id:this.userId});
                     console.log('业务员信息');
                     console.log(infoData);
-                }
-            }*/
+                }*/
+            }
 
         }
     };
