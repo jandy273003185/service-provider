@@ -176,7 +176,7 @@
           </van-uploader>
         </div>
         <div class="row-img">
-          <div class="stit" :class="{'active':(clickedNext&&!params.specialBusiness)}">特殊行业资质照</div>
+          <div class="stit" :class="{'active':(clickedNext&&!params.specialBusiness)}">特殊行业资质照 <span>(必须)</span></div>
           <div>
             <van-uploader
               name="specialBusiness"
@@ -194,7 +194,7 @@
           <div
             class="stit"
             :class="{'active':(clickedNext&&!params.electronicSignaturePhoto)}"
-          >电子签名照</div>
+          >电子签名照 <span>(必须)</span></div>
 
           <van-uploader
             name="electronicSignaturePhoto"
