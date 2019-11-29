@@ -1,10 +1,11 @@
 import http from "./http";
-export const common={
+export const common={//
   getImgInfo: params =>http.post1('/common/youTu',params),//图片识别
   uploadImg: params =>http. post('/common/upload',params),//图片上传
   getAddress:params=>http.post1('/common/province',params),//商户省市区
   bankAddress:params=>http.post1('/common/bankProvince',params),//银行省市
   resetPwd:params=>http.post1('/salesman/regPassword',params),//重置密码
+  updatePwd:params=>http.post1('/salesman/updatePassword',params),//业务员修改密码
   updateSales:params=>http.post1('/salesman/update',params),//更新业务员
   insertSales:params=>http.post1('/salesman/insert',params),//新增业务员
   addSales: param =>http.post1('/salesman/checkPhone',param),//新增业务员时手机号码校验

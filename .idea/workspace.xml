@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4d5cdfba-9981-48aa-bc90-e9976983b808" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/service-provider-ui.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/service-provider-ui.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/mine/amendPsd.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/mine/amendPsd.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-webapp/service-provider-webapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/service-provider-webapp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/assets/api/interface.js" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/assets/api/interface.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
