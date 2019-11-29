@@ -411,6 +411,11 @@ export default {
     },
     uploadImg(file, detail) {
       //图片上传
+      this.$toast.loading({
+        message: "图片上传中..",
+        forbidClick: true,
+        duration: 0
+      });
       upload.blobToBase64(file.file, detail.name, this);
     }
   }

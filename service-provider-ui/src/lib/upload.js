@@ -7,11 +7,6 @@ const uploadImg = {
     console.log(name);
     let data = new FormData();
     data.append("file", blob, ".jpg");
-    that.$toast.loading({
-      message: "图片上传中..",
-      forbidClick: true,
-      duration: 0
-    });
     let info = await common.uploadImg(data);
     if (info.data.resultCode == "200") {
       let resultMsg = JSON.parse(info.data.resultMsg);
