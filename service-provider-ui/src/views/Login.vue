@@ -7,7 +7,7 @@
       </div>
       <p v-if="selectLogin=='psd'" class="logintype">账号密码登录</p>
       <p v-if="selectLogin=='code'" class="logintype">验证码登录</p>
-      <div v-if="selectLogin=='psd'" >//账号密码登录
+      <div v-if="selectLogin=='psd'" ><!--//账号密码登录-->
         <div class="item userName">
           <input v-model.trim="userName" type="text" placeholder="请输入账号" />
           <van-icon @click="clearName" name="close" />
@@ -17,7 +17,7 @@
           <van-icon @click="clearPsd" name="close" />
         </div>
       </div>
-      <div v-if="selectLogin=='code'" >//手机号登录
+      <div v-if="selectLogin=='code'" ><!--//手机号登录-->
         <div class="item userName">
           <input v-model.trim="userPhone" type="text" placeholder="输入手机号码" />
           <van-icon @click="clearName" name="close" />
