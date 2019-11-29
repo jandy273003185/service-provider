@@ -477,8 +477,15 @@ export default {
       let res = await common.getAddress({
         cityId: value.cityId
       });
+      if(res.data.resultMsg&&res.data.resultMsg.length>0){
       this.blockList = res.data.resultMsg;
       this.blockpicker = true;
+      }else{
+        if(res.data.resultMsg.length==0){
+           this.params.country = value.cityId;
+           this.params.countryName = value.cityName;
+        }
+      }
     },
     async onConfirmBlock(value) {
       //确认区
