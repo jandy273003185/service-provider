@@ -205,7 +205,7 @@ export default {
     //业务员主页下部分商户进件最新十条信息
     async salesShopNew() {
       let listInfo = await shopAuditInfo.shopAuditInfo({
-        userId: storage.get("userId"),
+        userId:this.$store.state.userId,// storage.get("userId"),
         pageSize: "10",
         pageNum: "1",
         roleId: "3"
