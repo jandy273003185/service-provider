@@ -5,6 +5,7 @@
     <div class="stepInfo">
       <div ref="baseform">
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.merchantAccount)}">商户账号</span>
           <input
             type="number"
@@ -15,6 +16,7 @@
           />
         </div>
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.custType)}">商户类型</span>
           <input type="text" readonly v-model="params.custTypeShow" placeholder="请选择" @click="showcustTypePicker"/>
         </div>
@@ -28,18 +30,22 @@
           @confirm="onConfirmCusttype"
         />
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.custName)}">商户名字</span>
           <input v-model="params.custName" placeholder="请输入商户名称" />
         </div>
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.shortName)}">商户简称</span>
           <input v-model="params.shortName" placeholder="请输入商户简称" />
         </div>
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.contactPhone)}">客服号码</span>
           <input type="number" v-model="params.contactPhone" placeholder="请输入客服电话号码" />
         </div>
         <div class="row">
+          <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.custAdd)}">商户地址</span>
           <input
             class="address"

@@ -164,13 +164,15 @@ export default {
       } else {
         this.$toast("进件信息添加失败！");
       }
-      if (this.roleId == "3") {
-        //业务员
-        this.$router.push("/salesman");
-      }
-      if (this.roleId == "2") {
-        //管理员
-        this.$router.push("/Administrator");
+      if(info.data.resultCode == 1||info.data.resultCode == 0){
+        if (this.roleId == "3") {
+          //业务员
+          this.$router.push("/salesman");
+        }
+        if (this.roleId == "2") {
+          //管理员
+            this.$router.push("/Administrator");
+        }
       }
     },
     checkSignGoods() {
