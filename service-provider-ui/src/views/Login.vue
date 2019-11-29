@@ -164,9 +164,8 @@ export default {
     margin: auto;
 
     .title {
-      font-size: vw(36);
       height: vw(500);
-      font-weight: 500;
+      font-weight: 600;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -175,7 +174,7 @@ export default {
       span {
         font-size: vw(20);
         margin-top: vw(10);
-        color #4b4b4b
+        color #6e6e6e
       }
 
       img {
