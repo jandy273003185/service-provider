@@ -72,7 +72,7 @@
   import {login, adminIndex} from "../assets/api/interface";
   /*   import { mapState } from 'vuex';*/
   import {mapMutations} from "vuex";
-  import storage from "../assets/modeljs/storage.js";
+ /* import storage from "../assets/modeljs/storage.js";*/
   import axios from "axios";
   import util from "@/lib/util.js";
 

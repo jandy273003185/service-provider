@@ -36,9 +36,8 @@
 <script type="text/ecmascript-6">
 
     import {shopAuditInfo} from "../assets/api/interface";
-    import storage from '../assets/modeljs/storage.js';
-    import {mapState} from 'vuex';
-    import {mapMutations} from 'vuex';
+ /*   import storage from '../assets/modeljs/storage.js';*/
+    import {mapState,mapMutations} from 'vuex';
 
 export default {
     name: "searchShop",
