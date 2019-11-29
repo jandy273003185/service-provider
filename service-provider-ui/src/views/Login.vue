@@ -7,9 +7,9 @@
       </div>
       <p v-if="selectLogin=='psd'" class="logintype">账号密码登录</p>
       <p v-if="selectLogin=='code'" class="logintype">验证码登录</p>
-      <div v-if="selectLogin=='psd'" >
+      <div v-if="selectLogin=='psd'" >//账号密码登录
         <div class="item userName">
-          <input v-model.trim="userName" type="text" placeholder="手机号码/邮箱" />
+          <input v-model.trim="userName" type="text" placeholder="请输入账号" />
           <van-icon @click="clearName" name="close" />
         </div>
         <div class="item">
@@ -17,7 +17,7 @@
           <van-icon @click="clearPsd" name="close" />
         </div>
       </div>
-      <div v-if="selectLogin=='code'" >
+      <div v-if="selectLogin=='code'" >//手机号登录
         <div class="item userName">
           <input v-model.trim="userPhone" type="text" placeholder="输入手机号码" />
           <van-icon @click="clearName" name="close" />
@@ -90,10 +90,7 @@ export default {
           openId: this.openId,
           roleCode: this.role
         };
-        console.log(params.userName);
-        console.log(params.password);
-        console.log(params.openId);
-        console.log(params.roleCode);
+        console.log(params);
 
       }else if(this.selectLogin=='code'){
         if (!this.userPhone) {
@@ -110,10 +107,7 @@ export default {
           openId: this.openId,
           roleCode: this.role
         };
-        console.log(params.userPhone);
-        console.log(params.userCode);
-        console.log(params.openId);
-        console.log(params.roleCode);
+        console.log(params);
       }
 
       this.loginPost(params); //登录请求

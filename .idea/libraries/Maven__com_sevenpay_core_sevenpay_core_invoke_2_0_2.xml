@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/com/sevenpay/core/sevenpay-core-invoke/2.0.2/sevenpay-core-invoke-2.0.2.jar!/" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/com/sevenpay/core/sevenpay-core-invoke/2.0.2/sevenpay-core-invoke-2.0.2-sources.jar!/" />
     </SOURCES>

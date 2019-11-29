@@ -181,6 +181,8 @@ export default {
         this.setToken(data.resultMsg.token);
         this.setUserId(data.resultMsg.userInfo.salesmanId);
         this.setUserName(data.resultMsg.userInfo.userName);
+        storage.set("userId", data.resultMsg.userInfo.salesmanId);
+        console.log(storage.get("userId"));
         this.islogin = true;
         this.salesShopNew();
       }
@@ -203,7 +205,7 @@ export default {
     //业务员主页下部分商户进件最新十条信息
     async salesShopNew() {
       let listInfo = await shopAuditInfo.shopAuditInfo({
-        userId: storage.get("userId"),
+        userId:this.$store.state.userId,// storage.get("userId"),
         pageSize: "10",
         pageNum: "1",
         roleId: "3"

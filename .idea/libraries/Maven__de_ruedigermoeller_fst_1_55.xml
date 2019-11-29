@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/de/ruedigermoeller/fst/1.55/fst-1.55.jar!/" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/de/ruedigermoeller/fst/1.55/fst-1.55-sources.jar!/" />
     </SOURCES>
