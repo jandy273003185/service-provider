@@ -1,10 +1,5 @@
 package com.sevenpay.agentmanager.shiro;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.qifenqian.app.customer.SalesmanManagerService;
-import com.sevenpay.agentmanager.jwt.JwtToken;
-import com.sevenpay.agentmanager.jwt.JWTUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -17,15 +12,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.qifenqian.app.customer.SalesmanManagerService;
+import com.sevenpay.agentmanager.jwt.JWTUtil;
+import com.sevenpay.agentmanager.jwt.JwtToken;
+
 
 /**
  * 自定义授权
  */
 @Component
-@Slf4j
 public class MyShiroRealm extends AuthorizingRealm {
 
-    private static Logger log = LoggerFactory.getLogger(MyShiroRealm.class);
+    private final static Logger LOG = LoggerFactory.getLogger(MyShiroRealm.class);
 
 
 
@@ -49,15 +48,15 @@ public class MyShiroRealm extends AuthorizingRealm {
         String openId = JWTUtil.getOpenId(token);
 
         if (userId == null) {
-            log.error("token无效(空''或者null都不行!)");
+        	LOG.error("token无效(空''或者null都不行!)");
             throw new AuthenticationException("token无效");
         }
         if (openId == null) {
-            log.error("token无效(空''或者null都不行!)");
+        	LOG.error("token无效(空''或者null都不行!)");
             throw new AuthenticationException("token无效");
         }
         if (!JWTUtil.verify(token, userId, openId)) {
-            log.error("用户名或密码错误(token无效或者与登录者不匹配)!)");
+        	LOG.error("用户名或密码错误(token无效或者与登录者不匹配)!)");
             throw new AuthenticationException("用户名或密码错误(token无效或者与登录者不匹配)!");
         }
         return new SimpleAuthenticationInfo(token, token, "my_realm");

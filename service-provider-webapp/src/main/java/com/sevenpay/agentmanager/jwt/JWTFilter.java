@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sevenpay.agentmanager.pojo.ResponseData;
 import com.sevenpay.agentmanager.pojo.ResponseDataUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
  * @author zhangxiaoxiang
  * @date: 2019/07/12
  */
-@Slf4j
 @Component//这个注入与否影响不大
 public class JWTFilter extends BasicHttpAuthenticationFilter{
 
