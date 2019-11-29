@@ -137,9 +137,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/goods.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-ui/src/views/mine/salesManage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service-provider-webapp/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/service-provider-webapp/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -200,7 +197,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.1703125" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
@@ -252,13 +249,6 @@
       <workItem from="1574773254901" duration="20882000" />
       <workItem from="1575016435832" duration="576000" />
       <workItem from="1575017028808" duration="4779000" />
-    </task>
-    <task id="LOCAL-00004" summary="管理员与业务员互相登录错入口">
-      <created>1574418547627</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1574418547627</updated>
     </task>
     <task id="LOCAL-00005" summary="管理员与业务员互相登录错入口">
       <created>1574418614597</created>
@@ -596,7 +586,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575023105169</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="jiangzonglin">
+      <created>1575028443275</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1575028443275</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

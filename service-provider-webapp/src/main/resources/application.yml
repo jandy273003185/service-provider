@@ -45,7 +45,7 @@ images:
   relativePaths: /pic/**
 #  #映射存储路径
 #  absolutePaths: /data/nfsshare/upload/picture
-    #映射存储路径
+  #映射存储路径
   absolutePaths: D://images
   #映射IP回显
   uri: https://sp.qifenqian.com/
