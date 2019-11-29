@@ -58,7 +58,7 @@ export default {
       this.$router.go(-1);
     },
     async affirmAmend(){
-      const _this=this;
+      let _this=this;
         if(this.password_old && this.password_new1 && this.password_new2){
            if( this.password_new1== this.password_new2){
              const params = {
@@ -75,16 +75,16 @@ export default {
                },1500)
              }else if( codeBack.data.resultCode == 0 ){
                Dialog({ message: '原密码填写错误' });
-               return
+               return;
              }
            }else {
              Dialog({ message: '新密码不一致' });
-             return
+             return;
            }
 
         }else {
           Dialog({ message: '请填写密码' });
-          return
+          return;
         }
 
     }
