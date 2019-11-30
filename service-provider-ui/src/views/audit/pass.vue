@@ -49,14 +49,14 @@
             <div v-for="(item,idx) in proList" :key="idx">
               <div v-if="item.productStatus=='00'">
                 <div class="row1">
-                  <van-checkbox class="check" v-if="item.productId==8 && item.productStatus=='00' " v-model="checked" disabled>蜻蜓产品</van-checkbox>
+                  <van-checkbox class="check" v-if="item.productId==9 && item.productStatus=='00' " v-model="checked" disabled>蜻蜓产品</van-checkbox>
                   <van-checkbox class="check" v-if="item.productId==2 && item.productStatus=='00' " v-model="checked" disabled>app产品</van-checkbox>
                   <van-checkbox class="check" v-if="item.productId==1 && item.productStatus=='00' " v-model="checked" disabled>扫码产品</van-checkbox>
                   <span class="name" v-if="item.productStatus=='00'">结算费率：</span>
                   <input  type="text" v-if="item.productStatus=='00'"  v-model="item.productRate" readonly />
                   <span class="unit">%</span>
                 </div>
-                <div class="sn" v-if="item.productId==8">
+                <div class="sn" v-if="item.productId==9">
                   <span>SN:</span>
                   <input type="text" v-model="item.sn"  disabled />
                 </div>
@@ -66,14 +66,14 @@
             <div v-for="(item,idx) in proList" :key="idx">
               <div v-if="item.productStatus=='01'">
                 <div class="row1" >
-                  <van-checkbox class="check" v-if="item.productId==8 " v-model="checked" disabled>蜻蜓产品</van-checkbox>
+                  <van-checkbox class="check" v-if="item.productId==9 " v-model="checked" disabled>蜻蜓产品</van-checkbox>
                   <van-checkbox class="check" v-if="item.productId==2 " v-model="checked" disabled>app产品</van-checkbox>
                   <van-checkbox class="check" v-if="item.productId==1  " v-model="checked" disabled>扫码产品</van-checkbox>
                   <span class="name">结算费率：</span>
                   <input  type="text" v-model="item.productRate" readonly />
                    <span class="unit">%</span>
                 </div>
-                <div class="sn" v-if="item.productId==8">
+                <div class="sn" v-if="item.productId==9">
                   <span>SN:</span>
                   <input type="text" v-model="item.sn"  disabled />
                 </div>
@@ -178,7 +178,7 @@ export default {
       console.log(contractInfo);
       this.proList = contractInfo.data.resultMsg;
       for (let i = 0; i < this.proList.length; i++) {
-        if (this.proList[i].productId == 8) {
+        if (this.proList[i].productId == 9) {
           if(this.proList[i].productStatus == '00' || this.proList[i].productStatus == '01' ){
             this.qinting = false;
           }
@@ -206,7 +206,7 @@ export default {
       if (this.contract_qinting == true) {
         if (this.qtRate && this.sn) {
           obj = {
-            productId: 8,
+            productId: 9,
             productRate: this.qtRate,
             sn: this.sn
           };

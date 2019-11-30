@@ -221,18 +221,18 @@ export default {
         compMainAcctTypeShow="对私"
       }
       let params = {
-        compMainAcct: custInfo.compMainAcct,//银行卡号
-        compAcctBank: custInfo.compAcctBank,//开户行
-        bankProvinceName: bankProvinces.bankProvinceId, //省
-        bankProvinceShow: bankProvinces.bankProvinceName,//省 显示
-        bankCityName: bankProvinces.bankCityId, //市
-        bankCityShow: bankProvinces.bankCityName,//市 显示
-        branchBank: custInfo.branchBank,//开户支行
-        bankAcctName: custInfo.bankAcctName,//开户人
+        compMainAcct: custInfo.compMainAcct||'',//银行卡号
+        compAcctBank: custInfo.compAcctBank||'',//开户行
+        bankProvinceName: bankProvinces.bankProvinceId||'', //省
+        bankProvinceShow: bankProvinces.bankProvinceName||'',//省 显示
+        bankCityName: bankProvinces.bankCityId||'', //市
+        bankCityShow: bankProvinces.bankCityName||'',//市 显示
+        branchBank: custInfo.branchBank||'',//开户支行
+        bankAcctName: custInfo.bankAcctName||'',//开户人
         bankName:banks.bankName||'', //显示 开户行
         bankbranchName:banks.branchBankName||'', //显示  支行
-        compMainAcctType: custInfo.compMainAcctType,
-        compMainAcctTypeShow:compMainAcctTypeShow
+        compMainAcctType: custInfo.compMainAcctType||'',
+        compMainAcctTypeShow:compMainAcctTypeShow||''
       };
       this.params = Object.assign(this.params, params);
     }
@@ -411,12 +411,13 @@ export default {
     },
     uploadImg(file, detail) {
       //图片上传
-      this.$toast.loading({
+       upload.onReadUpload(file,detail.name,this)
+/*       this.$toast.loading({
         message: "图片上传中..",
         forbidClick: true,
         duration: 0
       });
-      upload.blobToBase64(file.file, detail.name, this);
+      upload.blobToBase64(file.file, detail.name, this); */
     }
   }
 };

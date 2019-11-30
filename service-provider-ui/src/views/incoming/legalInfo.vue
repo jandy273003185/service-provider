@@ -6,11 +6,10 @@
       <div class="row-img">
         <div class="stit"  :class="{'active':(clickedNext&&(!params.identityCardFront||!params.identityCardReverse))}" >
           法人身份证照片
-          <span>(必须且&le;3M)</span>
+          <span>(必须)</span>
         </div>
         <div class="img-col">
           <van-uploader
-          :max-size="3145728"
             name="certAttribute1"
             v-model="photos.identityCardFront"
             :after-read="afterReadImg"
@@ -20,7 +19,6 @@
             <van-button icon="photo" type="primary">身份证正面照</van-button>
           </van-uploader>
           <van-uploader
-             :max-size="3145728"
              name="certAttribute2"
             :after-read="afterReadImg"
             v-model="photos.identityCardReverse"
@@ -89,6 +87,7 @@
 </template>
 <script>
 import form from "@/lib/form.js";
+import upload from "@/lib/upload.js";
 import util from "@/lib/util.js";
 import { mapState } from "vuex";
 import { common } from "@/assets/api/interface";
@@ -169,7 +168,7 @@ export default {
       }
     },
     afterReadImg(file,detail) {
-      this.getImgInfo(file.content,detail.name);
+      upload.onReadImg(file,detail.name, this)
     },
     datepickerVisiable(type) {
       this.dateType = type;
@@ -188,46 +187,6 @@ export default {
       } 
       this.showDatepicker = false;
     },
-    async getImgInfo(file,name) {
-      //优图识别
-      this.$toast.loading({
-        message: "识别中...",
-        forbidClick: true,
-        duration: 0
-      });
-      const params = {
-        str: file,
-        flag: name
-      };
-      const info = await common.getImgInfo(params);
-      const imgUrl = info.data.uri + "/" + info.data.url;
-      this.$toast.clear();
-      if (name == "certAttribute1") {
-        if (info.data.result&&info.data.result=="SUCCESS") {
-          this.photos.identityCardFront = [{ url: imgUrl }];
-          this.params.identityCardFront = imgUrl;
-          this.params.representativeName = info.data.cardName;
-          this.params.representativeCertNo = info.data.cardId;
-        } else {
-          this.photos.identityCardFront = [{ url:'' }];
-          this.params.identityCardFront ='';
-          this.$toast("身份证正面信息无法识别！");
-        }
-      }
-      if (name == "certAttribute2") {
-        if (info.data.result&&info.data.result=="SUCCESS") {
-          this.params.identityCardReverse = imgUrl;
-          this.photos.identityCardReverse = [{ url: imgUrl }];
-          let arr = info.data.cardValidDate.split("-");
-          this.params.idTermStart = arr[0];
-          this.params.idTermEnd = arr[1];
-        } else {
-          this.params.identityCardReverse = '';
-          this.photos.identityCardReverse = [{ url: '' }];
-          this.$toast("身份证反面信息无法识别！");
-        }
-      }
-    }
   }
 };
 </script>

@@ -102,11 +102,10 @@
         <div class="row-img">
           <div class="stit" :class="{'active':(clickedNext&&!params.businessLicense)}">
             营业执照照片
-            <span>(必须且&le;3M)</span>
+            <span>(必须)</span>
           </div>
           <van-uploader
-            :max-size="3145728"
-            name="businessLicense"
+            name="businessPhoto"
             :after-read="afterReadImg"
             :before-delete="deleteImg"
             :max-count="1"
@@ -183,7 +182,7 @@
           </van-uploader>
         </div>
         <div class="row-img"> <!--  :class="{'active':(clickedNext&&!params.specialBusiness)}" -->
-          <div class="stit">特殊行业资质照 <span>(必须)</span></div>
+          <div class="stit">特殊行业资质照</div>
           <div>
             <van-uploader
               name="specialBusiness"
@@ -500,37 +499,8 @@ export default {
       this.params.countryName = value.areaName;
       this.blockpicker = false;
     },
-    afterReadImg(file) {
-      this.getImgInfo(file.content);
-    },
-    async getImgInfo(file) {
-      //识别营业执照
-      this.$toast.loading({
-        message: "识别中..",
-        forbidClick: true,
-        duration: 0
-      });
-      const params = {
-        str: file,
-        flag: "businessPhoto" //营业执照
-      };
-      const info = await common.getImgInfo(params);
-      this.$toast.clear();
-      if (info.data.result && info.data.result == "SUCCESS") {
-        const imgUrl = info.data.uri + "" + info.data.url;
-        console.log(imgUrl);
-        let businessLicense = info.data.businessLicense;
-        let businessTermEnd = info.data.businessTermEnd;
-        let businessTermStart = info.data.businessTermStart;
-        this.params.businessLicense = businessLicense;
-        this.params.businessTermEnd = businessTermEnd;
-        this.params.businessTermStart = businessTermStart;
-        this.businessLicense = info.data.uri + info.data.url;
-        this.photos.businessLicense = [{ url: imgUrl }];
-      } else {
-        this.photos.businessLicense = [{ url: "" }];
-        this.$toast("营业执照信息无法识别！");
-      }
+    afterReadImg(file,detail) {
+      upload.onReadImg(file,detail.name, this)
     },
     deleteImg(file, detail) {
       this.params[detail.name] = "";
@@ -538,12 +508,8 @@ export default {
     },
     uploadImg(file, detail) {
       //图片上传
-      this.$toast.loading({
-        message: "图片上传中..",
-        forbidClick: true,
-        duration: 0
-      });
-      upload.blobToBase64(file.file, detail.name, this);
+      upload.onReadUpload(file,detail.name,this)
+      //upload.blobToBase64(file.file, detail.name, this);
     },
     datepickerVisiable(type) {
       this.dateType = type;
