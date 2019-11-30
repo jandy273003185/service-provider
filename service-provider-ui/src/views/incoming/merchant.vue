@@ -143,7 +143,7 @@
 import form from "@/lib/form.js";
 import upload from "@/lib/upload.js";
 import util from "@/lib/util.js";
-import bankInfo from "@/lib/bankInfo.js";
+/* import bankInfo from "@/lib/bankInfo.js"; */
 import { mapState } from "vuex";
 import { common, incoming } from "@/assets/api/interface";
 export default {
@@ -229,8 +229,8 @@ export default {
         bankCityShow: bankProvinces.bankCityName,//市 显示
         branchBank: custInfo.branchBank,//开户支行
         bankAcctName: custInfo.bankAcctName,//开户人
-        bankName:banks.bankName, //显示 开户行
-        bankbranchName:banks.branchBankName, //显示  支行
+        bankName:banks.bankName||'', //显示 开户行
+        bankbranchName:banks.branchBankName||'', //显示  支行
         compMainAcctType: custInfo.compMainAcctType,
         compMainAcctTypeShow:compMainAcctTypeShow
       };
@@ -253,8 +253,8 @@ export default {
       this.params.compMainAcctType=value.val;
       this.compicker=false;
     },
-    getBankName(cardNo) {
       //识别银行卡号
+    /* getBankName(cardNo) {
       this.canChange = true;
       if (cardNo && cardNo.length > 0) {
         let bank = bankInfo(cardNo);
@@ -266,7 +266,7 @@ export default {
           this.$toast("请检查您结算账号！");
         }
       }
-    },
+    }, */
     async changeBankHead(name = "") {
       let res = await incoming.bankHead({ bankName: name });
       if (res.data.resultCode == 1) {
