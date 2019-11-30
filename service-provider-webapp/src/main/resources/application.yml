@@ -15,15 +15,9 @@ dubbo:
     port: 21001
 
 images:
-  #映射路径
   relativePaths: /pic/**
-  #映射存储路径
-  #absolutePaths: /data/nfsshare/upload/picture
-  #映射存储路径
-  absolutePaths: D://images
-  #映射IP回显
+  absolutePaths: /data/nfsshare/upload/picture
   uri: https://sp.qifenqian.com/
-  #回显路径
   relativePath: /pic/
 
 
