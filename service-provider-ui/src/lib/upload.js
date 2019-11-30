@@ -21,7 +21,7 @@ const uploadImg = {
       }];
     }else{
       if (name != 'businessLicense') {
-        that.params[name] ='';
+        that.params[name] = '';
       }
       that.photos[name] = [];
     }
