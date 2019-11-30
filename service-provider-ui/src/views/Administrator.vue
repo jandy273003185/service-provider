@@ -72,7 +72,6 @@
   import {login, adminIndex} from "../assets/api/interface";
   /*   import { mapState } from 'vuex';*/
   import {mapMutations} from "vuex";
-  import storage from "../assets/modeljs/storage.js";
   import axios from "axios";
   import util from "@/lib/util.js";
 
@@ -106,7 +105,6 @@
       if (!this.$store.state.code) {
         var code = this.getUrlParam("code");
         if (!code) {
-          //  let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
           let REDIRECT_URI = encodeURIComponent(
             "https://sp.qifenqian.com/wx/index.html#Administrator"
           );

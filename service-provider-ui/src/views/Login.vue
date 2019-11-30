@@ -85,10 +85,10 @@ export default {
           return;
         }
        params = {
-          userName: this.userName,
-          password: this.password,
-          openId: this.openId,
-          roleCode: this.role
+         userName: this.userName,
+         openId: this.openId,
+         password: this.password,
+         roleCode: this.role
        };
         console.log(params);
 
