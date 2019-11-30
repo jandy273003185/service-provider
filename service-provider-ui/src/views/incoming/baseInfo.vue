@@ -270,7 +270,7 @@ export default {
       clickedNext: false,
       longterm: false,
       minDate: new Date(2000, 1, 1),
-      maxDate: new Date(2029, 1, 1),
+      maxDate: new Date(2099, 1, 1),
       showDatepicker: false,
       dateType: "",
       photos: {
