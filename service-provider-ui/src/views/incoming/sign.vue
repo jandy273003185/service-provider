@@ -85,7 +85,7 @@ export default {
           this.app = true;
           this.appProductRate = productInfos[i].productRate;
         }
-        if (productInfos[i].productId == "8") {//蜻蜓
+        if (productInfos[i].productId == "9") {//蜻蜓
           this.dragonfly = true;
           this.dragonflyProductRate = productInfos[i].productRate;
           this.sn = productInfos[i].sn;
@@ -182,7 +182,7 @@ export default {
       if (this.dragonfly) {
         if (this.dragonfly && this.sn && this.dragonflyProductRate) {
           proObj = {
-            productId: "8",
+            productId: "9",
             productRate: this.dragonflyProductRate,
             sn: this.sn
           };
