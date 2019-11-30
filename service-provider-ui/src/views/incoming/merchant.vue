@@ -8,11 +8,11 @@
           <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.compMainAcct)}">结算账号</span>
           <input
-            @blur="getBankName(params.compMainAcct)"
             type="number"
             v-model="params.compMainAcct"
             placeholder="请输入结算账号"
           />
+           <!--   @blur="getBankName(params.compMainAcct)" -->
         </div>
         <div class="row">
           <span class="must">*</span>
@@ -95,7 +95,7 @@
           v-if="compicker"
           show-toolbar
           title="结算类型"
-          :columns="[{name:'企业',val:'01'},{name:'个人',val:'02'}]"
+          :columns="[{name:'对公',val:'01'},{name:'对私',val:'02'}]"
           value-key="name"
           @cancel="onCancelAcctType"
           @confirm="onConfirmAcctType"
@@ -143,7 +143,7 @@
 import form from "@/lib/form.js";
 import upload from "@/lib/upload.js";
 import util from "@/lib/util.js";
-import bankInfo from "@/lib/bankInfo.js";
+/* import bankInfo from "@/lib/bankInfo.js"; */
 import { mapState } from "vuex";
 import { common, incoming } from "@/assets/api/interface";
 export default {
@@ -215,24 +215,24 @@ export default {
       let bankProvinces = this.incomingReturn.bankProvinces[0];
       let compMainAcctTypeShow;
       if(custInfo.compMainAcctType=='01'){
-        compMainAcctTypeShow="企业"
+        compMainAcctTypeShow="对公"
       }
        if(custInfo.compMainAcctType=='02'){
-        compMainAcctTypeShow="个人"
+        compMainAcctTypeShow="对私"
       }
       let params = {
-        compMainAcct: custInfo.compMainAcct,//银行卡号
-        compAcctBank: custInfo.compAcctBank,//开户行
-        bankProvinceName: bankProvinces.bankProvinceId, //省
-        bankProvinceShow: bankProvinces.bankProvinceName,//省 显示
-        bankCityName: bankProvinces.bankCityId, //市
-        bankCityShow: bankProvinces.bankCityName,//市 显示
-        branchBank: custInfo.branchBank,//开户支行
-        bankAcctName: custInfo.bankAcctName,//开户人
-        bankName:banks.bankName, //显示 开户行
-        bankbranchName:banks.branchBankName, //显示  支行
-        compMainAcctType: custInfo.compMainAcctType,
-        compMainAcctTypeShow:compMainAcctTypeShow
+        compMainAcct: custInfo.compMainAcct||'',//银行卡号
+        compAcctBank: custInfo.compAcctBank||'',//开户行
+        bankProvinceName: bankProvinces.bankProvinceId||'', //省
+        bankProvinceShow: bankProvinces.bankProvinceName||'',//省 显示
+        bankCityName: bankProvinces.bankCityId||'', //市
+        bankCityShow: bankProvinces.bankCityName||'',//市 显示
+        branchBank: custInfo.branchBank||'',//开户支行
+        bankAcctName: custInfo.bankAcctName||'',//开户人
+        bankName:banks.bankName||'', //显示 开户行
+        bankbranchName:banks.branchBankName||'', //显示  支行
+        compMainAcctType: custInfo.compMainAcctType||'',
+        compMainAcctTypeShow:compMainAcctTypeShow||''
       };
       this.params = Object.assign(this.params, params);
     }
@@ -253,8 +253,8 @@ export default {
       this.params.compMainAcctType=value.val;
       this.compicker=false;
     },
-    getBankName(cardNo) {
       //识别银行卡号
+    /* getBankName(cardNo) {
       this.canChange = true;
       if (cardNo && cardNo.length > 0) {
         let bank = bankInfo(cardNo);
@@ -266,7 +266,7 @@ export default {
           this.$toast("请检查您结算账号！");
         }
       }
-    },
+    }, */
     async changeBankHead(name = "") {
       let res = await incoming.bankHead({ bankName: name });
       if (res.data.resultCode == 1) {
@@ -411,12 +411,13 @@ export default {
     },
     uploadImg(file, detail) {
       //图片上传
-      this.$toast.loading({
+       upload.onReadUpload(file,detail.name,this)
+/*       this.$toast.loading({
         message: "图片上传中..",
         forbidClick: true,
         duration: 0
       });
-      upload.blobToBase64(file.file, detail.name, this);
+      upload.blobToBase64(file.file, detail.name, this); */
     }
   }
 };

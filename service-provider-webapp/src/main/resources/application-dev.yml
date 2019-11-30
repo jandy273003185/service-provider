@@ -1,0 +1,16 @@
+dubbo:
+  application:
+    name: dubbo-customer-manager
+  registry:
+    address: zookeeper://localhost:2181
+  protocol:
+    name: dubbo
+    port: 21001
+
+images:
+  relativePaths: /pic/**
+  absolutePaths: D://picture
+  uri: https://sp.qifenqian.com/
+  relativePath: /pic/
+
+

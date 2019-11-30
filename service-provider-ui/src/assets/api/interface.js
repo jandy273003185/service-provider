@@ -43,7 +43,7 @@ export const goodsInfo={//交易栏的商户交易排名信息
   goodsInfo:param =>http.post1('/merchant/getDealRanking',param),  //业务员交易栏的商户交易排名信息
   allGoodsInfo:param =>http.post1('/salesman/getServiceProviderDealRanking',param)  //管理员交易栏的商户交易排名信息
 };
-/*export const mineInfo={//我的信息
-  salesman:param =>http.post1('/salesman/query',param),  //业务员请求个人信息
-  agent:param =>http.post1('/merchant/queryMerchantById',param)  //管理员请求个人信息
-};*/
+export const mineInfo={//我的信息
+ /* salesman:param =>http.post1('/salesman/query',param),  //业务员请求个人信息*/
+  agent:param =>http.post1('/merchant/getAgentInfo',param),  //管理员请求个人信息
+};

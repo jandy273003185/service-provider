@@ -2,80 +2,142 @@ import {
   common
 } from "@/assets/api/interface";
 const uploadImg = {
-  async uploadImgRequest(blob,base64,name,that) { //图片上传
-    //图片上传
-    console.log(name);
-    let data = new FormData();
-    data.append("file", blob, ".jpg");
+  async uploadImgRequest(data, name, that, callback) { //图片上传
+    that.$toast.loading({
+      message: "图片上传中..",
+      forbidClick: true,
+      duration: 0
+    });
     let info = await common.uploadImg(data);
+    that.$toast.clear();
     if (info.data.resultCode == "200") {
       let resultMsg = JSON.parse(info.data.resultMsg);
       let fullUrl = resultMsg.uri + "" + resultMsg.url;
-      if(name!='businessLicense'){
+      if (name != 'businessLicense') {
         that.params[name] = fullUrl;
       }
       that.photos[name] = [{
         url: fullUrl
       }];
+    }else{
+      if (name != 'businessLicense') {
+        that.params[name] = '';
+      }
+      that.photos[name] = [];
     }
+  },
+  dataURLtoFile(dataurl, filename) { // 将base64转换为file文件
+    let arr = dataurl.split(',')
+    let mime = arr[0].match(/:(.*?);/)[1]
+    let bstr = atob(arr[1])
+    let n = bstr.length
+    let u8arr = new Uint8Array(n)
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n)
+    }
+    return new File([u8arr], filename, {
+      type: mime
+    })
+  },
+  onReadUpload(file, name, that) { // 上传图片压缩处理
+    // 大于3MB的图片都缩小像素上传
+    if (file.file.size > 1048576 * 3) {
+      let canvas = document.createElement('canvas') // 创建Canvas对象(画布)
+      let context = canvas.getContext('2d')
+      let img = new Image()
+      img.src = file.content // 指定图片的DataURL(图片的base64编码数据)
+      img.onload = () => {
+        canvas.width = 400
+        canvas.height = 300
+        context.drawImage(img, 0, 0, 400, 300)
+        file.content = canvas.toDataURL(file.file.type, 0.92) // 0.92为默认压缩质量
+        let files = this.dataURLtoFile(file.content, file.file.name)
+        const data = new FormData()
+        data.append('file', files)
+        this.uploadImgRequest(data, name, that);
+      }
+    } else { //小于3M直接上传
+      const data = new FormData()
+      data.append('file', file.file)
+      this.uploadImgRequest(data, name, that);
+    }
+  },
+  onReadImg(file, name, that) { // 识别图片压缩
+    // 大于3MB的图片都缩小像素上传
+    if (file.file.size > 1048576 * 3) {
+      let canvas = document.createElement('canvas') // 创建Canvas对象(画布)
+      let context = canvas.getContext('2d')
+      let img = new Image()
+      img.src = file.content // 指定图片的DataURL(图片的base64编码数据)
+      img.onload = () => {
+        canvas.width = 400
+        canvas.height = 300
+        context.drawImage(img, 0, 0, 400, 300)
+        file.content = canvas.toDataURL(file.file.type, 0.92) // 0.92为默认压缩质量
+        this.getImgInfo(file.content, name, that);
+      }
+    } else { //小于3M直接上传
+      const data = new FormData()
+      data.append('file', file.file)
+      this.getImgInfo(file.content, name, that);
+    }
+  },
+  async getImgInfo(file, name, that) {
+    //识别营业执照
+    that.$toast.loading({
+      message: "识别中..",
+      forbidClick: true,
+      duration: 0
+    });
+    const params = {
+      str: file,
+      flag: name //营业执照
+    };
+    const info = await common.getImgInfo(params);
     that.$toast.clear();
-  },
-  /**
-   * 获取到的二进制文件 转 base64文件
-   * @param blob
-   */
-  blobToBase64(blob,name, context) {
-    const self = this; // 绑定this
-    const reader = new FileReader(); //实例化一个reader文件
-    reader.readAsDataURL(blob); // 添加二进制文件
-    reader.onload = function (event) {
-      const base64 = event.target.result; // 获取到它的base64文件
-      const scale = 0.8; // 设置缩放比例 （0-1）
-      self.compressImg(base64, scale,name, context, self.uploadImgRequest); // 调用压缩方法
-    };
-  },
-  /**
-   * 压缩图片方法
-   * @param base64  ----baser64文件
-   * @param scale ----压缩比例 画面质量0-9，数字越小文件越小画质越差
-   * @param callback ---回调函数
-   */
-  compressImg(base64, scale,name, context, callback) {
-    const img = new Image();
-    img.src = base64;
-    img.onload = function () {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      canvas.setAttribute("width", this.width);
-      canvas.setAttribute("height", this.height);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      // 转成base64 文件
-      let base64 = canvas.toDataURL("image/jpeg");
-      // 根据自己需求填写大小
-      while (base64.length > 1024 * 1024) {
-        scale -= 0.2;
-        base64 = canvas.toDataURL("image/jpeg", scale);
+    if (info.data.result && info.data.result == "SUCCESS") {
+      const imgUrl = info.data.uri + "" + info.data.url;
+      if (name == 'businessPhoto') {
+        let businessLicense = info.data.businessLicense;
+        let businessTermEnd = info.data.businessTermEnd;
+        let businessTermStart = info.data.businessTermStart;
+        that.params.businessLicense = businessLicense;
+        that.params.businessTermEnd = businessTermEnd;
+        that.params.businessTermStart = businessTermStart;
+        that.businessLicense = info.data.uri + info.data.url;
+        that.photos.businessLicense = [{url: imgUrl }];
       }
-      // baser64 TO blob 这一块如果不懂可以自行百度，我就不加注释了
-      const arr = base64.split(",");
-      const mime = arr[0].match(/:(.*?);/)[1];
-      const bytes = atob(arr[1]);
-      const bytesLength = bytes.length;
-      const u8arr = new Uint8Array(bytesLength);
-      for (let i = 0; i < bytes.length; i++) {
-        u8arr[i] = bytes.charCodeAt(i);
+      if (name == "certAttribute1") {
+        that.photos.identityCardFront = [{url: imgUrl }];
+        that.params.identityCardFront = imgUrl;
+        that.params.representativeName = info.data.cardName;
+        that.params.representativeCertNo = info.data.cardId;
       }
-      const blob = new Blob([u8arr], {
-        type: mime
-      });
-      // 回调函数 根据需求返回二进制数据或者base64数据，我的项目都给返回了
-      callback(blob, base64, name,context);
-    };
+      if (name == "certAttribute2") {
+
+        that.params.identityCardReverse = imgUrl;
+        that.photos.identityCardReverse = [{ url: imgUrl}];
+        let arr = info.data.cardValidDate.split("-");
+        that.params.idTermStart = arr[0];
+        that.params.idTermEnd = arr[1];
+      }
+    } else {
+      if (name == 'businessPhoto') {
+        that.photos.businessLicense = [{ url: "" }];
+        that.$toast("营业执照信息无法识别！");
+      }
+      if (name == "certAttribute1") {
+        that.photos.identityCardFront = [{ url: ''}];
+        that.params.identityCardFront = '';
+        that.$toast("身份证正面信息无法识别！");
+      }
+      if (name == "certAttribute2") {
+        that.params.identityCardReverse = '';
+        that.photos.identityCardReverse = [{ url: '' }];
+        that.$toast("身份证反面信息无法识别！");
+      }
+
+    }
   },
 }
-//保存身份证正面00 个人身份证正面  01 税务登记证  02 营业执照 03 开户证件 04商户身份信息
-//05 银行卡扫描件 06 其他证件 18店内照  11行业资质照  12电子签名照
-//  *  13 银行卡正面  14  银行卡反面  15合作证明函  16 个人身份证反面   18 店面内景   19 手持身份证正面
-// 20 店面门头照   21 店面前台照  22 合作证明函   23其他1 24其他2
 export default uploadImg

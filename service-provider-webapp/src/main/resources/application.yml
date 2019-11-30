@@ -1,29 +1,13 @@
 server:
   port: 8082
 
+spring:
+  profiles:
+    active: @spring.profiles.active@
+
 
 logging:
    config: classpath:logback.xml
 
-dubbo:
-  application:
-    name: dubbo-customer-manager
-  registry:
-    address: zookeeper://localhost:2181
-  protocol:
-    name: dubbo
-    port: 21001
-
-images:
-  #映射路径
-  relativePaths: /pic/**
-  #映射存储路径
-  #absolutePaths: /data/nfsshare/upload/picture
-  #映射存储路径
-  absolutePaths: D://images
-  #映射IP回显
-  uri: https://sp.qifenqian.com/
-  #回显路径
-  relativePath: /pic/
 
 
