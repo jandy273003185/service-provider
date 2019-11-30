@@ -19,6 +19,11 @@ const uploadImg = {
       that.photos[name] = [{
         url: fullUrl
       }];
+    }else{
+      if (name != 'businessLicense') {
+        that.params[name] ='';
+      }
+      that.photos[name] = [];
     }
   },
   dataURLtoFile(dataurl, filename) { // 将base64转换为file文件
