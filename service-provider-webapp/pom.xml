@@ -162,6 +162,9 @@
 				<includes>
 					<include>application.yml</include>
 					<include>application-${spring.profiles.active}.yml</include>
+					<include>*.xml</include>
+					<include>static</include>
+					<include>public</include>
 				</includes>
 			</resource>
 		</resources>
