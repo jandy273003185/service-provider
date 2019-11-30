@@ -55,7 +55,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-    /*import Cookie from 'js-cookie'*/
     import {mapState} from 'vuex';
     import {homeShopInfo} from "../assets/api/interface";//主页商户信息接口
     import { Dialog } from 'vant';//弹窗函数，可直接调用
@@ -91,7 +90,7 @@ export default {
       /*  商户信息请求*/
 
         async getHomeShopInfo(){
-            const userId = this.userId ||  storage.get('userId');
+            const userId = this.userId;
             console.log(userId);
             const params = {
                 userId:userId,

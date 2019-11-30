@@ -198,12 +198,10 @@
 </template>
 
 <script>
-  import {mapMutations} from 'vuex';
+  import {mapState,mapMutations} from 'vuex';
   import BaseHeader from "../components/baser-header.vue";
   import { Dialog } from 'vant';//弹窗函数，可直接调用
   import {shopAuditInfo} from "../assets/api/interface";
-  import storage from '../assets/modeljs/storage.js';
-  import {mapState} from 'vuex';
 export default {
   name: "shop",
   components: { BaseHeader },

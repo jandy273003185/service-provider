@@ -84,6 +84,7 @@
 
 <script type="text/ecmascript-6">
     /*import Cookie from 'js-cookie'*/
+    import { Dialog } from "vant";
      import {mapState} from 'vuex';
     import { adminIndex } from "../assets/api/interface";
     export default {
