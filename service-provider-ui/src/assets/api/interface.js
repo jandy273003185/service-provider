@@ -24,6 +24,8 @@ export const adminIndex={//管理员主页
 };
 export const login={//登录接口
   login:param =>http.post1('/user/loginBinding',param),//登录页接口
+  code:param =>http.post1('/common/verifyCode',param),//获取验证码
+  codeLogin:param =>http.post1('/user/smsLogin',param),//验证码登录接口
   firstLogin:param =>http.post1('/user/login',param),//进入主页时判断是否绑定
   getOpenId:param =>http.post1('/wx/callback',param)//获取openid
 };
