@@ -8,14 +8,18 @@ package com.sevenpay.agentmanager.utils.verfycode;
 public class VerifyInfoConstant
 {
 
-    /** 注册验证码-验证码*/
-    public static final String REGISTER_VERIFY_CODE = "REGISTER_VERIFY_CODE";
+    /** 登陆验证码-验证码*/
+    public static final String LOGIN_VERIFY_CODE = "LOGIN_VERIFY_CODE";
 
-    /** 注册验证码-账号*/
-    public static final String REGISTER_VERIFY_ACC = "REGISTER_VERIFY_ACC";
+    /** 登陆验证码-账号*/
+    public static final String LOGIN_VERIFY_ACC = "LOGIN_VERIFY_ACC";
 
-    /** 注册验证码-时间*/
-    public static final String REGISTER_VERIFY_SEND_TIME = "REGISTER_VERIFY_SEND_TIME";
+    /** 登陆验证码-时间*/
+    public static final String LOGIN_VERIFY_SEND_TIME = "LOGIN_VERIFY_SEND_TIME";
 
+    /** 修改密码验证码-验证码*/
+    public static final String FORGETPASSWORD_VERIFY_CODE = "FORGETPASSWORD_VERIFY_CODE";
 
+    /** 修改密码验证码-时间*/
+    public static final String FORGETPASSWORD_VERIFY_SEND_TIME = "FORGETPASSWORD_VERIFY_SEND_TIME";
 }

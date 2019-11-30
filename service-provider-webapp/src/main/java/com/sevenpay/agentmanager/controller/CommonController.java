@@ -5,13 +5,16 @@ import com.qifenqian.app.bean.Bank;
 import com.qifenqian.app.bean.TbBankProvincesInfoBean;
 import com.qifenqian.app.bean.TbProvincesInfoBean;
 import com.qifenqian.app.bean.dto.MessageDTO;
+import com.qifenqian.app.bean.dto.UserDTO;
 import com.qifenqian.app.common.BankInfoService;
 import com.qifenqian.app.common.MessageManager;
 import com.qifenqian.app.customer.MerchantInfoService;
+import com.qifenqian.app.user.UserManager;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.GenSN;
 import com.sevenpay.agentmanager.utils.verfycode.ToolsUtil;
 import com.sevenpay.agentmanager.utils.verfycode.VerifyInfoConstant;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +40,8 @@ public class CommonController {
     @Reference
     private MessageManager messageManager;
 
+    @Reference
+    private UserManager userManager;
 
     /**
      * 省市县三级下拉
@@ -93,30 +98,70 @@ public class CommonController {
     }
 
     /**
-     * 发送短信验证码接口
+     * 发送短信验证码登陆接口
      * @param request
      * @param messageDTO
      * @return
      */
     @RequestMapping("verifyCode")
     public ResultBean verifyCode(HttpServletRequest request, MessageDTO messageDTO){
-        Date sendTime = (Date)request.getSession().getAttribute("REGISTER_VERIFY_SEND_TIME");
+        String mobile = request.getParameter("mobile");//服务商（管理员）手机号
+        String roleCode = request.getParameter("roleCode");//角色（agent）
+        //查询是否有该手机账号
+        UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
 
-        //短信发送间隔必须超过55s
-        if(null != sendTime && ToolsUtil.calTimeSec(new Date(), sendTime) < 55)
-        {
-            return new ResultBean("0","验证码发送间隔为60s");
+        if (userInfo.getCustId() != null) {
+            request.getSession().setMaxInactiveInterval(2*60);
+            Date sendTime = (Date)request.getSession().getAttribute("Login_VERIFY_SEND_TIME");
+
+            //短信发送间隔必须超过55s
+            if(null != sendTime && ToolsUtil.calTimeSec(new Date(), sendTime) < 55)
+            {
+                return new ResultBean("0","验证码发送间隔为60s");
+            }
+
+            //生成验证码
+            String smsVerifyCode = GenSN.getRandomNum(6);
+            request.getSession().setAttribute(VerifyInfoConstant.LOGIN_VERIFY_CODE+"_"+mobile, smsVerifyCode);
+            request.getSession().setAttribute(VerifyInfoConstant.LOGIN_VERIFY_SEND_TIME, new Date());
+            messageDTO.setCode(smsVerifyCode);
+            MessageDTO m = messageManager.sendMobileCode(messageDTO);
+            return new ResultBean("1","短信发送成功");
         }
-
-        //生成验证码
-        String smsVerifyCode = GenSN.getRandomNum(6);
-        request.getSession().setAttribute(VerifyInfoConstant.REGISTER_VERIFY_CODE, smsVerifyCode);
-        request.getSession().setAttribute(VerifyInfoConstant.REGISTER_VERIFY_ACC, messageDTO.getAddressee());
-        request.getSession().setAttribute(VerifyInfoConstant.REGISTER_VERIFY_SEND_TIME, new Date());
-        messageDTO.setCode(smsVerifyCode);
-        MessageDTO m = messageManager.sendMobileCode(messageDTO);
-        return new ResultBean("1");
+       return new ResultBean("0","请检查管理员手机号是否输入正确！");
     }
 
+    /**
+     *
+     * @param request
+     * @param messageDTO
+     * @return
+     */
+    @RequestMapping("modifyPassword")
+    public ResultBean modifyPassword(HttpServletRequest request, MessageDTO messageDTO){
+        String mobile = request.getParameter("mobile");//服务商（管理员）手机号
+        String roleCode = request.getParameter("roleCode");//角色（agent）
+        //查询是否有该手机账号
+        UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
 
+        if (userInfo.getCustId() != null) {
+            request.getSession().setMaxInactiveInterval(2*60);
+            Date sendTime = (Date)request.getSession().getAttribute("FORGETPASSWORD_VERIFY_SEND_TIME");
+
+            //短信发送间隔必须超过55s
+            if(null != sendTime && ToolsUtil.calTimeSec(new Date(), sendTime) < 55)
+            {
+                return new ResultBean("0","验证码发送间隔为60s");
+            }
+
+            //生成验证码
+            String smsVerifyCode = GenSN.getRandomNum(6);
+            request.getSession().setAttribute(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+"_"+mobile, smsVerifyCode);
+            request.getSession().setAttribute(VerifyInfoConstant.FORGETPASSWORD_VERIFY_SEND_TIME, new Date());
+            messageDTO.setCode(smsVerifyCode);
+            MessageDTO m = messageManager.sendMobileCode(messageDTO);
+            return new ResultBean("1","短信发送成功");
+        }
+        return new ResultBean("0","请检查管理员手机号是否输入正确！");
+    }
 }

@@ -12,12 +12,14 @@ import com.qifenqian.app.user.UserManager;
 import com.sevenpay.agentmanager.jwt.JWTUtil;
 import com.sevenpay.agentmanager.pojo.LoginUser;
 import com.sevenpay.agentmanager.pojo.ResultBean;
+import com.sevenpay.agentmanager.utils.verfycode.VerifyInfoConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -55,13 +57,13 @@ public class LoginController {
             if(!userInfo.isSuccess()){
                 return new ResultBean<String>("0","账号或密码错误");
             }
-           //查询该账号是否绑定openId
+            //查询该账号是否绑定openId
             boolean isBinding = loginManagerService.LogincheckIsBinding(userName, roleCode);
             if (isBinding) {
                 return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
             }
             UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
-            if (ifbing!=null) {
+            if (ifbing != null) {
                 if (ifbing.getIfUnbind().equals("0")){
                     ifbing.setUserId(userInfo.getCustId());
                     ifbing.setOpenId(openId);
@@ -101,7 +103,7 @@ public class LoginController {
                 return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
             }
             UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定过openId
-            if (ifbing!=null) {
+            if (ifbing != null) {
                 if (ifbing.getIfUnbind().equals("0")){
                     ifbing.setIfUnbind("1");
                     ifbing.setUserId(userInfo.getSalesmanId());
@@ -186,4 +188,110 @@ public class LoginController {
         }
         return new ResultBean<String>("0","登陆失败");
     }
+
+    /**
+     * 短信登陆
+     * @param mobile 管理员（服务商）手机号
+     * @param roleCode 角色 agent
+     * @param openId openId
+     * @param request
+     * @return
+     */
+    @RequestMapping("/smsLogin")
+    public ResultBean smsloginBanding(String mobile, String roleCode,String openId, HttpServletRequest request){
+        //查询是否有该服务商的信息
+        UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
+
+        if (userInfo.getCustId() != null) {
+            //获取存入session中的手机登录验证码
+            String code = (String) request.getSession().getAttribute(VerifyInfoConstant.LOGIN_VERIFY_CODE+"_"+mobile);
+            request.getSession().removeAttribute(VerifyInfoConstant.LOGIN_VERIFY_CODE+"_"+mobile);
+            if(code == null){
+                return new ResultBean("0","验证码失效,请重新发送！");
+            }
+            String verifyCode = request.getParameter("verifyCode");
+            if (StringUtils.isEmpty(verifyCode)) {
+                return new ResultBean("0","请输入验证码");
+            }
+            if (code.equals(verifyCode)){
+                LoginUser loginUser=new LoginUser();
+                //登陆校验
+                if ("agent".equals(roleCode)) {//服务商绑定
+                    //查询该账号是否绑定openId
+                    boolean isBinding = loginManagerService.LogincheckIsBinding(mobile, roleCode);
+                    if (isBinding) {
+                        return new ResultBean("0", "该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
+                    }
+                    UserLoginRelate ifbing = loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
+                    if (ifbing != null) {
+                        if (ifbing.getIfUnbind().equals("0")) {
+                            ifbing.setUserId(userInfo.getCustId());
+                            ifbing.setOpenId(openId);
+                            ifbing.setLoginType("1");
+                            ifbing.setUserType(roleCode);
+                            ifbing.setIfUnbind("1");
+                            loginManagerService.updateBindingInfo(ifbing);
+                            loginUser.setUserInfo(userInfo.getCustId());
+                            //根据用户编号和密码加密生成token
+                            String token = JWTUtil.sign(userInfo.getCustId(), openId);
+                            loginUser.setToken(token);
+                            return new ResultBean<>("1", loginUser);//
+                        }
+                    }else {
+                        UserLoginRelate userLoginRelate = new UserLoginRelate();
+                        userLoginRelate.setUserId(userInfo.getCustId());
+                        userLoginRelate.setOpenId(openId);
+                        userLoginRelate.setLoginType("1");
+                        userLoginRelate.setUserType(roleCode);
+                        userLoginRelate.setIfUnbind("1");
+                        loginManagerService.userBinding(userLoginRelate);//用户绑定openId
+                        loginUser.setUserInfo(userInfo.getCustId());
+                        //根据用户编号和密码加密生成token
+                        String token = JWTUtil.sign(userInfo.getCustId(),openId);
+                        loginUser.setToken(token);
+                        return new ResultBean<>("1",loginUser) ;//
+                    }
+                }
+            }
+        }
+        return new ResultBean("0","请检查管理员手机号是否输入正确！");
+    }
+
+    /**
+     * 管理员（服务商）修改密码接口
+     * @param mobile 管理员（服务商）手机账号
+     * @param newPw 新密码
+     * @param roleCode 管理员角色标识（agent）
+     * @param request
+     * @return
+     */
+    @RequestMapping("forgetPassword")
+    public ResultBean forgetPassword(String mobile,String newPw, String roleCode, HttpServletRequest request){
+        //查询是否有该服务商的信息
+        UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
+
+        if (userInfo.getCustId() != null) {
+            //获取存入session中的手机登录验证码
+            String code = (String) request.getSession().getAttribute(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+"_"+mobile);
+            //删除session
+            request.getSession().removeAttribute(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+"_"+mobile);
+            if(code == null){
+                return new ResultBean("0","验证码失效,请重新发送！");
+            }
+            String verifyCode = request.getParameter("verifyCode");
+            if (StringUtils.isEmpty(verifyCode)) {
+                return new ResultBean("0","请输入验证码");
+            }
+            if (code.equals(verifyCode)){
+                String pw = userManager.updateUserPasswordByMobile(mobile, newPw, roleCode);
+                if (pw == null){
+                    return new ResultBean("0","修改密码失败");
+                }else {
+                    return new ResultBean("1",pw);
+                }
+            }
+        }
+        return new ResultBean("0","请检查管理员手机号是否输入正确！");
+    }
+
 }
