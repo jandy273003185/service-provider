@@ -228,16 +228,16 @@
           let sales = await adminIndex.SalesRanking(params);
           let list = sales.data.resultMsg;
           console.log(list);
-          if (type == "1") {
-            if (list[0] && list[0].effectiveNum) {
-              this.sumMax = parseFloat(list[0].effectiveNum) * 1.5;
+          if (type == "1") {//交易额
+            if (list[0] && list[0].tradeAmtSum) {
+              this.sumMax = parseFloat(list[0].tradeAmtSum) * 1.5;
             }
             if(list && list.length >0){
               this.isHaveNum = false;
             }
             this.sumList = list;
           }
-          if (type == "0") {
+          if (type == "0") {//进件数
             if (list[0] && list[0].effectiveNum) {
               this.numMax = parseFloat(list[0].effectiveNum) * 1.5;
             }
