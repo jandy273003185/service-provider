@@ -310,7 +310,6 @@ export default {
     ...mapState(["incoming", "savephotos", "incomingReturn", "custId", "role"])
   },
   created() {
-    console.log("进件.....");
     let type = this.$route.params.type; //'corvidae' ;
     this.photos = Object.assign({}, this.savephotos);
     if (type) {
