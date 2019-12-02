@@ -282,14 +282,14 @@ public class LoginController {
             if (StringUtils.isEmpty(verifyCode)) {
                 return new ResultBean("0","请输入验证码");
             }
-            if (code.equals(verifyCode)){
-                String pw = userManager.updateUserPasswordByMobile(mobile, newPw, roleCode);
-                if (pw == null){
-                    return new ResultBean("0","修改密码失败");
-                }else {
-                    return new ResultBean("1",pw);
-                }
-            }
+      if (code.equals(verifyCode)) {
+        /* String pw = userManager.updateUserPasswordByMobile(mobile, newPw, roleCode);
+        if (pw == null){
+            return new ResultBean("0","修改密码失败");
+        }else {
+            return new ResultBean("1",pw);
+        }*/
+      }
         }
         return new ResultBean("0","请检查管理员手机号是否输入正确！");
     }
