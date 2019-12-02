@@ -403,8 +403,8 @@ export default {
         countryName: provinces.areaName,
         custAdd: custInfo.custAdd, //地址
         businessLicense: custInfo.businessLicense, //营业执照编号
-        businessTermStart: custInfo.businessTermStart, //有效期
-        businessTermEnd: custInfo.businessTermEnd,
+        businessTermStart: custInfo.businessTermStart, //有效期开始
+        businessTermEnd: custInfo.businessTermEnd,//有效期结束
         shopFrontDesk: "", //门头照
         shopInterior: "", //店内照
         specialBusiness: "", //特殊行业照
@@ -501,7 +501,9 @@ export default {
       upload.onReadImg(file,detail.name, this)
     },
     deleteImg(file, detail) {
-      this.params[detail.name] = "";
+      if(detail.name!="businessPhoto"){
+        this.params[detail.name] = "";
+      }
       return true;
     },
     uploadImg(file, detail) {

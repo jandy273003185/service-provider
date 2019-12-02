@@ -230,6 +230,7 @@ public class AgentController {
             String state = queryResult.getState();
             if (state != null){
                 if ("04".equals(state)){
+                    tdCustInfo.setAuthId(authId);
                     tdCustInfo.setState(queryResult.getState());
                 }
             }

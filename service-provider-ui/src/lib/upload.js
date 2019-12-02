@@ -13,13 +13,17 @@ const uploadImg = {
     if (info.data&&info.data.resultCode&&info.data.resultCode == "200") {
       let resultMsg = JSON.parse(info.data.resultMsg);
       let fullUrl = resultMsg.uri + "" + resultMsg.url;
-      that.params[name] = fullUrl;
+      if(name != 'businessPhoto'){
+        that.params[name] = fullUrl;
+      }
       that.photos[name] = [{
         url: fullUrl
       }];
     }else{
       that.$toast("图片上传失败！");
-      that.params[name] = '';
+      if(name != 'businessPhoto'){
+        that.params[name] = '';
+      }
       that.photos[name] = [];
     }
   },
@@ -45,9 +49,8 @@ const uploadImg = {
       img.src = file.content // 指定图片的DataURL(图片的base64编码数据)
       img.onload = () => {
         canvas.width = 400;
-        let height=this.height*(400/this.width);
-        canvas.height = height;
-        context.drawImage(img, 0, 0, 400, height)
+        canvas.height =300;
+        context.drawImage(img, 0, 0, 400, 300)
         file.content = canvas.toDataURL(file.file.type, 0.92) // 0.92为默认压缩质量
         let files = this.dataURLtoFile(file.content, file.file.name)
         const data = new FormData()
@@ -69,9 +72,8 @@ const uploadImg = {
       img.src = file.content // 指定图片的DataURL(图片的base64编码数据)
       img.onload = () => {
         canvas.width = 400;
-        let height=this.height*(400/this.width);
-        canvas.height = height;
-        context.drawImage(img, 0, 0, 400, height)
+        canvas.height = 300;
+        context.drawImage(img, 0, 0, 400, 300)
         file.content = canvas.toDataURL(file.file.type, 0.92) // 0.92为默认压缩质量
         this.getImgInfo(file.content, name, that);
       }
@@ -139,3 +141,8 @@ const uploadImg = {
   },
 }
 export default uploadImg
+
+
+
+
+
