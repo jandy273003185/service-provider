@@ -85,7 +85,7 @@ export default {
       let params={};
       if(this.selectLogin=='psd'){
         if (!this.userName) {
-          this.$toast({message: "请填写用户名账号",duration:1000 });
+          this.$toast({message: "请填写用户名",duration:1000 });
           return;
         }
         if (!this.password) {
