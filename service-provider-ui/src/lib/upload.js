@@ -10,7 +10,7 @@ const uploadImg = {
     });
     let info = await common.uploadImg(data);
     that.$toast.clear();
-    if (info.data.resultCode == "200") {
+    if (info.data&&info.data.resultCode&&info.data.resultCode == "200") {
       let resultMsg = JSON.parse(info.data.resultMsg);
       let fullUrl = resultMsg.uri + "" + resultMsg.url;
       if (name != 'businessLicense') {
@@ -97,7 +97,7 @@ const uploadImg = {
     };
     const info = await common.getImgInfo(params);
     that.$toast.clear();
-    if (info.data.result && info.data.result == "SUCCESS") {
+    if (info.data&&info.data.result && info.data.result == "SUCCESS") {
       const imgUrl = info.data.uri + "" + info.data.url;
       if (name == 'businessPhoto') {
         let businessLicense = info.data.businessLicense;
