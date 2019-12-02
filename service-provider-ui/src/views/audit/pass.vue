@@ -10,7 +10,7 @@
           </div>
           <div class="row">
             <span class="label">商户账号</span>
-            <input v-model="allInfoList.merchantMobile" readonly />
+            <input v-model="allInfoList.merchantAccount" readonly />
           </div>
           <div class="row">
             <span class="label">商户类型</span>
