@@ -17,13 +17,13 @@
                       finished-text="暂无更多数据"
                       @load="loadList"
             >
-                <li v-for="(item, index) in statesList" :key="index" @click="toDetail(item.state,item.custId)">
+                <li v-for="(item, index) in statesList" :key="index" @click="toDetail(item.state,item.filingAuditStatus,item.custId)">
                     <div>
                         <span class="shopName">{{ item.custName }}</span>
                         <span class="time">{{ item.createTime }}</span>
                     </div>
                     <span v-if="item.state=='00'&&item.filingAuditStatus=='00'" class=" state state_0">审核通过</span>
-                    <span v-if="item.state=='00'&&item.filingAuditStatus!='00'" class=" state state_1">审核中</span>
+                    <span v-if="item.state=='00'&&item.filingAuditStatus!='00'" class=" state state_2">审核中</span>
                     <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
                     <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
                     <span v-if="item.state=='05'" class=" state state_5">待完善</span>
@@ -114,23 +114,21 @@ export default {
             }
         },
         //查看审核失败信息和审核成功信息
-        toDetail(state,custId){
+        toDetail(state,filingAuditStatus,custId){
+            this.setCustId(custId);
             if(state=='04'){
                 this.$router.push('whyFailed');
-                this.setCustId(custId);
             }
-            if(state=='00'){
+            if(state=='00'&&filingAuditStatus=='00'){
                 this.$router.push('/audit/pass');
-                this.setCustId(custId);
             }
             if (state == "05") {
                 this.$router.push({
                     name: "baseInfo",
-                    params: { type: "corvidae", custId: custId }
+                    params: { type: "corvidae" }
                 });
             }
         },
-
 
         ...mapMutations(['setCustId']),
 
@@ -178,6 +176,7 @@ export default {
     }
     .state_0{ color: #3fd016}
     .state_1{color: #aeaeae;}
+    .state_2{color: #37ae9a;}
     .state_4{color: #ff495d;}
     .state_5{color: #3f9aff;}
     }
