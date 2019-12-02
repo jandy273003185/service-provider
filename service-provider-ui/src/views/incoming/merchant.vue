@@ -18,7 +18,7 @@
           <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.compAcctBank)}">开户银行</span>
           <!-- v-model="params.compAcctBank" -->
-          <input v-model.trim="params.bankName" placeholder="请输入开户银行" />
+          <input v-model.trim="params.bankName" @focus="focusBankName" placeholder="请输入开户银行" />
         </div>
         <van-picker
           v-show="bankpicker"
@@ -270,6 +270,9 @@ export default {
       this.params.compMainAcctTypeShow=value.name;
       this.params.compMainAcctType=value.val;
       this.compicker=false;
+    },
+    focusBankName(){
+      this.canChange = true;
     },
       //识别银行卡号
     /* getBankName(cardNo) {
