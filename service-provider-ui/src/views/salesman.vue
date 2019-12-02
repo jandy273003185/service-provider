@@ -285,7 +285,6 @@ export default {
       }
 
       div {
-        height: vw(50);
         font-size: vw(32);
         color: #999999;
       }

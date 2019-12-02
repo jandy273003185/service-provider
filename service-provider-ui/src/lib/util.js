@@ -58,7 +58,7 @@ const util = {
         case "04": //身份证正
           name = "identityCardFront";
           break;
-        case "31": //身份证反
+        case "16": //身份证反
           name = "identityCardReverse";
           break;
         case "03": //开户许可证
@@ -112,7 +112,7 @@ const util = {
           certifyType = "04";
           break;
         case "identityCardReverse": //身份证反
-          certifyType = "31";
+          certifyType = "16";
           break;
         case "licenceForOpeningAccounts": //开户许可证
           certifyType = "03";
