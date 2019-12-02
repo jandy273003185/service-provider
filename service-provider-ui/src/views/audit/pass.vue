@@ -6,7 +6,7 @@
         <div class="stepInfo" ref="baseform">
           <div class="row">
             <span class="label">商户编号</span>
-            <input v-model="allInfoList.custId" readonly />
+            <input v-model="allInfoList.merchantCode" readonly />
           </div>
           <div class="row">
             <span class="label">商户账号</span>
