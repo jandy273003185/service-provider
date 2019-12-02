@@ -97,20 +97,36 @@ public class LoginController {
             if(StringUtils.isEmpty(userInfo)){
                 return new ResultBean<String>("0","账号或密码错误");
             }
-            //查询该账号是否绑定openId
-            boolean isBinding = loginManagerService.LogincheckIsBinding(userName, roleCode);
-            if (isBinding) {
-                return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
-            }
-            UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定过openId
-            if (ifbing != null) {
-                if (ifbing.getIfUnbind().equals("0")){
-                    ifbing.setIfUnbind("1");
-                    ifbing.setUserId(userInfo.getSalesmanId());
-                    ifbing.setOpenId(openId);
-                    ifbing.setLoginType("1");
-                    ifbing.setUserType(roleCode);
-                    loginManagerService.updateBindingInfo(ifbing);
+            if ("1".equals(userInfo.getStatus())){
+                //查询该账号是否绑定openId
+                boolean isBinding = loginManagerService.LogincheckIsBinding(userName, roleCode);
+                if (isBinding) {
+                    return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
+                }
+                UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定过openId
+                if (ifbing != null) {
+                    if (ifbing.getIfUnbind().equals("0")){
+                        ifbing.setIfUnbind("1");
+                        ifbing.setUserId(userInfo.getSalesmanId());
+                        ifbing.setOpenId(openId);
+                        ifbing.setLoginType("1");
+                        ifbing.setUserType(roleCode);
+                        loginManagerService.updateBindingInfo(ifbing);
+                        loginUser.setUserId(userInfo.getCustId());
+                        //根据用户编号和密码加密生成token
+                        String token = JWTUtil.sign(userInfo.getCustId(), openId);
+                        loginUser.setToken(token);
+                        loginUser.setPhoneCode(userInfo.getUserPhone());
+                        return new ResultBean<>("1",loginUser) ;
+                    }
+                }else {
+                    UserLoginRelate userLoginRelate = new UserLoginRelate();
+                    userLoginRelate.setUserId(userInfo.getSalesmanId());
+                    userLoginRelate.setOpenId(openId);
+                    userLoginRelate.setLoginType("1");
+                    userLoginRelate.setUserType(roleCode);
+                    userLoginRelate.setIfUnbind("1");
+                    loginManagerService.userBinding(userLoginRelate);//用户绑定openId
                     loginUser.setUserId(userInfo.getCustId());
                     //根据用户编号和密码加密生成token
                     String token = JWTUtil.sign(userInfo.getCustId(), openId);
@@ -118,23 +134,7 @@ public class LoginController {
                     loginUser.setPhoneCode(userInfo.getUserPhone());
                     return new ResultBean<>("1",loginUser) ;
                 }
-            }else {
-                UserLoginRelate userLoginRelate = new UserLoginRelate();
-                userLoginRelate.setUserId(userInfo.getSalesmanId());
-                userLoginRelate.setOpenId(openId);
-                userLoginRelate.setLoginType("1");
-                userLoginRelate.setUserType(roleCode);
-                userLoginRelate.setIfUnbind("1");
-                loginManagerService.userBinding(userLoginRelate);//用户绑定openId
-                loginUser.setUserId(userInfo.getCustId());
-                //根据用户编号和密码加密生成token
-                String token = JWTUtil.sign(userInfo.getCustId(), openId);
-                loginUser.setToken(token);
-                loginUser.setPhoneCode(userInfo.getUserPhone());
-                return new ResultBean<>("1",loginUser) ;
             }
-
-
         }
         return new ResultBean<String>("0","绑定失败,请重新登陆");
     }

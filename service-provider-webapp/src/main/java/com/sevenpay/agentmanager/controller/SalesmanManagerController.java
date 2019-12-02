@@ -4,6 +4,7 @@ package com.sevenpay.agentmanager.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.qifenqian.app.bean.customer.TdSalesmanInfo;
 import com.qifenqian.app.customer.SalesmanManagerService;
+import com.qifenqian.app.login.UserLoginManagerService;
 import com.qifenqian.app.merchant.CommercialService;
 import com.sevenpay.agentmanager.pojo.Pager;
 import com.sevenpay.agentmanager.pojo.ResultBean;
@@ -26,6 +27,8 @@ public class SalesmanManagerController {
     @Reference
     private CommercialService commerService;
 
+    @Reference
+    private UserLoginManagerService loginManagerService;
 
     /**
      * 管理员下业务员商户审核数据
@@ -175,6 +178,10 @@ public class SalesmanManagerController {
      */
     @RequestMapping("update")
     public ResultBean<?> updateTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo){
+//        if ("0".equals(tdSalesmanInfo.getStatus())) {
+//
+//            loginManagerService.updateBindingInfo()
+//        }
         Integer result = salesmanManagerService.updateTdSalesmanInfo(tdSalesmanInfo);
         if (result > 0) {//更新成功
             return new ResultBean<>("1");
