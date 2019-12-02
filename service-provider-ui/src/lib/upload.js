@@ -40,50 +40,52 @@ const uploadImg = {
     })
   },
   onReadUpload(file, name, that) { // 上传图片压缩处理
-    // 大于3MB的图片都缩小像素上传
-    if (file.file.size > 1048576 * 3) {
+    // 大于2MB的图片都缩小像素上传
+    if (file.file.size > 1048576 * 2) {
       let canvas = document.createElement('canvas') // 创建Canvas对象(画布)
       let context = canvas.getContext('2d')
       let img = new Image()
       img.src = file.content // 指定图片的DataURL(图片的base64编码数据)
       img.onload = () => {
-        canvas.width = 400
-        canvas.height = 300
-        context.drawImage(img, 0, 0, 400, 300)
+        canvas.width = 400;
+        let height=this.height*(400/this.width);
+        canvas.height = height;
+        context.drawImage(img, 0, 0, 400, height)
         file.content = canvas.toDataURL(file.file.type, 0.92) // 0.92为默认压缩质量
         let files = this.dataURLtoFile(file.content, file.file.name)
         const data = new FormData()
         data.append('file', files)
         this.uploadImgRequest(data, name, that);
       }
-    } else { //小于3M直接上传
+    } else { //小于2M直接上传
       const data = new FormData()
       data.append('file', file.file)
       this.uploadImgRequest(data, name, that);
     }
   },
   onReadImg(file, name, that) { // 识别图片压缩
-    // 大于3MB的图片都缩小像素上传
-    if (file.file.size > 1048576 * 3) {
+    // 大于2MB的图片都缩小像素上传
+    if (file.file.size > 1048576 * 2) {
       let canvas = document.createElement('canvas') // 创建Canvas对象(画布)
       let context = canvas.getContext('2d')
       let img = new Image()
       img.src = file.content // 指定图片的DataURL(图片的base64编码数据)
       img.onload = () => {
-        canvas.width = 400
-        canvas.height = 300
-        context.drawImage(img, 0, 0, 400, 300)
+        canvas.width = 400;
+        let height=this.height*(400/this.width);
+        canvas.height = height;
+        context.drawImage(img, 0, 0, 400, height)
         file.content = canvas.toDataURL(file.file.type, 0.92) // 0.92为默认压缩质量
         this.getImgInfo(file.content, name, that);
       }
-    } else { //小于3M直接上传
+    } else { //小于2M直接上传
       const data = new FormData()
       data.append('file', file.file)
       this.getImgInfo(file.content, name, that);
     }
   },
   async getImgInfo(file, name, that) {
-    //识别营业执照
+    //识别图片
     that.$toast.loading({
       message: "识别中..",
       forbidClick: true,
@@ -91,7 +93,7 @@ const uploadImg = {
     });
     const params = {
       str: file,
-      flag: name //营业执照
+      flag: name 
     };
     const info = await common.getImgInfo(params);
     that.$toast.clear();
