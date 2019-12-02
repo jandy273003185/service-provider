@@ -22,6 +22,10 @@ const form = {
             errCount++;
           }
         }
+        if(item=='compMainAcct'&&params[item].length<5){
+          that.$toast("银行卡号有误！")
+          errCount++;
+        }
         if (item == 'contactPhone') {
           if (!/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(params[item])) {
             that.$toast('电话号码格式有误！');

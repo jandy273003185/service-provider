@@ -6,7 +6,7 @@
       <div ref="baseform">
         <div class="row">
           <span class="must">*</span>
-          <span class="label" :class="{'active':(clickedNext&&!params.compMainAcct)}">结算账号</span>
+          <span class="label" :class="{'active':(clickedNext&&(!params.compMainAcct||params.compMainAcct.length<5))}">结算账号</span>
           <input
             type="number"
             v-model="params.compMainAcct"
