@@ -8,6 +8,7 @@ import com.qifenqian.app.customer.MerchantStatusService;
 import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.merchant.CommercialService;
 import com.qifenqian.app.product.ProductInfoService;
+import com.qifenqian.app.user.UserManager;
 import com.sevenpay.agentmanager.pojo.Pager;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.AddCustScanCopy;
@@ -45,6 +46,8 @@ public class AgentController {
     private SalesmanManagerService salesmanManagerService;
     @Reference
     private BankInfoService bankInfoService;
+    @Reference
+    private UserManager userManager;
 
     @Value("${images.uri}")
     private String uri;
@@ -363,6 +366,8 @@ public class AgentController {
     @RequestMapping("queryMerchantById")
     public ResultBean<?> queryProduct(String custId) {
         TdCustInfo custInfo = merchantInfoService.getMerchantById(custId);
+        TdLoginUserInfo tdLoginUserInfo = userManager.queryMobileByCustId(custId);
+        custInfo.setMerchantAccount(tdLoginUserInfo.getMobile());
         return new ResultBean<TdCustInfo>("1",custInfo);
     }
 
