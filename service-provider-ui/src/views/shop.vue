@@ -48,14 +48,16 @@
                     finished-text="暂无更多数据"
                     @load="loadList"
             >
-            <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
+            <li v-for="(item, index) in allStateList" :key="index"
+                @click="toDetail(item.state,item.filingAuditStatus,item.custId)">
               <div>
                 <span class="shopName">{{ item.custName }}</span>
                 <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
                 <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
                 <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
               </div>
-              <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
+              <span v-if="item.state=='00'&&item.filingAuditStatus=='00'" class=" state state_0">审核通过</span>
+              <span v-if="item.state=='00'&&item.filingAuditStatus!='00'" class=" state state_0">审核中</span>
               <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
               <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
               <span v-if="item.state=='05'" class=" state state_5">待完善</span>
@@ -81,9 +83,6 @@
                   <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
                   <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
-                <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
-                <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
-                <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
                 <span v-if="item.state=='05'" class=" state state_5">待完善</span>
 
 
@@ -100,17 +99,14 @@
                       finished-text="暂无更多数据"
                       @load="loadList"
             >
-              <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
+              <li v-for="(item, index) in allStateList" :key="index" >
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
                   <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
                   <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
-                <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
-                <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
-                <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
-                <span v-if="item.state=='05'" class=" state state_5">待完善</span>
+                <span class=" state state_1">待审核</span>
 
               </li>
             </van-list>
@@ -124,17 +120,14 @@
                       finished-text="暂无更多数据"
                       @load="loadList"
             >
-              <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
+              <li v-for="(item, index) in allStateList" :key="index" >
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
                   <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
                   <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
-                <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
-                <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
-                <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
-                <span v-if="item.state=='05'" class=" state state_5">待完善</span>
+                <span  class=" state state_1">审核中</span>
 
               </li>
             </van-list>
@@ -148,19 +141,14 @@
                       finished-text="暂无更多数据"
                       @load="loadList"
             >
-              <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
+              <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.filingAuditStatus,item.custId)">
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
                   <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
                   <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
-                <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
-                <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
-                <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
-                <span v-if="item.state=='05'" class=" state state_5">待完善</span>
-
-
+                <span  class=" state state_4">审核失败</span>
               </li>
             </van-list>
           </ul>
@@ -173,19 +161,14 @@
                       finished-text="暂无更多数据"
                       @load="loadList"
             >
-              <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
+              <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.filingAuditStatus,item.custId)">
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
                   <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
                   <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
-                <span v-if="item.state=='00'" class=" state state_0">审核通过</span>
-                <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
-                <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
-                <span v-if="item.state=='05'" class=" state state_5">待完善</span>
-
-
+                <span  class=" state state_0">审核通过</span>
               </li>
             </van-list>
           </ul>
@@ -267,24 +250,28 @@ export default {
 //异步请求
 
     async getAllShopList(){
-
+        let filingAuditStatus='';
         let stateCode='';
       if(this.active==0) stateCode='';
 
-      if(this.active==1) stateCode='05';
+      if(this.active==1) stateCode='05';//待完善
 
-      if(this.active==2) stateCode='01';
+      if(this.active==2) stateCode='01';//待审核
 
-      if(this.active==3) stateCode='01';
+      if(this.active==3) stateCode='00';//审核中
 
-      if(this.active==4) stateCode='04';
+      if(this.active==4) stateCode='04';//审核失败
 
-      if(this.active==5) stateCode='00';
+      if(this.active==5){//审核成功
+        stateCode='00';
+        filingAuditStatus='00';
+      }
       let params={
         custName:this.mchName,//商户名
         queryStartDate:this.timeStart,//开始时间
         queryEndDate:this.timeEnd,//结束时间
         stateCode:stateCode,//审核状态
+        filingAuditStatus:filingAuditStatus,
         userId:this.userId,
         pageSize:'20',
         pageNum:this.pageNum,
@@ -314,6 +301,8 @@ export default {
 
     onSearch(){////将this.value传到后台
       if(this.mchName){
+        this.loading=false;
+        this.finished=false;
         this.pageNum=1;
         this.timeStart='';//选取的开始时间
         this.timeEnd='';
@@ -370,7 +359,10 @@ export default {
       this.endMs = new Date(this.timeEnd).getTime();//结束日期的毫秒数
       if(this.startMs && this.endMs){
         if(this.startMs <= this.endMs){
-          this.showTime = false;
+          this.loading=false;//初始化
+          this.finished=false;//初始化
+          this.allStateList=[];//清空数据
+          this.showTime = false;//关闭时间选择
           console.log(this.timeStart,this.timeEnd);
           this.pageNum=1;
           this.getAllShopList();
@@ -384,12 +376,12 @@ export default {
     },
 
     //查看审核失败信息和审核成功信息
-    toDetail(state,custId){
+    toDetail(state,filingAuditStatus,custId){
        this.setCustId(custId);
       if(state=='04'){
         this.$router.push('whyFailed');
       }
-      if(state=='00'){
+      if(state=='00'&&filingAuditStatus=='00'){
         this.$router.push('/audit/pass');
       }
       if (state == "05") {

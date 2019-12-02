@@ -17,14 +17,13 @@
           <van-icon @click="clearPsd" name="close" />
         </div>
       </div>
-      <div v-if="selectLogin=='code'" ><!--//手机号登录-->
+      <div v-if="selectLogin=='code'&&role=='agent'"><!--//手机号登录-->
         <div class="item userName">
           <input v-model.trim="userPhone" type="text" placeholder="输入手机号码" />
           <van-icon @click="clearName" name="close" />
         </div>
         <div class="item">
           <input v-model.trim="userCode" type="text" placeholder="输入验证码" />
-         <!-- <van-icon @click="clearPsd" name="close" />-->
           <div class="getCode" @click="getCode">获取验证码</div>
         </div>
       </div>
@@ -48,8 +47,8 @@ export default {
       userName: null,
       password: null,
       selectLogin:'psd',
-      userCode:'',//手机号
-      userPhone:''//短信验证码
+      userCode:'',//短信验证码
+      userPhone:''//手机号
     };
   },
   mounted() {
@@ -68,9 +67,18 @@ export default {
      /!* this.selectLogin=way;*!/
     },*/
     //获取短信验证码
-   /* getCode(){
-      this.$toast({ message: "已发送短信验证码，请前往查看" });
-    },*/
+   async getCode(){//codeLogin
+      if(this.userPhone){
+        let loginData = await login.code({mobile:this.userPhone,roleCode:this.role});
+        if(loginData.data.resultCode == 1){
+          this.$toast({ message: "已发送短信验证码，请查收" });
+        }else {
+          this.$toast({ message: loginData.data.resultMsg});
+        }
+      }else {
+        this.$toast({ message: "请输入手机号" });
+      }
+    },
 
     //判断账号密码非空
     submitLogin() {
@@ -91,7 +99,7 @@ export default {
          roleCode: this.role
        };
         console.log(params);
-
+        this.loginPost(params); //登录请求
       }else if(this.selectLogin=='code'){
         if (!this.userPhone) {
           Dialog({ message: "手机号码不能为空" });
@@ -102,15 +110,21 @@ export default {
           return;
         }
         params = {
-          userName: this.userPhone,
-          password: this.userCode,
+          mobile:this.userPhone,
+          verifyCode:this.userCode,
           openId: this.openId,
           roleCode: this.role
         };
+       /* user/smsLogin   短信登陆绑定接口
+        mobile  （管理员手机号）
+        roleCode  （agent）管理员
+        openId
+        verifyCode    (验证码)*/
         console.log(params);
+        this.codeLogin(params); //登录请求
       }
 
-      this.loginPost(params); //登录请求
+
     },
     clearName() {
       this.userName = "";
@@ -140,8 +154,23 @@ export default {
                 }
               });
             }
-
-
+      } else {
+        Dialog({ message: loginData.data.resultMsg });
+      }
+    },
+    //验证码登录
+    async codeLogin(params) {
+      let loginData = await login.codeLogin(params);
+      console.log(loginData);
+      if (loginData.data.resultCode == 1) {
+        this.$toast("登录成功");
+          console.log(this.role);
+          this.$router.replace({
+            name: "Administrator",
+            params: {
+              fname: "login"
+            }
+          });
       } else {
         Dialog({ message: loginData.data.resultMsg });
       }

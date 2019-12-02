@@ -135,7 +135,6 @@
 /*import { goods } from "../assets/api/interface";*/
 import BaseHeader from "../components/baser-header.vue";
 import { Dialog } from 'vant';//弹窗函数，可直接调用
-import storage from '../assets/modeljs/storage.js';
 import {goodsInfo} from "../assets/api/interface";
 import {mapState} from 'vuex';
 
@@ -169,8 +168,8 @@ export default {
       allShow:false,//全部数据栏是否请求数据，默认false，选取时间后为true
       Numranking:false,
       Amountranking:false,
-      selectRank:'transactionNum',
-      rankingCode:'transactionNum desc'//transactionNum  笔数排名  transactionAmount 金额排名 desc大到小，asc小到大
+      selectRank:'transactionAmount',
+      rankingCode:'transactionAmount desc'//transactionNum  笔数排名  transactionAmount 金额排名 desc大到小，asc小到大
     };
   },
   computed:{
@@ -336,9 +335,9 @@ onSearch(){////将this.value传到后台
     number(){//笔数排名
         this.Numranking=! this.Numranking
         if(this.Numranking){
-          this.rankingCode = 'transactionNum asc';
-        }else {
           this.rankingCode = 'transactionNum desc';
+        }else {
+          this.rankingCode = 'transactionNum asc';
         }
         this.selectRank = 'transactionNum';
         this.pageNum=1;
@@ -349,9 +348,9 @@ onSearch(){////将this.value传到后台
     sum(){//金额排名
       this.Amountranking=! this.Amountranking
       if(this.Amountranking){
-        this.rankingCode = 'transactionAmount  desc';
-      }else {
         this.rankingCode = 'transactionAmount asc';
+      }else {
+        this.rankingCode = 'transactionAmount desc';
       }
       this.selectRank = 'transactionAmount';
       this.pageNum=1;
@@ -468,7 +467,7 @@ onSearch(){////将this.value传到后台
 
         }
         .number{
-          text-align: left;
+          text-align: right;
         }
         .sum{
           text-align: right;

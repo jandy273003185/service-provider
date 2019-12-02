@@ -107,7 +107,8 @@ export default {
           if (count < 1) {
             count++;
             let prolist = this.checkSignGoods();
-            let fullParams = Object.assign(this.incoming, this.params, {
+            if(prolist){
+              let fullParams = Object.assign(this.incoming, this.params, {
               roleId: this.roleId,
               state: "05"
             });
@@ -117,6 +118,8 @@ export default {
             fullParams.custScanCopys = custScanCopys;
             this.$store.commit("setincoming", fullParams);
             this.insertIncoming(fullParams); //提交请求
+            }
+            
           }
         })
         .catch(() => {
@@ -136,7 +139,7 @@ export default {
             if (count < 1) {
               count++;
               let prolist = this.checkSignGoods();
-              if (prolist.length > 0) {
+              if (prolist&&prolist.length > 0) {
                 let fullParams = Object.assign(this.incoming, this.params, {
                   roleId: this.roleId,
                   state: state,
@@ -179,6 +182,7 @@ export default {
       //签约产品
       let prolist = [];
       let proObj = {};
+      let count=0;
       if (this.dragonfly) {
         if (this.dragonfly && this.sn && this.dragonflyProductRate) {
           proObj = {
@@ -189,7 +193,7 @@ export default {
           prolist.push(proObj);
         } else {
           this.$toast("请将蜻蜓产品信息补充完整");
-          return;
+          count++;
         }
       }
       if (this.scan) {
@@ -202,7 +206,7 @@ export default {
           prolist.push(proObj);
         } else {
           this.$toast("请将填写扫码费率");
-          return;
+          count++;
         }
       }
       if (this.app) {
@@ -215,10 +219,15 @@ export default {
           prolist.push(proObj);
         } else {
           this.$toast("请将填写app费率");
-          return;
+          count++
         }
       }
-      return prolist;
+      if(count<1){
+        return prolist;
+      }else{
+        return false
+      }
+      
     }
   }
 };
