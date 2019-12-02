@@ -8,10 +8,10 @@
             <span class="label">商户编号</span>
             <input v-model="allInfoList.merchantCode" readonly />
           </div>
-          <div class="row">
+         <!--  <div class="row">
             <span class="label">商户账号</span>
             <input v-model="allInfoList.merchantAccount" readonly />
-          </div>
+          </div> -->
           <div class="row">
             <span class="label">商户类型</span>
             <select v-model="allInfoList.custType" disabled>
