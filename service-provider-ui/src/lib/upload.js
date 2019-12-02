@@ -13,13 +13,17 @@ const uploadImg = {
     if (info.data&&info.data.resultCode&&info.data.resultCode == "200") {
       let resultMsg = JSON.parse(info.data.resultMsg);
       let fullUrl = resultMsg.uri + "" + resultMsg.url;
-      that.params[name] = fullUrl;
+      if(name != 'businessPhoto'){
+        that.params[name] = fullUrl;
+      }
       that.photos[name] = [{
         url: fullUrl
       }];
     }else{
       that.$toast("图片上传失败！");
-      that.params[name] = '';
+      if(name != 'businessPhoto'){
+        that.params[name] = '';
+      }
       that.photos[name] = [];
     }
   },
@@ -137,3 +141,8 @@ const uploadImg = {
   },
 }
 export default uploadImg
+
+
+
+
+
