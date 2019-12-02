@@ -4,6 +4,7 @@ const form = {
     let errCount = 0;
     arr.map(function (item) {
       if (!params[item] &&item!='specialBusiness'&&item != 'otherPhoto1' && item != "otherPhoto2" && item != "custId" && item != 'userId' && item != 'roleId' && item != 'custId' && item != 'licenceForOpeningAccounts' && item != 'bankCardFront') {
+        console.log(item);
         that.$toast("请先将进件信息补充完整！");
         errCount++;
       } else {
@@ -20,6 +21,10 @@ const form = {
             that.$toast("手机号码格式有误！")
             errCount++;
           }
+        }
+        if(item=='compMainAcct'&&params[item].length<5){
+          that.$toast("银行卡号有误！")
+          errCount++;
         }
         if (item == 'contactPhone') {
           if (!/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(params[item])) {

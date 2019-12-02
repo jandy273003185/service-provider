@@ -35,7 +35,7 @@ const util = {
       let imgname = this.getImgName(photos[i].scanCopyPath);
       switch (photos[i].certifyType) {
         case "02": //营业执照
-          name = "businessLicense";
+          name = "businessPhoto";
           break;
         case "08": //门头照
           name = "shopFrontDesk";
@@ -74,13 +74,10 @@ const util = {
         obj[name] = [{
           url: urlHead + "" + imgname,
         }]
-        if (name != 'businessLicense') {
+        if (name != 'businessPhoto') {
           that.params[name] = urlHead + "" + imgname;
         }
       }
-      /*  that.photos[name] = [{
-         url: urlHead + "" + imgname
-       }]; */
     }
     return obj;
   },
@@ -90,7 +87,7 @@ const util = {
     console.log(obj);
     for (let key in obj) {
       switch (key) {
-        case "businessLicense": //营业执照
+        case "businessPhoto": //营业执照
           certifyType = "02";
           break;
         case "shopFrontDesk": //门头照
