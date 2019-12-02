@@ -401,8 +401,6 @@ export default {
         this.$store.commit("setPhotos", this.photos);
         this.$store.commit("setCheckedState", this.checkedState);
         this.$router.push("sign");
-      }else{
-         this.$toast("请检查填写的信息得正确性！");
       }
     },
     deleteImg(file, detail) {
