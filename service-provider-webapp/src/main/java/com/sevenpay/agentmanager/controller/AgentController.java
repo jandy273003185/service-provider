@@ -369,8 +369,8 @@ public class AgentController {
     @RequestMapping("queryMerchantById")
     public ResultBean<?> queryProduct(String custId) {
         TdCustInfo custInfo = merchantInfoService.getMerchantById(custId);
-        TdLoginUserInfo tdLoginUserInfo = userManager.queryMobileByCustId(custId);
-        custInfo.setMerchantAccount(tdLoginUserInfo.getMobile());
+//        TdLoginUserInfo tdLoginUserInfo = userManager.queryMobileByCustId(custId);
+//        custInfo.setMerchantAccount(tdLoginUserInfo.getMobile());
         return new ResultBean<TdCustInfo>("1",custInfo);
     }
 
