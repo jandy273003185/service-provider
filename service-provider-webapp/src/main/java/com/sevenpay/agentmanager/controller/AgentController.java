@@ -227,8 +227,11 @@ public class AgentController {
             tdCustInfo.setMerchantMobile(tdCustInfo.getMerchantAccount());
             tdCustInfo.setModifyTime(new Date());//修改时间
             tdCustInfo.setModifyId(request.getParameter("userId"));//修改人
-            if ("04".equals(queryResult.getState()) && queryResult.getState() != null) {
-                tdCustInfo.setState(queryResult.getState());
+            String state = queryResult.getState();
+            if (state != null){
+                if ("04".equals(state)){
+                    tdCustInfo.setState(queryResult.getState());
+                }
             }
             merchantInfoService.updateMerchant(tdCustInfo);
             TdCustScanCopy tSC = new TdCustScanCopy();
