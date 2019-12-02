@@ -125,17 +125,17 @@ const uploadImg = {
       }
     } else {
       if (name == 'businessPhoto') {
-        that.photos.businessLicense = [{ url: "" }];
+        that.photos.businessLicense = [];
         that.$toast("营业执照信息无法识别！");
       }
       if (name == "certAttribute1") {
-        that.photos.identityCardFront = [{ url: ''}];
+        that.photos.identityCardFront = [];
         that.params.identityCardFront = '';
         that.$toast("身份证正面信息无法识别！");
       }
       if (name == "certAttribute2") {
         that.params.identityCardReverse = '';
-        that.photos.identityCardReverse = [{ url: '' }];
+        that.photos.identityCardReverse = [];
         that.$toast("身份证反面信息无法识别！");
       }
 
