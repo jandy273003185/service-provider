@@ -13,16 +13,13 @@ const uploadImg = {
     if (info.data&&info.data.resultCode&&info.data.resultCode == "200") {
       let resultMsg = JSON.parse(info.data.resultMsg);
       let fullUrl = resultMsg.uri + "" + resultMsg.url;
-      if (name != 'businessLicense') {
-        that.params[name] = fullUrl;
-      }
+      that.params[name] = fullUrl;
       that.photos[name] = [{
         url: fullUrl
       }];
     }else{
-      if (name != 'businessLicense') {
-        that.params[name] = '';
-      }
+      that.$toast("图片上传失败！");
+      that.params[name] = '';
       that.photos[name] = [];
     }
   },
@@ -100,14 +97,13 @@ const uploadImg = {
     if (info.data&&info.data.result && info.data.result == "SUCCESS") {
       const imgUrl = info.data.uri + "" + info.data.url;
       if (name == 'businessPhoto') {
+        that.photos.businessPhoto = [{url: imgUrl }];
         let businessLicense = info.data.businessLicense;
         let businessTermEnd = info.data.businessTermEnd;
         let businessTermStart = info.data.businessTermStart;
         that.params.businessLicense = businessLicense;
         that.params.businessTermEnd = businessTermEnd;
         that.params.businessTermStart = businessTermStart;
-        that.businessLicense = info.data.uri + info.data.url;
-        that.photos.businessLicense = [{url: imgUrl }];
       }
       if (name == "certAttribute1") {
         that.photos.identityCardFront = [{url: imgUrl }];
@@ -125,7 +121,7 @@ const uploadImg = {
       }
     } else {
       if (name == 'businessPhoto') {
-        that.photos.businessLicense = [];
+        that.photos.businessPhoto = [];
         that.$toast("营业执照信息无法识别！");
       }
       if (name == "certAttribute1") {

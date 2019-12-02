@@ -27,7 +27,7 @@ module.exports = {
         '/': {
           ws:false,
           /* 目标代理服务器地址 */
-          target:'https://sp.qifenqian.com',//'https://sp.qifenqian.com',//'http://192.168.1.159:8082', //  https://sp.qifenqian.com/
+          target:'http://192.168.1.159:8082',//'https://sp.qifenqian.com',//'http://192.168.1.159:8082', //  https://sp.qifenqian.com/
           /* 允许跨域 */
           changeOrigin: true,
         },

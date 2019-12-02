@@ -4,6 +4,7 @@ const form = {
     let errCount = 0;
     arr.map(function (item) {
       if (!params[item] &&item!='specialBusiness'&&item != 'otherPhoto1' && item != "otherPhoto2" && item != "custId" && item != 'userId' && item != 'roleId' && item != 'custId' && item != 'licenceForOpeningAccounts' && item != 'bankCardFront') {
+        console.log(item);
         that.$toast("请先将进件信息补充完整！");
         errCount++;
       } else {

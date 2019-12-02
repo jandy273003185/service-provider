@@ -109,7 +109,7 @@
             :after-read="afterReadImg"
             :before-delete="deleteImg"
             :max-count="1"
-            v-model="photos.businessLicense"
+            v-model="photos.businessPhoto"
             preview-size="auto"
           >
             <van-button icon="photo" type="primary">上传营业执照</van-button>
@@ -274,7 +274,7 @@ export default {
       showDatepicker: false,
       dateType: "",
       photos: {
-        businessLicense: [], //营业执照
+        businessPhoto: [], //营业执照
         shopFrontDesk: [], //门头照
         shopInterior: [], //店内照
         specialBusiness: [], //特殊行业照
@@ -507,7 +507,6 @@ export default {
     uploadImg(file, detail) {
       //图片上传
       upload.onReadUpload(file,detail.name,this)
-      //upload.blobToBase64(file.file, detail.name, this);
     },
     datepickerVisiable(type) {
       this.dateType = type;
