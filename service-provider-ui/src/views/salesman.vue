@@ -27,16 +27,17 @@
           <li
             v-for="(item, index) in statesList"
             :key="index"
-            @click="toDetail(item.state,item.custId)"
+            @click="toDetail(item.state,item.filingAuditStatus,item.custId)"
           >
             <div>
               <span class="shopName">{{item.custName }}</span>
               <span class="time">{{ item.createTime }}</span>
             </div>
-            <span v-if="item.state=='00'" class="state state_0">审核通过</span>
-            <span v-if="item.state=='01'" class="state state_1">待审核</span>
-            <span v-if="item.state=='04'" class="state state_4">审核失败</span>
-            <span v-if="item.state=='05'" class="state state_5">待完善</span>
+            <span v-if="item.state=='00'&&item.filingAuditStatus=='00'" class=" state state_0">审核通过</span>
+            <span v-if="item.state=='00'&&item.filingAuditStatus!='00'" class=" state state_2">审核中</span>
+            <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
+            <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
+            <span v-if="item.state=='05'" class=" state state_5">待完善</span>
           </li>
         </ul>
       </div>
@@ -218,22 +219,25 @@ export default {
       }
       /*let total=listInfo.data.resultMsg.total;*/
     },
-    //查看审核失败信息和审核成功信息
-    toDetail(state, custId) {
-      if (state == "04") {//失败
-        this.$router.push("whyFailed");
+    //查看审核失败信息、待审核和审核成功信息
+    toDetail(state,filingAuditStatus,custId){
+      this.setCustId(custId);
+      if(state=='04'){
+        this.$router.push('whyFailed');
       }
-      if (state == "00") {//成功
-        this.$router.push("/audit/pass");
+      if(state=='00'&&filingAuditStatus=='00'){
+        this.$router.push('/audit/pass');
       }
-      if (state == "05") {//待完善
+      if (state == "05") {
         this.$router.push({
           name: "baseInfo",
           params: { type: "corvidae" }
         });
       }
-      this.setCustId(custId);
     },
+
+
+
     ...mapMutations([
       "setRole",
       "setRoleId",
@@ -398,6 +402,8 @@ export default {
         .state_1 {
           color: #aeaeae;
         }
+
+        .state_2{color: #37ae9a;}
 
         .state_4 {
           color: #ff495d;

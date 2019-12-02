@@ -57,7 +57,7 @@
                 <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
               </div>
               <span v-if="item.state=='00'&&item.filingAuditStatus=='00'" class=" state state_0">审核通过</span>
-              <span v-if="item.state=='00'&&item.filingAuditStatus!='00'" class=" state state_0">审核中</span>
+              <span v-if="item.state=='00'&&item.filingAuditStatus!='00'" class=" state state_2">审核中</span>
               <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
               <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
               <span v-if="item.state=='05'" class=" state state_5">待完善</span>
@@ -76,7 +76,7 @@
                       finished-text="暂无更多数据"
                       @load="loadList"
             >
-              <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.custId)">
+              <li v-for="(item, index) in allStateList" :key="index" @click="toDetail(item.state,item.filingAuditStatus,item.custId)">
                 <div>
                   <span class="shopName">{{ item.custName }}</span>
                   <span v-if="intoRole=='3' " class="time">{{ item.createTime }}</span>
@@ -127,7 +127,7 @@
                   <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
                   <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
-                <span  class=" state state_1">审核中</span>
+                <span  class=" state state_2">审核中</span>
 
               </li>
             </van-list>
@@ -534,6 +534,7 @@ export default {
         }
         .state_0{ color: #3fd016}
         .state_1{color: #aeaeae;}
+        .state_2{color: #37ae9a;}
         .state_4{color: #ff495d;}
         .state_5{ color: #3f9aff;}
       }

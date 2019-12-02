@@ -132,11 +132,9 @@ export default {
             console.log(this.isActive);
             if(this.type=='timeStart'){//选择开始时间
                 this.timeStart = this.timeFormat(this.currentDate);
-
             }
             if(this.type=='timeEnd'){//选择结束时间
                 this.timeEnd = this.timeFormat(this.currentDate);
-
             }
             this.show = false;
         },

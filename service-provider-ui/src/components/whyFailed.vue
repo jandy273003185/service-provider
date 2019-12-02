@@ -37,7 +37,7 @@ export default {
     this.getShopDetail();
   },
   methods: {
-    toUpdatePage() {
+    toUpdatePage() {//进入进件，修改资料
       this.$router.push({
         name: "baseInfo",
         params: { type: "corvidae" }

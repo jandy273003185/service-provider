@@ -4,31 +4,27 @@ const form = {
     let errCount = 0;
     arr.map(function (item) {
       if (!params[item] &&item!='specialBusiness'&&item != 'otherPhoto1' && item != "otherPhoto2" && item != "custId" && item != 'userId' && item != 'roleId' && item != 'custId' && item != 'licenceForOpeningAccounts' && item != 'bankCardFront') {
-        console.log(item);
+        that.$toast("请先将进件信息补充完整！");
         errCount++;
       } else {
         if (that.params.compMainAcctType == '01' && !params['licenceForOpeningAccounts']) {
-          console.log("未上传营业执照");
+          that.$toast("未上传营业执照");
           errCount++;
-          return;
         }
         if (that.params.compMainAcctType == '02' && !params['bankCardFront']) {
-          console.log("未上传银行卡照片");
+          that.$toast("未上传银行卡照片");
           errCount++;
-          return;
         }
         if (item == 'merchantAccount' || item == 'contactMobile') {
           if (!(/^1[3456789]\d{9}$/.test(params[item]))) {
             that.$toast("手机号码格式有误！")
             errCount++;
-            return;
           }
         }
         if (item == 'contactPhone') {
           if (!/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(params[item])) {
             that.$toast('电话号码格式有误！');
             errCount++;
-            return;
           }
         }
       }
