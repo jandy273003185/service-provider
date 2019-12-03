@@ -35,3 +35,6 @@ Thumbs.db
 
 # license check result
 license-list
+
+service-provider-ui/node
+service-provider-ui/node-modules
