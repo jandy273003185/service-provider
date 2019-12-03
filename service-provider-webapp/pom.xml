@@ -238,6 +238,13 @@
 				<spring.profiles.active>test</spring.profiles.active>
 			</properties>
 		</profile>
+		<!-- ali uat -->
+		<profile>
+			<id>uat</id>
+			<properties>
+				<spring.profiles.active>uat</spring.profiles.active>
+			</properties>
+		</profile>
 		<!-- 生产环境 -->
 		<profile>
 			<id>prod</id>

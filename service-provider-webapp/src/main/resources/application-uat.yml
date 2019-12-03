@@ -2,7 +2,7 @@ dubbo:
   application:
     name: dubbo-customer-manager
   registry:
-    address: zookeeper://192.168.1.14:2181
+    address: zookeeper://172.16.30.70:2181
   protocol:
     name: dubbo
     port: 21001
@@ -10,7 +10,7 @@ dubbo:
 images:
   relativePaths: /pic/**
   absolutePaths: /data/nfsshare/upload/picture
-  uri: https://sp.qifenqian.com/
+  uri: https://sp-uat.qifenqian.com/
   relativePath: /pic/
 
 
