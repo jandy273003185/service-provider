@@ -4,23 +4,26 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.qifenqian.app.bean.Bank;
 import com.qifenqian.app.bean.TbBankProvincesInfoBean;
 import com.qifenqian.app.bean.TbProvincesInfoBean;
+import com.qifenqian.app.bean.customer.TdSalesmanInfo;
 import com.qifenqian.app.bean.dto.MessageDTO;
 import com.qifenqian.app.bean.dto.UserDTO;
 import com.qifenqian.app.common.BankInfoService;
 import com.qifenqian.app.common.MessageManager;
 import com.qifenqian.app.customer.MerchantInfoService;
+import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.user.UserManager;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.GenSN;
-import com.sevenpay.agentmanager.utils.verfycode.ToolsUtil;
+import com.sevenpay.agentmanager.utils.RedisUtil;
 import com.sevenpay.agentmanager.utils.verfycode.VerifyInfoConstant;
-import com.sun.org.apache.regexp.internal.RE;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * User: JIANGZONGLIN
@@ -43,6 +46,11 @@ public class CommonController {
     @Reference
     private UserManager userManager;
 
+    @Reference
+    private SalesmanManagerService salesmanManagerService;
+
+    @Resource(name = "redisTemplate")
+    private RedisTemplate<String,Object> redisTemplate;
     /**
      * 省市县三级下拉
      * @param tbProvincesInfoBean
@@ -105,34 +113,46 @@ public class CommonController {
      */
     @RequestMapping("verifyCode")
     public ResultBean verifyCode(HttpServletRequest request, MessageDTO messageDTO){
-        String mobile = request.getParameter("mobile");//服务商（管理员）手机号
-        String roleCode = request.getParameter("roleCode");//角色（agent）
-        //查询是否有该手机账号
-        UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
+        String mobile = request.getParameter("mobile");//手机号
+        String roleCode = request.getParameter("roleCode");//角色（agent/salesman）
+        if ("agent".equals(roleCode)) {
+            //查询是否有该手机账号
+            UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
 
-        if (userInfo.getCustId() != null) {
-            request.getSession().setMaxInactiveInterval(2*60);
-            Date sendTime = (Date)request.getSession().getAttribute("Login_VERIFY_SEND_TIME");
-
-            //短信发送间隔必须超过55s
-            if(null != sendTime && ToolsUtil.calTimeSec(new Date(), sendTime) < 55)
-            {
-                return new ResultBean("0","验证码发送间隔为60s");
+            if (userInfo.getCustId() != null) {
+                //生成验证码
+                String smsVerifyCode = GenSN.getRandomNum(6);
+                redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
+                messageDTO.setType("login");
+                messageDTO.setCode(smsVerifyCode);
+                MessageDTO m = messageManager.sendMobileCode(messageDTO);
+                return new ResultBean("1","短信发送成功");
             }
-
-            //生成验证码
-            String smsVerifyCode = GenSN.getRandomNum(6);
-            request.getSession().setAttribute(VerifyInfoConstant.LOGIN_VERIFY_CODE+"_"+mobile, smsVerifyCode);
-            request.getSession().setAttribute(VerifyInfoConstant.LOGIN_VERIFY_SEND_TIME, new Date());
-            messageDTO.setCode(smsVerifyCode);
-            MessageDTO m = messageManager.sendMobileCode(messageDTO);
-            return new ResultBean("1","短信发送成功");
+        }else if ("salesman".equals(roleCode)){
+            //登录查询该业务员手机号是否有启用（只能有一个，该操作在业务员管理做了限制）
+            TdSalesmanInfo tdSalesmanInfo1 = new TdSalesmanInfo();
+            tdSalesmanInfo1.setUserPhone(mobile);
+            List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(tdSalesmanInfo1);
+            if (tdSalesmanInfos.size()>0) {
+                for (TdSalesmanInfo salesmanInfo : tdSalesmanInfos) {//假如多个服务商下都有该业务员
+                    if ("1".equals(salesmanInfo.getStatus())) {
+                        String smsVerifyCode = GenSN.getRandomNum(6);
+                        redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
+                        messageDTO.setType("login");
+                        messageDTO.setCode(smsVerifyCode);
+                        MessageDTO m = messageManager.sendMobileCode(messageDTO);
+                        return new ResultBean("1","短信发送成功");
+                    }
+                }
+                return new ResultBean("0","该业务员账号无效");
+            }
         }
+
        return new ResultBean("0","请检查管理员手机号是否输入正确！");
     }
 
     /**
-     *
+     * 管理员忘记密码接口
      * @param request
      * @param messageDTO
      * @return
@@ -145,19 +165,12 @@ public class CommonController {
         UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
 
         if (userInfo.getCustId() != null) {
-            request.getSession().setMaxInactiveInterval(2*60);
-            Date sendTime = (Date)request.getSession().getAttribute("FORGETPASSWORD_VERIFY_SEND_TIME");
-
-            //短信发送间隔必须超过55s
-            if(null != sendTime && ToolsUtil.calTimeSec(new Date(), sendTime) < 55)
-            {
-                return new ResultBean("0","验证码发送间隔为60s");
-            }
-
             //生成验证码
             String smsVerifyCode = GenSN.getRandomNum(6);
-            request.getSession().setAttribute(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+"_"+mobile, smsVerifyCode);
-            request.getSession().setAttribute(VerifyInfoConstant.FORGETPASSWORD_VERIFY_SEND_TIME, new Date());
+            RedisUtil redisUtil = new RedisUtil();
+            //redis存储验证码
+            redisTemplate.opsForValue().set(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
+            messageDTO.setType("modify");
             messageDTO.setCode(smsVerifyCode);
             MessageDTO m = messageManager.sendMobileCode(messageDTO);
             return new ResultBean("1","短信发送成功");

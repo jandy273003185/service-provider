@@ -8,16 +8,14 @@ import com.qifenqian.app.customer.MerchantStatusService;
 import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.merchant.CommercialService;
 import com.qifenqian.app.product.ProductInfoService;
-import com.qifenqian.app.user.UserManager;
+import com.qifenqian.app.user.TdLoginUserInfoService;
 import com.sevenpay.agentmanager.pojo.Pager;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.AddCustScanCopy;
 import com.sevenpay.agentmanager.utils.AddTdMerchantProductInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import sun.swing.BakedArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -47,7 +45,7 @@ public class AgentController {
     @Reference
     private BankInfoService bankInfoService;
     @Reference
-    private UserManager userManager;
+    private TdLoginUserInfoService tdLoginUserInfoService;
 
     @Value("${images.uri}")
     private String uri;
@@ -370,8 +368,8 @@ public class AgentController {
     @RequestMapping("queryMerchantById")
     public ResultBean<?> queryProduct(String custId) {
         TdCustInfo custInfo = merchantInfoService.getMerchantById(custId);
-//        TdLoginUserInfo tdLoginUserInfo = userManager.queryMobileByCustId(custId);
-//        custInfo.setMerchantAccount(tdLoginUserInfo.getMobile());
+        TdLoginUserInfo tdLoginUserInfo = tdLoginUserInfoService.queryMobileByCustId(custId);
+        custInfo.setMerchantAccount(tdLoginUserInfo.getMobile());
         return new ResultBean<TdCustInfo>("1",custInfo);
     }
 
