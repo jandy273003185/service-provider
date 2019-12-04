@@ -99,7 +99,7 @@
         <div class="row">
           <input v-model="params.custAdd" placeholder="请输入详细地址" />
         </div>
-        <div class="row-img" v-show="params.custType&&params.custType!='0'">
+        <div class="row-img" v-if="params.custType&&params.custType!='0'">
           <div class="stit" :class="{'active':(clickedNext&&!params.businessLicense)}">
             营业执照照片
             <span>(必须)</span>
@@ -116,11 +116,11 @@
           </van-uploader>
         </div>
 
-        <div class="row" v-show="params.custType&&params.custType!='0'">
+        <div class="row" v-if="params.custType&&params.custType!='0'">
           <span class="label">营业执照编号</span>
           <input v-model="params.businessLicense" placeholder="请输入编号" />
         </div>
-        <div class="row" v-show="params.custType&&params.custType!='0'">
+        <div class="row" v-if="params.custType&&params.custType!='0'">
           <span class="label">营业执照有效期</span>
           <div class="data">
             <input
@@ -200,7 +200,7 @@
           <div
             class="stit"
             :class="{'active':(clickedNext&&!params.electronicSignaturePhoto)}"
-          >电子签名照</div>
+          >电子签名照 <span>(必须)</span></div>
 
           <van-uploader
             name="electronicSignaturePhoto"

@@ -30,6 +30,9 @@ export default new Vuex.Store({
         custScanCopys: [],
         checkedState: '' //审核状态
     },
+
+
+
     mutations: {
         setToken(state, obj) {
             state.token = obj;

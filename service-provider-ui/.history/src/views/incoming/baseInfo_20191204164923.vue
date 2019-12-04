@@ -200,7 +200,7 @@
           <div
             class="stit"
             :class="{'active':(clickedNext&&!params.electronicSignaturePhoto)}"
-          >电子签名照</div>
+          >电子签名照 <span>(必须)</span></div>
 
           <van-uploader
             name="electronicSignaturePhoto"
