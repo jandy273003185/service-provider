@@ -14,7 +14,6 @@ import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.user.UserManager;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.GenSN;
-import com.sevenpay.agentmanager.utils.RedisUtil;
 import com.sevenpay.agentmanager.utils.verfycode.VerifyInfoConstant;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -152,7 +151,8 @@ public class CommonController {
     }
 
     /**
-     * 管理员忘记密码接口
+     * 管理员/业务员
+     * 忘记密码接口
      * @param request
      * @param messageDTO
      * @return
@@ -161,20 +161,41 @@ public class CommonController {
     public ResultBean modifyPassword(HttpServletRequest request, MessageDTO messageDTO){
         String mobile = request.getParameter("mobile");//服务商（管理员）手机号
         String roleCode = request.getParameter("roleCode");//角色（agent）
-        //查询是否有该手机账号
-        UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
+        if ("agent".equals(roleCode)) {
+            //查询是否有该手机账号
+            UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
 
-        if (userInfo.getCustId() != null) {
-            //生成验证码
-            String smsVerifyCode = GenSN.getRandomNum(6);
-            RedisUtil redisUtil = new RedisUtil();
-            //redis存储验证码
-            redisTemplate.opsForValue().set(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
-            messageDTO.setType("modify");
-            messageDTO.setCode(smsVerifyCode);
-            MessageDTO m = messageManager.sendMobileCode(messageDTO);
-            return new ResultBean("1","短信发送成功");
+            if (userInfo.getCustId() != null) {
+                //生成验证码
+                String smsVerifyCode = GenSN.getRandomNum(6);
+                //redis存储验证码
+                redisTemplate.opsForValue().set(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
+                messageDTO.setType("modify");
+                messageDTO.setCode(smsVerifyCode);
+                MessageDTO m = messageManager.sendMobileCode(messageDTO);
+                return new ResultBean("1","短信发送成功");
+            }
+            return new ResultBean("0","请检查管理员手机号是否输入正确！");
         }
-        return new ResultBean("0","请检查管理员手机号是否输入正确！");
+        if ("salesman".equals(roleCode)){
+            //登录查询该业务员手机号是否有启用（只能有一个，该操作在业务员管理做了限制）
+            TdSalesmanInfo tdSalesmanInfo1 = new TdSalesmanInfo();
+            tdSalesmanInfo1.setUserPhone(mobile);
+            List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(tdSalesmanInfo1);
+            for (TdSalesmanInfo tdSalesmanInfo : tdSalesmanInfos) {
+                if ("1".equals(tdSalesmanInfo.getStatus())){
+                    //生成验证码
+                    String smsVerifyCode = GenSN.getRandomNum(6);
+                    //redis存储验证码
+                    redisTemplate.opsForValue().set(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
+                    messageDTO.setType("modify");
+                    messageDTO.setCode(smsVerifyCode);
+                    MessageDTO m = messageManager.sendMobileCode(messageDTO);
+                    return new ResultBean("1","短信发送成功");
+                }
+            }
+            return new ResultBean("0","请检查业务员手机号是否输入正确！");
+        }
+        return new ResultBean("0");
     }
 }

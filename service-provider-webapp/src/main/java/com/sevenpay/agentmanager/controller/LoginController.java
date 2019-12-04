@@ -12,7 +12,6 @@ import com.qifenqian.app.user.UserManager;
 import com.sevenpay.agentmanager.jwt.JWTUtil;
 import com.sevenpay.agentmanager.pojo.LoginUser;
 import com.sevenpay.agentmanager.pojo.ResultBean;
-import com.sevenpay.agentmanager.utils.RedisUtil;
 import com.sevenpay.agentmanager.utils.verfycode.VerifyInfoConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

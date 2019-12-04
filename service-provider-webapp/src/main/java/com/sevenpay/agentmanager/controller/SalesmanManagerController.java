@@ -244,4 +244,11 @@ public class SalesmanManagerController {
         return new ResultBean("1","可绑定");
     }
 
+
+    @RequestMapping("smsModifyPw")
+    public ResultBean smsModifyPw(){
+
+
+        return null;
+    }
 }
