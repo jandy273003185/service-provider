@@ -204,17 +204,17 @@ export default {
       let obj = {},
         newProlist = [];
       if (this.contract_qinting == true) {
-        if (this.qtRate) {
+        if (this.qtRate && this.sn) {
           obj = {
             productId: 9,
             productRate: this.qtRate,
-            sn: this.sn||''
+            sn: this.sn
           };
           newProlist.push(obj);
           this.$refs['qingting'].className = "row1";
         } else {
           this.$refs['qingting'].className = "row1 active";
-          Dialog({ message: '请填写结算费率' });
+          Dialog({ message: '请填写结算费率及SN码' });
           return
         }
       }
