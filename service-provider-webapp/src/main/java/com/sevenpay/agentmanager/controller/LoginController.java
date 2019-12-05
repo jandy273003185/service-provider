@@ -119,6 +119,7 @@ public class LoginController {
                                 if (ifbing.getIfUnbind().equals("0")){
                                     ifbing.setIfUnbind("1");
                                     ifbing.setUserId(userInfo.getSalesmanId());
+                                    ifbing.setCustId(userInfo.getCustId());
                                     ifbing.setOpenId(openId);
                                     ifbing.setLoginType("1");
                                     ifbing.setUserType(roleCode);
@@ -133,6 +134,7 @@ public class LoginController {
                             }else {
                                 UserLoginRelate userLoginRelate = new UserLoginRelate();
                                 userLoginRelate.setUserId(userInfo.getSalesmanId());
+                                userLoginRelate.setCustId(userInfo.getCustId());
                                 userLoginRelate.setOpenId(openId);
                                 userLoginRelate.setLoginType("1");
                                 userLoginRelate.setUserType(roleCode);
@@ -297,10 +299,6 @@ public class LoginController {
                 if (isBinding) {
                     return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
                 }
-                UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定过openId
-                if ("1".equals(ifbing.getIfUnbind())) {
-                    return new ResultBean("0","该微信绑定七分钱账号");
-                }
                 //4、判断该手机号验证码操作是否匹配
                 String code = (String) redisTemplate.opsForValue().get(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile);
                 if(code == null){
@@ -310,12 +308,14 @@ public class LoginController {
                 if (StringUtils.isEmpty(verifyCode)) {
                     return new ResultBean("0","请输入验证码");
                 }
+                UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定过openId
                 if (code.equals(verifyCode)){
                     //5、修改绑定信息
                     if (ifbing != null) {
                         if (ifbing.getIfUnbind().equals("0")){
                             ifbing.setIfUnbind("1");
                             ifbing.setUserId(salesmanInfo.getSalesmanId());
+                            ifbing.setCustId(salesmanInfo.getCustId());
                             ifbing.setOpenId(openId);
                             ifbing.setLoginType("1");
                             ifbing.setUserType(roleCode);
@@ -331,6 +331,7 @@ public class LoginController {
                     }else {
                         UserLoginRelate userLoginRelate = new UserLoginRelate();
                         userLoginRelate.setUserId(salesmanInfo.getSalesmanId());
+                        userLoginRelate.setCustId(salesmanInfo.getCustId());
                         userLoginRelate.setOpenId(openId);
                         userLoginRelate.setLoginType("1");
                         userLoginRelate.setUserType(roleCode);
