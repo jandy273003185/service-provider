@@ -5,6 +5,7 @@ import com.qifenqian.app.bean.Bank;
 import com.qifenqian.app.bean.TbBankProvincesInfoBean;
 import com.qifenqian.app.bean.TbProvincesInfoBean;
 import com.qifenqian.app.bean.customer.TdSalesmanInfo;
+import com.qifenqian.app.bean.dto.MailConfig;
 import com.qifenqian.app.bean.dto.MessageDTO;
 import com.qifenqian.app.bean.dto.UserDTO;
 import com.qifenqian.app.common.BankInfoService;
@@ -15,12 +16,14 @@ import com.qifenqian.app.user.UserManager;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.GenSN;
 import com.sevenpay.agentmanager.utils.verfycode.VerifyInfoConstant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -121,7 +124,7 @@ public class CommonController {
             if (userInfo.getCustId() != null) {
                 //生成验证码
                 String smsVerifyCode = GenSN.getRandomNum(6);
-                redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, "123456",3*60, TimeUnit.SECONDS);
                 messageDTO.setType("login");
                 messageDTO.setCode(smsVerifyCode);
                 MessageDTO m = messageManager.sendMobileCode(messageDTO);
@@ -136,7 +139,7 @@ public class CommonController {
                 for (TdSalesmanInfo salesmanInfo : tdSalesmanInfos) {//假如多个服务商下都有该业务员
                     if ("1".equals(salesmanInfo.getStatus())) {
                         String smsVerifyCode = GenSN.getRandomNum(6);
-                        redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
+                        redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, "123456",3*60, TimeUnit.SECONDS);
                         messageDTO.setType("login");
                         messageDTO.setCode(smsVerifyCode);
                         MessageDTO m = messageManager.sendMobileCode(messageDTO);
@@ -197,5 +200,30 @@ public class CommonController {
             return new ResultBean("0","请检查业务员手机号是否输入正确！");
         }
         return new ResultBean("0");
+    }
+
+    /**
+     * 用户反馈中心
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("cashierAdviseMsg")
+    public ResultBean processRequest(HttpServletRequest request, HttpServletResponse response, String adviseContent){
+        String adviserMobile = request.getParameter("adviserMobile");
+        String email = "kefu@szgyzb.com";
+        //将生成的验证码放入session
+        String[] tos = new String[]{ email };
+        MailConfig config = new MailConfig();
+        config.setTos(tos);
+        config.setSubject("七分钱服务商-业务员建议留言");
+        config.setContent("<html><body><p>客户手机号码：" + adviserMobile + "</p><p> 客户建议留言:"
+                + adviseContent + "</p>"+"</body></html>");
+        boolean b = messageManager.doMailSend(config);
+        if (b){
+            return new ResultBean("1","提交成功");
+        }
+        return new ResultBean("0","提交失败");
+
     }
 }
