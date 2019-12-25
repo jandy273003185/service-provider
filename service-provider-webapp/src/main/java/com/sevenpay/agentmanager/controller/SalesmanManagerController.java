@@ -2,8 +2,10 @@ package com.sevenpay.agentmanager.controller;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.qifenqian.app.bean.UserLoginRelate;
 import com.qifenqian.app.bean.customer.TdSalesmanInfo;
 import com.qifenqian.app.customer.SalesmanManagerService;
+import com.qifenqian.app.login.UserLoginManagerService;
 import com.qifenqian.app.merchant.CommercialService;
 import com.sevenpay.agentmanager.pojo.Pager;
 import com.sevenpay.agentmanager.pojo.ResultBean;
@@ -26,6 +28,8 @@ public class SalesmanManagerController {
     @Reference
     private CommercialService commerService;
 
+    @Reference
+    private UserLoginManagerService loginManagerService;
 
     /**
      * 管理员下业务员商户审核数据
@@ -160,6 +164,17 @@ public class SalesmanManagerController {
      */
     @RequestMapping("insert")
     public ResultBean<?> insertTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo){
+        TdSalesmanInfo tdSalesmanInfo1 = new TdSalesmanInfo();
+        tdSalesmanInfo1.setUserPhone(tdSalesmanInfo.getUserPhone());
+        List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(tdSalesmanInfo1);
+        if (tdSalesmanInfos.size()>0) {
+            for (TdSalesmanInfo salesmanInfo : tdSalesmanInfos) {//假如多个服务商下都有该业务员
+                if ("1".equals(salesmanInfo.getStatus()) && !tdSalesmanInfo.getCustId().equals(salesmanInfo.getCustId())) {
+                    return new ResultBean<>("0","添加失败,如有疑问请联系客服！");
+                }
+            }
+        }
+        //该业务员没有在别的服务商下启用或者没有改业务员
         Integer result = salesmanManagerService.insertTdSalesmanInfo(tdSalesmanInfo);
         if (result > 0) {//新增成功
             return new ResultBean<>("1");
@@ -175,6 +190,24 @@ public class SalesmanManagerController {
      */
     @RequestMapping("update")
     public ResultBean<?> updateTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo){
+        TdSalesmanInfo tdSalesmanInfo1 = new TdSalesmanInfo();
+        tdSalesmanInfo1.setUserPhone(tdSalesmanInfo.getUserPhone());
+        List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(tdSalesmanInfo1);
+        if (tdSalesmanInfos.size()>0) {
+            for (TdSalesmanInfo salesmanInfo : tdSalesmanInfos) {//假如多个服务商下都有该业务员
+                if ("1".equals(salesmanInfo.getStatus()) && !tdSalesmanInfo.getCustId().equals(salesmanInfo.getCustId())) {
+                    return new ResultBean<>("0","添加失败,如有疑问请联系客服！");
+                }
+            }
+        }
+        //该业务员没有在别的服务商下启用或者没有改业务员
+        if ("0".equals(tdSalesmanInfo.getStatus())) {
+            UserLoginRelate userLoginRelate = new UserLoginRelate();
+            userLoginRelate.setIfUnbind("0");
+            userLoginRelate.setUserId(tdSalesmanInfo.getSalesmanId());
+            userLoginRelate.setCustId(tdSalesmanInfo.getCustId());
+            loginManagerService.updateSalesmanBySp(userLoginRelate);
+        }
         Integer result = salesmanManagerService.updateTdSalesmanInfo(tdSalesmanInfo);
         if (result > 0) {//更新成功
             return new ResultBean<>("1");
@@ -203,8 +236,8 @@ public class SalesmanManagerController {
      * @return
      */
     @RequestMapping("checkPhone")
-    public ResultBean checkPhone(String phone){
-        boolean b = salesmanManagerService.checkPhone(phone);
+    public ResultBean checkPhone(String phone,String custId){
+        boolean b = salesmanManagerService.checkPhone(phone,custId);
         if (!b){
             return new ResultBean("0","该业务员手机号已绑定");
         }

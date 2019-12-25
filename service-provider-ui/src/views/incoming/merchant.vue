@@ -18,7 +18,7 @@
           <span class="must">*</span>
           <span class="label" :class="{'active':(clickedNext&&!params.compAcctBank)}">开户银行</span>
           <!-- v-model="params.compAcctBank" -->
-          <input v-model.trim="params.bankName" placeholder="请输入开户银行" />
+          <input v-model.trim="params.bankName" @focus="focusBankName" placeholder="请输入开户银行" />
         </div>
         <van-picker
           v-show="bankpicker"
@@ -208,11 +208,29 @@ export default {
     this.photos = this.savephotos;
     if (this.checkedState == "corvidae") {
       let custInfo = this.incomingReturn.custInfo;
-      let banks=this.incomingReturn.banks[0];
+      let banks;
+      if(this.incomingReturn.banks&&this.incomingReturn.banks.length>0){
+        banks=this.incomingReturn.banks[0];
+      }else{
+        banks=[{
+          bankName:'', //显示 开户行
+          bankbranchName:'', //显示  支行
+        }];
+      }
       let photos = this.incomingReturn.custScanInfoList;
       let urlHead = this.incomingReturn.uri + "" + this.incomingReturn.url;
       util.getPhotos(this, urlHead, photos);
-      let bankProvinces = this.incomingReturn.bankProvinces[0];
+      let bankProvinces;
+      if(this.incomingReturn.bankProvinces&&this.incomingReturn.bankProvinces.length>0){
+         bankProvinces = this.incomingReturn.bankProvinces[0];
+      }else{
+       bankProvinces=[{
+          bankProvinceName:'', //省
+          bankProvinceShow:'',//省 显示
+          bankCityName:'', //市
+          bankCityShow:'',//市 显示
+       }];
+      }
       let compMainAcctTypeShow;
       if(custInfo.compMainAcctType=='01'){
         compMainAcctTypeShow="对公"
@@ -252,6 +270,9 @@ export default {
       this.params.compMainAcctTypeShow=value.name;
       this.params.compMainAcctType=value.val;
       this.compicker=false;
+    },
+    focusBankName(){
+      this.canChange = true;
     },
       //识别银行卡号
     /* getBankName(cardNo) {

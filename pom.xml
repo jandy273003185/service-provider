@@ -30,8 +30,8 @@
 	</properties>
 
 	<modules>
-		<module>service-provider-webapp</module>
 		<module>service-provider-ui</module>
+		<module>service-provider-webapp</module>		
 	</modules>
 
 </project>

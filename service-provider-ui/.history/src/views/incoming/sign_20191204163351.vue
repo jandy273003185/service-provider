@@ -184,11 +184,11 @@ export default {
       let proObj = {};
       let count=0;
       if (this.dragonfly) {
-        if (this.dragonfly && this.dragonflyProductRate) {
+        if (this.dragonfly && this.sn && this.dragonflyProductRate) {
           proObj = {
             productId: "9",
             productRate: this.dragonflyProductRate,
-            sn: this.sn||''
+            sn: this.sn
           };
           prolist.push(proObj);
         } else {

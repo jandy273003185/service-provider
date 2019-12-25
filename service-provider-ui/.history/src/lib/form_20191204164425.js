@@ -3,27 +3,13 @@ const form = {
     let arr = Object.keys(params);
     let errCount = 0;
     arr.map(function (item) {
-      if (!params[item] &&item!='electronicSignaturePhoto'&&item!='businessLicense'&& item!='businessTermStart'&&item!='businessTermEnd'&&item!='specialBusiness'&&item != 'otherPhoto1' && item != "otherPhoto2" && item != "custId" && item != 'userId' && item != 'roleId' && item != 'custId' && item != 'licenceForOpeningAccounts' && item != 'bankCardFront') {
+      if (!params[item] &&item!='businessLicense'&& item!='businessTermStart'&&item!='businessTermEnd'&&item!='specialBusiness'&&item != 'otherPhoto1' && item != "otherPhoto2" && item != "custId" && item != 'userId' && item != 'roleId' && item != 'custId' && item != 'licenceForOpeningAccounts' && item != 'bankCardFront') {
         console.log(item);
         that.$toast("请先将进件信息补充完整！");
         errCount++;
       } else {
-        if(that.params.custType!='0'){
-          if(!that.params.businessLicense){
-            that.$toast("请填写营业执照编号");
-            errCount++;
-          }
-          if(!that.params.businessTermStart){
-            that.$toast("请填写营业执照有效期开始时间");
-            errCount++;
-          }
-          if(!that.params.businessTermEnd){
-            that.$toast("请填写营业执照有效期结束时间");
-            errCount++;
-          }
-        }
         if (that.params.compMainAcctType == '01' && !params['licenceForOpeningAccounts']) {
-          that.$toast("未上传开户许可证");
+          that.$toast("未上传营业执照");
           errCount++;
         }
         if (that.params.compMainAcctType == '02' && !params['bankCardFront']) {
