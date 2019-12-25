@@ -7,7 +7,7 @@
       </div>
       <p v-if="selectLogin=='psd'" class="logintype">账号密码登录</p>
       <p v-if="selectLogin=='code'" class="logintype">验证码登录</p>
-      <div v-if="selectLogin=='psd'" ><!--//账号密码登录-->
+      <div v-if="selectLogin=='psd'" ><!--账号密码登录-->
         <div class="item userName">
           <input v-model.trim="userName" type="text" placeholder="手机号码/邮箱" />
           <van-icon @click="clearName" name="close" />
@@ -16,22 +16,54 @@
           <input v-model.trim="password" type="password" placeholder="登录密码" />
           <van-icon @click="clearPsd" name="close" />
         </div>
+       <!-- <div class="findPsd">
+          <span @click="findPsd">找回密码</span>
+        </div>-->
       </div>
-      <div v-if="selectLogin=='code'&&role=='agent'"><!--//手机号登录-->
+      <div v-if="selectLogin=='code'"><!--手机验证码登录-->
         <div class="item userName">
-          <input v-model.trim="userPhone" type="text" placeholder="输入手机号码" />
+          <input v-model.trim="userPhone" type="text" placeholder="输入手机号码" maxlength="11"/>
           <van-icon @click="clearName" name="close" />
         </div>
         <div class="item">
-          <input v-model.trim="userCode" type="text" placeholder="输入验证码" />
-          <div class="getCode" @click="getCode">获取验证码</div>
+          <input v-model.trim="userCode" type="text" placeholder="输入验证码" maxlength="6" />
+          <div v-show="!showCountDown" class="getCode" @click="getCode(userPhone)">{{textCode}}</div>
+          <div v-show="showCountDown" class="getCode count">{{count}} S后重试</div>
         </div>
       </div>
       <div class="item edter">
         <button @click="submitLogin">登录</button>
       </div>
-     <!-- <div v-if="selectLogin=='psd'" class="selectLogin" @click="selectInto('code')">短信验证码登录</div>
-      <div v-if="selectLogin=='code'" class="selectLogin" @click="selectInto('psd')">账号密码登录</div>-->
+      <div v-if="selectLogin=='psd'" class="selectLogin" @click="selectInto('code')">短信验证码登录</div>
+      <div v-if="selectLogin=='code'" class="selectLogin" @click="selectInto('psd')">账号密码登录</div>
+    </div>
+    <!--找回密码弹窗-->
+    <div class="modal-wrap" v-if="showFind">
+      <div class="findBox">
+        <div class="amendPsd">修改密码</div>
+        <div class="inputBox">
+          <i>*</i>
+          <span>手机号:</span>
+          <input v-model="forgetPhone" type="number" placeholder="请输入手机号">
+        </div>
+        <div class="inputBox">
+          <i>*</i>
+          <span>新密码:</span>
+          <input v-model="forgetNewPsd" type="password" placeholder="请输入新密码">
+        </div>
+        <div class="inputBox">
+          <i>*</i>
+          <span>验证码:</span>
+          <input class="codeBox" v-model="forgetCode" type="number" placeholder="请输入验证码">
+          <span class="getCode" @click="getCode(agentPhone)">获取验证码</span>
+        </div>
+        <div class="affirmBox">
+          <button class="cancel" @click="cancelSet">取消</button>
+          <button class="affirm" @click="affirmSet">确认</button>
+        </div>
+
+
+      </div>
     </div>
   </div>
 </template>
@@ -48,7 +80,14 @@ export default {
       password: null,
       selectLogin:'psd',
       userCode:'',//短信验证码
-      userPhone:''//手机号
+      userPhone:'',//手机号
+      showFind:false,//显示设置密码遮罩
+      forgetPhone:'',//管理员手机号
+      forgetNewPsd:'',//新密码
+      forgetCode:'',//修改密码的验证码
+      showCountDown:false,//是否显示倒计时60s
+      count:60,
+      textCode:'获取验证码'
     };
   },
   mounted() {
@@ -60,16 +99,14 @@ export default {
   },
   methods: {
     //选择登录方式
-   /* selectInto(way){
-      if(way=='code'){
-        this.$toast({message: "验证码登录暂未开通，敬请期待",duration:1000 });
-      }
-     /!* this.selectLogin=way;*!/
-    },*/
+    selectInto(way){
+       this.selectLogin=way;
+    },
     //获取短信验证码
-   async getCode(){//codeLogin
-      if(this.userPhone){
-        let loginData = await login.code({mobile:this.userPhone,roleCode:this.role});
+   async getCode(Phone){//codeLogin
+      if(Phone&&(/^1[3456789]\d{9}$/.test(Phone))){
+        this.countTime();
+        let loginData = await login.code({mobile:Phone,roleCode:this.role});
         if(loginData.data.resultCode == 1){
           this.$toast({ message: "已发送短信验证码，请查收" });
         }else {
@@ -79,7 +116,21 @@ export default {
         this.$toast({ message: "请输入手机号" });
       }
     },
-
+    //获取验证码后倒计时
+    countTime(){
+      const _this=this;
+      if (this.count==0) {
+        this.count=60;
+        this.textCode='重新获取';
+        this.showCountDown=false;
+      }else{
+        this.showCountDown=true;
+        this.count--;
+        setTimeout(function(){
+          _this.countTime();
+        },1000);
+      }
+    },
     //判断账号密码非空
     submitLogin() {
       let params={};
@@ -102,11 +153,11 @@ export default {
         this.loginPost(params); //登录请求
       }else if(this.selectLogin=='code'){
         if (!this.userPhone) {
-          Dialog({ message: "手机号码不能为空" });
+          this.$toast({message: "请填写手机号",duration:1000 });
           return;
         }
         if (!this.userCode) {
-          Dialog({ message: "验证码不能为空" });
+          this.$toast({message: "请填写验证码",duration:1000 });
           return;
         }
         params = {
@@ -128,42 +179,47 @@ export default {
     },
     clearName() {
       this.userName = "";
+      this.userPhone='';
     },
     clearPsd() {
       this.password = "";
     },
-    async loginPost(params) {
+    //管理员修改密码forgetPsd
+    findPsd(){
+      this.showFind=true;
+    },
+    async setNewPsd(){//设置新密码
+        let psdData;
+        let params={
+          mobile:this.forgetPhone,
+          newPw:this.forgetNewPsd,
+          roleCode:this.role,
+          verifyCode:this.forgetCode
+        };
+        if(this.role == "agent"){//管理员设置新密码
+          psdData = await login.agentNewPsd(params);
+        }
+        console.log(psdData);
+    },
+    //取消设置新密码
+    cancelSet(){
+      this.showFind=false;
+    },
+    //确认设置新密码
+    affirmSet(){
+      if(this.forgetPhone && this.forgetNewPsd && this.forgetCode && (/^1[3456789]\d{9}$/.test(this.forgetPhone))){
+        this.showFind=false;
+        this.setNewPsd();
+      }else {
+        this.$toast({message: "*号标记项为必填项",duration:1000 });
+      }
+    },
+    async loginPost(params) {//账号密码登录
       let loginData = await login.login(params);
       console.log(loginData);
       if (loginData.data.resultCode == 1) {
-            this.$toast("登录成功");
-            if (this.role == "agent") {
-              console.log(this.role);
-              this.$router.replace({
-                name: "Administrator",
-                params: {
-                  fname: "login"
-                }
-              });
-            } else if(this.role == "salesman") {
-              console.log(this.role);
-              this.$router.replace({
-                name: "salesman",
-                params: {
-                  fname: "login"
-                }
-              });
-            }
-      } else {
-        Dialog({ message: loginData.data.resultMsg });
-      }
-    },
-    //验证码登录
-    async codeLogin(params) {
-      let loginData = await login.codeLogin(params);
-      console.log(loginData);
-      if (loginData.data.resultCode == 1) {
         this.$toast("登录成功");
+        if (this.role == "agent") {
           console.log(this.role);
           this.$router.replace({
             name: "Administrator",
@@ -171,6 +227,48 @@ export default {
               fname: "login"
             }
           });
+        } else if(this.role == "salesman") {
+          console.log(this.role);
+          this.$router.replace({
+            name: "salesman",
+            params: {
+              fname: "login"
+            }
+          });
+        }
+      } else {
+        Dialog({ message: loginData.data.resultMsg });
+      }
+    },
+    //短信验证码登录
+    async codeLogin(params) {
+      let loginData;
+      if(this.role == "agent"){
+        loginData = await login.agentCodeLogin(params);
+      }else if(this.role == "salesman"){
+        loginData = await login.salesCodeLogin(params);
+      }
+      console.log(loginData);
+      if (loginData.data.resultCode == 1) {
+        this.$toast("登录成功");
+          console.log(this.role);
+        if (this.role == "agent") {
+          console.log(this.role);
+          this.$router.replace({
+            name: "Administrator",
+            params: {
+              fname: "login"
+            }
+          });
+        } else if(this.role == "salesman") {
+          console.log(this.role);
+          this.$router.replace({
+            name: "salesman",
+            params: {
+              fname: "login"
+            }
+          });
+        }
       } else {
         Dialog({ message: loginData.data.resultMsg });
       }
@@ -256,7 +354,7 @@ export default {
         }
       }
       .getCode{
-        width vw(240)
+        width vw(300)
         height 80%
         color #fff
         display: flex;
@@ -265,6 +363,23 @@ export default {
         background-color: #07c160
         border-radius vw(5)
       }
+      .count{
+        background-color: #d4d4d4
+      }
+    }
+    .findPsd{
+      width: 100%;
+      height: vw(100);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      box-sizing: border-box;
+      span{
+        color #424242
+        height vw(80)
+        line-height vw(80)
+      }
+
     }
 
     .edter {
@@ -282,6 +397,96 @@ export default {
       margin-top:vw(30);
       text-align:center;
       color #424242
+    }
+  }
+  .modal-wrap {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    .findBox{
+      width: 95%;
+      margin: auto;
+      height: vw(500);
+      border-radius: vw(10);
+      position: relative;
+      top: 30%;
+      background-color: #FFFFFF;
+      padding:0 vw(30);
+      box-sizing: border-box;
+      .amendPsd{
+        width 100%
+        height vw(100)
+        display flex
+        justify-content center
+        align-items center
+        font-size vw(40)
+        font-weight 500
+
+      }
+      .inputBox{
+        height vw(80)
+        display flex
+        /*justify-content center*/
+        align-items center
+        i{
+          color red
+          width vw(20)
+          height vw(20)
+          display inline-block
+        }
+        span{
+          display flex
+          justify-content center
+          align-items center
+          width vw(100)
+          height vw(50)
+        }
+        input{
+          border none
+          width vw(500)
+          height vw(50)
+          border-bottom 1px solid #959595
+        }
+        .codeBox{
+          border none
+          width vw(335)
+          height vw(50)
+          border-bottom 1px solid #959595
+        }
+        .getCode{
+          width vw(160)
+          height vw(60)
+          border-radius 5px
+          margin-left vw(10)
+          background-color: #07c160
+        }
+      }
+      .affirmBox{
+        width 100%
+        height vw(100)
+        display flex
+        justify-content center
+        align-items flex-end
+        button{
+          width vw(150)
+          height vw(50)
+        }
+        .cancel{
+          background-color: #fff
+        }
+        .affirm{
+          margin-left vw(20)
+          background-color: #4660d7
+          border-radius vw(5)
+          color #fff
+        }
+      }
     }
   }
 }

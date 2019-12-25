@@ -74,7 +74,7 @@
         >
           <van-col span="6">{{item.userName}}</van-col>
           <van-col span="8">{{item.userPhone}}</van-col>
-          <van-col class="textBox" span="5" @click="resetPwd(item.custId,item.salesmanId)">
+          <van-col class="textBox" span="5" >
             <!--<span class="text">重置密码</span>-->
           </van-col>
           <van-col
@@ -239,10 +239,10 @@ export default {
           forbidClick: true,
           duration: 0
         });
-        let phoneCode = await common.addSales({phone:this.inpAccount});
+        let phoneCode = await common.addSales({phone:this.inpAccount,custId:this.userId});//号码校验是否绑定过
         console.log(phoneCode);
         this.$toast.clear();
-        if(phoneCode.data.resultCode == 1){//手机号可注册
+        if(phoneCode.data.resultCode == 1){//手机号未绑定过，可注册
           let res = await common.insertSales({
             userName: this.inpName,
             password: "123456",
@@ -258,7 +258,7 @@ export default {
           } else {
             Dialog({ message: "添加业务员失败！" });
           }
-        }else{//手机号重复
+        }else{//手机号已有绑定，不可再注册
           if(phoneCode.data&&phoneCode.data.resultMsg){
             Dialog({ message: phoneCode.data.resultMsg });
           }else{

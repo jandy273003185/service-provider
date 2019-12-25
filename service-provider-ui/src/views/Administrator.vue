@@ -154,8 +154,7 @@
       methods: {
         async getOpenId(code){
           //获取openid
-          let res = await
-          login.getOpenId({
+          let res = await login.getOpenId({
             code: code
           });
           let openId = res.data.resultMsg;
@@ -174,9 +173,9 @@
       ,
         getUrlParam(name){
           //获取code
-          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-          var r = window.location.search.substr(1).match(reg);
-          if (r != null) return unescape(r[2]);
+          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");//正则
+          var r = window.location.search.substr(1).match(reg);//截取当前网页URL中“?”后面的数据并进行正则匹配，返回数组
+          if (r != null) return unescape(r[2]);//数组的索引[2]为code等号后面的值
           return null;
         }
       ,
