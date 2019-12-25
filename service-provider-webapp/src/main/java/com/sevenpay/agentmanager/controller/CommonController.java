@@ -117,16 +117,19 @@ public class CommonController {
     public ResultBean verifyCode(HttpServletRequest request, MessageDTO messageDTO){
         String mobile = request.getParameter("mobile");//手机号
         String roleCode = request.getParameter("roleCode");//角色（agent/salesman）
+        String clientIp = request.getRemoteAddr();
+        //生成验证码
+        String smsVerifyCode = GenSN.getRandomNum(6);
+        messageDTO.setType("login");
+        messageDTO.setCode(smsVerifyCode);
+        messageDTO.setClientIp(clientIp);
+        messageDTO.setAddressee(mobile);
         if ("agent".equals(roleCode)) {
             //查询是否有该手机账号
             UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
 
             if (userInfo.getCustId() != null) {
-                //生成验证码
-                String smsVerifyCode = GenSN.getRandomNum(6);
                 redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, "123456",3*60, TimeUnit.SECONDS);
-                messageDTO.setType("login");
-                messageDTO.setCode(smsVerifyCode);
                 MessageDTO m = messageManager.sendMobileCode(messageDTO);
                 return new ResultBean("1","短信发送成功");
             }
@@ -138,10 +141,7 @@ public class CommonController {
             if (tdSalesmanInfos.size()>0) {
                 for (TdSalesmanInfo salesmanInfo : tdSalesmanInfos) {//假如多个服务商下都有该业务员
                     if ("1".equals(salesmanInfo.getStatus())) {
-                        String smsVerifyCode = GenSN.getRandomNum(6);
                         redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, "123456",3*60, TimeUnit.SECONDS);
-                        messageDTO.setType("login");
-                        messageDTO.setCode(smsVerifyCode);
                         MessageDTO m = messageManager.sendMobileCode(messageDTO);
                         return new ResultBean("1","短信发送成功");
                     }
@@ -164,17 +164,19 @@ public class CommonController {
     public ResultBean modifyPassword(HttpServletRequest request, MessageDTO messageDTO){
         String mobile = request.getParameter("mobile");//服务商（管理员）手机号
         String roleCode = request.getParameter("roleCode");//角色（agent）
+        String clientIp = request.getRemoteAddr();
+        //生成验证码
+        String smsVerifyCode = GenSN.getRandomNum(6);
+        messageDTO.setType("modify");
+        messageDTO.setCode(smsVerifyCode);
+        messageDTO.setClientIp(clientIp);
+        messageDTO.setAddressee(mobile);
         if ("agent".equals(roleCode)) {
             //查询是否有该手机账号
             UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
-
             if (userInfo.getCustId() != null) {
-                //生成验证码
-                String smsVerifyCode = GenSN.getRandomNum(6);
                 //redis存储验证码
                 redisTemplate.opsForValue().set(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
-                messageDTO.setType("modify");
-                messageDTO.setCode(smsVerifyCode);
                 MessageDTO m = messageManager.sendMobileCode(messageDTO);
                 return new ResultBean("1","短信发送成功");
             }
@@ -187,19 +189,15 @@ public class CommonController {
             List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(tdSalesmanInfo1);
             for (TdSalesmanInfo tdSalesmanInfo : tdSalesmanInfos) {
                 if ("1".equals(tdSalesmanInfo.getStatus())){
-                    //生成验证码
-                    String smsVerifyCode = GenSN.getRandomNum(6);
                     //redis存储验证码
                     redisTemplate.opsForValue().set(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
-                    messageDTO.setType("modify");
-                    messageDTO.setCode(smsVerifyCode);
                     MessageDTO m = messageManager.sendMobileCode(messageDTO);
                     return new ResultBean("1","短信发送成功");
                 }
             }
             return new ResultBean("0","请检查业务员手机号是否输入正确！");
         }
-        return new ResultBean("0");
+        return new ResultBean("0","短信发送失败");
     }
 
     /**
@@ -212,7 +210,7 @@ public class CommonController {
     public ResultBean processRequest(HttpServletRequest request, HttpServletResponse response, String adviseContent){
         String adviserMobile = request.getParameter("adviserMobile");
         String email = "kefu@szgyzb.com";
-        //将生成的验证码放入session
+
         String[] tos = new String[]{ email };
         MailConfig config = new MailConfig();
         config.setTos(tos);
