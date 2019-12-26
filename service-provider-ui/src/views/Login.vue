@@ -57,7 +57,8 @@
           <i>*</i>
           <span>验证码:</span>
           <input class="codeBox" v-model="forgetCode" type="number" placeholder="请输入验证码">
-          <span class="getCode" @click="getCode(forgetPhone)">获取验证码</span>
+          <span v-show="!showForgetCount" class="getCode mar_t" @click="getForgetCode(forgetPhone)">{{FtextCode}}</span>
+          <span v-show="showForgetCount" class="getCode count mar_t" >{{forgetCount}} S后重试</span>
         </div>
         <div class="affirmBox">
           <button class="cancel" @click="cancelSet">取消</button>
@@ -85,10 +86,14 @@ export default {
       forgetPhone:'',//管理员手机号
       forgetNewPsd:'',//新密码
       forgetCode:'',//修改密码的验证码
-      showCountDown:false,//是否显示倒计时60s
-      count:6,
+      showCountDown:false,//是否显示倒计时,登录时
+      showForgetCount:false,//是否显示倒计时，忘记密码
+      count:6,//登录倒计时
+      forgetCount:6,//忘记密码倒计时
       textCode:'获取验证码',
-      timer:''
+      timer:'',
+      FtextCode:'获取验证码',
+      Ftimer:''
     };
   },
   mounted() {
@@ -103,7 +108,21 @@ export default {
     selectInto(way){
        this.selectLogin=way;
     },
-    //获取短信验证码
+    //忘记密码获取验证码
+    async getForgetCode(Phone){
+      if(Phone&&(/^1[3456789]\d{9}$/.test(Phone))){
+        this.forgetCountTime();
+        let loginData = await login.forgetCode({mobile:Phone,roleCode:this.role});
+        if(loginData.data.resultCode == 1){
+          this.$toast({ message: "已发送短信验证码，请查收" });
+        }else {
+          this.$toast({ message: '验证码发送失败'});
+        }
+      }else {
+        this.$toast({ message: "请输入手机号" });
+      }
+    },
+    //登录获取短信验证码
    async getCode(Phone){//codeLogin
       if(Phone&&(/^1[3456789]\d{9}$/.test(Phone))){
         this.countTime();
@@ -117,7 +136,7 @@ export default {
         this.$toast({ message: "请输入手机号" });
       }
     },
-    //获取验证码后倒计时
+    //登录获取验证码后倒计时
     countTime(){
       const _this=this;
       if (this.count==0) {
@@ -130,6 +149,22 @@ export default {
         this.count--;
         this.timer=setTimeout(function(){
           _this.countTime();
+        },1000);
+      }
+    },
+    //忘记密码获取验证码后倒计时
+    forgetCountTime(){
+      const _this=this;
+      if (this.forgetCount==0) {
+        this.forgetCount=6;
+        this.FtextCode='重新获取';
+        clearTimeout(this.Ftimer);
+        this.showForgetCount=false;
+      }else{
+        this.showForgetCount=true;
+        this.forgetCount--;
+        this.Ftimer=setTimeout(function(){
+          _this.forgetCountTime();
         },1000);
       }
     },
@@ -181,20 +216,40 @@ export default {
     clearPsd() {
       this.password = "";
     },
-    //管理员修改密码forgetPsd
+    //修改密码
     findPsd(){
       this.showFind=true;
     },
-    async setNewPsd(){//设置新密码
-        let psdData;
+    //验证修改密码时的验证码
+    async FVerifyCode(){
+      let codeData=await login.fVerifyCode({
+        mobile:this.forgetPhone,
+        roleCode:this.role,
+        verifyCode:this.forgetCode
+      });
+      if(codeData.data&&codeData.data.resultCode==1){//验证码正确
+        this.setNewPsd();
+      }else if(codeData.data&&codeData.data.resultCode==0){
+        this.$toast({message:codeData.data.resultMsg});
+      }
+    },
+    //设置新密码
+    async setNewPsd(){
         let params={
           mobile:this.forgetPhone,
           newPw:this.forgetNewPsd,
           roleCode:this.role,
-          verifyCode:this.forgetCode
         };
-        if(this.role == "agent"){//管理员设置新密码
-          psdData = await login.agentNewPsd(params);
+        let psdData = await login.resetNewPsd(params);
+        if(psdData.data&&psdData.data.resultCode==1){
+          this.showFind=false;
+          this.forgetPhone='';
+          this.forgetNewPsd='';
+          this.forgetCode='';
+          clearTimeout(this.Ftimer);
+          this.$toast('密码修改成功，请登录');
+        }else {
+          this.$toast('密码修改失败');
         }
         console.log(psdData);
     },
@@ -208,11 +263,7 @@ export default {
     //确认设置新密码
     affirmSet(){
       if(this.forgetPhone && this.forgetNewPsd && this.forgetCode && (/^1[3456789]\d{9}$/.test(this.forgetPhone))){
-        this.showFind=false;
-        this.setNewPsd();
-        this.forgetPhone='';
-        this.forgetNewPsd='';
-        this.forgetCode='';
+       this.FVerifyCode();
       }else {
         this.$toast({message: "*号标记项为必填项",duration:1000 });
       }
@@ -421,7 +472,7 @@ export default {
     .findBox{
       width: 95%;
       margin: auto;
-      height: vw(500);
+      height: vw(480);
       border-radius: vw(10);
       position: relative;
       top: 30%;
@@ -476,6 +527,12 @@ export default {
           border-radius 5px
           margin-left vw(10)
           background-color: #07c160
+        }
+        .count{
+          background-color: #d4d4d4
+        }
+        .mar_t{
+          margin-bottom vw(20)
         }
       }
       .affirmBox{
