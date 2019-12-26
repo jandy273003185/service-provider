@@ -64,7 +64,7 @@
 
 
             </li>
-            </van-list>
+          </van-list>
           </ul>
         </van-tab>
 

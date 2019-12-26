@@ -30,7 +30,7 @@ import {
 import './style/common/base.styl'
 /* import './plugins/element.js' */
 Vue.config.productionTip = false;
-
+Vue.config.devtools = true;
 // 全局注册
 Vue.use(Loading).use(Toast).use(Picker).use(Image).use(Cell).use(CellGroup).use(List).use(Icon).use(Tab).use(Tabs).use(Row).use(Col).use(Uploader).use(Button).use(Area).use(Checkbox).use(CheckboxGroup).use(DatetimePicker).use(Popup).use(NavBar).use(Field).use(Search);
 

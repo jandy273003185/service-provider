@@ -24,8 +24,10 @@ export const adminIndex={//管理员主页
 };
 export const login={//登录接口
   login:param =>http.post1('/user/loginBinding',param),//登录页接口
+  agentNewPsd:param =>http.post1('/user/forgetPassword',param),//管理员修改密码
   code:param =>http.post1('/common/verifyCode',param),//获取验证码
-  codeLogin:param =>http.post1('/user/smsLogin',param),//验证码登录接口
+  agentCodeLogin:param =>http.post1('/user/smsSpLogin',param),//管理员验证码登录接口
+  salesCodeLogin:param =>http.post1('/user/smsSmLogin',param),//业务员验证码登录接口
   firstLogin:param =>http.post1('/user/login',param),//进入主页时判断是否绑定
   getOpenId:param =>http.post1('/wx/callback',param)//获取openid
 };
