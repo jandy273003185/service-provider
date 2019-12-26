@@ -43,6 +43,7 @@ public class ShiroConfigBean {
         filterChainDefinitionMap.put("/**/login/**", "anon");
         //filterChainDefinitionMap.put("/**/salesman/**", "anon");
         filterChainDefinitionMap.put("/**/loginBinding/**", "anon");
+        filterChainDefinitionMap.put("/common/**", "anon");
         filterChainDefinitionMap.put("/**.js", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/swagger**/**", "anon");

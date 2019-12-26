@@ -167,7 +167,7 @@ public class CommonController {
         String clientIp = request.getRemoteAddr();
         //生成验证码
         String smsVerifyCode = GenSN.getRandomNum(6);
-        messageDTO.setType("modify");
+        messageDTO.setFlag("modify");
         messageDTO.setCode(smsVerifyCode);
         messageDTO.setClientIp(clientIp);
         messageDTO.setAddressee(mobile);
