@@ -30,7 +30,7 @@ axios.interceptors.response.use(res => {
       const data = res.data;
       if (data.resultCode == 10001) {
         Dialog({
-          message: '网络异常，请查看您的网络状态！'
+          message: data.resultMsg
         });
        /*  router.go(-1); */
       }
@@ -55,6 +55,7 @@ export default {
           params: param,
           cancelToken: new CancelToken(c => {
             cancel = c;
+            window.console.log(cancel);
           })
         })
         .then(res => {

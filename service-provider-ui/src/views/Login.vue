@@ -3,7 +3,9 @@
     <div class="box">
       <div class="title">
         <img src="../assets/images/login/login.png" alt />
-        <span>七分钱进件系统</span>
+        <span class="titleText">七分钱进件系统</span>
+        <span v-if="role=='agent' ">管理员登录</span>
+        <span v-if="role=='salesman' ">业务员登录</span>
       </div>
       <p v-if="selectLogin=='psd'" class="logintype">账号密码登录</p>
       <p v-if="selectLogin=='code'" class="logintype">验证码登录</p>
@@ -16,9 +18,9 @@
           <input v-model.trim="password" type="password" placeholder="登录密码" />
           <van-icon @click="clearPsd" name="close" />
         </div>
-       <!-- <div class="findPsd">
+        <div class="findPsd">
           <span @click="findPsd">找回密码</span>
-        </div>-->
+        </div>
       </div>
       <div v-if="selectLogin=='code'"><!--手机验证码登录-->
         <div class="item userName">
@@ -55,14 +57,12 @@
           <i>*</i>
           <span>验证码:</span>
           <input class="codeBox" v-model="forgetCode" type="number" placeholder="请输入验证码">
-          <span class="getCode" @click="getCode(agentPhone)">获取验证码</span>
+          <span class="getCode" @click="getCode(forgetPhone)">获取验证码</span>
         </div>
         <div class="affirmBox">
           <button class="cancel" @click="cancelSet">取消</button>
           <button class="affirm" @click="affirmSet">确认</button>
         </div>
-
-
       </div>
     </div>
   </div>
@@ -86,8 +86,9 @@ export default {
       forgetNewPsd:'',//新密码
       forgetCode:'',//修改密码的验证码
       showCountDown:false,//是否显示倒计时60s
-      count:60,
-      textCode:'获取验证码'
+      count:6,
+      textCode:'获取验证码',
+      timer:''
     };
   },
   mounted() {
@@ -120,21 +121,22 @@ export default {
     countTime(){
       const _this=this;
       if (this.count==0) {
-        this.count=60;
+        this.count=6;
         this.textCode='重新获取';
+        clearTimeout(this.timer);
         this.showCountDown=false;
       }else{
         this.showCountDown=true;
         this.count--;
-        setTimeout(function(){
+        this.timer=setTimeout(function(){
           _this.countTime();
         },1000);
       }
     },
-    //判断账号密码非空
+    //点击登录
     submitLogin() {
       let params={};
-      if(this.selectLogin=='psd'){
+      if(this.selectLogin=='psd'){//账号密码登录
         if (!this.userName) {
           this.$toast({message: "请填写用户名",duration:1000 });
           return;
@@ -151,7 +153,7 @@ export default {
        };
         console.log(params);
         this.loginPost(params); //登录请求
-      }else if(this.selectLogin=='code'){
+      }else if(this.selectLogin=='code'){//短信验证码登录
         if (!this.userPhone) {
           this.$toast({message: "请填写手机号",duration:1000 });
           return;
@@ -166,11 +168,6 @@ export default {
           openId: this.openId,
           roleCode: this.role
         };
-       /* user/smsLogin   短信登陆绑定接口
-        mobile  （管理员手机号）
-        roleCode  （agent）管理员
-        openId
-        verifyCode    (验证码)*/
         console.log(params);
         this.codeLogin(params); //登录请求
       }
@@ -204,17 +201,24 @@ export default {
     //取消设置新密码
     cancelSet(){
       this.showFind=false;
+      this.forgetPhone='';
+      this.forgetNewPsd='';
+      this.forgetCode='';
     },
     //确认设置新密码
     affirmSet(){
       if(this.forgetPhone && this.forgetNewPsd && this.forgetCode && (/^1[3456789]\d{9}$/.test(this.forgetPhone))){
         this.showFind=false;
         this.setNewPsd();
+        this.forgetPhone='';
+        this.forgetNewPsd='';
+        this.forgetCode='';
       }else {
         this.$toast({message: "*号标记项为必填项",duration:1000 });
       }
     },
-    async loginPost(params) {//账号密码登录
+    //账号密码登录
+    async loginPost(params) {
       let loginData = await login.login(params);
       console.log(loginData);
       if (loginData.data.resultCode == 1) {
@@ -250,6 +254,7 @@ export default {
       }
       console.log(loginData);
       if (loginData.data.resultCode == 1) {
+        clearTimeout(this.timer);
         this.$toast("登录成功");
           console.log(this.role);
         if (this.role == "agent") {
@@ -297,6 +302,10 @@ export default {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+
+      .titleText{
+        font-size vw(30)
+      }
 
       span {
         font-size: vw(20);
@@ -444,11 +453,13 @@ export default {
           display flex
           justify-content center
           align-items center
+
           width vw(100)
           height vw(50)
         }
         input{
           border none
+          padding-left vw(10)
           width vw(500)
           height vw(50)
           border-bottom 1px solid #959595
