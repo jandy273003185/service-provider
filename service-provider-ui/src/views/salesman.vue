@@ -78,7 +78,7 @@ export default {
       var code = this.getUrlParam("code");
       if (!code) {
         //  let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
-        let REDIRECT_URI = encodeURIComponent(
+        let REDIRECT_URI = encodeURIComponent(//测试域名-uat
           "https://sp-uat.qifenqian.com/wx/index.html#salesman"
         );
         window.location.href =
