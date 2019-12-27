@@ -106,7 +106,7 @@
         var code = this.getUrlParam("code");
         if (!code) {
           let REDIRECT_URI = encodeURIComponent(
-            "https://sp.qifenqian.com/wx/index.html#Administrator"
+            "https://sp-uat.qifenqian.com/wx/index.html#Administrator"
           );
           window.location.href =
             "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +

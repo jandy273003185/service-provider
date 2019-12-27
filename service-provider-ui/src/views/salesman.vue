@@ -79,7 +79,7 @@ export default {
       if (!code) {
         //  let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
         let REDIRECT_URI = encodeURIComponent(
-          "https://sp.qifenqian.com/wx/index.html#salesman"
+          "https://sp-uat.qifenqian.com/wx/index.html#salesman"
         );
         window.location.href =
           "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +
