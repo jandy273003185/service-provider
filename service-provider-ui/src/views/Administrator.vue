@@ -109,7 +109,7 @@
             "https://sp-uat.qifenqian.com/wx/index.html#Administrator"
           );
           window.location.href =
-            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +
+            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
             REDIRECT_URI +
             "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         } else {
