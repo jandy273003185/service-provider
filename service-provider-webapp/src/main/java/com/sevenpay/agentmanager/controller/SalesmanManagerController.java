@@ -193,7 +193,7 @@ public class SalesmanManagerController {
         TdSalesmanInfo tdSalesmanInfo1 = new TdSalesmanInfo();
         tdSalesmanInfo1.setUserPhone(tdSalesmanInfo.getUserPhone());
         List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(tdSalesmanInfo1);
-        if (tdSalesmanInfos!=null || tdSalesmanInfos.size()>0) {
+        if (tdSalesmanInfos.size()>0) {
             for (TdSalesmanInfo salesmanInfo : tdSalesmanInfos) {//假如多个服务商下都有该业务员
                 if ("1".equals(salesmanInfo.getStatus()) && !tdSalesmanInfo.getCustId().equals(salesmanInfo.getCustId())) {
                     return new ResultBean<>("0","添加失败,如有疑问请联系客服！");
