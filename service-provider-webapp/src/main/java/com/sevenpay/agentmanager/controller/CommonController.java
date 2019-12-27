@@ -16,7 +16,6 @@ import com.qifenqian.app.user.UserManager;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.GenSN;
 import com.sevenpay.agentmanager.utils.verfycode.VerifyInfoConstant;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -129,7 +128,7 @@ public class CommonController {
             UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
 
             if (userInfo.getCustId() != null) {
-                redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, "123456",3*60, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
                 MessageDTO m = messageManager.sendMobileCode(messageDTO);
                 return new ResultBean("1","短信发送成功");
             }
@@ -141,7 +140,7 @@ public class CommonController {
             if (tdSalesmanInfos.size()>0) {
                 for (TdSalesmanInfo salesmanInfo : tdSalesmanInfos) {//假如多个服务商下都有该业务员
                     if ("1".equals(salesmanInfo.getStatus())) {
-                        redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, "123456",3*60, TimeUnit.SECONDS);
+                        redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
                         MessageDTO m = messageManager.sendMobileCode(messageDTO);
                         return new ResultBean("1","短信发送成功");
                     }

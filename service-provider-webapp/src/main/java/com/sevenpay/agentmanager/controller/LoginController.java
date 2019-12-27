@@ -13,6 +13,7 @@ import com.sevenpay.agentmanager.jwt.JWTUtil;
 import com.sevenpay.agentmanager.pojo.LoginUser;
 import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.verfycode.VerifyInfoConstant;
+import com.sevenpay.external.app.common.bean.SalesmanInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -278,7 +279,7 @@ public class LoginController {
     /**
      * 业务员短信登陆
      * @param mobile 业务员手机号
-     * @param roleCode 角色 agent
+     * @param roleCode 角色 salesman
      * @param openId openId
      * @param request
      * @return
@@ -354,17 +355,38 @@ public class LoginController {
     /**
      * 管理员（服务商）修改密码接口
      * @param mobile 管理员（服务商）手机账号
-     * @param newPw 新密码
      * @param roleCode 管理员角色标识（agent）
      * @param request
      * @return
      */
     @RequestMapping("forgetPassword")
-    public ResultBean forgetPassword(String mobile,String newPw, String roleCode, HttpServletRequest request){
-        //查询是否有该服务商的信息
-        UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
+    public ResultBean forgetPassword(String mobile,String roleCode, HttpServletRequest request){
+        if ("agent".equals(roleCode)) {
+            //查询是否有该服务商的信息
+            UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
 
-        if (userInfo.getCustId() != null) {
+            if (userInfo.getCustId() != null) {
+                //获取redis中相对应的验证码
+                String code = (String) redisTemplate.opsForValue().get(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile);
+                if(code == null){
+                    return new ResultBean("0","验证码失效,请重新发送！");
+                }
+                String verifyCode = request.getParameter("verifyCode");
+                if (StringUtils.isEmpty(verifyCode)) {
+                    return new ResultBean("0","请输入验证码");
+                }
+                if (code.equals(verifyCode)) {
+                    //删除redis中对应的key
+                    redisTemplate.delete(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile);
+                    return new ResultBean("1","验证码正确，开始修改密码");
+                }
+            }
+            return new ResultBean("0","请检查管理员手机号是否输入正确！");
+        }else if ("salesman".equals(roleCode)){
+            boolean b = salesmanManagerService.checkPhone(mobile, null);
+            if (b) {//不存在
+                return new ResultBean("0","业务员手机号不正确");
+            }
             //获取redis中相对应的验证码
             String code = (String) redisTemplate.opsForValue().get(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile);
             if(code == null){
@@ -374,18 +396,48 @@ public class LoginController {
             if (StringUtils.isEmpty(verifyCode)) {
                 return new ResultBean("0","请输入验证码");
             }
-      if (code.equals(verifyCode)) {
-          String pw = userManager.updateUserPasswordByMobile(mobile, newPw, roleCode);
-          if (pw == null){
-              return new ResultBean("0","修改密码失败");
-          }else {
-              //删除redis中对应的key
-              redisTemplate.delete(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile);
-              return new ResultBean("1",pw);
-          }
-      }
+            if (code.equals(verifyCode)) {
+                //删除redis中对应的key
+                redisTemplate.delete(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile);
+                return new ResultBean("1","验证码正确，开始修改密码");
+            }
         }
-        return new ResultBean("0","请检查管理员手机号是否输入正确！");
+        return new ResultBean("0","请重新进入登录页");
+    }
+
+    /**
+     * 公共修改密码接口
+     * @param mobile 手机号
+     * @param newPw 新密码
+     * @param roleCode agent/salesman
+     * @return
+     */
+    @RequestMapping("roleCodeModifyPwd")
+    public ResultBean roleCodeModifyPwd(String mobile,String newPw, String roleCode){
+        if ("agent".equals(roleCode)) {
+            String pw = userManager.updateUserPasswordByMobile(mobile, newPw, roleCode);
+            if (pw == null) {
+                return new ResultBean("0", "修改密码失败");
+            }
+            return new ResultBean("1","修改密码成功");
+        }else if ("salesman".equals(roleCode)){
+            TdSalesmanInfo tdSalesmanInfo = new TdSalesmanInfo();
+            tdSalesmanInfo.setUserPhone(mobile);
+            tdSalesmanInfo.setStatus("1");
+            //查询手机号状态为启动的
+            List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(tdSalesmanInfo);
+            if (tdSalesmanInfos != null || tdSalesmanInfos.size() > 0){
+                TdSalesmanInfo t = tdSalesmanInfos.get(0);
+                tdSalesmanInfo.setPassword(newPw);
+                tdSalesmanInfo.setSalesmanId(t.getSalesmanId());
+                Integer result = salesmanManagerService.updateTdSalesmanInfo(tdSalesmanInfo);
+                if (result > 0){
+                    return new ResultBean("1","修改密码成功");
+                }
+            }
+            return new ResultBean("0","修改密码失败");
+        }
+        return new ResultBean("0","请重新操作忘记密码");
     }
 
 }
