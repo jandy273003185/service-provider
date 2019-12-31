@@ -9,11 +9,11 @@ import com.qifenqian.app.customer.MerchantStatusService;
 import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.login.UserLoginManagerService;
 import com.qifenqian.app.user.UserManager;
+import com.sevenpay.agentmanager.core.bean.ResultData;
+import com.sevenpay.agentmanager.core.exception.BizException;
 import com.sevenpay.agentmanager.jwt.JWTUtil;
 import com.sevenpay.agentmanager.pojo.LoginUser;
-import com.sevenpay.agentmanager.pojo.ResultBean;
 import com.sevenpay.agentmanager.utils.verfycode.VerifyInfoConstant;
-import com.sevenpay.external.app.common.bean.SalesmanInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -44,33 +44,35 @@ public class LoginController {
     @Reference
     private MerchantStatusService merchantStatusService;
     @Resource(name = "redisTemplate")
-    private RedisTemplate<String,Object> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
+
     /**
      * 登陆
+     *
      * @param userName 账号
      * @param password 密码
-     * @param openId 微信用户唯一标识
+     * @param openId   微信用户唯一标识
      * @param roleCode 用户角色agent管理员（服务商）/salesman业务员
      * @return
      */
     @RequestMapping("/loginBinding")
-    public ResultBean<?> loginBinding(String userName, String password, String openId, String roleCode){
+    public ResultData loginBinding(String userName, String password, String openId, String roleCode) {
         //不同的角色获取不同的用户信息表
-        LoginUser loginUser=new LoginUser();
+        LoginUser loginUser = new LoginUser();
         //登陆校验
         if ("agent".equals(roleCode)) {//服务商绑定
             UserDTO userInfo = userManager.login(userName, password, roleCode);
-            if(!userInfo.isSuccess()){
-                return new ResultBean<String>("0","账号或密码错误");
+            if (!userInfo.isSuccess()) {
+                throw new BizException("账号或密码错误");
             }
             //查询该账号是否绑定openId
             boolean isBinding = loginManagerService.LogincheckIsBinding(userName, roleCode);
             if (isBinding) {
-                return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
+                throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
             }
-            UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
+            UserLoginRelate ifbing = loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
             if (ifbing != null) {
-                if (ifbing.getIfUnbind().equals("0")){
+                if (ifbing.getIfUnbind().equals("0")) {
                     ifbing.setUserId(userInfo.getCustId());
                     ifbing.setOpenId(openId);
                     ifbing.setLoginType("1");
@@ -79,11 +81,11 @@ public class LoginController {
                     loginManagerService.updateBindingInfo(ifbing);
                     loginUser.setUserInfo(userInfo.getCustId());
                     //根据用户编号和密码加密生成token
-                    String token = JWTUtil.sign(userInfo.getCustId(),openId);
+                    String token = JWTUtil.sign(userInfo.getCustId(), openId);
                     loginUser.setToken(token);
-                    return new ResultBean<>("1",loginUser) ;//
+                    return ResultData.success(loginUser);//
                 }
-            }else {
+            } else {
                 UserLoginRelate userLoginRelate = new UserLoginRelate();
                 userLoginRelate.setUserId(userInfo.getCustId());
                 userLoginRelate.setOpenId(openId);
@@ -93,31 +95,31 @@ public class LoginController {
                 loginManagerService.userBinding(userLoginRelate);//用户绑定openId
                 loginUser.setUserInfo(userInfo.getCustId());
                 //根据用户编号和密码加密生成token
-                String token = JWTUtil.sign(userInfo.getCustId(),openId);
+                String token = JWTUtil.sign(userInfo.getCustId(), openId);
                 loginUser.setToken(token);
-                return new ResultBean<>("1",loginUser) ;//
+                return ResultData.success(loginUser);//
             }
         }
-        if ("salesman".equals(roleCode)){
+        if ("salesman".equals(roleCode)) {
             TdSalesmanInfo tdSalesmanInfo1 = new TdSalesmanInfo();
             tdSalesmanInfo1.setUserPhone(userName);
             List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(tdSalesmanInfo1);
-            if (tdSalesmanInfos.size()>0) {
+            if (tdSalesmanInfos.size() > 0) {
                 for (TdSalesmanInfo salesmanInfo : tdSalesmanInfos) {//假如多个服务商下都有该业务员
                     if ("1".equals(salesmanInfo.getStatus())) {//如果有启用的
-                        TdSalesmanInfo userInfo = salesmanManagerService.checkSalesmanLogin(userName, password,salesmanInfo.getCustId());
-                        if(StringUtils.isEmpty(userInfo)){
-                            return new ResultBean<String>("0","账号或密码错误");
+                        TdSalesmanInfo userInfo = salesmanManagerService.checkSalesmanLogin(userName, password, salesmanInfo.getCustId());
+                        if (StringUtils.isEmpty(userInfo)) {
+                            throw new BizException("账号或密码错误");
                         }
-                        if ("1".equals(userInfo.getStatus())){
+                        if ("1".equals(userInfo.getStatus())) {
                             //查询该账号是否绑定openId
                             boolean isBinding = loginManagerService.LogincheckIsBinding(userName, roleCode);
                             if (isBinding) {
-                                return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
+                                throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
                             }
-                            UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定过openId
+                            UserLoginRelate ifbing = loginManagerService.selectUserOpenid(openId);//查询是否有绑定过openId
                             if (ifbing != null) {
-                                if (ifbing.getIfUnbind().equals("0")){
+                                if (ifbing.getIfUnbind().equals("0")) {
                                     ifbing.setIfUnbind("1");
                                     ifbing.setUserId(userInfo.getSalesmanId());
                                     ifbing.setCustId(userInfo.getCustId());
@@ -130,9 +132,9 @@ public class LoginController {
                                     String token = JWTUtil.sign(userInfo.getSalesmanId(), openId);
                                     loginUser.setToken(token);
                                     loginUser.setPhoneCode(userInfo.getUserPhone());
-                                    return new ResultBean<>("1",loginUser) ;
+                                    return ResultData.success(loginUser);
                                 }
-                            }else {
+                            } else {
                                 UserLoginRelate userLoginRelate = new UserLoginRelate();
                                 userLoginRelate.setUserId(userInfo.getSalesmanId());
                                 userLoginRelate.setCustId(userInfo.getCustId());
@@ -146,98 +148,100 @@ public class LoginController {
                                 String token = JWTUtil.sign(userInfo.getSalesmanId(), openId);
                                 loginUser.setToken(token);
                                 loginUser.setPhoneCode(userInfo.getUserPhone());
-                                return new ResultBean<>("1",loginUser) ;
+                                return ResultData.success(loginUser);
                             }
                         }
-                        return new ResultBean<>("0","账号异常,请询问管理员！");
+                        return ResultData.error("账号异常,请询问管理员！");
                     }
                 }
             }
 
         }
-        return new ResultBean<String>("0","绑定失败,请重新登陆");
+        return ResultData.error("绑定失败,请重新登陆");
     }
 
 
     /**
      * 第一步登陆
+     *
      * @param openId
      * @return
      */
     @RequestMapping("/login")
-    public ResultBean<?> login(String openId,String roleId){
+    public ResultData login(String openId, String roleId) {
 
         UserLoginRelate ifbing = loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
 
-        if(ifbing == null){
-            return new ResultBean<String>("0",openId);  //返回页面去登陆 进行绑定
-        }else if ("0".equals(ifbing.getIfUnbind())){
-            return new ResultBean<String>("0",openId); //返回页面重新绑定
-        }else {
+        if (ifbing == null) {
+            throw new BizException("请先进行绑定");  //返回页面去登陆 进行绑定
+        } else if ("0".equals(ifbing.getIfUnbind())) {
+            throw new BizException("请先进行绑定"); //返回页面重新绑定
+        } else {
             String userId = ifbing.getUserId();//获取角色
             //不同的角色获取不同的用户信息表
-            LoginUser loginUser=new LoginUser();
+            LoginUser loginUser = new LoginUser();
             loginUser.setUserId(userId);
             try {
-                if("agent".equals(roleId)){  //管理员（服务商）
-                    if (!"agent".equals(ifbing.getUserType())){
-                        return new ResultBean<String>("2","您不是管理员,正在为您跳转业务员页面");
+                if ("agent".equals(roleId)) {  //管理员（服务商）
+                    if (!"agent".equals(ifbing.getUserType())) {
+                        throw new BizException("您不是管理员,正在为您跳转业务员页面");
                     }
                     Map<String, Object> userInfo = merchantStatusService.getMerchantInfoByCustId(userId);
                     loginUser.setUserInfo(userInfo);
                     //根据用户编号和密码加密生成token
-                    String token = JWTUtil.sign(userId,openId);
+                    String token = JWTUtil.sign(userId, openId);
                     loginUser.setToken(token);
-                    return new ResultBean<LoginUser>("1",loginUser);
+                    return ResultData.success(loginUser);
                 }
                 if ("salesman".equals(roleId)) {  //业务员
-                    if (!"salesman".equals(ifbing.getUserType())){
-                        return new ResultBean<String>("2","您不是业务员,正在为您跳转管理员页面");
+                    if (!"salesman".equals(ifbing.getUserType())) {
+                        throw new BizException("您不是业务员,正在为您跳转管理员页面");
                     }
                     TdSalesmanInfo userInfo = salesmanManagerService.getTdSalesmanInfoById(userId);
                     loginUser.setUserInfo(userInfo);
                     //根据用户编号和密码加密生成token
-                    String token = JWTUtil.sign(userId,openId);
+                    String token = JWTUtil.sign(userId, openId);
                     loginUser.setToken(token);
-                    return new ResultBean<LoginUser>("1",loginUser);
+                    return ResultData.success(loginUser);
                 }
             } catch (Exception e) {
-                System.out.println("登陆异常!");
+                throw new BizException("登陆异常!");
             }
         }
-        return new ResultBean<String>("0","登陆失败");
+        return ResultData.error("登陆失败");
     }
 
     /**
      * 短信登陆
-     * @param mobile 管理员（服务商）手机号
+     *
+     * @param mobile   管理员（服务商）手机号
      * @param roleCode 角色 agent
-     * @param openId openId
+     * @param openId   openId
      * @param request
      * @return
      */
     @RequestMapping("/smsSpLogin")
-    public ResultBean smsSpLoginBanding(String mobile, String roleCode,String openId, HttpServletRequest request){
+    public ResultData smsSpLoginBanding(String mobile, String roleCode, String openId, HttpServletRequest request) {
         //查询是否有该服务商的信息
         UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
         if (userInfo.getCustId() != null) {
             //获取存入redis中的手机登录验证码
-            String code = (String) redisTemplate.opsForValue().get(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile);
-            if(code == null){
-                return new ResultBean("0","验证码失效,请重新发送！");
+            String code = (String) redisTemplate.opsForValue().get(VerifyInfoConstant.LOGIN_VERIFY_CODE + mobile);
+            if (code == null) {
+                throw new BizException("验证码失效,请重新发送！");
             }
             String verifyCode = request.getParameter("verifyCode");
             if (StringUtils.isEmpty(verifyCode)) {
-                return new ResultBean("0","请输入验证码");
+                throw new BizException("请输入验证码");
             }
-            if (code.equals(verifyCode)){
-                LoginUser loginUser=new LoginUser();
+            if (code.equals(verifyCode)) {
+                LoginUser loginUser = new LoginUser();
                 //登陆校验
                 if ("agent".equals(roleCode)) {//服务商绑定
                     //查询该账号是否绑定openId
                     boolean isBinding = loginManagerService.LogincheckIsBinding(mobile, roleCode);
                     if (isBinding) {
-                        return new ResultBean("0", "该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
+                        throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
                     }
                     UserLoginRelate ifbing = loginManagerService.selectUserOpenid(openId);//查询是否有绑定openId
                     if (ifbing != null) {
@@ -252,10 +256,10 @@ public class LoginController {
                             //根据用户编号和密码加密生成token
                             String token = JWTUtil.sign(userInfo.getCustId(), openId);
                             loginUser.setToken(token);
-                            redisTemplate.delete(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile);
-                            return new ResultBean<>("1", loginUser);//
+                            redisTemplate.delete(VerifyInfoConstant.LOGIN_VERIFY_CODE + mobile);
+                            return ResultData.success(loginUser);//
                         }
-                    }else {
+                    } else {
                         UserLoginRelate userLoginRelate = new UserLoginRelate();
                         userLoginRelate.setUserId(userInfo.getCustId());
                         userLoginRelate.setOpenId(openId);
@@ -265,28 +269,29 @@ public class LoginController {
                         loginManagerService.userBinding(userLoginRelate);//用户绑定openId
                         loginUser.setUserInfo(userInfo.getCustId());
                         //根据用户编号和密码加密生成token
-                        String token = JWTUtil.sign(userInfo.getCustId(),openId);
+                        String token = JWTUtil.sign(userInfo.getCustId(), openId);
                         loginUser.setToken(token);
-                        redisTemplate.delete(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile);
-                        return new ResultBean<>("1",loginUser) ;//
+                        redisTemplate.delete(VerifyInfoConstant.LOGIN_VERIFY_CODE + mobile);
+                        return ResultData.success(loginUser);//
                     }
                 }
             }
         }
-        return new ResultBean("0","请检查管理员手机号是否输入正确！");
+        return ResultData.error("请检查管理员手机号是否输入正确！");
     }
 
     /**
      * 业务员短信登陆
-     * @param mobile 业务员手机号
+     *
+     * @param mobile   业务员手机号
      * @param roleCode 角色 salesman
-     * @param openId openId
+     * @param openId   openId
      * @param request
      * @return
      */
     @RequestMapping("/smsSmLogin")
-    public ResultBean smsSmLoginBanding(String mobile, String roleCode,String openId, HttpServletRequest request){
-        LoginUser loginUser=new LoginUser();
+    public ResultData smsSmLoginBanding(String mobile, String roleCode, String openId, HttpServletRequest request) {
+        LoginUser loginUser = new LoginUser();
         //1、查询是否有该业务员手机号
         TdSalesmanInfo tdSalesmanInfo = new TdSalesmanInfo();
         tdSalesmanInfo.setUserPhone(mobile);
@@ -298,22 +303,22 @@ public class LoginController {
                 //3、查询该业务员账号是否有绑定过，如果有则修改
                 boolean isBinding = loginManagerService.LogincheckIsBinding(mobile, roleCode);
                 if (isBinding) {
-                    return new ResultBean("0","该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
+                    throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
                 }
                 //4、判断该手机号验证码操作是否匹配
-                String code = (String) redisTemplate.opsForValue().get(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile);
-                if(code == null){
-                    return new ResultBean("0","验证码失效,请重新发送！");
+                String code = (String) redisTemplate.opsForValue().get(VerifyInfoConstant.LOGIN_VERIFY_CODE + mobile);
+                if (code == null) {
+                    throw new BizException("验证码失效,请重新发送！");
                 }
                 String verifyCode = request.getParameter("verifyCode");
                 if (StringUtils.isEmpty(verifyCode)) {
-                    return new ResultBean("0","请输入验证码");
+                    throw new BizException("请输入验证码");
                 }
-                UserLoginRelate ifbing= loginManagerService.selectUserOpenid(openId);//查询是否有绑定过openId
-                if (code.equals(verifyCode)){
+                UserLoginRelate ifbing = loginManagerService.selectUserOpenid(openId);//查询是否有绑定过openId
+                if (code.equals(verifyCode)) {
                     //5、修改绑定信息
                     if (ifbing != null) {
-                        if (ifbing.getIfUnbind().equals("0")){
+                        if (ifbing.getIfUnbind().equals("0")) {
                             ifbing.setIfUnbind("1");
                             ifbing.setUserId(salesmanInfo.getSalesmanId());
                             ifbing.setCustId(salesmanInfo.getCustId());
@@ -326,10 +331,10 @@ public class LoginController {
                             String token = JWTUtil.sign(salesmanInfo.getSalesmanId(), openId);
                             loginUser.setToken(token);
                             loginUser.setPhoneCode(salesmanInfo.getUserPhone());
-                            redisTemplate.delete(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile);
-                            return new ResultBean<>("1",loginUser) ;
+                            redisTemplate.delete(VerifyInfoConstant.LOGIN_VERIFY_CODE + mobile);
+                            return ResultData.success(loginUser);
                         }
-                    }else {
+                    } else {
                         UserLoginRelate userLoginRelate = new UserLoginRelate();
                         userLoginRelate.setUserId(salesmanInfo.getSalesmanId());
                         userLoginRelate.setCustId(salesmanInfo.getCustId());
@@ -343,101 +348,103 @@ public class LoginController {
                         String token = JWTUtil.sign(salesmanInfo.getSalesmanId(), openId);
                         loginUser.setToken(token);
                         loginUser.setPhoneCode(salesmanInfo.getUserPhone());
-                        redisTemplate.delete(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile);
-                        return new ResultBean<>("1",loginUser) ;
+                        redisTemplate.delete(VerifyInfoConstant.LOGIN_VERIFY_CODE + mobile);
+                        return ResultData.success(loginUser);
                     }
                 }
             }
         }
-        return new ResultBean("0","请检查业务员手机号是否输入正确！");
+        return ResultData.error("请检查业务员手机号是否输入正确！");
     }
 
     /**
      * 管理员（服务商）修改密码接口
-     * @param mobile 管理员（服务商）手机账号
+     *
+     * @param mobile   管理员（服务商）手机账号
      * @param roleCode 管理员角色标识（agent）
      * @param request
      * @return
      */
     @RequestMapping("forgetPassword")
-    public ResultBean forgetPassword(String mobile,String roleCode, HttpServletRequest request){
+    public ResultData forgetPassword(String mobile, String roleCode, HttpServletRequest request) {
         if ("agent".equals(roleCode)) {
             //查询是否有该服务商的信息
             UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
 
             if (userInfo.getCustId() != null) {
                 //获取redis中相对应的验证码
-                String code = (String) redisTemplate.opsForValue().get(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile);
-                if(code == null){
-                    return new ResultBean("0","验证码失效,请重新发送！");
+                String code = (String) redisTemplate.opsForValue().get(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE + mobile);
+                if (code == null) {
+                    throw new BizException("验证码失效,请重新发送！");
                 }
                 String verifyCode = request.getParameter("verifyCode");
                 if (StringUtils.isEmpty(verifyCode)) {
-                    return new ResultBean("0","请输入验证码");
+                    throw new BizException("请输入验证码");
                 }
                 if (code.equals(verifyCode)) {
                     //删除redis中对应的key
-                    redisTemplate.delete(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile);
-                    return new ResultBean("1","验证码正确，开始修改密码");
+                    redisTemplate.delete(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE + mobile);
+                    return ResultData.success("验证码正确，开始修改密码");
                 }
             }
-            return new ResultBean("0","请检查管理员手机号是否输入正确！");
-        }else if ("salesman".equals(roleCode)){
+            return ResultData.error("请检查管理员手机号是否输入正确！");
+        } else if ("salesman".equals(roleCode)) {
             boolean b = salesmanManagerService.checkPhone(mobile, null);
             if (b) {//不存在
-                return new ResultBean("0","业务员手机号不正确");
+                throw new BizException("业务员手机号不正确");
             }
             //获取redis中相对应的验证码
-            String code = (String) redisTemplate.opsForValue().get(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile);
-            if(code == null){
-                return new ResultBean("0","验证码失效,请重新发送！");
+            String code = (String) redisTemplate.opsForValue().get(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE + mobile);
+            if (code == null) {
+                throw new BizException("验证码失效,请重新发送！");
             }
             String verifyCode = request.getParameter("verifyCode");
             if (StringUtils.isEmpty(verifyCode)) {
-                return new ResultBean("0","请输入验证码");
+                throw new BizException("请输入验证码");
             }
             if (code.equals(verifyCode)) {
                 //删除redis中对应的key
-                redisTemplate.delete(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile);
-                return new ResultBean("1","验证码正确，开始修改密码");
+                redisTemplate.delete(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE + mobile);
+                return ResultData.success("验证码正确，开始修改密码");
             }
         }
-        return new ResultBean("0","请重新进入登录页");
+        return ResultData.error("请重新进入登录页");
     }
 
     /**
      * 公共修改密码接口
-     * @param mobile 手机号
-     * @param newPw 新密码
+     *
+     * @param mobile   手机号
+     * @param newPw    新密码
      * @param roleCode agent/salesman
      * @return
      */
     @RequestMapping("roleCodeModifyPwd")
-    public ResultBean roleCodeModifyPwd(String mobile,String newPw, String roleCode){
+    public ResultData roleCodeModifyPwd(String mobile, String newPw, String roleCode) {
         if ("agent".equals(roleCode)) {
             String pw = userManager.updateUserPasswordByMobile(mobile, newPw, roleCode);
             if (pw == null) {
-                return new ResultBean("0", "修改密码失败");
+                return ResultData.error("修改密码失败");
             }
-            return new ResultBean("1","修改密码成功");
-        }else if ("salesman".equals(roleCode)){
+            return ResultData.success("修改密码成功");
+        } else if ("salesman".equals(roleCode)) {
             TdSalesmanInfo tdSalesmanInfo = new TdSalesmanInfo();
             tdSalesmanInfo.setUserPhone(mobile);
             tdSalesmanInfo.setStatus("1");
             //查询手机号状态为启动的
             List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(tdSalesmanInfo);
-            if (tdSalesmanInfos != null || tdSalesmanInfos.size() > 0){
+            if (tdSalesmanInfos != null || tdSalesmanInfos.size() > 0) {
                 TdSalesmanInfo t = tdSalesmanInfos.get(0);
                 tdSalesmanInfo.setPassword(newPw);
                 tdSalesmanInfo.setSalesmanId(t.getSalesmanId());
                 Integer result = salesmanManagerService.updateTdSalesmanInfo(tdSalesmanInfo);
-                if (result > 0){
-                    return new ResultBean("1","修改密码成功");
+                if (result > 0) {
+                    return ResultData.success("修改密码成功");
                 }
             }
-            return new ResultBean("0","修改密码失败");
+            return ResultData.error("修改密码失败");
         }
-        return new ResultBean("0","请重新操作忘记密码");
+        return ResultData.error("请重新操作忘记密码");
     }
 
 }

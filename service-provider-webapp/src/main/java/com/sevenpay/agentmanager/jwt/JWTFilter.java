@@ -3,8 +3,7 @@ package com.sevenpay.agentmanager.jwt;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.sevenpay.agentmanager.pojo.ResponseData;
-import com.sevenpay.agentmanager.pojo.ResponseDataUtil;
+import com.sevenpay.agentmanager.core.bean.ResultData;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-
 /**
  * JwtFilter:jwt过滤器来作为shiro的过滤器
  *
@@ -25,11 +23,12 @@ import javax.servlet.http.HttpServletResponse;
  * @date: 2019/07/12
  */
 @Component//这个注入与否影响不大
-public class JWTFilter extends BasicHttpAuthenticationFilter{
+public class JWTFilter extends BasicHttpAuthenticationFilter {
 
 
     /**
      * 执行登录
+     *
      * @param request
      * @param response
      * @return
@@ -39,7 +38,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter{
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader("token");
-        if(token == null){
+        if (token == null) {
             return false;
         }
         JwtToken jwtToken = new JwtToken(token);
@@ -49,7 +48,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter{
             // 如果没有抛出异常则代表登入成功，返回true
             return true;
         } catch (AuthenticationException e) {
-            ResponseData<?> responseData = ResponseDataUtil.authorizationFailed( "没有访问权限，原因是:" + e.getMessage());
+            ResultData responseData = ResultData.error("没有访问权限，原因是:" + e.getMessage());
             //SerializerFeature.WriteMapNullValue为了null属性也输出json的键值对
             Object o = JSONObject.toJSONString(responseData, SerializerFeature.WriteMapNullValue);
             response.setCharacterEncoding("utf-8");
@@ -61,6 +60,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter{
 
     /**
      * 执行登录认证
+     *
      * @param request
      * @param response
      * @param mappedValue
@@ -80,6 +80,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter{
 
     /**
      * 对跨域提供支持
+     *
      * @param request
      * @param response
      * @return

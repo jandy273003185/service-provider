@@ -13,9 +13,10 @@ import com.qifenqian.app.common.MessageManager;
 import com.qifenqian.app.customer.MerchantInfoService;
 import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.user.UserManager;
-import com.sevenpay.agentmanager.pojo.ResultBean;
+import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.utils.GenSN;
 import com.sevenpay.agentmanager.utils.verfycode.VerifyInfoConstant;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,69 +52,71 @@ public class CommonController {
     private SalesmanManagerService salesmanManagerService;
 
     @Resource(name = "redisTemplate")
-    private RedisTemplate<String,Object> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
+
     /**
      * 省市县三级下拉
+     *
      * @param tbProvincesInfoBean
      * @return
      */
     @RequestMapping("province")
-    public ResultBean<?> provinceQuery(TbProvincesInfoBean tbProvincesInfoBean){
+    public ResultData provinceQuery(TbProvincesInfoBean tbProvincesInfoBean) {
         List<TbProvincesInfoBean> provinces = merchantInfoService.getProvinces(tbProvincesInfoBean);
-        return new ResultBean<List<TbProvincesInfoBean>>("1",provinces);
+        return ResultData.success(provinces);
     }
 
     /**
      * 银行省市二级下拉
+     *
      * @param tbBankProvincesInfoBean
      * @return
      */
     @RequestMapping("bankProvince")
-    public ResultBean<?> provinceQuery(TbBankProvincesInfoBean tbBankProvincesInfoBean){
+    public ResultData provinceQuery(TbBankProvincesInfoBean tbBankProvincesInfoBean) {
         List<TbBankProvincesInfoBean> bankProvinces = merchantInfoService.getBankProvinces(tbBankProvincesInfoBean);
-        return new ResultBean<List<TbBankProvincesInfoBean>>("1",bankProvinces);
+        return ResultData.success(bankProvinces);
     }
 
     /**
      * 查询总行（带模糊）
+     *
      * @param bank
      * @return
      */
     @RequestMapping("bankHeadOffice")
-    public ResultBean bankHeadOffice(Bank bank){
+    public ResultData bankHeadOffice(Bank bank) {
         List<Bank> banks = bankInfoService.selectBanks(bank);
-        if (banks.size() > 0) {
-            return new ResultBean("1",banks);
-        }
-        return new ResultBean("0");
+        return ResultData.success(banks);
     }
 
     /**
      * 查询支行（带模糊）
+     *
      * @param bank
      * @return
      */
     @RequestMapping("bankBranch")
-    public ResultBean bankBranch(Bank bank){
+    public ResultData bankBranch(Bank bank) {
         List<Bank> banks = bankInfoService.selectBranchBanks(bank);
-        if (banks.size() > 0) {
-            return new ResultBean("1",banks);
+        if (CollectionUtils.isEmpty(banks)) {
+            Bank bankHeadOffice = bankInfoService.selectBankByBankCode(bank.getBankCode());
+            bankHeadOffice.setBranchBankCode(bankHeadOffice.getBankCode());
+            bankHeadOffice.setBranchBankName(bankHeadOffice.getBankName());
+            banks.add(bankHeadOffice);
         }
-        Bank bankHeadOffice = bankInfoService.selectBankByBankCode(bank.getBankCode());
-        bankHeadOffice.setBranchBankCode(bankHeadOffice.getBankCode());
-        bankHeadOffice.setBranchBankName(bankHeadOffice.getBankName());
-        banks.add(bankHeadOffice);
-        return new ResultBean("1",banks);
+        return ResultData.success(banks);
     }
 
     /**
      * 发送短信验证码登陆接口
+     *
      * @param request
      * @param messageDTO
      * @return
      */
     @RequestMapping("verifyCode")
-    public ResultBean verifyCode(HttpServletRequest request, MessageDTO messageDTO){
+    public ResultData verifyCode(HttpServletRequest request, MessageDTO messageDTO) {
         String mobile = request.getParameter("mobile");//手机号
         String roleCode = request.getParameter("roleCode");//角色（agent/salesman）
         String clientIp = request.getRemoteAddr();
@@ -128,39 +131,40 @@ public class CommonController {
             UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
 
             if (userInfo.getCustId() != null) {
-                redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE + mobile, smsVerifyCode, 3 * 60, TimeUnit.SECONDS);
                 MessageDTO m = messageManager.sendMobileCode(messageDTO);
-                return new ResultBean("1","短信发送成功");
+                return ResultData.success("短信发送成功");
             }
-        }else if ("salesman".equals(roleCode)){
+        } else if ("salesman".equals(roleCode)) {
             //登录查询该业务员手机号是否有启用（只能有一个，该操作在业务员管理做了限制）
             TdSalesmanInfo tdSalesmanInfo1 = new TdSalesmanInfo();
             tdSalesmanInfo1.setUserPhone(mobile);
             List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(tdSalesmanInfo1);
-            if (tdSalesmanInfos.size()>0) {
+            if (tdSalesmanInfos.size() > 0) {
                 for (TdSalesmanInfo salesmanInfo : tdSalesmanInfos) {//假如多个服务商下都有该业务员
                     if ("1".equals(salesmanInfo.getStatus())) {
-                        redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
+                        redisTemplate.opsForValue().set(VerifyInfoConstant.LOGIN_VERIFY_CODE + mobile, smsVerifyCode, 3 * 60, TimeUnit.SECONDS);
                         MessageDTO m = messageManager.sendMobileCode(messageDTO);
-                        return new ResultBean("1","短信发送成功");
+                        return ResultData.success("短信发送成功");
                     }
                 }
-                return new ResultBean("0","该业务员账号无效");
+                return ResultData.error("该业务员账号无效");
             }
         }
 
-       return new ResultBean("0","请检查管理员手机号是否输入正确！");
+        return ResultData.error("请检查管理员手机号是否输入正确！");
     }
 
     /**
      * 管理员/业务员
      * 忘记密码接口
+     *
      * @param request
      * @param messageDTO
      * @return
      */
     @RequestMapping("modifyPassword")
-    public ResultBean modifyPassword(HttpServletRequest request, MessageDTO messageDTO){
+    public ResultData modifyPassword(HttpServletRequest request, MessageDTO messageDTO) {
         String mobile = request.getParameter("mobile");//服务商（管理员）手机号
         String roleCode = request.getParameter("roleCode");//角色（agent）
         String clientIp = request.getRemoteAddr();
@@ -175,52 +179,53 @@ public class CommonController {
             UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
             if (userInfo.getCustId() != null) {
                 //redis存储验证码
-                redisTemplate.opsForValue().set(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE + mobile, smsVerifyCode, 3 * 60, TimeUnit.SECONDS);
                 MessageDTO m = messageManager.sendMobileCode(messageDTO);
-                return new ResultBean("1","短信发送成功");
+                return ResultData.success("短信发送成功");
             }
-            return new ResultBean("0","请检查管理员手机号是否输入正确！");
+            return ResultData.error("请检查管理员手机号是否输入正确！");
         }
-        if ("salesman".equals(roleCode)){
+        if ("salesman".equals(roleCode)) {
             //登录查询该业务员手机号是否有启用（只能有一个，该操作在业务员管理做了限制）
             TdSalesmanInfo tdSalesmanInfo1 = new TdSalesmanInfo();
             tdSalesmanInfo1.setUserPhone(mobile);
             List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(tdSalesmanInfo1);
             for (TdSalesmanInfo tdSalesmanInfo : tdSalesmanInfos) {
-                if ("1".equals(tdSalesmanInfo.getStatus())){
+                if ("1".equals(tdSalesmanInfo.getStatus())) {
                     //redis存储验证码
-                    redisTemplate.opsForValue().set(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE+mobile, smsVerifyCode,3*60, TimeUnit.SECONDS);
+                    redisTemplate.opsForValue().set(VerifyInfoConstant.FORGETPASSWORD_VERIFY_CODE + mobile, smsVerifyCode, 3 * 60, TimeUnit.SECONDS);
                     MessageDTO m = messageManager.sendMobileCode(messageDTO);
-                    return new ResultBean("1","短信发送成功");
+                    return ResultData.success("短信发送成功");
                 }
             }
-            return new ResultBean("0","请检查业务员手机号是否输入正确！");
+            return ResultData.error("请检查业务员手机号是否输入正确！");
         }
-        return new ResultBean("0","短信发送失败");
+        return ResultData.error("短信发送失败");
     }
 
     /**
      * 用户反馈中心
+     *
      * @param request
      * @param response
      * @return
      */
     @RequestMapping("cashierAdviseMsg")
-    public ResultBean processRequest(HttpServletRequest request, HttpServletResponse response, String adviseContent){
+    public ResultData processRequest(HttpServletRequest request, HttpServletResponse response, String adviseContent) {
         String adviserMobile = request.getParameter("adviserMobile");
         String email = "kefu@szgyzb.com";
 
-        String[] tos = new String[]{ email };
+        String[] tos = new String[]{email};
         MailConfig config = new MailConfig();
         config.setTos(tos);
         config.setSubject("七分钱服务商-业务员建议留言");
         config.setContent("<html><body><p>客户手机号码：" + adviserMobile + "</p><p> 客户建议留言:"
-                + adviseContent + "</p>"+"</body></html>");
+                + adviseContent + "</p>" + "</body></html>");
         boolean b = messageManager.doMailSend(config);
-        if (b){
-            return new ResultBean("1","提交成功");
+        if (b) {
+            return ResultData.success("提交成功");
         }
-        return new ResultBean("0","提交失败");
+        return ResultData.error("提交失败");
 
     }
 }

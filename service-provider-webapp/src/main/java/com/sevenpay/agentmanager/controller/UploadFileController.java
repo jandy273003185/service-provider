@@ -1,7 +1,8 @@
 package com.sevenpay.agentmanager.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sevenpay.agentmanager.pojo.ResultBean;
+import com.sevenpay.agentmanager.core.bean.ResultData;
+import com.sevenpay.agentmanager.core.exception.BizException;
 import com.sevenpay.agentmanager.utils.DateUtils;
 import com.sevenpay.agentmanager.utils.YouTuUtils;
 import org.slf4j.Logger;
@@ -43,12 +44,12 @@ public class UploadFileController {
 
     @PostMapping("upload")
     @ResponseBody
-    public ResultBean fileUpload(@RequestParam("file")MultipartFile file){
+    public ResultData fileUpload(@RequestParam("file") MultipartFile file) {
 
         // 获取文件名后缀名
         String suffix = file.getOriginalFilename();
         String prefix = suffix.substring(suffix.lastIndexOf("."));
-        String Filename = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","");
+        String Filename = DateUtils.getDateStr8() + "_" + UUID.randomUUID().toString().replaceAll("-", "");
         if (!file.isEmpty()) {//文件不为空
             try {
                 //上传路径
@@ -57,22 +58,23 @@ public class UploadFileController {
                 // 转存文件
                 file.transferTo(saveDir);
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("imagePath",Filename+prefix);
-                jsonObject.put("uri",uri);
-                jsonObject.put("url",new StringBuilder(relativePath).append(Filename).append(prefix));
-                return new ResultBean("200",jsonObject.toJSONString());
+                jsonObject.put("imagePath", Filename + prefix);
+                jsonObject.put("uri", uri);
+                jsonObject.put("url", new StringBuilder(relativePath).append(Filename).append(prefix));
+                return ResultData.success(jsonObject.toJSONString());
             } catch (IOException e) {
                 e.printStackTrace();
                 logger.error("上传失败");
             }
         }
         logger.error("上传文件为空");
-        return new ResultBean("404","网络延迟，请重新提交");
+        return ResultData.error("网络延迟，请重新提交");
 
     }
 
     /**
      * 优图解析，并上传到本地
+     *
      * @return
      */
     @RequestMapping("youTu")
@@ -86,19 +88,18 @@ public class UploadFileController {
             //文件base64字符串
             String base64String = request.getParameter("str");
             //图片标识
-            String str = base64String.substring(base64String.lastIndexOf(",")+1);
+            String str = base64String.substring(base64String.lastIndexOf(",") + 1);
             String flag = request.getParameter("flag");
             logger.info("********************图片上传中********************");
             //图片上传，返回路径
-            ResultBean<String[]> resultBean = BASE64CodeToBeImage(base64String);
-            String[] resultMsg = resultBean.getResultMsg();
+            String[] resultMsg = BASE64CodeToBeImage(base64String);
             logger.info("********************图片解析中********************");
             //解析图片，返回图片信息
             object = youto.youTu(str, flag);
             logger.info("********************图片解析成功********************");
-            object.put("imagePath",resultMsg[1]);
-            object.put("uri",uri);
-            object.put("url",new StringBuilder(relativePath).append(resultMsg[1]));
+            object.put("imagePath", resultMsg[1]);
+            object.put("uri", uri);
+            object.put("url", new StringBuilder(relativePath).append(resultMsg[1]));
         } catch (Exception e) {
             logger.error("解析图片出现问题" + e);
             object.put("result", "FAIL");
@@ -109,35 +110,36 @@ public class UploadFileController {
 
     /**
      * base64转图片
+     *
      * @param str bas64字符串
      * @return 存储地址
      */
-    public ResultBean<String[]> BASE64CodeToBeImage(String str){
-        String BASE64str = str.substring(str.lastIndexOf(",")+1);
+    public String[] BASE64CodeToBeImage(String str) {
+        String BASE64str = str.substring(str.lastIndexOf(",") + 1);
         //统一图片后缀
-        String ext = str.substring(str.indexOf("/")+1,str.indexOf(";"));
+        String ext = str.substring(str.indexOf("/") + 1, str.indexOf(";"));
         //文件名称
-        String uploadFileName = DateUtils.getDateStr8()+"_"+UUID.randomUUID().toString().replaceAll("-","") + "."+ext;
+        String uploadFileName = DateUtils.getDateStr8() + "_" + UUID.randomUUID().toString().replaceAll("-", "") + "." + ext;
         //存储地址
         StringBuilder path = new StringBuilder(absolutePaths).append("/").append(uploadFileName);//路径读取不到
         File saveFile = new File(String.valueOf(path));
         Decoder decoder = Base64.getDecoder();
-        try(OutputStream out = new FileOutputStream(saveFile)){
+        try (OutputStream out = new FileOutputStream(saveFile)) {
             byte[] b = decoder.decode(BASE64str);
-            for (int i = 0; i <b.length ; i++) {
-                if (b[i] <0) {
-                    b[i]+=256;
+            for (int i = 0; i < b.length; i++) {
+                if (b[i] < 0) {
+                    b[i] += 256;
                 }
             }
             out.write(b);
             out.flush();
-            String[] result ={path+uploadFileName,uploadFileName};
+            String[] result = {path + uploadFileName, uploadFileName};
             logger.info("********************图片上传成功********************");
-            return  new ResultBean<>("",result);
-        }catch (Exception e){
+            return result;
+        } catch (Exception e) {
             e.printStackTrace();
             logger.info("********************图片上传失败********************");
-            return new ResultBean<>("图片上传失败，请重新上传",null);
+            throw new BizException("图片上传失败，请重新上传");
         }
     }
 }

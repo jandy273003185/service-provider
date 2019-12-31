@@ -1,6 +1,6 @@
 package com.sevenpay.agentmanager.controller;
 
-import com.sevenpay.agentmanager.pojo.ResultBean;
+import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.utils.wx.AuthUtil;
 import net.sf.json.JSONObject;
 
@@ -29,11 +29,12 @@ import java.util.Map;
 @Controller
 @RequestMapping("wx")
 public class WxController {
-	
-	private final static  Logger LOGGER = LoggerFactory.getLogger(WxController.class);
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(WxController.class);
 
     /**
      * 切换开发者模式
+     *
      * @param signature
      * @param timestamp
      * @param nonce
@@ -43,14 +44,14 @@ public class WxController {
      * @throws NoSuchAlgorithmException
      */
     @GetMapping("/get")
-    public void get(String signature,String timestamp,String nonce,String echostr, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
+    public void get(String signature, String timestamp, String nonce, String echostr, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
         // 将token、timestamp、nonce三个参数进行字典序排序
-        
-        if(LOGGER.isDebugEnabled()) {
-        	LOGGER.debug("signature:{}, timestamp:{}, nonce:{}, echostr:{}, TOKEN:{}", signature,timestamp,nonce,echostr,AuthUtil.TOKEN);
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("signature:{}, timestamp:{}, nonce:{}, echostr:{}, TOKEN:{}", signature, timestamp, nonce, echostr, AuthUtil.TOKEN);
         }
-        
-        String[] params = new String[] { AuthUtil.TOKEN, timestamp, nonce };
+
+        String[] params = new String[]{AuthUtil.TOKEN, timestamp, nonce};
         Arrays.sort(params);
         // 将三个参数字符串拼接成一个字符串进行sha1加密
         String clearText = params[0] + params[1] + params[2];
@@ -65,6 +66,7 @@ public class WxController {
 
     /**
      * 公众号微信登录授权
+     *
      * @return
      */
     @GetMapping("/accredit")
@@ -72,37 +74,38 @@ public class WxController {
         //url回调地址
         String backUrl = "https://sp.qifenqian.com/wx/callback";
         //1、用户同意授权，获取code
-        String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+ AuthUtil.APP_ID
-                + "&redirect_uri="+ URLEncoder.encode(backUrl,"UTF-8")
+        String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + AuthUtil.APP_ID
+                + "&redirect_uri=" + URLEncoder.encode(backUrl, "UTF-8")
                 + "&response_type=code"
                 + "&scope=snsapi_userinfo"
                 + "&state=STATE#wechat_redirect";
         //logger.info("forward重定向地址{" + url + "}");
-        return "redirect:"+url  ;//必须重定向，否则不能成功
+        return "redirect:" + url;//必须重定向，否则不能成功
     }
 
     /**
      * 公众号微信登录授权回调函数
+     *
      * @param req
      * @return
      */
     @RequestMapping("/callback")
     @ResponseBody
-    public ResultBean<?> callBack(HttpServletRequest req) throws Exception {
+    public ResultData callBack(HttpServletRequest req) throws Exception {
         //1、获取微信用户的基本信息
         String code = req.getParameter("code");
         //2、通过code获取网页授权access_token
-        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+AuthUtil.APP_ID
-                + "&secret="+AuthUtil.APP_SECRET
-                + "&code="+code
+        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + AuthUtil.APP_ID
+                + "&secret=" + AuthUtil.APP_SECRET
+                + "&code=" + code
                 + "&grant_type=authorization_code";
         String result = AuthUtil.getUrlData(url);
         //3、获取用户的openid和access_token
-        Map<String,Object> data = JSONObject.fromObject(result);
-        String openId=data.get("openid").toString();
+        Map<String, Object> data = JSONObject.fromObject(result);
+        String openId = data.get("openid").toString();
         //String token=data.get("access_token").toString();
 
-        return new ResultBean<String>("1",openId);
+        return ResultData.success(openId);
     }
 
 
