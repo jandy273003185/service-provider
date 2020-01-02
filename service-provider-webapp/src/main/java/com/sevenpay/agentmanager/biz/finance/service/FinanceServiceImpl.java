@@ -121,4 +121,15 @@ public class FinanceServiceImpl {
     }
 
 
+    /**
+     * 根据财务员编号查询收银员信息
+     * @param financeId
+     * @return
+     */
+    public FinanceInfo queryFinanceInfoByFinanceId(String financeId){
+
+        return financeManageService.queryFinanceInfoByFinanceId(financeId);
+    }
+
+
 }
