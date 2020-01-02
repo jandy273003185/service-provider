@@ -9,7 +9,6 @@ package com.sevenpay.agentmanager.core.bean;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ResultData extends HashMap<String, Object> implements Serializable {
     public ResultData() {
@@ -62,14 +61,7 @@ public class ResultData extends HashMap<String, Object> implements Serializable 
         ResultData resultData = new ResultData();
         resultData.put("code", 200);
         resultData.put("msg", "操作成功");
-//        resultData.put("msg", "");
         resultData.put("data", obj);
-        return resultData;
-    }
-
-    public static ResultData success(Map<String, Object> map) {
-        ResultData resultData = new ResultData();
-        resultData.putAll(map);
         return resultData;
     }
 
