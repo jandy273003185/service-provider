@@ -1,19 +1,19 @@
 package com.sevenpay.agentmanager.common.jwt;
 
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.sevenpay.agentmanager.core.bean.ResultData;
-import org.apache.shiro.authc.AuthenticationException;
+import com.sevenpay.agentmanager.core.constants.ExceptionConstants;
+import com.sevenpay.agentmanager.core.exception.BizException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 /**
@@ -39,23 +39,14 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader("token");
         if (token == null) {
-            return false;
+            throw new BizException("Token不能为空!");
         }
         JwtToken jwtToken = new JwtToken(token);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
-        try {
-            getSubject(request, response).login(jwtToken);
-            // 如果没有抛出异常则代表登入成功，返回true
-            return true;
-        } catch (AuthenticationException e) {
-            ResultData responseData = ResultData.error("没有访问权限，原因是:" + e.getMessage());
-            //SerializerFeature.WriteMapNullValue为了null属性也输出json的键值对
-            Object o = JSONObject.toJSONString(responseData, SerializerFeature.WriteMapNullValue);
-            response.setCharacterEncoding("utf-8");
-            response.getWriter().print(o);
-            return false;
-        }
 
+        getSubject(request, response).login(jwtToken);
+        // 如果没有抛出异常则代表登入成功，返回true
+        return true;
     }
 
     /**
@@ -70,9 +61,16 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         try {
             return executeLogin(request, response);
-            // return true;有一篇博客这里直接返回true是不正确的,在这里我特别指出一下
         } catch (Exception e) {
-            System.out.println("JwtFilter过滤验证失败!");
+            // 发生异常，保存异常栈
+            request.setAttribute(ExceptionConstants.EXCEPTION_ATTR_KEY, e);
+            try {
+                request.getRequestDispatcher(ExceptionConstants.EXCEPTION_URL).forward(request, response);
+            } catch (ServletException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             return false;
         }
     }
