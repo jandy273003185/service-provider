@@ -25,7 +25,7 @@ public abstract class AbstractBaseController {
     /**
      * 捕获所有异常，进行json封装返回
      */
-    @ExceptionHandler(value = BizException.class)
+    @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.OK)
     public void resolveException(Exception ex, HttpServletResponse response) {
         // TODO 目前不进行异常甄别 所有异常都采取code msg data的形式返回
@@ -39,6 +39,8 @@ public abstract class AbstractBaseController {
             }
             msg = ex.getMessage();
             logger.info("错误提示：" + ex.getMessage(), ex);
+        } else {
+            msg += ex.getMessage();
         }
         ResultData resultData = ResultData.error(code, msg);
         String responseStr = JSONObject.toJSONString(resultData);

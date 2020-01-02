@@ -9,17 +9,18 @@ import java.io.Serializable;
  * Date：2020/1/2 1:53 下午
  */
 public class BaseCondition implements Serializable {
+    private static final long serialVersionUID = 7018475839087842282L;
     /*每页条数*/
-    private int pageNo = 1;
+    private int pageNum = 1;
     /*每页条数*/
     private int pageSize = 10;
 
-    public int getPageNo() {
-        return pageNo;
+    public int getPageNum() {
+        return pageNum;
     }
 
-    public void setPageNo(int pageNo) {
-        this.pageNo = pageNo;
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
     }
 
     public int getPageSize() {

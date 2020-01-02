@@ -86,12 +86,10 @@ public class AgentController extends AbstractBaseController {
                                            String roleId) {
         int page = (pageNum - 1) * pageSize;
 
-        Pager<TdCustInfo> pager = new Pager<TdCustInfo>();
+        Pager<TdCustInfo> pager = new Pager<>();
         List<TdCustInfo> list = commerService.selectCommercialInfo(userId, custName, stateCode, filingAuditStatus, queryStartDate, queryEndDate, pageSize, page, roleId);
-
         pager.setData(list);
         pager.setTotal(commerService.selectCommercialInfoCount(userId, custName, stateCode, filingAuditStatus, queryStartDate, queryEndDate, pageSize, page, roleId));
-
         return ResultData.success(pager);
 
 
