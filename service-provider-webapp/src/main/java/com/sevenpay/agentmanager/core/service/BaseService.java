@@ -1,6 +1,6 @@
 package com.sevenpay.agentmanager.core.service;
 
-import com.sevenpay.agentmanager.utils.redis.RedisUtils;
+import com.sevenpay.agentmanager.common.utils.redis.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
