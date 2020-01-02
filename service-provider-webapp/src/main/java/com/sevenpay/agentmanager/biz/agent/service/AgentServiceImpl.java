@@ -3,7 +3,7 @@ package com.sevenpay.agentmanager.biz.agent.service;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.qifenqian.app.bean.dto.trade.PayAndRefundBean;
 import com.qifenqian.app.trade.PayOrderService;
-import com.sevenpay.agentmanager.biz.agent.bean.domain.MerchantDO;
+import com.sevenpay.agentmanager.biz.agent.bean.condition.MerchantCondition;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.service.BaseService;
 import org.springframework.beans.BeanUtils;
@@ -25,15 +25,15 @@ public class AgentServiceImpl extends BaseService {
     private PayOrderService payOrderService;
 
     /** 
-     * @description: 
+     * @description: 查询商户支付信息
      * @author: LiBin
      * @params [merchantDO]
      * @date: 2020-01-02 10:56:07
      */ 
     
-    public ResultData agentService(MerchantDO merchantDO) {
+    public ResultData getSPMerchantOrderList(MerchantCondition merchantCondition) {
         PayAndRefundBean payAndRefundBean = new PayAndRefundBean();
-        BeanUtils.copyProperties(merchantDO, payAndRefundBean);
+        BeanUtils.copyProperties(merchantCondition, payAndRefundBean);
         List<PayAndRefundBean> payAndRefundBeans = payOrderService.getPayOrderAndRefundByBean(payAndRefundBean);
         return ResultData.success(payAndRefundBeans);
     }

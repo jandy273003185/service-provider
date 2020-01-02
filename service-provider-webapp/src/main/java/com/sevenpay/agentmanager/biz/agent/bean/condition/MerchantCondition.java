@@ -1,4 +1,6 @@
-package com.sevenpay.agentmanager.biz.agent.bean.domain;
+package com.sevenpay.agentmanager.biz.agent.bean.condition;
+
+import com.sevenpay.agentmanager.core.bean.BaseCondition;
 
 import java.io.Serializable;
 
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * Author: LiBin
  * Date：2020/1/2 10:52 上午
  */
-public class MerchantDO implements Serializable {
+public class MerchantCondition extends BaseCondition implements Serializable {
     private static final long serialVersionUID = 2639642722366749021L;
 
     /**

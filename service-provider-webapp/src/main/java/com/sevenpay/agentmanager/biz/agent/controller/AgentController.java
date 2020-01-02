@@ -9,7 +9,7 @@ import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.merchant.CommercialService;
 import com.qifenqian.app.product.ProductInfoService;
 import com.qifenqian.app.user.TdLoginUserInfoService;
-import com.sevenpay.agentmanager.biz.agent.bean.domain.MerchantDO;
+import com.sevenpay.agentmanager.biz.agent.bean.condition.MerchantCondition;
 import com.sevenpay.agentmanager.biz.agent.service.AgentServiceImpl;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.controller.AbstractBaseController;
@@ -20,6 +20,7 @@ import com.sevenpay.agentmanager.common.utils.AddTdMerchantProductInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -119,18 +120,18 @@ public class AgentController extends AbstractBaseController {
      * @return: com.sevenpay.agentmanager.core.bean.ResultData
      * @date: 2020-01-02 10:26:05
      */
-    @RequestMapping("getSPMerchantList")
-    public ResultData getSPMerchantList(MerchantDO merchantDO) {
-        if (StringUtils.isBlank(merchantDO.getMchId())) {
+    @RequestMapping("getSPMerchantOrderList")
+    public ResultData getSPMerchantList(@RequestBody MerchantCondition merchantCondition) {
+        if (StringUtils.isBlank(merchantCondition.getMchId())) {
             throw new BizException("商户ID不能为空!");
         }
-        if (StringUtils.isBlank(merchantDO.getQueryStartDate())) {
+        if (StringUtils.isBlank(merchantCondition.getQueryStartDate())) {
             throw new BizException("查询时间不能为空!");
         }
-        if (StringUtils.isBlank(merchantDO.getQueryEndDate())) {
+        if (StringUtils.isBlank(merchantCondition.getQueryEndDate())) {
             throw new BizException("查询时间不能为空!");
         }
-        return agentService.agentService(merchantDO);
+        return agentService.getSPMerchantOrderList(merchantCondition);
     }
 
 
