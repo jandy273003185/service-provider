@@ -31,9 +31,6 @@ public class FinanceServiceImpl {
         /* 默认登陆密码 */
         financeInfo.setLoginPw("123456");
 
-        /* 默认生效 */
-        financeInfo.setStatus("1");
-
         /* 没有退款权限 */
         financeInfo.setRefundAuth("0");
 
@@ -55,7 +52,7 @@ public class FinanceServiceImpl {
             throw new BizException("DUBBO接口异常" + e.getMessage());
         }
 
-        return ResultData.error("添加出错");
+        return ResultData.error("不能重复添加");
     }
 
 
@@ -132,5 +129,24 @@ public class FinanceServiceImpl {
         return financeManageService.queryFinanceInfoByFinanceId(financeId);
     }
 
+
+    /**
+     * 校验手机号
+     * @param mobile
+     * @param custId
+     * @return
+     */
+    public ResultData validate(String mobile, String custId){
+
+        try {
+            boolean result = financeManageService.validate(mobile, custId);
+            if (result) {
+                return ResultData.success("不可以绑定");
+            }
+        } catch (Exception e) {
+            throw new BizException("DUBBO接口异常" + e.getMessage());
+        }
+        return ResultData.success("可以绑定");
+    }
 
 }

@@ -6,6 +6,7 @@ import com.sevenpay.agentmanager.biz.finance.service.FinanceServiceImpl;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.controller.AbstractBaseController;
 import com.sevenpay.agentmanager.core.exception.BizException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,13 +32,13 @@ public class FinanceController extends AbstractBaseController {
     @RequestMapping(value = "addFinance")
     public ResultData addFinance(FinanceInfo financeInfo){
 
-        if(null == financeInfo.getFinanceMobile()){
+        if(StringUtils.isBlank(financeInfo.getFinanceMobile())){
             throw new BizException("手机不能为空~");
         }
-        if(null == financeInfo.getFinanceName()){
+        if(StringUtils.isBlank(financeInfo.getFinanceName())){
             throw new BizException("姓名不能为空~");
         }
-        if(null == financeInfo.getCustId()){
+        if(StringUtils.isBlank(financeInfo.getCustId())){
             throw new BizException("服务商id不能为空~");
         }
 
@@ -54,7 +55,7 @@ public class FinanceController extends AbstractBaseController {
     @RequestMapping(value = "getFinanceList")
     public ResultData getFinanceList(String custId){
 
-        if(custId.equals("")||null == custId){
+        if(StringUtils.isBlank(custId)){
             throw new BizException("服务商id不能为空~");
         }
 
@@ -77,13 +78,13 @@ public class FinanceController extends AbstractBaseController {
      */
     @RequestMapping(value = "updateFinancePw")
     public ResultData updateFinancePw(String financeId, String refundPw, String refundNewPw, String loginPw, String loginNewPw){
-        if(null == financeId){
+        if(StringUtils.isBlank(financeId)){
             throw new BizException("财务员id不能为空~");
         }
-        if(null == loginPw){
+        if(StringUtils.isBlank(loginPw)){
             throw new BizException("原密码不能为空~");
         }
-        if(null == loginNewPw){
+        if(StringUtils.isBlank(loginNewPw)){
             throw new BizException("新密码不能为空~");
         }
 
@@ -100,7 +101,7 @@ public class FinanceController extends AbstractBaseController {
      */
     @RequestMapping(value = "resetFinancePw")
     public ResultData resetFinancePw(FinanceInfo financeInfo){
-        if(null == financeInfo.getFinanceId()){
+        if(StringUtils.isBlank(financeInfo.getFinanceId())){
             throw new BizException("财务员id不能为空~");
         }
         financeInfo.setLoginPw("123456");
@@ -108,6 +109,23 @@ public class FinanceController extends AbstractBaseController {
     }
 
 
+    /**
+     *
+     * @param mobile
+     * @param custId
+     * @return
+     */
+    @RequestMapping(value = "validate")
+    public ResultData validate(String mobile, String custId){
+        if(StringUtils.isBlank(mobile)){
+            throw new BizException("手机号不能为空~");
+        }
+        if(StringUtils.isBlank(custId)){
+            throw new BizException("custId不能为空~");
+        }
+
+        return  financeService.validate(mobile,custId);
+    }
 
 
 
