@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.exception.BizException;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,8 @@ public abstract class AbstractBaseController {
             }
             msg = ex.getMessage();
             logger.info("错误提示：" + ex.getMessage(), ex);
+        } else if (ex instanceof AuthenticationException) {
+            msg = ex.getCause().getMessage();
         } else {
             msg += ex.getMessage();
         }
