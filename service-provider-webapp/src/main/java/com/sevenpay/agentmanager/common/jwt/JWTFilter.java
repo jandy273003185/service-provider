@@ -1,7 +1,7 @@
 package com.sevenpay.agentmanager.common.jwt;
 
 
-import com.sevenpay.agentmanager.core.constants.ExceptionConstants;
+import com.sevenpay.agentmanager.common.constants.ExceptionConstants;
 import com.sevenpay.agentmanager.core.exception.BizException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;

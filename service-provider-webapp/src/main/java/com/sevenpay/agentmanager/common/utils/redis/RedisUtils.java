@@ -187,6 +187,21 @@ public class RedisUtils {
     }
 
     /**
+     * 自增自减
+     * @param key
+     * @param delta
+     * @return
+     */
+    public Long setIncrement(String key,Long delta){
+        key = this.makeRedisKey(key);
+        if (delta == 0) {
+            throw new RuntimeException("自增自减参数不能为空！");
+        }
+        Long count = redisTemplate.opsForValue().increment(key,delta);
+        return count;
+    }
+
+    /**
      * 构造key
      *
      * @param key

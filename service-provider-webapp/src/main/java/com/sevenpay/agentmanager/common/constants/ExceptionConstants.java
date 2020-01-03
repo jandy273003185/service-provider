@@ -1,4 +1,4 @@
-package com.sevenpay.agentmanager.core.constants;
+package com.sevenpay.agentmanager.common.constants;
 
 /**
  * ClassName：ExceptionContents

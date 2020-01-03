@@ -1,6 +1,6 @@
 package com.sevenpay.agentmanager.core.controller;
 
-import com.sevenpay.agentmanager.core.constants.ExceptionConstants;
+import com.sevenpay.agentmanager.common.constants.ExceptionConstants;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
