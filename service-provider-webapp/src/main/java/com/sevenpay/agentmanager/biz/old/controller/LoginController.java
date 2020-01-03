@@ -2,9 +2,7 @@ package com.sevenpay.agentmanager.biz.old.controller;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.qifenqian.app.bean.TdCustInfo;
 import com.qifenqian.app.bean.UserLoginRelate;
-import com.qifenqian.app.bean.customer.FinanceInfo;
 import com.qifenqian.app.bean.customer.TdSalesmanInfo;
 import com.qifenqian.app.bean.dto.UserDTO;
 import com.qifenqian.app.customer.MerchantStatusService;
@@ -16,17 +14,13 @@ import com.sevenpay.agentmanager.biz.old.service.LoginServiceImpl;
 import com.sevenpay.agentmanager.common.constants.CacheConstants;
 import com.sevenpay.agentmanager.common.utils.redis.RedisUtils;
 import com.sevenpay.agentmanager.common.utils.verfycode.VerifyInfoConstant;
-import com.sevenpay.agentmanager.common.jwt.JWTUtil;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.exception.BizException;
-import com.sevenpay.agentmanager.common.pojo.LoginUser;
-import com.sevenpay.external.app.common.util.MD5Security;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +28,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 服务商/业务员
@@ -171,26 +163,20 @@ public class LoginController {
 
     /**
      * 第一步登陆
-     *
-     * @param openId
-     * @return
      */
     @RequestMapping("/login")
-    public ResultData login(String openId, String roleId) {
-        if (openId == null) {
+    public ResultData loginByOpenId(UserLoginRelate reqLoginBean) {
+        if (StringUtils.isBlank(reqLoginBean.getOpenId())) {
             throw new BizException("openId不能为空!");
         }
-        if (roleId == null){
-            throw new BizException("roleId不能为空!");
+        if (StringUtils.isBlank(reqLoginBean.getUserType())){
+            throw new BizException("角色异常,重新进入页面!");
         }
-        //封装参数
-        UserLoginRelate reqLoginBean = new UserLoginRelate();
-        reqLoginBean.setOpenId(openId);
-        reqLoginBean.setUserType(roleId);
+        if (StringUtils.isBlank(reqLoginBean.getUserId())){
+            throw new BizException("用户Id不能为空！");
+        }
         //openId获取信息
-        ResultData resultData = loginService.loginByOpenId(reqLoginBean);
-
-        return resultData;
+        return loginService.loginByOpenId(reqLoginBean);
     }
 
     /**
@@ -202,20 +188,19 @@ public class LoginController {
      */
     @RequestMapping("/smsSpLogin")
     public ResultData smsSpLoginBanding(String mobile, String roleCode, String openId, String verifyCode) {
-        if (mobile == null) {
+        if (StringUtils.isBlank(mobile)) {
             throw new BizException("手机号不能为空！");
         }
-        if (roleCode == null) {
+        if (StringUtils.isBlank(roleCode)) {
             throw new BizException("角色异常,请重新进入页面！");
         }
-        if (openId == null){
+        if (StringUtils.isBlank(openId)){
             throw new BizException("参数openId不能为空！");
         }
-        if (verifyCode == null) {
+        if (StringUtils.isBlank(verifyCode)) {
             throw new BizException("验证码不能为空！");
         }
-        ResultData resultData = loginService.smsAgentBanding(mobile,roleCode,openId,verifyCode);
-        return resultData;
+        return loginService.smsAgentBanding(mobile,roleCode,openId,verifyCode);
     }
 
 
@@ -228,20 +213,19 @@ public class LoginController {
      */
     @RequestMapping("/financeLogin")
     public ResultData financeLoginBanding(String mobile, String roleCode, String openId, String verifyCode) {
-        if (mobile == null) {
+        if (StringUtils.isBlank(mobile)) {
             throw new BizException("手机号不能为空！");
         }
-        if (roleCode == null) {
+        if (StringUtils.isBlank(roleCode)) {
             throw new BizException("角色异常,请重新进入页面！");
         }
-        if (openId == null){
+        if (StringUtils.isBlank(openId)){
             throw new BizException("参数openId不能为空！");
         }
-        if (verifyCode == null) {
+        if (StringUtils.isBlank(verifyCode)) {
             throw new BizException("验证码不能为空！");
         }
-        ResultData resultData = loginService.smsAgentBanding(mobile,roleCode,openId,verifyCode);
-        return resultData;
+        return loginService.smsAgentBanding(mobile,roleCode,openId,verifyCode);
     }
 
 
@@ -254,21 +238,35 @@ public class LoginController {
      */
     @RequestMapping("/smsSmLogin")
     public ResultData smsSmLoginBanding(String mobile, String roleCode, String openId, String verifyCode) {
-        if (mobile == null) {
+        if (StringUtils.isBlank(mobile)) {
             throw new BizException("手机号不能为空！");
         }
-        if (roleCode == null) {
+        if (StringUtils.isBlank(roleCode)) {
             throw new BizException("角色异常,请重新进入页面！");
         }
-        if (openId == null){
+        if (StringUtils.isBlank(openId)){
             throw new BizException("参数openId不能为空！");
         }
-        if (verifyCode == null) {
+        if (StringUtils.isBlank(verifyCode)) {
             throw new BizException("验证码不能为空！");
         }
-        ResultData resultData = loginService.smsSalesmanBanding(mobile,roleCode,openId,verifyCode);
-        return resultData;
+        return loginService.smsSalesmanBanding(mobile,roleCode,openId,verifyCode);
     }
+
+
+    /**
+     * 根据角色查询绑定集合（未冻结）
+     */
+    public ResultData getBindingList(String openId, String roleCode) {
+        if (StringUtils.isBlank(openId)) {
+            throw new BizException("手机号不能为空！");
+        }
+        if (StringUtils.isBlank(roleCode)) {
+            throw new BizException("角色异常,请重新进入页面！");
+        }
+        return loginService.getBindingList(roleCode,openId);
+    }
+
 
     /**
      * 管理员（服务商）修改密码接口
