@@ -1,7 +1,6 @@
 package com.sevenpay.agentmanager.biz.old.service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.qifenqian.app.bean.TdCustInfo;
 import com.qifenqian.app.bean.UserLoginRelate;
 import com.qifenqian.app.bean.customer.FinanceInfo;
 import com.qifenqian.app.bean.customer.TdSalesmanInfo;
@@ -62,22 +61,17 @@ public class LoginServiceImpl extends BaseService {
             throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
         }
 
-        UserLoginRelate userLoginRelate = new UserLoginRelate();
-        userLoginRelate.setUserType(roleCode);
-        userLoginRelate.setOpenId(openId);
         UserLoginRelate ifbing = loginManagerService.selectEntOpenid(openId, roleCode, userName);
         if (ifbing != null) {
-            if (ifbing.getIfUnbind().equals("0")) {
-                ifbing.setUserId(userInfo.getCustId());
-                ifbing.setLoginType("1");
-                ifbing.setIfUnbind("1");
-                loginManagerService.updateBindingInfo(ifbing);
-            }
+            ifbing.setIfUnbind("1");
+            loginManagerService.updateBindingInfo(ifbing);
         } else {
-            userLoginRelate.setUserId(userInfo.getCustId());
-            userLoginRelate.setLoginType("1");
-            userLoginRelate.setIfUnbind("1");
-            loginManagerService.userBinding(userLoginRelate);//用户绑定openId
+            ifbing.setUserType(roleCode);
+            ifbing.setOpenId(openId);
+            ifbing.setUserId(userInfo.getCustId());
+            ifbing.setLoginType("1");
+            ifbing.setIfUnbind("1");
+            loginManagerService.userBinding(ifbing);//用户绑定openId
         }
     }
 
@@ -105,21 +99,15 @@ public class LoginServiceImpl extends BaseService {
         UserLoginRelate ifbing = loginManagerService.selectEntOpenid(openId, roleCode, userName);
         if (ifbing != null) {
             ifbing.setIfUnbind("1");
+            loginManagerService.updateBindingInfo(ifbing);
+        } else {
             ifbing.setUserId(userInfo.getSalesmanId());
             ifbing.setCustId(userInfo.getCustId());
             ifbing.setOpenId(openId);
             ifbing.setLoginType("1");
             ifbing.setUserType(roleCode);
-            loginManagerService.updateBindingInfo(ifbing);
-        } else {
-            UserLoginRelate userLoginRelate = new UserLoginRelate();
-            userLoginRelate.setUserId(userInfo.getSalesmanId());
-            userLoginRelate.setCustId(userInfo.getCustId());
-            userLoginRelate.setOpenId(openId);
-            userLoginRelate.setLoginType("1");
-            userLoginRelate.setUserType(roleCode);
-            userLoginRelate.setIfUnbind("1");
-            loginManagerService.userBinding(userLoginRelate);//用户绑定openId
+            ifbing.setIfUnbind("1");
+            loginManagerService.userBinding(ifbing);//用户绑定openId
         }
     }
 
@@ -138,22 +126,15 @@ public class LoginServiceImpl extends BaseService {
         }
         UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode);//查询是否有绑定openId
         if (ifbing != null) {
-            if (ifbing.getIfUnbind().equals("0")) {
-                ifbing.setUserId(financeInfo.getFinanceId());
-                ifbing.setOpenId(openId);
-                ifbing.setLoginType("1");
-                ifbing.setUserType(roleCode);
-                ifbing.setIfUnbind("1");
-                loginManagerService.updateBindingInfo(ifbing);
-            }
+            ifbing.setIfUnbind("1");
+            loginManagerService.updateBindingInfo(ifbing);
         } else {
-            UserLoginRelate userLoginRelate = new UserLoginRelate();
-            userLoginRelate.setUserId(financeInfo.getFinanceId());
-            userLoginRelate.setOpenId(openId);
-            userLoginRelate.setLoginType("1");
-            userLoginRelate.setUserType(roleCode);
-            userLoginRelate.setIfUnbind("1");
-            loginManagerService.userBinding(userLoginRelate);//用户绑定openId
+            ifbing.setUserId(financeInfo.getFinanceId());
+            ifbing.setOpenId(openId);
+            ifbing.setLoginType("1");
+            ifbing.setUserType(roleCode);
+            ifbing.setIfUnbind("1");
+            loginManagerService.userBinding(ifbing);//用户绑定openId
         }
     }
 
@@ -201,27 +182,24 @@ public class LoginServiceImpl extends BaseService {
             case "agent":
                 Map<String, Object> agentInfo = merchantStatusService.getMerchantInfoByCustId(respInfo.getUserId());
                 loginUser.setUserInfo(agentInfo);
-                //根据用户编号和密码加密生成token
-                String agentToken = JWTUtil.sign(respInfo.getUserId(), respInfo.getOpenId());
-                loginUser.setToken(agentToken);
                 break;
             case "salesman":
                 TdSalesmanInfo salesmanInfo = salesmanManagerService.getTdSalesmanInfoById(respInfo.getUserId());
                 loginUser.setUserInfo(salesmanInfo);
-                //根据用户编号和密码加密生成token
-                String salesmanToken = JWTUtil.sign(respInfo.getUserId(), respInfo.getOpenId());
-                loginUser.setToken(salesmanToken);
                 break;
             case "finance":
                 FinanceInfo financeInfo = financeManageService.queryFinanceInfoByFinanceId(respInfo.getUserId());
                 loginUser.setUserInfo(financeInfo);
-                //根据用户编号和密码加密生成token
-                String financeToken = JWTUtil.sign(respInfo.getUserId(), respInfo.getOpenId());
-                loginUser.setToken(financeToken);
                 break;
             default:
                 throw new BizException("角色异常,请重新进入页面！");
         }
+        /**
+         * 根据用户编号和密码加密生成token
+         */
+        String agentToken = JWTUtil.sign(respInfo.getUserId(), respInfo.getOpenId());
+        loginUser.setToken(agentToken);
+
         return ResultData.success(loginUser);
     }
 

@@ -2,9 +2,7 @@ package com.sevenpay.agentmanager.biz.old.controller;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.qifenqian.app.bean.TdCustInfo;
 import com.qifenqian.app.bean.UserLoginRelate;
-import com.qifenqian.app.bean.customer.FinanceInfo;
 import com.qifenqian.app.bean.customer.TdSalesmanInfo;
 import com.qifenqian.app.bean.dto.UserDTO;
 import com.qifenqian.app.customer.MerchantStatusService;
@@ -16,17 +14,13 @@ import com.sevenpay.agentmanager.biz.old.service.LoginServiceImpl;
 import com.sevenpay.agentmanager.common.constants.CacheConstants;
 import com.sevenpay.agentmanager.common.utils.redis.RedisUtils;
 import com.sevenpay.agentmanager.common.utils.verfycode.VerifyInfoConstant;
-import com.sevenpay.agentmanager.common.jwt.JWTUtil;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.exception.BizException;
-import com.sevenpay.agentmanager.common.pojo.LoginUser;
-import com.sevenpay.external.app.common.util.MD5Security;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +28,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 服务商/业务员
