@@ -61,7 +61,7 @@ public class FinanceServiceImpl {
 
 
     /**
-     * 财务员修改密码、重置密码，退款密码
+     * 财务员修改密码，退款密码
      * @param financeId
      * @param refundPw
      * @param refundNewPw
@@ -86,6 +86,7 @@ public class FinanceServiceImpl {
 
         return ResultData.error("修改出错");
     }
+
 
 
     /**
