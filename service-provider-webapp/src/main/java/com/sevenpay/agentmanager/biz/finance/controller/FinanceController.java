@@ -67,7 +67,7 @@ public class FinanceController extends AbstractBaseController {
 
 
     /**
-     * 财务员修改密码、重置密码、退款密码
+     * 财务员修改密码、退款密码
      * @param financeId
      * @param refundPw
      * @param refundNewPw
@@ -77,10 +77,38 @@ public class FinanceController extends AbstractBaseController {
      */
     @RequestMapping(value = "updateFinancePw")
     public ResultData updateFinancePw(String financeId, String refundPw, String refundNewPw, String loginPw, String loginNewPw){
+        if(null == financeId){
+            throw new BizException("财务员id不能为空~");
+        }
+        if(null == loginPw){
+            throw new BizException("原密码不能为空~");
+        }
+        if(null == loginNewPw){
+            throw new BizException("新密码不能为空~");
+        }
+
 
         return financeService.updateFinancePw(financeId,refundPw,refundNewPw,loginPw,loginNewPw);
 
     }
+
+
+    /**
+     * 重置密码
+     * @param financeInfo
+     * @return
+     */
+    @RequestMapping(value = "resetFinancePw")
+    public ResultData resetFinancePw(FinanceInfo financeInfo){
+        if(null == financeInfo.getFinanceId()){
+            throw new BizException("财务员id不能为空~");
+        }
+        financeInfo.setLoginPw("123456");
+        return  financeService.updateFinance(financeInfo);
+    }
+
+
+
 
 
 
