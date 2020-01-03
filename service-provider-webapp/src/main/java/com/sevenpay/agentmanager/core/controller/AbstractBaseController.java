@@ -42,6 +42,8 @@ public abstract class AbstractBaseController {
             logger.info("错误提示：" + ex.getMessage(), ex);
         } else if (ex instanceof AuthenticationException) {
             msg = ex.getCause().getMessage();
+        } else {
+            msg += ex.getMessage();
         }
         ResultData resultData = ResultData.error(code, msg);
         String responseStr = JSONObject.toJSONString(resultData);

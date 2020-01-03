@@ -183,6 +183,16 @@ public class AgentController extends AbstractBaseController {
         return ResultData.success(pager);
     }
 
+    @RequestMapping("sentEmailByDealRanking")
+    public ResultData sentEmailByDealRanking(String userId,
+                                             String custName,
+                                             String queryStartDate,
+                                             String queryEndDate,
+                                             String roleId,
+                                             String rankingCode) {
+        return this.agentService.sentEmailByDealRanking(userId, custName, queryStartDate, queryEndDate,roleId, rankingCode);
+    }
+
 
     /**
      * 获取商户审核失败原因
