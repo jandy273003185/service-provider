@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.sevenpay.agentmanager.core.exception.BizException;
 import com.sevenpay.agentmanager.common.utils.youtu.Youtu;
 import com.youtu.sign.Base64Util;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,14 +59,22 @@ public class YouTuUtils {
             //respose= faceYoutu.FaceCompareUrl("http://open.youtu.qq.com/content/img/slide-1.jpg","http://open.youtu.qq.com/content/img/slide-1.jpg");
             if (flag.equals("certAttribute1")) {//身份证解析
                 respose = faceYoutu.IdCardOcrMySelf(url, 0);//0--正面  1--反面
-                object.put("cardId", respose.get("id"));
-                object.put("cardName", respose.get("name"));
-                object.put("cardAddress", respose.get("address"));
+                if (respose.get("id") != null){
+                    object.put("cardId", respose.get("id"));
+                }
+                if (respose.get("name") != null){
+                    object.put("cardName", respose.get("name"));
+                }
+                if (respose.get("address") != null){
+                    object.put("cardAddress", respose.get("address"));
+                }
                 object.put("result", "SUCCESS");
                 object.put("message", "图片解析成功");
             } else if (flag.equals("certAttribute2")) {//身份证解析
                 respose = faceYoutu.IdCardOcrMySelf(url, 1);//0--正面  1--反面
-                object.put("cardValidDate", respose.get("valid_date"));
+                if (respose.get("valid_date") != null){
+                    object.put("cardValidDate", respose.get("valid_date"));
+                }
                 object.put("result", "SUCCESS");
                 object.put("message", "图片解析成功");
             } else if (flag.equals("businessPhoto")) {//营业执照解析
@@ -75,16 +85,24 @@ public class YouTuUtils {
                     Map<String, Object> map = listObjectFir.get(i);
                     for (int j = 0; j < map.size(); j++) {
                         if ("注册号".equals(map.get("item"))) {
-                            object.put("businessLicense", map.get("itemstring"));//公司名称
+                            if (respose.get("itemstring") != null){
+                                object.put("businessLicense", map.get("itemstring"));//公司名称
+                            }
                             break;
                         } else if ("法定代表人".equals(map.get("item"))) {
-                            object.put("legalPerson", map.get("itemstring"));//法定代表人
+                            if (respose.get("itemstring") != null){
+                                object.put("legalPerson", map.get("itemstring"));//法定代表人
+                            }
                             break;
                         } else if ("地址".equals(map.get("item"))) {
-                            object.put("legalAddress", map.get("itemstring"));//地址
+                            if (respose.get("itemstring") != null){
+                                object.put("legalAddress", map.get("itemstring"));//地址
+                            }
                             break;
                         } else if ("公司名称".equals(map.get("item"))) {
-                            object.put("companyName", map.get("itemstring"));//地址
+                            if (respose.get("itemstring") != null){
+                                object.put("companyName", map.get("itemstring"));//地址
+                            }
                             break;
                         } else if ("营业期限".equals(map.get("item"))) {
                             String[] strs = map.get("itemstring").toString().split("至");
