@@ -258,6 +258,7 @@ public class LoginController {
     /**
      * 根据角色查询绑定集合（未冻结）
      */
+    @RequestMapping(value = "/getBindingList")
     public ResultData getBindingList(String openId, String roleCode) {
         if (StringUtils.isBlank(openId)) {
             throw new BizException("手机号不能为空！");
@@ -265,7 +266,7 @@ public class LoginController {
         if (StringUtils.isBlank(roleCode)) {
             throw new BizException("角色异常,请重新进入页面！");
         }
-        return loginService.getBindingList(roleCode, openId);
+        return loginService.getBindingList(openId, roleCode);
     }
 
 
