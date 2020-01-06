@@ -7,10 +7,11 @@ import com.sevenpay.agentmanager.common.utils.redis.RedisUtils;
 import com.sevenpay.agentmanager.core.exception.BizException;
 import com.sevenpay.external.app.common.util.MD5Security;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -26,13 +27,11 @@ import java.io.IOException;
  * @author zhangxiaoxiang
  * @date: 2019/07/12
  */
-@Component//这个注入与否影响不大
+//@Component//这个注入与否影响不大
 public class JWTFilter extends BasicHttpAuthenticationFilter {
-
 
     @Autowired
     private RedisUtils redisUtils;
-
 
     /**
      * 执行登录
@@ -44,11 +43,15 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
+        if (null == redisUtils) {
+            BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
+            redisUtils = (RedisUtils) factory.getBean("redisUtils");
+        }
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader("token");
         String md5Token = MD5Security.getMD5String(token + CacheConstants.TOKEN_MD5_SECRET);
         if (redisUtils.addLock(CacheConstants.TOKEN_MD5_KEY + md5Token)) {
-            redisUtils.delCacheWith(CacheConstants.TOKEN_MD5_KEY +md5Token);
+            redisUtils.delCacheWith(CacheConstants.TOKEN_MD5_KEY + md5Token);
             throw new BizException("token已失效!");
         }
         if (token == null) {
