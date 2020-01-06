@@ -41,6 +41,9 @@ public class FinanceController extends AbstractBaseController {
         if(StringUtils.isBlank(financeInfo.getCustId())){
             throw new BizException("服务商id不能为空~");
         }
+        if(StringUtils.isBlank(financeInfo.getQueryAuth())){
+            throw new BizException("查询权限不能为空~");
+        }
 
         return financeService.addFinance(financeInfo);
 
@@ -143,6 +146,20 @@ public class FinanceController extends AbstractBaseController {
     }
 
 
+    /**
+     * 查看财务员详情
+     * @param financeId
+     * @return
+     */
+    @RequestMapping(value = "getFinanceInfo")
+    public ResultData queryFinanceInfoByFinanceId(String financeId){
+
+        if(StringUtils.isBlank(financeId)){
+            throw new BizException("财务员id不能为空~");
+        }
+        return financeService.queryFinanceInfoByFinanceId(financeId);
+
+    }
 
 
 
