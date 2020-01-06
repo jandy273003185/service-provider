@@ -122,7 +122,7 @@ public class CommonController {
         String clientIp = request.getRemoteAddr();
         //生成验证码
         String smsVerifyCode = GenSN.getRandomNum(6);
-        messageDTO.setType("login");
+        messageDTO.setFlag("login");
         messageDTO.setCode(smsVerifyCode);
         messageDTO.setClientIp(clientIp);
         messageDTO.setAddressee(mobile);
@@ -174,6 +174,7 @@ public class CommonController {
         messageDTO.setCode(smsVerifyCode);
         messageDTO.setClientIp(clientIp);
         messageDTO.setAddressee(mobile);
+        messageDTO.setType("SMSLOGIN");
         if ("agent".equals(roleCode)) {
             //查询是否有该手机账号
             UserDTO userInfo = userManager.getUserByEmailOrMobile(mobile, roleCode);
