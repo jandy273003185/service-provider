@@ -1,9 +1,13 @@
 package com.sevenpay.agentmanager.common.jwt;
 
 
+import com.sevenpay.agentmanager.common.constants.CacheConstants;
 import com.sevenpay.agentmanager.common.constants.ExceptionConstants;
+import com.sevenpay.agentmanager.common.utils.redis.RedisUtils;
 import com.sevenpay.agentmanager.core.exception.BizException;
+import com.sevenpay.external.app.common.util.MD5Security;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +30,10 @@ import java.io.IOException;
 public class JWTFilter extends BasicHttpAuthenticationFilter {
 
 
+    @Autowired
+    private RedisUtils redisUtils;
+
+
     /**
      * 执行登录
      *
@@ -38,6 +46,11 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader("token");
+        String md5Token = MD5Security.getMD5String(token + CacheConstants.TOKEN_MD5_SECRET);
+        if (redisUtils.addLock(CacheConstants.TOKEN_MD5_KEY + md5Token)) {
+            redisUtils.del(md5Token);
+            throw new BizException("token已失效!");
+        }
         if (token == null) {
             throw new BizException("Token不能为空!");
         }

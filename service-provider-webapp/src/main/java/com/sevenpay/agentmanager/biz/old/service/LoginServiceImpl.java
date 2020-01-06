@@ -11,12 +11,14 @@ import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.enterprise.finance.FinanceManageService;
 import com.qifenqian.app.login.UserLoginManagerService;
 import com.qifenqian.app.user.UserManager;
+import com.sevenpay.agentmanager.common.constants.CacheConstants;
 import com.sevenpay.agentmanager.common.jwt.JWTUtil;
 import com.sevenpay.agentmanager.common.pojo.LoginUser;
 import com.sevenpay.agentmanager.common.utils.verfycode.VerifyInfoConstant;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.exception.BizException;
 import com.sevenpay.agentmanager.core.service.BaseService;
+import com.sevenpay.external.app.common.util.MD5Security;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
@@ -200,6 +202,8 @@ public class LoginServiceImpl extends BaseService {
         String agentToken = JWTUtil.sign(respInfo.getUserId(), respInfo.getOpenId());
         loginUser.setToken(agentToken);
 
+        String md5Token = MD5Security.getMD5String(agentToken + CacheConstants.TOKEN_MD5_SECRET);
+        redisUtils.setCacheObject(CacheConstants.TOKEN_MD5_KEY + md5Token, md5Token, 3600 * 24 * 2l);
         return ResultData.success(loginUser);
     }
 

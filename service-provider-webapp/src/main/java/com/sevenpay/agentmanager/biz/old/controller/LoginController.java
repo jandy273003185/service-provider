@@ -16,6 +16,7 @@ import com.sevenpay.agentmanager.common.utils.redis.RedisUtils;
 import com.sevenpay.agentmanager.common.utils.verfycode.VerifyInfoConstant;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.exception.BizException;
+import com.sevenpay.external.app.common.util.MD5Security;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -169,10 +170,10 @@ public class LoginController {
         if (StringUtils.isBlank(reqLoginBean.getOpenId())) {
             throw new BizException("openId不能为空!");
         }
-        if (StringUtils.isBlank(reqLoginBean.getUserType())){
+        if (StringUtils.isBlank(reqLoginBean.getUserType())) {
             throw new BizException("角色异常,重新进入页面!");
         }
-        if (StringUtils.isBlank(reqLoginBean.getUserId())){
+        if (StringUtils.isBlank(reqLoginBean.getUserId())) {
             throw new BizException("用户Id不能为空！");
         }
         //openId获取信息
@@ -194,13 +195,13 @@ public class LoginController {
         if (StringUtils.isBlank(roleCode)) {
             throw new BizException("角色异常,请重新进入页面！");
         }
-        if (StringUtils.isBlank(openId)){
+        if (StringUtils.isBlank(openId)) {
             throw new BizException("参数openId不能为空！");
         }
         if (StringUtils.isBlank(verifyCode)) {
             throw new BizException("验证码不能为空！");
         }
-        return loginService.smsAgentBanding(mobile,roleCode,openId,verifyCode);
+        return loginService.smsAgentBanding(mobile, roleCode, openId, verifyCode);
     }
 
 
@@ -219,13 +220,13 @@ public class LoginController {
         if (StringUtils.isBlank(roleCode)) {
             throw new BizException("角色异常,请重新进入页面！");
         }
-        if (StringUtils.isBlank(openId)){
+        if (StringUtils.isBlank(openId)) {
             throw new BizException("参数openId不能为空！");
         }
         if (StringUtils.isBlank(verifyCode)) {
             throw new BizException("验证码不能为空！");
         }
-        return loginService.smsAgentBanding(mobile,roleCode,openId,verifyCode);
+        return loginService.smsAgentBanding(mobile, roleCode, openId, verifyCode);
     }
 
 
@@ -244,13 +245,13 @@ public class LoginController {
         if (StringUtils.isBlank(roleCode)) {
             throw new BizException("角色异常,请重新进入页面！");
         }
-        if (StringUtils.isBlank(openId)){
+        if (StringUtils.isBlank(openId)) {
             throw new BizException("参数openId不能为空！");
         }
         if (StringUtils.isBlank(verifyCode)) {
             throw new BizException("验证码不能为空！");
         }
-        return loginService.smsSalesmanBanding(mobile,roleCode,openId,verifyCode);
+        return loginService.smsSalesmanBanding(mobile, roleCode, openId, verifyCode);
     }
 
 
@@ -264,7 +265,7 @@ public class LoginController {
         if (StringUtils.isBlank(roleCode)) {
             throw new BizException("角色异常,请重新进入页面！");
         }
-        return loginService.getBindingList(roleCode,openId);
+        return loginService.getBindingList(roleCode, openId);
     }
 
 
@@ -358,4 +359,21 @@ public class LoginController {
         return ResultData.error("请重新操作忘记密码");
     }
 
+
+    /**
+     * 退出登录。
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping("loginOut")
+    public ResultData loginOut(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        if (StringUtils.isBlank(token)) {
+            throw new BizException("未发现token");
+        }
+        String md5Token = MD5Security.getMD5String(CacheConstants.TOKEN_MD5_KEY + token + CacheConstants.TOKEN_MD5_SECRET);
+        redisUtils.del(md5Token);
+        return ResultData.success();
+    }
 }
