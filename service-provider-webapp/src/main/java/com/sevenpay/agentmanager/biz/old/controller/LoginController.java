@@ -374,7 +374,7 @@ public class LoginController {
             throw new BizException("未发现token");
         }
         String md5Token = MD5Security.getMD5String(CacheConstants.TOKEN_MD5_KEY + token + CacheConstants.TOKEN_MD5_SECRET);
-        redisUtils.del(md5Token);
+        redisUtils.delCacheWith(CacheConstants.TOKEN_MD5_KEY +md5Token);
         return ResultData.success();
     }
 }

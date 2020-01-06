@@ -48,7 +48,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         String token = httpServletRequest.getHeader("token");
         String md5Token = MD5Security.getMD5String(token + CacheConstants.TOKEN_MD5_SECRET);
         if (redisUtils.addLock(CacheConstants.TOKEN_MD5_KEY + md5Token)) {
-            redisUtils.del(md5Token);
+            redisUtils.delCacheWith(CacheConstants.TOKEN_MD5_KEY +md5Token);
             throw new BizException("token已失效!");
         }
         if (token == null) {
