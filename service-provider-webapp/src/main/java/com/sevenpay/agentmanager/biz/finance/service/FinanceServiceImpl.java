@@ -33,9 +33,8 @@ public class FinanceServiceImpl {
 
         /* 没有退款权限 */
         financeInfo.setRefundAuth("0");
-
-        /* 查询权限 1-查询全部数据 */
-        financeInfo.setQueryAuth("1");
+        /* 默认生效 */
+        financeInfo.setStatus("1");
 
         /* 创建时间 */
         financeInfo.setCreateTime(new Date());
@@ -124,9 +123,14 @@ public class FinanceServiceImpl {
      * @param financeId
      * @return
      */
-    public FinanceInfo queryFinanceInfoByFinanceId(String financeId){
+    public ResultData queryFinanceInfoByFinanceId(String financeId) {
+        try {
+            FinanceInfo financeInfo = financeManageService.queryFinanceInfoByFinanceId(financeId);
+            return ResultData.success(financeInfo);
+        } catch (Exception e){
+            throw new BizException("没有该财务员信息。请检查");
+        }
 
-        return financeManageService.queryFinanceInfoByFinanceId(financeId);
     }
 
 

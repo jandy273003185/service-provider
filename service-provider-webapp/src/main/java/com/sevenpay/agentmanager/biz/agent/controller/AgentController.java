@@ -119,7 +119,7 @@ public class AgentController extends AbstractBaseController {
      * @date: 2020-01-02 10:26:05
      */
     @RequestMapping("getSPMerchantOrderList")
-    public ResultData getSPMerchantList(@RequestBody MerchantCondition merchantCondition) {
+    public ResultData getSPMerchantList(MerchantCondition merchantCondition) {
         if (StringUtils.isBlank(merchantCondition.getMchId())) {
             throw new BizException("商户ID不能为空!");
         }
