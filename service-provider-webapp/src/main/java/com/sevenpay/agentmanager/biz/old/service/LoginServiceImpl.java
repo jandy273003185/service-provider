@@ -126,7 +126,7 @@ public class LoginServiceImpl extends BaseService {
         if (isBinding) {
             throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
         }
-        UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode);//查询是否有绑定openId
+        UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode,financeInfo.getFinanceId());//查询是否有绑定openId
         if (ifbing != null) {
             ifbing.setIfUnbind("1");
             loginManagerService.updateBindingInfo(ifbing);
@@ -232,7 +232,7 @@ public class LoginServiceImpl extends BaseService {
         if (isBinding) {
             throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
         }
-        UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode);//查询是否有绑定openId
+        UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode,userInfo.getCustId());//查询是否有绑定openId
         if (ifbing != null) {//修改绑定信息
             ifbing.setIfUnbind("1");
             loginManagerService.updateBindingInfo(ifbing);
@@ -283,7 +283,7 @@ public class LoginServiceImpl extends BaseService {
                 if (isBinding) {
                     throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
                 }
-                UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode);//查询是否有绑定过openId
+                UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode,salesmanInfo.getSalesmanId());//查询是否有绑定过openId
 
                 //5、修改绑定信息
                 if (ifbing != null) {
@@ -354,7 +354,7 @@ public class LoginServiceImpl extends BaseService {
                     throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
                 }
                 //查询
-                UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode);//查询是否有绑定openId
+                UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode,financeInfo.getFinanceId());//查询是否有绑定openId
                 if (ifbing != null) {
                     ifbing.setIfUnbind("1");
                     loginManagerService.updateBindingInfo(ifbing);
