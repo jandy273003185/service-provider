@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sevenpay.agentmanager.common.utils.YouTuUtils;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.exception.BizException;
+import org.apache.commons.lang3.StringUtils;
 import org.gyzb.platform.common.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,9 +98,11 @@ public class UploadFileController {
             //解析图片，返回图片信息
             object = youto.youTu(str, flag);
             logger.info("********************图片解析成功********************");
-            object.put("imagePath", resultMsg[1]);
+            if(!StringUtils.isBlank(resultMsg[1])){
+                object.put("imagePath", resultMsg[1]);
+                object.put("url", new StringBuilder(relativePath).append(resultMsg[1]));
+            }
             object.put("uri", uri);
-            object.put("url", new StringBuilder(relativePath).append(resultMsg[1]));
         } catch (Exception e) {
             logger.error("解析图片出现问题" + e);
             object.put("result", "FAIL");
