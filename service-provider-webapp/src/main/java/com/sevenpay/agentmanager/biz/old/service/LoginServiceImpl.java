@@ -68,6 +68,7 @@ public class LoginServiceImpl extends BaseService {
             ifbing.setIfUnbind("1");
             loginManagerService.updateBindingInfo(ifbing);
         } else {
+            ifbing = new UserLoginRelate();
             ifbing.setUserType(roleCode);
             ifbing.setOpenId(openId);
             ifbing.setUserId(userInfo.getCustId());

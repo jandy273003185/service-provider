@@ -97,9 +97,9 @@ public class LoginController {
         /**
          * 判断是否之前已经操作错误
          */
-        if (!redisUtils.addLock(dateKey)) {
+        if (!redisUtils.addLock(dateKey,2)) {
             //TODO 提示剩余时间
-            long total = redisUtils.getCacheObject(dateKey, Long.class);
+            long total = Long.valueOf(redisUtils.getCacheObject(dateKey));
             long current = new Date().getTime();
             long m = (total - current / 1000) / 60;
             return ResultData.error("请于" + m + "分钟后再试！");
@@ -108,11 +108,10 @@ public class LoginController {
         /**
          * 初始化登录校验失败次数
          */
-        Integer time = redisUtils.getCacheObject(timeKey, Integer.class);
-        if (time == null) {
-            time = 5;
-            redisUtils.setCacheObject(timeKey, String.valueOf(time), 60 * 60 * 24l);
+        if(redisUtils.addLock(timeKey)){
+            redisUtils.setCacheObject(timeKey, String.valueOf(5), 60 * 60 * 24l);
         }
+        Integer time = Integer.valueOf(redisUtils.getCacheObject(timeKey));
         /**
          * 判断当前此时小于1，提示出冻结时间
          */
@@ -261,7 +260,7 @@ public class LoginController {
     @RequestMapping(value = "/getBindingList")
     public ResultData getBindingList(String openId, String roleCode) {
         if (StringUtils.isBlank(openId)) {
-            throw new BizException("手机号不能为空！");
+            throw new BizException("openId不能为空！");
         }
         if (StringUtils.isBlank(roleCode)) {
             throw new BizException("角色异常,请重新进入页面！");

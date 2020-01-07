@@ -123,12 +123,7 @@ public class AgentController extends AbstractBaseController {
         if (StringUtils.isBlank(merchantCondition.getMchId())) {
             throw new BizException("商户ID不能为空!");
         }
-        if (StringUtils.isBlank(merchantCondition.getQueryStartDate())) {
-            throw new BizException("查询时间不能为空!");
-        }
-        if (StringUtils.isBlank(merchantCondition.getQueryEndDate())) {
-            throw new BizException("查询时间不能为空!");
-        }
+
         return agentService.getSPMerchantOrderList(merchantCondition);
     }
 
