@@ -1,7 +1,10 @@
 package com.sevenpay.agentmanager.biz.agent.service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.qifenqian.app.bean.dto.TdOrderRateDetailProfitDTO;
 import com.qifenqian.app.bean.dto.trade.PayAndRefundBean;
+import com.qifenqian.app.bean.dto.trade.TdOrderRateDetailCondition;
+import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.merchant.CommercialService;
 import com.qifenqian.app.trade.PayOrderService;
 import com.sevenpay.agentmanager.biz.agent.bean.condition.MerchantCondition;
@@ -21,7 +24,8 @@ import java.util.Map;
  */
 @Service
 public class AgentServiceImpl extends BaseService {
-
+    @Reference
+    private SalesmanManagerService salesmanManagerService;
     @Reference
     private CommercialService commerService;
     @Reference
@@ -66,5 +70,13 @@ public class AgentServiceImpl extends BaseService {
          * TODO 调用发送邮件,发送数据为list
          */
         return ResultData.success();
+    }
+
+    public ResultData getShareProfit(TdOrderRateDetailCondition tdOrderRateDetailCondition) {
+        TdOrderRateDetailProfitDTO tdOrderRateDetailProfitDTO = payOrderService.getShareProfit(tdOrderRateDetailCondition);
+        if (null == tdOrderRateDetailProfitDTO) {
+            tdOrderRateDetailProfitDTO = new TdOrderRateDetailProfitDTO();
+        }
+        return ResultData.success(tdOrderRateDetailProfitDTO);
     }
 }

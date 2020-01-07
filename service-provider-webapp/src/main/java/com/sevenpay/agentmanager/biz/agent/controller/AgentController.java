@@ -2,6 +2,7 @@ package com.sevenpay.agentmanager.biz.agent.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.qifenqian.app.bean.*;
+import com.qifenqian.app.bean.dto.trade.TdOrderRateDetailCondition;
 import com.qifenqian.app.common.BankInfoService;
 import com.qifenqian.app.customer.MerchantInfoService;
 import com.qifenqian.app.customer.MerchantStatusService;
@@ -11,16 +12,15 @@ import com.qifenqian.app.product.ProductInfoService;
 import com.qifenqian.app.user.TdLoginUserInfoService;
 import com.sevenpay.agentmanager.biz.agent.bean.condition.MerchantCondition;
 import com.sevenpay.agentmanager.biz.agent.service.AgentServiceImpl;
-import com.sevenpay.agentmanager.core.bean.ResultData;
-import com.sevenpay.agentmanager.core.controller.AbstractBaseController;
-import com.sevenpay.agentmanager.core.exception.BizException;
 import com.sevenpay.agentmanager.common.pojo.Pager;
 import com.sevenpay.agentmanager.common.utils.AddCustScanCopy;
 import com.sevenpay.agentmanager.common.utils.AddTdMerchantProductInfo;
+import com.sevenpay.agentmanager.core.bean.ResultData;
+import com.sevenpay.agentmanager.core.controller.AbstractBaseController;
+import com.sevenpay.agentmanager.core.exception.BizException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -185,7 +185,7 @@ public class AgentController extends AbstractBaseController {
                                              String queryEndDate,
                                              String roleId,
                                              String rankingCode) {
-        return this.agentService.sentEmailByDealRanking(userId, custName, queryStartDate, queryEndDate,roleId, rankingCode);
+        return this.agentService.sentEmailByDealRanking(userId, custName, queryStartDate, queryEndDate, roleId, rankingCode);
     }
 
 
@@ -448,5 +448,12 @@ public class AgentController extends AbstractBaseController {
         return ResultData.success(custInfo.getCustName());
     }
 
+    @RequestMapping("getShareProfit")
+    public ResultData getShareProfit(TdOrderRateDetailCondition tdOrderRateDetailCondition) {
+        if (StringUtils.isBlank(tdOrderRateDetailCondition.getCustId())) {
+            throw new BizException("代理商ID不能为空!");
+        }
+        return this.agentService.getShareProfit(tdOrderRateDetailCondition);
+    }
 
 }
