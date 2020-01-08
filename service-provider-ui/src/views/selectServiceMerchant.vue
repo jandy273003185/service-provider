@@ -1,5 +1,5 @@
 <template>
-  <div class="sales">
+  <div class="sales" v-if="isLoad">
     <van-nav-bar
       :title="title"
       left-text="返回"
@@ -44,6 +44,7 @@ export default {
   components: {},
   data() {
     return {
+      isLoad:false,
       title:'请选择服务商',
       serviceMerchantList: [],
       loaded:'暂无数据',
@@ -78,6 +79,7 @@ export default {
             REDIRECT_URI +
             "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         } else {
+          this.isLoad = true;
           this.setCode(code);
           this.getOpenId(code);
         }
