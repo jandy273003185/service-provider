@@ -6,6 +6,7 @@ import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,13 @@ public class WxController {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(WxController.class);
 
+    @Value("${wxauth.appid}")
+    private String appid;
+    @Value("${wxauth.appsecret}")
+    private String appsecret;
+    @Value("${wxauth.token}")
+    private String token;
+
     /**
      * 切换开发者模式
      *
@@ -48,10 +56,10 @@ public class WxController {
         // 将token、timestamp、nonce三个参数进行字典序排序
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("signature:{}, timestamp:{}, nonce:{}, echostr:{}, TOKEN:{}", signature, timestamp, nonce, echostr, AuthUtil.TOKEN);
+            LOGGER.debug("signature:{}, timestamp:{}, nonce:{}, echostr:{}, TOKEN:{}", signature, timestamp, nonce, echostr, token);
         }
 
-        String[] params = new String[]{AuthUtil.TOKEN, timestamp, nonce};
+        String[] params = new String[]{token, timestamp, nonce};
         Arrays.sort(params);
         // 将三个参数字符串拼接成一个字符串进行sha1加密
         String clearText = params[0] + params[1] + params[2];
@@ -74,7 +82,7 @@ public class WxController {
         //url回调地址
         String backUrl = "https://sp.qifenqian.com/wx/callback";
         //1、用户同意授权，获取code
-        String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + AuthUtil.APP_ID
+        String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid
                 + "&redirect_uri=" + URLEncoder.encode(backUrl, "UTF-8")
                 + "&response_type=code"
                 + "&scope=snsapi_userinfo"
@@ -95,8 +103,8 @@ public class WxController {
         //1、获取微信用户的基本信息
         String code = req.getParameter("code");
         //2、通过code获取网页授权access_token
-        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + AuthUtil.APP_ID
-                + "&secret=" + AuthUtil.APP_SECRET
+        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appid
+                + "&secret=" + appsecret
                 + "&code=" + code
                 + "&grant_type=authorization_code";
         String result = AuthUtil.getUrlData(url);

@@ -14,9 +14,6 @@ import java.net.URLConnection;
  */
 public class AuthUtil {
 
-    public static final String APP_ID = "wxce65746e62998dce";     //填写自己的APPID
-    public static final String APP_SECRET = "67c3aebf0e3e397df1fce595b837353b";   //填写自己的APPSECRET
-    public static final String TOKEN = "ok_ok_token"; //这里的token要和微信测试号网页填写的token一样
     /**
      * 执行url请求数据
      *

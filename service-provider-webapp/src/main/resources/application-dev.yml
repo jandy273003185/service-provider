@@ -2,7 +2,7 @@ dubbo:
   application:
     name: dubbo-customer-manager
   registry:
-    address: zookeeper://192.168.1.131:2181
+    address: zookeeper://localhost:2181
   protocol:
     name: dubbo
     port: 21001
@@ -27,3 +27,12 @@ spring:
         min-idle: 0
         max-idle: 8
         max-wait: -1
+
+
+wxauth:
+  #填写公众号的APPID
+  appid: wxce65746e62998dce
+  #填写公众号的APPSECRET
+  appsecret: 67c3aebf0e3e397df1fce595b837353b
+  #这里的token要和微信公众号号网页填写的token一样
+  token: ok_ok_token
