@@ -71,90 +71,32 @@ export default {
     this.setincoming('');
     this.setPhotos('');
     this.setCheckedState('');
+    if(this.$route.params.userType == 'salesman'){
+      this.firstLogin();
+    }
 
     console.log("createdCode");
     console.log(this.$store.state.code);
-    if (!this.$store.state.code) {
-      var code = this.getUrlParam("code");
-      if (!code) {
-        //  let REDIRECT_URI = encodeURIComponent("https://sp.qifenqian.com/wx/index.html/#/salesman");
-        let REDIRECT_URI = encodeURIComponent(//测试域名-uat
-          "https://sp-uat.qifenqian.com/wx/index.html#salesman"
-        );
-        window.location.href =
-          "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
-          REDIRECT_URI +
-          "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-      } else {
-        console.log("业务员主页获取code");
-        this.setCode(code);
-        this.getOpenId(code);
-      }
-    } else {
-      console.log(this.$route.params);
-      if (this.$route.params.fname && this.$route.params.fname == "login") {
-        console.log("登录页进入");
-        this.firstLogin({
-          openId: this.$store.state.openId,
-          roleId: this.roleId
-        });
-      }else if (this.$route.params.fname && this.$route.params.fname == "Administrator") {//业务员错误的从管理员页面进入
-        this.openId = this.$store.state.openId;
-        this.setRole(this.roleId);
-        this.setRoleId("3");
-        this.firstLogin({
-          openId: this.openId,
-          roleId: this.roleId
-        });
-      }else {
-        if(this.$store.state.userId){
-          console.log("其他页返回");
-          this.logined=true;
-          this.islogin = true;
-          this.salesShopNew();
-        }else {
-          this.firstLogin({//从登录页按后退键返回到首页
-            openId: this.$store.state.openId,
-            roleId: this.roleId
-          });
-        }
-      }
-    }
   },
   mounted() {},
 
   methods: {
-    async getOpenId(code) {
-      //获取openid
-      let res = await login.getOpenId({
-        code: code
-      });
-      let openId = res.data.resultMsg;
-      console.log(openId);
-      if (openId) {
-        this.openId = openId;
-        this.setOpenID(this.openId);
-        this.setRole(this.roleId);
-        this.setRoleId("3");
-        const params = {
-          openId: this.openId,
-          roleId: this.roleId
-        };
-        console.log(params);
-        this.firstLogin({
-          openId: this.openId,
-          roleId: this.roleId
-        });
-      }
-    },
-    getUrlParam(name) {
-      //获取code
-      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-      var r = window.location.search.substr(1).match(reg);
-      if (r != null) {
-        return unescape(r[2]);
-      }
-      return null;
+    async firstLogin() {
+      //初次进入主页，传OpenId到后台，判断是否有绑定过账户
+      const params = {openId:this.$route.params.openId,userId:this.$route.params.userId,userType:this.$route.params.userType};
+      const res = await login.firstLogin(params); //获取绑定状态
+      console.log(res);
+    
+       //已绑定
+          this.logined=true;
+          localStorage.setItem("token", res.data.data.token);
+          axios.defaults.headers.common["token"] = res.data.data.token;
+          this.setToken(res.data.data.token);
+          this.setUserId(this.$route.params.userId);
+          this.setUserName(res.data.data.userName);
+          storage.set("userId", this.$route.params.userId);
+          console.log(storage.get("userId"));
+          this.islogin = true;
     },
     toIncoming() {
       //路由跳转到商户进件页面
@@ -165,43 +107,7 @@ export default {
     searchshop() {
       this.$router.push("searchShop");
     },
-    async firstLogin(params) {
-      //初次进入主页，传OpenId到后台，判断是否有绑定过账户
-      const { data } = await login.firstLogin(params); //获取绑定状态
-      console.log(data);
-      if (data.resultCode == "0") {
-        //未绑定
-        this.$router.push("login");
-      }
-      if (data.resultCode == "1") {
-        //已绑定
-        this.logined=true;
-        localStorage.setItem("token", data.resultMsg.token);
-        axios.defaults.headers.common["token"] = data.resultMsg.token;
-        this.setToken(data.resultMsg.token);
-        this.setUserId(data.resultMsg.userInfo.salesmanId);
-        this.setUserName(data.resultMsg.userInfo.userName);
-        storage.set("userId", data.resultMsg.userInfo.salesmanId);
-        console.log(storage.get("userId"));
-        this.islogin = true;
-        this.salesShopNew();
-      }
-      if (data.resultCode == "2") {
-        //管理员进入了业务员入口
-        const _this = this;
-        this.$toast({
-          message:data.resultMsg,
-          onClose:function(){
-            _this.$router.replace({
-              name: "Administrator",
-              params: {
-                fname: "salesman"
-              }
-            });
-          }
-        });
-      }
-    },
+    
     //业务员主页下部分商户进件最新十条信息
     async salesShopNew() {
       console.log("userId"+this.$store.state.userId);
@@ -212,12 +118,12 @@ export default {
         roleId: "3"
       });
       console.log(listInfo);
-      this.statesList = listInfo.data.resultMsg.data;
-      let list = listInfo.data.resultMsg.data;
+      this.statesList = listInfo.data.data.data;
+      let list = listInfo.data.data.data;
       if(list && list.length>0 ){
         this.isHave = false;//有数据时隐藏掉
       }
-      /*let total=listInfo.data.resultMsg.total;*/
+      /*let total=listInfo.data.data.total;*/
     },
     //查看审核失败信息、待审核和审核成功信息
     toDetail(state,filingAuditStatus,custId){

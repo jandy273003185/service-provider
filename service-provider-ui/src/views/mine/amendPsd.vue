@@ -62,9 +62,10 @@ export default {
         if(this.password_old && this.password_new1 && this.password_new2){
            if( this.password_new1== this.password_new2){
              const params = {
-               oldPassword:this.password_old,
-               newPassword :this.password_new1,
-               id:this.$store.state.userId
+               loginPw:this.password_old,
+               loginNewPw :this.password_new1,
+               userId:this.$store.state.userId,
+               userType:this.$store.state.role
              };
              const codeBack = await common.updatePwd(params);
               console.log(codeBack);

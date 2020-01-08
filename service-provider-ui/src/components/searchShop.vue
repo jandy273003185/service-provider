@@ -103,10 +103,10 @@ export default {
                 pageNum:this.pageNum,
                 roleId:this.roleId
             });
-            let total=listInfo.data.resultMsg.total;
-            let list = listInfo.data.resultMsg.data;
+            let total=listInfo.data.data.total;
+            let list = listInfo.data.data.data;
             this.statesList = this.statesList.concat(list);
-            console.log(listInfo.data.resultMsg.list);
+            console.log(listInfo.data.data.list);
             console.log(this.statesList.length);
             this.loading = false;
             if(this.statesList.length>=total){//判断已加载完成

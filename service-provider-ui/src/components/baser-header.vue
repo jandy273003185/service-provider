@@ -1,6 +1,6 @@
 <template>
   <div class="base-header">
-    <router-link :to="role=='agent'?'/Administrator':'/salesman'">
+    <router-link :to="role=='agent'||'finance'?'/Administrator':'/salesman'">
       <img v-show="!isHome" src="../assets/images/header/home.png" alt />
       <img v-show="isHome" src="../assets/images/header/home1.png" alt />
       <span>主页</span>

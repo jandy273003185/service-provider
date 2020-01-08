@@ -378,9 +378,9 @@ export default {
       });
       let res = await incoming.getIncoming({ custId: this.custId }); // custId:'c838b2ed3d524b1bb1db444a48572b19'
       this.$toast.clear();
-      this.setincomingReturn(res.data.resultMsg);
-      let custInfo = res.data.resultMsg.custInfo;
-      let provinces = res.data.resultMsg.provinces[0];
+      this.setincomingReturn(res.data.data);
+      let custInfo = res.data.data.custInfo;
+      let provinces = res.data.data.provinces[0];
       let custTypeShow;
       if(custInfo.custType=='0'){
         custTypeShow='个人'
@@ -411,8 +411,8 @@ export default {
         electronicSignaturePhoto: "" //电子签名照
       };
       this.params = Object.assign({}, params);
-      let photos = res.data.resultMsg.custScanInfoList;
-      let urlHead = res.data.resultMsg.uri + "" + res.data.resultMsg.url;
+      let photos = res.data.data.custScanInfoList;
+      let urlHead = res.data.data.uri + "" + res.data.data.url;
       let getPhotos = util.getPhotos(this, urlHead, photos);
       this.photos = Object.assign({}, getPhotos);
     },
@@ -430,9 +430,9 @@ export default {
     async getInitAddress() {
       //获取省份
       let res = await common.getAddress();
-      if(res.data&&res.data.resultMsg){
+      if(res.data&&res.data.data){
         this.provincepicker = true;
-        this.provinceList = res.data.resultMsg;
+        this.provinceList = res.data.data;
       }
     },
     async getTapCity() {
@@ -440,7 +440,7 @@ export default {
         let res = await common.getAddress({
           provinceId: this.params.province
         });
-        this.cityList = res.data.resultMsg;
+        this.cityList = res.data.data;
         this.citypicker = true;
       } else {
         this.$toast("请先选择省份");
@@ -451,7 +451,7 @@ export default {
         let res = await common.getAddress({
           cityId: this.params.city
         });
-        this.blockList = res.data.resultMsg;
+        this.blockList = res.data.data;
         this.blockpicker = true;
       } else {
         this.$toast("请先选择省市");
@@ -470,7 +470,7 @@ export default {
       let res = await common.getAddress({
         provinceId: value.provinceId
       });
-      this.cityList = res.data.resultMsg;
+      this.cityList = res.data.data;
       this.citypicker = true;
     },
     async onConfirmCity(value) {
@@ -481,11 +481,11 @@ export default {
       let res = await common.getAddress({
         cityId: value.cityId
       });
-      if(res.data.resultMsg&&res.data.resultMsg.length>0){
-      this.blockList = res.data.resultMsg;
+      if(res.data.data&&res.data.data.length>0){
+      this.blockList = res.data.data;
       this.blockpicker = true;
       }else{
-        if(res.data.resultMsg.length==0){
+        if(res.data.data.length==0){
            this.params.country = value.cityId;
            this.params.countryName = value.cityName;
         }

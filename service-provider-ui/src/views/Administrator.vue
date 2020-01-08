@@ -72,6 +72,7 @@
   import {login, adminIndex} from "../assets/api/interface";
   /*   import { mapState } from 'vuex';*/
   import {mapMutations} from "vuex";
+  import storage from "../assets/modeljs/storage.js";
   import axios from "axios";
   import util from "@/lib/util.js";
 
@@ -83,7 +84,7 @@
         logined: false,//控制页面已经在登录状态
         sortType: 0,
         openId: "",
-        roleId: "agent",
+        roleId: "",
         islogin: false,
         /*timeselect:true,*/
         queryStartDate: util.fun_date(7).timeStart,
@@ -101,84 +102,35 @@
       this.setincoming('');
       this.setPhotos('');
       this.setCheckedState('');
-      //判断是否有code
-      if (!this.$store.state.code) {
-        var code = this.getUrlParam("code");
-        if (!code) {
-          let REDIRECT_URI = encodeURIComponent(
-            "https://sp-uat.qifenqian.com/wx/index.html#Administrator"
-          );
-          window.location.href =
-            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
-            REDIRECT_URI +
-            "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-        } else {
-          this.setCode(code);
-          this.getOpenId(code);
-        }
-      } else {
-        if (this.$route.params.fname && this.$route.params.fname == "login") {//从登录页进入
-          this.firstLogin({
-            openId: this.$store.state.openId,
-            roleId: this.roleId
-          });
-        } else if (this.$route.params.fname && this.$route.params.fname == "salesman") {//从业务员进入
-          this.openId = this.$store.state.openId;
-          this.setRole(this.roleId);
-          this.setRoleId("2");
-          this.firstLogin({
-            openId: this.openId,
-            roleId: this.roleId
-          });
-        } else {//从其他页面进入
-            if(this.$store.state.userId){
-              this.logined = true;
-              this.islogin = true;
-              this.getSalesRanking("1");
-            }else {
-              this.firstLogin({
-                openId: this.$store.state.openId,
-                roleId: this.roleId
-              });
-            }
-
-        }
+      if(this.$route.params.userType == 'agent' || this.$route.params.userType == 'finance'){
+        this.firstLogin();
       }
     },
       mounted(){
-
+        
       },
       computed: {
 
       },
       methods: {
-        async getOpenId(code){
-          //获取openid
-          let res = await login.getOpenId({
-            code: code
-          });
-          let openId = res.data.resultMsg;
-          console.log(openId);
-          if (openId) {
-            this.openId = openId;
-            this.setOpenID(this.openId);
-            this.setRole(this.roleId);
-            this.setRoleId("2");
-            this.firstLogin({
-              openId: this.openId,
-              roleId: this.roleId
-            });
-          }
-        }
-      ,
-        getUrlParam(name){
-          //获取code
-          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");//正则
-          var r = window.location.search.substr(1).match(reg);//截取当前网页URL中“?”后面的数据并进行正则匹配，返回数组
-          if (r != null) return unescape(r[2]);//数组的索引[2]为code等号后面的值
-          return null;
-        }
-      ,
+        async firstLogin() {
+          //初次进入主页，传OpenId到后台，判断是否有绑定过账户
+          const params = {openId:this.$route.params.openId,userId:this.$route.params.userId,userType:this.$route.params.userType};
+          const res = await login.firstLogin(params); //获取绑定状态
+          console.log(res);
+        
+          //已绑定
+          this.logined=true;
+          localStorage.setItem("token", res.data.data.token);
+          axios.defaults.headers.common["token"] = res.data.data.token;
+          this.setToken(res.data.data.token);
+          this.setUserId(this.$route.params.userId);
+          this.setUserName(res.data.data.userName);
+          storage.set("userId", this.$route.params.userId);
+          console.log(storage.get("userId"));
+          this.islogin = true;
+        },
+       
         channgeTab(e){
           console.log(e);
           if(e=='0'){
@@ -225,7 +177,7 @@
             roleId: 2
           };
           let sales = await adminIndex.SalesRanking(params);
-          let list = sales.data.resultMsg;
+          let list = sales.data.data;
           console.log(list);
           if (type == "1") {//交易额
             if (list[0] && list[0].tradeAmtSum) {
@@ -246,37 +198,7 @@
             this.numList = list;
           }
         },
-        async firstLogin(params){//初次进入主页，传OpenId到后台，判断是否有绑定过账户
-          const userData = await login.firstLogin(params);
-          console.log(userData);
-          if (userData.data.resultCode == "0") {//未绑定用户，跳转至登录页面
-            this.$router.push("login");
-          }
-          if (userData.data.resultCode == "1") {//已绑定用户
-            this.logined = true;
-            console.log(userData.data.resultMsg.token);
-            this.setToken(userData.data.resultMsg.token);
-            this.setUserId(userData.data.resultMsg.userId);
-            localStorage.setItem("token", userData.data.resultMsg.token);
-            axios.defaults.headers.common["token"] = userData.data.resultMsg.token;
-            this.islogin = true;
-            this.getSalesRanking("1");
-          }
-          if (userData.data.resultCode == "2") {//业务员进入了管理员入口
-            const _this = this;
-            this.$toast({//轻提示，默认2秒后自动关闭提示是执行onclone函数
-              message: userData.data.resultMsg,
-              onClose: function () {
-                  _this.$router.replace({
-                      name: "salesman",
-                      params: {
-                          fname: "Administrator"
-                      }
-                  });
-              }
-            });
-          }
-        },
+       
         ...mapMutations([
           "setRole",
           "setToken",

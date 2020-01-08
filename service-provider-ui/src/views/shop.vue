@@ -285,9 +285,9 @@ export default {
       if(this.intoRole=='2'){//管理员的商户数据
           listInfo=await shopAuditInfo.allShopAuditInfo(params);
       }
-      let list= listInfo.data.resultMsg.data;
+      let list= listInfo.data.data.data;
       this.allStateList = this.allStateList.concat(list);
-      let total=listInfo.data.resultMsg.total;
+      let total=listInfo.data.data.total;
       console.log(listInfo);
       this.loading = false;
       if(this.allStateList.length>=total){//判断已加载完成

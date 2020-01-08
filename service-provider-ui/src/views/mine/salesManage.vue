@@ -156,7 +156,7 @@ export default {
     async getInitList(params) {
       let list = await adminIndex.searchSales(params);
       console.log(list);
-      this.saleList = list.data.resultMsg;
+      this.saleList = list.data.data;
     },
     changePrepage() {
       //;返回
@@ -259,8 +259,8 @@ export default {
             Dialog({ message: "添加业务员失败！" });
           }
         }else{//手机号已有绑定，不可再注册
-          if(phoneCode.data&&phoneCode.data.resultMsg){
-            Dialog({ message: phoneCode.data.resultMsg });
+          if(phoneCode.data&&phoneCode.data.data){
+            Dialog({ message: phoneCode.data.data });
           }else{
             Dialog({ message:"请求异常！" });
           }

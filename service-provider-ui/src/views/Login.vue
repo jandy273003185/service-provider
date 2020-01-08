@@ -4,8 +4,9 @@
       <div class="title">
         <img src="../assets/images/login/login.png" alt />
         <span class="titleText">七分钱进件系统</span>
-        <span v-if="role=='agent' ">管理员登录</span>
-        <span v-if="role=='salesman' ">业务员登录</span>
+        <span v-if="role=='agent'">管理员登录</span>
+        <span v-if="role=='salesman'">业务员登录</span>
+        <span v-if="role=='finance'">财务员登录</span>
       </div>
       <p v-if="selectLogin=='psd'" class="logintype">账号密码登录</p>
       <p v-if="selectLogin=='code'" class="logintype">验证码登录</p>
@@ -34,7 +35,7 @@
         </div>
       </div>
       <div class="item edter">
-        <button @click="submitLogin">登录</button>
+        <button @click="submitLogin">绑定</button>
       </div>
       <div v-if="selectLogin=='psd'" class="selectLogin" @click="selectInto('code')">短信验证码登录</div>
       <div v-if="selectLogin=='code'" class="selectLogin" @click="selectInto('psd')">账号密码登录</div>
@@ -98,7 +99,7 @@ export default {
   },
   mounted() {
     console.log(this.$store.state.role);
-    console.log(this.role);
+    console.log(this.openId);
   },
   computed: {
     ...mapState(["role", "openId"])
@@ -130,7 +131,7 @@ export default {
         if(loginData.data.resultCode == 1){
           this.$toast({ message: "已发送短信验证码，请查收" });
         }else {
-          this.$toast({ message: loginData.data.resultMsg});
+          this.$toast({ message: loginData.data.data});
         }
       }else {
         this.$toast({ message: "请输入手机号" });
@@ -230,7 +231,7 @@ export default {
       if(codeData.data&&codeData.data.resultCode==1){//验证码正确
         this.setNewPsd();
       }else if(codeData.data&&codeData.data.resultCode==0){
-        this.$toast({message:codeData.data.resultMsg});
+        this.$toast({message:codeData.data.data});
       }
     },
     //设置新密码
@@ -272,33 +273,33 @@ export default {
     async loginPost(params) {
       let loginData = await login.login(params);
       console.log(loginData);
-      if (loginData.data.resultCode == 1) {
-        this.$toast("登录成功");
-        if (this.role == "agent") {
+      // if (loginData.data.resultCode == 1) {
+      //   this.$toast("登录成功");
+        // if (this.role == "agent" || this.role == "finance") {
           console.log(this.role);
           this.$router.replace({
-            name: "Administrator",
+            name: "selectServiceMerchant",
             params: {
-              fname: "login"
+              fname: "selectServiceMerchant"
             }
           });
-        } else if(this.role == "salesman") {
-          console.log(this.role);
-          this.$router.replace({
-            name: "salesman",
-            params: {
-              fname: "login"
-            }
-          });
-        }
-      } else {
-        Dialog({ message: loginData.data.resultMsg });
-      }
+        // } else if(this.role == "salesman") {
+        //   console.log(this.role);
+        //   this.$router.replace({
+        //     name: "salesman",
+        //     params: {
+        //       fname: "login"
+        //     }
+        //   });
+        // }
+      // } else {
+      //   Dialog({ message: loginData.data.data });
+      // }
     },
     //短信验证码登录
     async codeLogin(params) {
       let loginData;
-      if(this.role == "agent"){
+      if(this.role == "agent" || this.role == "finance"){
         loginData = await login.agentCodeLogin(params);
       }else if(this.role == "salesman"){
         loginData = await login.salesCodeLogin(params);
@@ -308,7 +309,7 @@ export default {
         clearTimeout(this.timer);
         this.$toast("登录成功");
           console.log(this.role);
-        if (this.role == "agent") {
+        if (this.role == "agent" || this.role == "finance") {
           console.log(this.role);
           this.$router.replace({
             name: "Administrator",
@@ -326,7 +327,7 @@ export default {
           });
         }
       } else {
-        Dialog({ message: loginData.data.resultMsg });
+        Dialog({ message: loginData.data.data });
       }
     }
     /*...mapMutations(['setToken','setGrade'])*/

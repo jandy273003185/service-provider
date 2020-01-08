@@ -110,7 +110,7 @@ export default {
             }
             console.log(shopInfo);
             if(shopInfo){
-                this.shopList = shopInfo.data.resultMsg;
+                this.shopList = shopInfo.data.data;
             }
         },
 

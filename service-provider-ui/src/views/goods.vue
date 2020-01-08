@@ -35,13 +35,15 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <div>
-                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
-                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
-                </div>
-                <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
-                <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
+                <router-link :to="{name:'goodsDetails',params:{custId:item.custId,queryStartDate:timeStart,queryEndDate:timeEnd ,custName:item.cust_name,transactionAmount:item.transactionAmount,transactionNum:item.transactionNum,refundCount:item.refundCount,refundAmount:item.refundAmount}}">
+                  <div>
+                    <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                    <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                    <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                  </div>
+                  <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
+                </router-link>
               </li>
             </van-list>
           </ul>
@@ -55,13 +57,15 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <div>
-                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
-                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
-                </div>
-                <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
-                <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
+                <router-link :to="{name:'goodsDetails',params:{custId:item.custId,queryStartDate:timeStart,queryEndDate:timeEnd ,custName:item.cust_name,transactionAmount:item.transactionAmount,transactionNum:item.transactionNum,refundCount:item.refundCount,refundAmount:item.refundAmount}}">
+                  <div>
+                    <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                    <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                    <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                  </div>
+                  <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
+                </router-link>
               </li>
             </van-list>
         </ul>
@@ -75,13 +79,15 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <div>
-                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
-                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
-                </div>
-                <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
-                <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
+                <router-link :to="{name:'goodsDetails',params:{custId:item.custId,queryStartDate:timeStart,queryEndDate:timeEnd ,custName:item.cust_name,transactionAmount:item.transactionAmount,transactionNum:item.transactionNum,refundCount:item.refundCount,refundAmount:item.refundAmount}}">
+                  <div>
+                    <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                    <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                    <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                  </div>
+                  <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
+                </router-link>
               </li>
             </van-list>
         </ul>
@@ -95,13 +101,15 @@
                       @load="loadList"
             >
               <li v-for="(item, index) in shopList" :key="index">
-                <div>
-                  <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
-                  <span class="number  wd">{{ item.transactionNum }} 笔</span>
-                  <span class="sum  wd">{{ item.transactionAmount }} 元</span>
-                </div>
-                <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
-                <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
+                <router-link :to="{name:'goodsDetails',params:{custId:item.custId,queryStartDate:timeStart,queryEndDate:timeEnd ,custName:item.cust_name,transactionAmount:item.transactionAmount,transactionNum:item.transactionNum,refundCount:item.refundCount,refundAmount:item.refundAmount}}">
+                  <div>
+                    <span class="shopName">{{index+1}} {{ item.cust_name }} </span>
+                    <span class="number  wd">{{ item.transactionNum }} 笔</span>
+                    <span class="sum  wd">{{ item.transactionAmount }} 元</span>
+                  </div>
+                  <span v-if="intoRole=='2'&& item.type=='salesman' " class="salesName">业务员: {{item.userName}}</span>
+                  <span v-if="intoRole=='2'&& item.type=='agent' " class="salesName">管理员: {{item.userName}}</span>
+                </router-link>
               </li>
             </van-list>
           </ul>
@@ -203,6 +211,7 @@ export default {
         rankingCode:this.rankingCode,
         roleId:this.roleId
       };
+      console.log(params)
       var listInfo;
       if(this.roleId=='3'){//业务员交易栏数据
         listInfo= await goodsInfo.goodsInfo(params);
@@ -212,9 +221,9 @@ export default {
       }
       console.log(listInfo);
       this.isSearch=false;//
-      let list= listInfo.data.resultMsg.data;
+      let list= listInfo.data.data.data;
       this.shopList = this.shopList.concat(list);
-      let total=listInfo.data.resultMsg.total;
+      let total=listInfo.data.data.total;
 
       this.loading = false;
       if(this.shopList.length>=total){//判断已加载完成

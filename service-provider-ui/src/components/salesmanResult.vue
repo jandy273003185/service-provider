@@ -225,7 +225,7 @@
                 const detailResult = await adminIndex.salesDetail(params);
                 console.log(detailResult);
                 if(detailResult || detailResult.data){
-                    this.detailList = detailResult.data.resultMsg;
+                    this.detailList = detailResult.data.data;
                 }
 
             }

@@ -292,7 +292,7 @@ export default {
       let res = await incoming.bankHead({ bankName: name });
       if (res.data.resultCode == 1) {
         this.bankpicker = true;
-        this.bankList = res.data.resultMsg;
+        this.bankList = res.data.data;
         this.bankbranchName = ""; //清除支行数据
         this.params.branchBank = "";
         this.bankbranchpicker = false;
@@ -329,7 +329,7 @@ export default {
           });
           if (res.data.resultCode == 1) {
             this.bankbranchpicker = true;
-            this.bankbranchList = res.data.resultMsg;
+            this.bankbranchList = res.data.data;
           }
         }
       }
@@ -354,7 +354,7 @@ export default {
         let res = await common.bankAddress();
         if (res.data.resultCode == 1) {
           this.provincepicker = true;
-          this.provinceList = res.data.resultMsg;
+          this.provinceList = res.data.data;
         } else {
           this.$toast("无法获取省份！");
         }
@@ -367,7 +367,7 @@ export default {
           bankProvinceId: this.params.bankProvinceName
         });
         console.log(res);
-        this.cityList = res.data.resultMsg;
+        this.cityList = res.data.data;
       } else {
         this.$toast("请先选择省份！");
       }

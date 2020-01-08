@@ -168,7 +168,7 @@ export default {
         custId: this.custId //商户Id
       });
       //console.log(listInfo);
-      this.allInfoList = listInfo.data.resultMsg;
+      this.allInfoList = listInfo.data.data;
     },
     async getcontractInfo() {
       //请求已签约信息
@@ -176,7 +176,7 @@ export default {
         mchCustId: this.custId //商户Id
       });
       console.log(contractInfo);
-      this.proList = contractInfo.data.resultMsg;
+      this.proList = contractInfo.data.data;
       for (let i = 0; i < this.proList.length; i++) {
         if (this.proList[i].productId == 9) {
           if(this.proList[i].productStatus == '00' || this.proList[i].productStatus == '01' ){
@@ -255,7 +255,7 @@ export default {
         custId:this.custId
       });
       if(listInfo.data.resultCode=="1"){
-        Dialog({ message: listInfo.data.resultMsg ,closeOnPopstate:true});
+        Dialog({ message: listInfo.data.data ,closeOnPopstate:true});
         setTimeout(function(){
           _this.$router.go(-1);
         },1500)

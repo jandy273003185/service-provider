@@ -53,7 +53,7 @@ export default {
         custId: this.custId //商户Id
       });
 
-      this.allInfoList = listInfo.data.resultMsg[0];
+      this.allInfoList = listInfo.data.data[0];
     }
   }
 };

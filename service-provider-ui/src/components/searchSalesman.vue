@@ -62,7 +62,7 @@ export default {
             const sales = await adminIndex.searchSales(params);
             if(sales.data){
                 console.log(sales.data);
-                this.nameList = sales.data.resultMsg;
+                this.nameList = sales.data.data;
             }
         },
 

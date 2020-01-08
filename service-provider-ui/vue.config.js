@@ -1,4 +1,3 @@
-
 module.exports = {
     /* 部署生产环境和开发环境下的URL：可对当前环境进行区分，baseUrl 从 Vue CLI 3.3 起已弃用，要使用publicPath */
     /* baseUrl: process.env.NODE_ENV === 'production' ? './' : '/' */
@@ -15,22 +14,24 @@ module.exports = {
     lintOnSave: true,
     /* webpack-dev-server 相关配置 */
     devServer: {
-      /* 自动打开浏览器 */
-      open: true,
-      /* 设置为0.0.0.0则所有的地址均能访问 */
-      host: '0.0.0.0',
-      port: 8080,
-      https: false,
-      hotOnly: false,
-      /* 使用代理 */
-      proxy: { 
-        '/': {
-          ws:false,
-          /* 目标代理服务器地址 */
-          target:'https://sp-uat.qifenqian.com',//'http://192.168.1.159:8085',//,
-          /* 允许跨域 */
-          changeOrigin: true,
+        /* 自动打开浏览器 */
+        open: true,
+        /* 设置为0.0.0.0则所有的地址均能访问 */
+        host: '0.0.0.0',
+        port: 8080,
+        https: false,
+        hotOnly: false,
+        /* 使用代理 */
+        proxy: {
+            '/': {
+                ws: false,
+                /* 目标代理服务器地址 */
+                target: 'https://sp-uat.qifenqian.com',
+                // target: 'http://192.168.1.131:9999',
+                // target: 'http://192.168.1.141:8082',
+                /* 允许跨域 */
+                changeOrigin: true,
+            },
         },
-      },
     },
-  }
+}
