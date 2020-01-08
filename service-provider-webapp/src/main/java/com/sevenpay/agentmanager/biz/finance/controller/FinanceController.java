@@ -1,7 +1,10 @@
 package com.sevenpay.agentmanager.biz.finance.controller;
 
 
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.qifenqian.app.bean.UserLoginRelate;
 import com.qifenqian.app.bean.customer.FinanceInfo;
+import com.qifenqian.app.login.UserLoginManagerService;
 import com.sevenpay.agentmanager.biz.finance.service.FinanceServiceImpl;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.controller.AbstractBaseController;
@@ -10,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 财务员
@@ -23,25 +28,25 @@ public class FinanceController extends AbstractBaseController {
     FinanceServiceImpl financeService;
 
 
-
     /**
      * 服务商添加财务员
+     *
      * @param financeInfo
      * @return
      */
     @RequestMapping(value = "addFinance")
-    public ResultData addFinance(FinanceInfo financeInfo){
+    public ResultData addFinance(FinanceInfo financeInfo) {
 
-        if(StringUtils.isBlank(financeInfo.getFinanceMobile())){
+        if (StringUtils.isBlank(financeInfo.getFinanceMobile())) {
             throw new BizException("手机不能为空~");
         }
-        if(StringUtils.isBlank(financeInfo.getFinanceName())){
+        if (StringUtils.isBlank(financeInfo.getFinanceName())) {
             throw new BizException("姓名不能为空~");
         }
-        if(StringUtils.isBlank(financeInfo.getCustId())){
+        if (StringUtils.isBlank(financeInfo.getCustId())) {
             throw new BizException("服务商id不能为空~");
         }
-        if(StringUtils.isBlank(financeInfo.getQueryAuth())){
+        if (StringUtils.isBlank(financeInfo.getQueryAuth())) {
             throw new BizException("查询权限不能为空~");
         }
 
@@ -52,13 +57,14 @@ public class FinanceController extends AbstractBaseController {
 
     /**
      * 财务员列表查询（手机或商户编号）
+     *
      * @param custId
      * @return
      */
     @RequestMapping(value = "getFinanceList")
-    public ResultData getFinanceList(String custId){
+    public ResultData getFinanceList(String custId) {
 
-        if(StringUtils.isBlank(custId)){
+        if (StringUtils.isBlank(custId)) {
             throw new BizException("服务商id不能为空~");
         }
 
@@ -69,9 +75,9 @@ public class FinanceController extends AbstractBaseController {
     }
 
 
-
     /**
      * 财务员修改密码、退款密码
+     *
      * @param financeId
      * @param refundPw
      * @param refundNewPw
@@ -80,66 +86,63 @@ public class FinanceController extends AbstractBaseController {
      * @return
      */
     @RequestMapping(value = "updateFinancePw")
-    public ResultData updateFinancePw(String financeId, String refundPw, String refundNewPw, String loginPw, String loginNewPw){
-        if(StringUtils.isBlank(financeId)){
+    public ResultData updateFinancePw(String financeId, String refundPw, String refundNewPw, String loginPw, String loginNewPw) {
+        if (StringUtils.isBlank(financeId)) {
             throw new BizException("财务员id不能为空~");
         }
-        if(StringUtils.isBlank(loginPw)){
+        if (StringUtils.isBlank(loginPw)) {
             throw new BizException("原密码不能为空~");
         }
-        if(StringUtils.isBlank(loginNewPw)){
+        if (StringUtils.isBlank(loginNewPw)) {
             throw new BizException("新密码不能为空~");
         }
-
-
-        return financeService.updateFinancePw(financeId,refundPw,refundNewPw,loginPw,loginNewPw);
+        return financeService.updateFinancePw(financeId, refundPw, refundNewPw, loginPw, loginNewPw);
 
     }
 
 
     /**
      * 重置密码
+     *
      * @param financeInfo
      * @return
      */
     @RequestMapping(value = "resetFinancePw")
-    public ResultData resetFinancePw(FinanceInfo financeInfo){
-        if(StringUtils.isBlank(financeInfo.getFinanceId())){
+    public ResultData resetFinancePw(FinanceInfo financeInfo) {
+        if (StringUtils.isBlank(financeInfo.getFinanceId())) {
             throw new BizException("财务员id不能为空~");
         }
         financeInfo.setLoginPw("123456");
-        return  financeService.updateFinance(financeInfo);
+        return financeService.updateFinance(financeInfo);
     }
 
 
     /**
-     *
      * @param mobile
      * @param custId
      * @return
      */
     @RequestMapping(value = "validate")
-    public ResultData validate(String mobile, String custId){
-        if(StringUtils.isBlank(mobile)){
+    public ResultData validate(String mobile, String custId) {
+        if (StringUtils.isBlank(mobile)) {
             throw new BizException("手机号不能为空~");
         }
-        if(StringUtils.isBlank(custId)){
+        if (StringUtils.isBlank(custId)) {
             throw new BizException("custId不能为空~");
         }
 
-        return  financeService.validate(mobile,custId);
+        return financeService.validate(mobile, custId);
     }
-
-
 
 
     /**
      * 修改状态
+     *
      * @param financeInfo
      * @return
      */
     @RequestMapping(value = "updateFinance")
-    public ResultData updateFinance(FinanceInfo financeInfo){
+    public ResultData updateFinance(FinanceInfo financeInfo) {
 
         return financeService.updateFinance(financeInfo);
 
@@ -147,20 +150,38 @@ public class FinanceController extends AbstractBaseController {
 
 
     /**
+     * 解绑财务员
+     *
+     * @param financeInfo
+     * @return
+     */
+    @RequestMapping("updateTdFinanceInfo")
+    public ResultData updateTdFinanceInfoById(FinanceInfo financeInfo) {
+        if (StringUtils.isBlank(financeInfo.getFinanceId())) {
+            throw new BizException("财务员id不能为空");
+        }
+//        if(StringUtils.isBlank(financeInfo.getCustId())){
+//            throw new BizException("商户id不能为空");
+//        }
+        return financeService.updateTdFinanceInfoById(financeInfo);
+    }
+
+
+    /**
      * 查看财务员详情
+     *
      * @param financeId
      * @return
      */
     @RequestMapping(value = "getFinanceInfo")
-    public ResultData queryFinanceInfoByFinanceId(String financeId){
+    public ResultData queryFinanceInfoByFinanceId(String financeId) {
 
-        if(StringUtils.isBlank(financeId)){
+        if (StringUtils.isBlank(financeId)) {
             throw new BizException("财务员id不能为空~");
         }
         return financeService.queryFinanceInfoByFinanceId(financeId);
 
     }
-
 
 
 }

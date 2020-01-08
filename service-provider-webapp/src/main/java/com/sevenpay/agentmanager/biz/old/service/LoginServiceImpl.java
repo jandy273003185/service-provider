@@ -20,6 +20,7 @@ import com.sevenpay.agentmanager.core.exception.BizException;
 import com.sevenpay.agentmanager.core.service.BaseService;
 import com.sevenpay.external.app.common.util.MD5Security;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,13 +69,9 @@ public class LoginServiceImpl extends BaseService {
             ifbing.setIfUnbind("1");
             loginManagerService.updateBindingInfo(ifbing);
         } else {
-            ifbing = new UserLoginRelate();
-            ifbing.setUserType(roleCode);
-            ifbing.setOpenId(openId);
-            ifbing.setUserId(userInfo.getCustId());
-            ifbing.setLoginType("1");
-            ifbing.setIfUnbind("1");
-            loginManagerService.userBinding(ifbing);//用户绑定openId
+
+
+            saveUserLoginRelate(userInfo.getCustId(), userInfo.getCustId(), openId, roleCode);
         }
     }
 
@@ -104,14 +101,19 @@ public class LoginServiceImpl extends BaseService {
             ifbing.setIfUnbind("1");
             loginManagerService.updateBindingInfo(ifbing);
         } else {
-            ifbing.setUserId(userInfo.getSalesmanId());
-            ifbing.setCustId(userInfo.getCustId());
-            ifbing.setOpenId(openId);
-            ifbing.setLoginType("1");
-            ifbing.setUserType(roleCode);
-            ifbing.setIfUnbind("1");
-            loginManagerService.userBinding(ifbing);//用户绑定openId
+            saveUserLoginRelate(salesmanInfo.getSalesmanId(), salesmanInfo.getCustId(), openId, roleCode);
         }
+    }
+
+    private void saveUserLoginRelate(String userId, String custId, String openId, String roleCode) {
+        UserLoginRelate ifbing = new UserLoginRelate();
+        ifbing.setUserId(userId);
+        ifbing.setCustId(custId);
+        ifbing.setOpenId(openId);
+        ifbing.setLoginType("1");
+        ifbing.setUserType(roleCode);
+        ifbing.setIfUnbind("1");
+        loginManagerService.userBinding(ifbing);//用户绑定openId
     }
 
     /**
@@ -127,17 +129,12 @@ public class LoginServiceImpl extends BaseService {
         if (isBinding) {
             throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
         }
-        UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode,financeInfo.getFinanceId());//查询是否有绑定openId
+        UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode, financeInfo.getFinanceId());//查询是否有绑定openId
         if (ifbing != null) {
             ifbing.setIfUnbind("1");
             loginManagerService.updateBindingInfo(ifbing);
         } else {
-            ifbing.setUserId(financeInfo.getFinanceId());
-            ifbing.setOpenId(openId);
-            ifbing.setLoginType("1");
-            ifbing.setUserType(roleCode);
-            ifbing.setIfUnbind("1");
-            loginManagerService.userBinding(ifbing);//用户绑定openId
+            saveUserLoginRelate(financeInfo.getFinanceId(), null, openId, roleCode);
         }
     }
 
@@ -181,22 +178,27 @@ public class LoginServiceImpl extends BaseService {
         if (respInfo == null) {
             throw new BizException("获取绑定信息失败,请重新进入页面!");
         }
+        String userName = null;
         switch (reqLoginBean.getUserType()) {
             case "agent":
                 Map<String, Object> agentInfo = merchantStatusService.getMerchantInfoByCustId(respInfo.getUserId());
+                userName = agentInfo.get("custName").toString();
                 loginUser.setUserInfo(agentInfo);
                 break;
             case "salesman":
                 TdSalesmanInfo salesmanInfo = salesmanManagerService.getTdSalesmanInfoById(respInfo.getUserId());
+                userName = salesmanInfo.getUserName();
                 loginUser.setUserInfo(salesmanInfo);
                 break;
             case "finance":
                 FinanceInfo financeInfo = financeManageService.queryFinanceInfoByFinanceId(respInfo.getUserId());
+                userName = financeInfo.getFinanceName();
                 loginUser.setUserInfo(financeInfo);
                 break;
             default:
                 throw new BizException("角色异常,请重新进入页面！");
         }
+        loginUser.setUserName(userName);
         /**
          * 根据用户编号和密码加密生成token
          */
@@ -233,7 +235,7 @@ public class LoginServiceImpl extends BaseService {
         if (isBinding) {
             throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
         }
-        UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode,userInfo.getCustId());//查询是否有绑定openId
+        UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode, userInfo.getCustId());//查询是否有绑定openId
         if (ifbing != null) {//修改绑定信息
             ifbing.setIfUnbind("1");
             loginManagerService.updateBindingInfo(ifbing);
@@ -243,13 +245,8 @@ public class LoginServiceImpl extends BaseService {
             loginUser.setToken(token);
             redisUtils.del(VerifyInfoConstant.LOGIN_VERIFY_CODE + mobile);
         } else {//新增绑定信息
-            UserLoginRelate userLoginRelate = new UserLoginRelate();
-            userLoginRelate.setUserId(userInfo.getCustId());
-            userLoginRelate.setOpenId(openId);
-            userLoginRelate.setLoginType("1");
-            userLoginRelate.setUserType(roleCode);
-            userLoginRelate.setIfUnbind("1");
-            loginManagerService.userBinding(userLoginRelate);//用户绑定openId
+
+            saveUserLoginRelate(userInfo.getCustId(), userInfo.getCustId(), openId, roleCode);
             loginUser.setUserInfo(userInfo.getCustId());
             //根据用户编号和密码加密生成token
             String token = JWTUtil.sign(userInfo.getCustId(), openId);
@@ -284,7 +281,7 @@ public class LoginServiceImpl extends BaseService {
                 if (isBinding) {
                     throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
                 }
-                UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode,salesmanInfo.getSalesmanId());//查询是否有绑定过openId
+                UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode, salesmanInfo.getSalesmanId());//查询是否有绑定过openId
 
                 //5、修改绑定信息
                 if (ifbing != null) {
@@ -292,13 +289,7 @@ public class LoginServiceImpl extends BaseService {
                     loginManagerService.updateBindingInfo(ifbing);
 
                 } else {
-                    ifbing.setUserId(salesmanInfo.getSalesmanId());
-                    ifbing.setCustId(salesmanInfo.getCustId());
-                    ifbing.setOpenId(openId);
-                    ifbing.setLoginType("1");
-                    ifbing.setUserType(roleCode);
-                    ifbing.setIfUnbind("1");
-                    loginManagerService.userBinding(ifbing);//用户绑定openId
+                    saveUserLoginRelate(salesmanInfo.getSalesmanId(), salesmanInfo.getCustId(), openId, roleCode);
                 }
                 loginUser.setUserId(salesmanInfo.getSalesmanId());
                 //根据用户编号和密码加密生成token
@@ -355,17 +346,12 @@ public class LoginServiceImpl extends BaseService {
                     throw new BizException("该账号已经被绑定，请用之前微信登陆，如有疑问，请联系客服！");
                 }
                 //查询
-                UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode,financeInfo.getFinanceId());//查询是否有绑定openId
+                UserLoginRelate ifbing = loginManagerService.selectUserOpenidByRole(openId, roleCode, financeInfo.getFinanceId());//查询是否有绑定openId
                 if (ifbing != null) {
                     ifbing.setIfUnbind("1");
                     loginManagerService.updateBindingInfo(ifbing);
                 } else {
-                    ifbing.setUserId(financeInfo.getFinanceId());
-                    ifbing.setOpenId(openId);
-                    ifbing.setLoginType("1");
-                    ifbing.setUserType(roleCode);
-                    ifbing.setIfUnbind("1");
-                    loginManagerService.userBinding(ifbing);//用户绑定openId
+                    saveUserLoginRelate(financeInfo1.getFinanceId(), null, openId, roleCode);
                 }
                 return ResultData.success(loginUser);
             }
@@ -373,4 +359,54 @@ public class LoginServiceImpl extends BaseService {
         return ResultData.error("请检查该账号是否正确或冻结");
     }
 
+    public ResultData delTokenCache(String token) {
+        String md5Token = MD5Security.getMD5String(token + CacheConstants.TOKEN_MD5_SECRET);
+        redisUtils.delCacheWith(CacheConstants.TOKEN_MD5_KEY + md5Token);
+        return ResultData.success();
+    }
+
+    public ResultData userLoginRelate(String token, String userId, String userType) {
+        try {
+            UserLoginRelate userLoginRelate = new UserLoginRelate();
+            userLoginRelate.setIfUnbind("0");
+            userLoginRelate.setUserId(userId);
+            userLoginRelate.setUserType(userType);
+            loginManagerService.updateBindingInfo(userLoginRelate);
+            this.delTokenCache(token);
+            return ResultData.success("201", "解绑成功!");
+        } catch (Exception e) {
+            return ResultData.error();
+        }
+    }
+
+    public ResultData userLoginPw(String token, String userId, String userType, String loginPw, String loginNewPw) {
+        try {
+            boolean result = false;
+            if ("finance".equalsIgnoreCase(userType)) {
+                result = financeManageService.updateFinancePw(userId, null, null, loginPw, loginNewPw);
+            } else if ("salesman".equalsIgnoreCase(userType)) {
+                int m = this.salesmanManagerService.updateTdSalesmanInfoPassword(userId, loginPw, loginNewPw);
+                if (m > 0) {
+                    result = true;
+                }
+            } else if ("agent".equalsIgnoreCase(userType)) {
+                /**
+                 * userId === 手机号
+                 */
+                String pw = userManager.updateUserPasswordByMobile(userId, loginNewPw, userType);
+                if (StringUtils.isNotBlank(pw)) {
+                    result = true;
+                }
+            }
+            if (result) {
+                delTokenCache(token);
+                return ResultData.success("201", "修改密码成功!");
+            } else {
+                return ResultData.error("500","原密码错误");
+
+            }
+        } catch (Exception e) {
+            return ResultData.error();
+        }
+    }
 }

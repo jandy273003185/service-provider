@@ -213,8 +213,9 @@ public class SalesmanManagerController {
             UserLoginRelate userLoginRelate = new UserLoginRelate();
             userLoginRelate.setIfUnbind("0");
             userLoginRelate.setUserId(tdSalesmanInfo.getSalesmanId());
+            userLoginRelate.setUserType("salesman");
             userLoginRelate.setCustId(tdSalesmanInfo.getCustId());
-            loginManagerService.updateSalesmanBySp(userLoginRelate);
+            loginManagerService.updateBindingInfo(userLoginRelate);
         }
         Integer result = salesmanManagerService.updateTdSalesmanInfo(tdSalesmanInfo);
         if (result > 0) {

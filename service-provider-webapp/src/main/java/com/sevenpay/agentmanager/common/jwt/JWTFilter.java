@@ -52,10 +52,10 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         String md5Token = MD5Security.getMD5String(token + CacheConstants.TOKEN_MD5_SECRET);
         if (redisUtils.addLock(CacheConstants.TOKEN_MD5_KEY + md5Token)) {
             redisUtils.delCacheWith(CacheConstants.TOKEN_MD5_KEY + md5Token);
-            throw new BizException("token已失效!");
+            throw new BizException("401","token已失效!");
         }
         if (token == null) {
-            throw new BizException("Token不能为空!");
+            throw new BizException("401","Token不能为空!");
         }
         JwtToken jwtToken = new JwtToken(token);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获

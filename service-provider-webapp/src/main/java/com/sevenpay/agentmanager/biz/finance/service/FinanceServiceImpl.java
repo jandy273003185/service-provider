@@ -2,8 +2,10 @@ package com.sevenpay.agentmanager.biz.finance.service;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.qifenqian.app.bean.UserLoginRelate;
 import com.qifenqian.app.bean.customer.FinanceInfo;
 import com.qifenqian.app.enterprise.finance.FinanceManageService;
+import com.qifenqian.app.login.UserLoginManagerService;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.exception.BizException;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,10 @@ public class FinanceServiceImpl {
 
     @Reference
     FinanceManageService financeManageService;
+
+
+    @Reference
+    private UserLoginManagerService loginManagerService;
 
 
     /**
@@ -103,6 +109,21 @@ public class FinanceServiceImpl {
         return ResultData.error("修改出错");
     }
 
+
+    /**
+     * 解除绑定
+     * @return
+     */
+    public ResultData updateTdFinanceInfoById(FinanceInfo financeInfo){
+
+        UserLoginRelate userLoginRelate = new UserLoginRelate();
+        userLoginRelate.setIfUnbind("0");
+        userLoginRelate.setUserId(financeInfo.getFinanceId());
+        userLoginRelate.setUserType("finance");
+        loginManagerService.updateBindingInfo(userLoginRelate);
+
+        return ResultData.success();
+    }
 
 
     /**

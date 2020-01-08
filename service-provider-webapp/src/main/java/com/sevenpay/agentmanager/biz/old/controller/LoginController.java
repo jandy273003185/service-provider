@@ -97,7 +97,7 @@ public class LoginController {
         /**
          * 判断是否之前已经操作错误
          */
-        if (!redisUtils.addLock(dateKey,2)) {
+        if (!redisUtils.addLock(dateKey, 2)) {
             //TODO 提示剩余时间
             long total = Long.valueOf(redisUtils.getCacheObject(dateKey));
             long current = new Date().getTime();
@@ -108,7 +108,7 @@ public class LoginController {
         /**
          * 初始化登录校验失败次数
          */
-        if(redisUtils.addLock(timeKey)){
+        if (redisUtils.addLock(timeKey)) {
             redisUtils.setCacheObject(timeKey, String.valueOf(5), 60 * 60 * 24l);
         }
         Integer time = Integer.valueOf(redisUtils.getCacheObject(timeKey));
@@ -359,6 +359,42 @@ public class LoginController {
         return ResultData.error("请重新操作忘记密码");
     }
 
+    @RequestMapping("userLoginRelate")
+    public ResultData userLoginRelate(HttpServletRequest request, String userId, String userType) {
+        String token = request.getHeader("token");
+        if (StringUtils.isBlank(token)) {
+            throw new BizException("token数据异常!");
+        }
+        if (StringUtils.isBlank(userId)) {
+            throw new BizException("用户ID不能为空!");
+        }
+        if (StringUtils.isBlank(userType)) {
+            throw new BizException("用户角色不能为空!");
+        }
+        return this.loginService.userLoginRelate(token, userId, userType);
+    }
+
+    @RequestMapping("userLoginPw")
+    public ResultData userLoginPw(HttpServletRequest request, String userId, String userType, String loginPw,
+                                  String loginNewPw) {
+        String token = request.getHeader("token");
+        if (StringUtils.isBlank(token)) {
+            throw new BizException("token数据异常!");
+        }
+        if (StringUtils.isBlank(userId)) {
+            throw new BizException("用户ID不能为空!");
+        }
+        if (StringUtils.isBlank(userType)) {
+            throw new BizException("用户角色不能为空!");
+        }
+        if (StringUtils.isBlank(loginPw)) {
+            throw new BizException("原密码不能为空~");
+        }
+        if (StringUtils.isBlank(loginNewPw)) {
+            throw new BizException("新密码不能为空~");
+        }
+        return this.loginService.userLoginPw(token, userId, userType, loginPw, loginNewPw);
+    }
 
     /**
      * 退出登录。
@@ -372,8 +408,6 @@ public class LoginController {
         if (StringUtils.isBlank(token)) {
             throw new BizException("未发现token");
         }
-        String md5Token = MD5Security.getMD5String(token + CacheConstants.TOKEN_MD5_SECRET);
-        redisUtils.delCacheWith(CacheConstants.TOKEN_MD5_KEY +md5Token);
-        return ResultData.success();
+        return this.loginService.delTokenCache(token);
     }
 }
