@@ -52,21 +52,22 @@ export default {
     };
   },
   computed: {
-    ...mapState(["openId",'role'])
+    ...mapState(["openId",'role','code'])
   },
   created() {
-    const roles = this.$route.query.role;
+    // const roles = this.$route.query.role;
+    const roles = this.getUrlParam('role');
     if(roles == 'agent' || roles == 'finance'){
       this.setRoleId("2");
     }else if(roles == 'salesman'){
       this.setRoleId("3");
     }
     this.setRole(roles);
-    console.log(this.role,this.openId);
+    console.log('created方法role、openId值：',this.role,this.openId);
     roles == 'salesman'?this.pageName='salesman':this.pageName='Administrator';
 
     //判断是否有code
-      if (!this.$store.state.code) {
+      if (!this.code) {
         var code = this.getUrlParam("code");
         if (!code) {
           let REDIRECT_URI = encodeURIComponent(
@@ -81,8 +82,8 @@ export default {
           this.getOpenId(code);
         }
       } else {
-          this.getInitList();
-        }
+        this.getInitList();
+      }
   },
 
   mounted(){
@@ -100,15 +101,15 @@ export default {
       this.$router.go(-1);
     },
        //获取openid
-     async getOpenId(code){ console.log(code)       
+     async getOpenId(code){ 
+          console.log('getOpenId方法code值：',code);       
           let res = await login.getOpenId({
             code: code
           });
-          let openId = res.data.data;
-          console.log(openId);
-          if (openId) {
-            this.openId = openId;
-            this.setOpenID(this.openId);
+          let _openId = res.data.data;
+          console.log('_openId:',_openId);
+          if (_openId) {
+            this.setOpenID(_openId);
             this.getInitList();
           }
         },
