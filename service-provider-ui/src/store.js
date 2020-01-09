@@ -5,7 +5,7 @@ export default new Vuex.Store({
     state: {
         code: '',
         token: '', //localStorage.getItem("token") || null,,
-        openId: '', //进入首页即请求openID
+        openId: 'ok9yus0YUkW3qTOV4E5fqQ-kcAsU', //进入首页即请求openID
         role: '', //进入页面的角色，管理员agent或者业务员salesman，登录时传给后台 财务员finance
         salesID: '', //管理员查找业务员时得到的ID，可用于查看业务员个人信息
         LookName: '', //管理员正在查看的业务员的名字
