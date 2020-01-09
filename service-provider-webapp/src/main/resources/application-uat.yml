@@ -14,6 +14,16 @@ images:
   relativePath: /pic/
 
 
+
+spring:
+  redis:
+    host: 172.16.30.70
+    port: 6379
+    password: pass123
+    jedis:
+      pool:
+        max-active: 66
+
 wxauth:
   #填写公众号的APPID
   appid: wxce65746e62998dce
