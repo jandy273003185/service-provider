@@ -276,13 +276,16 @@ export default {
       // if (loginData.data.resultCode == 1) {
       //   this.$toast("登录成功");
         // if (this.role == "agent" || this.role == "finance") {
-          console.log(this.role);
-          this.$router.replace({
-            name: "selectServiceMerchant",
-            params: {
-              fname: "selectServiceMerchant"
-            }
-          });
+          // console.log(this.role);
+          // if(loginData.data.data.code == 200){
+          //   this.$router.replace({
+          //     name: "selectServiceMerchant",
+          //     params: {
+          //       fname: "selectServiceMerchant"
+          //     }
+          //   });
+          // }
+          
         // } else if(this.role == "salesman") {
         //   console.log(this.role);
         //   this.$router.replace({

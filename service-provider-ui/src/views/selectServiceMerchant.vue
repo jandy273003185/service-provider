@@ -56,7 +56,7 @@ export default {
     ...mapState(["openId",'role','code'])
   },
   created() {
-    const roles = this.getUrlParam('role') || this.$route.query.role || location.href.split("=")[1];
+    const roles = this.getUrlParam("role") || location.href.split("=")[1] || this.$route.query.role;
     if(roles == 'agent' || roles == 'finance'){
       this.setRole(roles);
       this.setRoleId("2");
@@ -64,7 +64,7 @@ export default {
       this.setRole(roles);
       this.setRoleId("3");
     }
-    console.log('created方法role、openId值：',roles,this.role,this.openId);
+    console.log('created方法--','roles:'+roles,'role:'+this.role,'openId:'+this.openId);
     roles == 'salesman'?this.pageName='salesman':this.pageName='Administrator';
 
     //判断是否有code
@@ -83,7 +83,12 @@ export default {
           this.setCode(code);
           this.getOpenId(code);
         }
+        // this.isLoad = true;
+        // this.setCode(code);
+        // this.setOpenID('P70000108');
+        // this.getInitList();
       } else {
+        this.isLoad = true;
         this.getInitList();
       }
   },

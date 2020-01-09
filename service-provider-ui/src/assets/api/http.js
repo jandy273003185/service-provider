@@ -39,8 +39,8 @@ axios.interceptors.response.use(res => {
                             path: '/selectServiceMerchant'
                         })
                     }
+                    return;
                 })
-                return;
             }
         }
     }

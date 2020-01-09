@@ -1,5 +1,5 @@
 <template>
-  <div v-show="logined">
+  <div >
     <BaseHeader></BaseHeader>
     <div class="salesman">
       <div class="serachBox">
@@ -57,7 +57,6 @@ export default {
   components: { timeSelect, BaseHeader },
   data() {
     return {
-      logined:false,//控制页面已经在登录状态
       islogin: false,//组件事件选择控制
       openId: "",
       roleId: "salesman",
@@ -73,10 +72,10 @@ export default {
     this.setCheckedState('');
     if(this.$route.params.userType == 'salesman'){
       this.firstLogin();
+    }else{
+      this.islogin = true;
+      this.salesShopNew();
     }
-
-    console.log("createdCode");
-    console.log(this.$store.state.code);
   },
   mounted() {},
 
@@ -88,15 +87,16 @@ export default {
       console.log(res);
     
        //已绑定
-          this.logined=true;
           localStorage.setItem("token", res.data.data.token);
           axios.defaults.headers.common["token"] = res.data.data.token;
           this.setToken(res.data.data.token);
           this.setUserId(this.$route.params.userId);
+          this.setCustId(this.$route.params.userId);
           this.setUserName(res.data.data.userName);
           storage.set("userId", this.$route.params.userId);
           console.log(storage.get("userId"));
           this.islogin = true;
+          this.salesShopNew();
     },
     toIncoming() {
       //路由跳转到商户进件页面
