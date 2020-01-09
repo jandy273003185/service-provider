@@ -77,7 +77,7 @@ export default {
           window.location.href =
             "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
             REDIRECT_URI +
-            "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+            "&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
         } else {
           this.isLoad = true;
           this.setCode(code);
