@@ -1,5 +1,5 @@
 <template>
-  <div v-show="logined">
+  <div>
     <!--管理员-->
     <BaseHeader></BaseHeader>
     <div class="admin">
@@ -9,7 +9,7 @@
           <div>搜索业务员名字</div>
         </div>
       </div>
-      <div class="incomingBox" @click="toIncoming">
+      <div v-if="role=='agent'" class="incomingBox" @click="toIncoming">
         <div class="buttonAdd">
           <img src="../assets/images/home/add.png" alt="添加"/>
           <p>商户进件</p>
@@ -71,7 +71,7 @@
   import BaseHeader from "../components/baser-header.vue";
   import {login, adminIndex} from "../assets/api/interface";
   /*   import { mapState } from 'vuex';*/
-  import {mapMutations} from "vuex";
+  import {mapMutations,mapState} from "vuex";
   import storage from "../assets/modeljs/storage.js";
   import axios from "axios";
   import util from "@/lib/util.js";
@@ -81,7 +81,6 @@
     components: {timeSelect, BaseHeader},
     data() {
       return {
-        logined: false,//控制页面已经在登录状态
         sortType: 0,
         openId: "",
         roleId: "",
@@ -104,8 +103,14 @@
       this.setCheckedState('');
       if(this.$route.params.userType == 'agent' || this.$route.params.userType == 'finance'){
         this.firstLogin();
+      }else{
+          this.getSalesRanking(1);
+          this.islogin=true;
       }
+      
+      
     },
+    computed:{...mapState(['role'])},
       mounted(){
         
       },
@@ -120,15 +125,15 @@
           console.log(res);
         
           //已绑定
-          this.logined=true;
           localStorage.setItem("token", res.data.data.token);
           axios.defaults.headers.common["token"] = res.data.data.token;
           this.setToken(res.data.data.token);
           this.setUserId(this.$route.params.userId);
           this.setUserName(res.data.data.userName);
           storage.set("userId", this.$route.params.userId);
+          this.getSalesRanking(1);
+          this.islogin=true;
           console.log(storage.get("userId"));
-          this.islogin = true;
         },
        
         channgeTab(e){
@@ -200,12 +205,12 @@
         },
        
         ...mapMutations([
-          "setRole",
+          
           "setToken",
           "setUserId",
           "setRoleId",
-          "setOpenID",
-          "setCode",
+         
+       
           "setCustId",
           "setUserName",
           "setincoming",

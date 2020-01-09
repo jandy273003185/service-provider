@@ -55,9 +55,9 @@ export default new Router({
             component: view("salesman") //业务员主页
         },
         {
-            path: "/goods",
-            name: "goods",
-            component: view("goods"), //交易
+            path: "/shop",
+            name: "shop",
+            component: view("shop"), //商户
         },
         {
             path: "/goods",
