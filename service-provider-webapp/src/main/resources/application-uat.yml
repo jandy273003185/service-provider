@@ -16,8 +16,8 @@ images:
 
 wxauth:
   #填写公众号的APPID
-  appid: wxce65746e62998dce
+  appid: wx3a39d7744ca89257
   #填写公众号的APPSECRET
-  appsecret: 67c3aebf0e3e397df1fce595b837353b
+  appsecret: f3e347b2d2c038aecc7d0ecdc38070a0
   #这里的token要和微信公众号号网页填写的token一样
   token: ok_ok_token
