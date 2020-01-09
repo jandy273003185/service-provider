@@ -151,6 +151,7 @@ export default {
           //请求分页数据数据
           this.shopList=[]; //清空数组
           this.customShow = true;//打开list,重新请求数据
+          this.getInitList();
         }else {
           Dialog({ message: '查看的开始时间必须小于或等于结束时间！！' });
         }

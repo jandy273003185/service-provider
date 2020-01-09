@@ -83,7 +83,12 @@ export default {
           this.setCode(code);
           this.getOpenId(code);
         }
+        // this.isLoad = true;
+        // this.setCode(code);
+        // this.setOpenID('P70000108');
+        // this.getInitList();
       } else {
+        this.isLoad = true;
         this.getInitList();
       }
   },
