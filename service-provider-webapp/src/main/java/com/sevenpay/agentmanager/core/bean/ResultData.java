@@ -53,10 +53,6 @@ public class ResultData extends HashMap<String, Object> implements Serializable 
         return resultData;
     }
 
-    public static ResultData success(String msg) {
-        return success("200", msg);
-    }
-
     public static ResultData success(Object obj) {
         ResultData resultData = new ResultData();
         resultData.put("code", 200);

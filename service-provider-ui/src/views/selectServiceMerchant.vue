@@ -56,15 +56,15 @@ export default {
     ...mapState(["openId",'role','code'])
   },
   created() {
-    // const roles = this.$route.query.role;
-    const roles = this.getUrlParam('role');
+    const roles = this.getUrlParam('role') || this.$route.query.role || location.href.split("=")[1];
     if(roles == 'agent' || roles == 'finance'){
+      this.setRole(roles);
       this.setRoleId("2");
     }else if(roles == 'salesman'){
+      this.setRole(roles);
       this.setRoleId("3");
     }
-    this.setRole(roles);
-    console.log('created方法role、openId值：',this.role,this.openId);
+    console.log('created方法role、openId值：',roles,this.role,this.openId);
     roles == 'salesman'?this.pageName='salesman':this.pageName='Administrator';
 
     //判断是否有code
