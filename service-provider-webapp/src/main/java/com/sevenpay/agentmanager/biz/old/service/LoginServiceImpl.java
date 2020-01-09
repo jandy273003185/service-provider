@@ -175,6 +175,7 @@ public class LoginServiceImpl extends BaseService {
         //不同的角色获取不同的用户信息表
         LoginUser loginUser = new LoginUser();
         UserLoginRelate respInfo = userLoginRelates.get(0);
+        loginUser.setUserId(respInfo.getUserId());
         if (respInfo == null) {
             throw new BizException("获取绑定信息失败,请重新进入页面!");
         }
@@ -183,6 +184,7 @@ public class LoginServiceImpl extends BaseService {
             case "agent":
                 Map<String, Object> agentInfo = merchantStatusService.getMerchantInfoByCustId(respInfo.getUserId());
                 userName = agentInfo.get("custName").toString();
+                agentInfo.put("custId",respInfo.getUserId());
                 loginUser.setUserInfo(agentInfo);
                 break;
             case "salesman":
@@ -202,10 +204,10 @@ public class LoginServiceImpl extends BaseService {
         /**
          * 根据用户编号和密码加密生成token
          */
-        String agentToken = JWTUtil.sign(respInfo.getUserId(), respInfo.getOpenId());
-        loginUser.setToken(agentToken);
+        String token = JWTUtil.sign(respInfo.getUserId(), respInfo.getOpenId());
+        loginUser.setToken(token);
 
-        String md5Token = MD5Security.getMD5String(agentToken + CacheConstants.TOKEN_MD5_SECRET);
+        String md5Token = MD5Security.getMD5String(token + CacheConstants.TOKEN_MD5_SECRET);
         redisUtils.setCacheObject(CacheConstants.TOKEN_MD5_KEY + md5Token, md5Token, 3600 * 24 * 2l);
         return ResultData.success(loginUser);
     }
