@@ -301,4 +301,10 @@ select{
   text-align: center;
   text-align-last: center;
 }
+
+.addSales{
+  transform:none;
+  top: 30%;
+  left: 10%;
+}
 </style>

@@ -92,7 +92,7 @@
       <div class="addSales">
         <div class="tit">添加业务员</div>
         <div class="item">
-          <span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span>
+          <span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span>
           <input v-model="inpName" placeholder="请输入名字" />
         </div>
         <div class="item">

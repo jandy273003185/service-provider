@@ -260,8 +260,16 @@
             logout(){//退出登录
                 Dialog.confirm({
                     title: '是否确定退出登录'
-                }).then(() => {
-                    login.loginout(this.token);
+                }).then(async () => {
+                    const result = await login.loginout(this.token);
+                    if(result.data.code == 200){
+                        this.$router.replace({
+                        name: "selectServiceMerchant",
+                        params: {
+                            fname: "selectServiceMerchant"
+                        }
+                        });
+                    }
                 }).catch(() => {
                 // on cancel
                 }); 
