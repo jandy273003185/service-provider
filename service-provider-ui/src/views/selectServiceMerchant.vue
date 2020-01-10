@@ -69,23 +69,23 @@ export default {
 
     //判断是否有code
       if (!this.code) {
-        // var code = this.getUrlParam("code");
-        // if (!code) {
-        //   let REDIRECT_URI = encodeURIComponent(
-        //     "https://sp-uat.qifenqian.com/wx/index.html#selectServiceMerchant"
-        //   );
-        //   window.location.href =
-        //     "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
-        //     REDIRECT_URI +
-        //     "&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
-        // } else {
-        //   this.isLoad = true;
-        //   this.setCode(code);
-        //   this.getOpenId(code);
-        // }
-        this.isLoad = true;
-        this.setOpenID('P70000108');
-        this.getInitList();
+        var code = this.getUrlParam("code");
+        if (!code) {
+          let REDIRECT_URI = encodeURIComponent(
+            "https://sp-uat.qifenqian.com/wx/index.html#selectServiceMerchant"
+          );
+          window.location.href =
+            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
+            REDIRECT_URI +
+            "&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
+        } else {
+          this.isLoad = true;
+          this.setCode(code);
+          this.getOpenId(code);
+        }
+        // this.isLoad = true;
+        // this.setOpenID('P70000108');
+        // this.getInitList();
       } else {
         this.isLoad = true;
         this.getInitList();
