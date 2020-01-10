@@ -15,6 +15,7 @@ import com.sevenpay.agentmanager.common.constants.CacheConstants;
 import com.sevenpay.agentmanager.common.utils.redis.RedisUtils;
 import com.sevenpay.agentmanager.common.utils.verfycode.VerifyInfoConstant;
 import com.sevenpay.agentmanager.core.bean.ResultData;
+import com.sevenpay.agentmanager.core.controller.AbstractBaseController;
 import com.sevenpay.agentmanager.core.exception.BizException;
 import com.sevenpay.external.app.common.util.MD5Security;
 import org.apache.commons.lang3.StringUtils;
@@ -35,7 +36,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
-public class LoginController {
+public class LoginController extends AbstractBaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
@@ -83,21 +84,14 @@ public class LoginController {
         }
 
         //分布式锁
-        String lockKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName;
+//        String lockKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName;
         String timeKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "time";
         String dateKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "date";
-        /**
-         * 锁起
-         */
-
-        if (!redisUtils.addLock(lockKey)) {
-            return ResultData.error("请慢点点！");
-        }
 
         /**
          * 判断是否之前已经操作错误
          */
-        if (!redisUtils.addLock(dateKey, 2)) {
+        if (redisUtils.hasKey(dateKey)) {
             //TODO 提示剩余时间
             long total = Long.valueOf(redisUtils.getCacheObject(dateKey));
             long current = new Date().getTime();
@@ -108,7 +102,7 @@ public class LoginController {
         /**
          * 初始化登录校验失败次数
          */
-        if (redisUtils.addLock(timeKey)) {
+        if (!redisUtils.hasKey(timeKey)) {
             redisUtils.setCacheObject(timeKey, String.valueOf(5), 60 * 60 * 24l);
         }
         Integer time = Integer.valueOf(redisUtils.getCacheObject(timeKey));
@@ -138,18 +132,12 @@ public class LoginController {
             flag = false;
             time--;
             redisUtils.setCacheObject(timeKey, String.valueOf(time), 60 * 60 * 24l);
+            throw new BizException(msg);
         } finally {
             /**
              * 清除登录者的key
              */
-            redisUtils.delCacheWith(lockKey);
-        }
-
-        if (!flag) {
-            /**
-             * 抛出异常到前端提示
-             */
-            return ResultData.error(msg);
+//            redisUtils.delCacheWith(lockKey);
         }
         /**
          * 登录成功清除锁

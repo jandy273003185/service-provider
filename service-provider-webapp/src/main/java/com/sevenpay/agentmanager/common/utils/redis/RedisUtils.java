@@ -96,14 +96,10 @@ public class RedisUtils {
      * @Author: LiBin
      * @Date: 2019-08-08 09:48
      */
-    public boolean addLock(final String key) {
-        return addLock(key, 60);
-    }
-
     public boolean addLock(final String key, Integer timeout) {
         this.makeRedisKey(key);
         ValueOperations<String, String> operation = redisTemplate.opsForValue();
-        boolean result = operation.setIfAbsent(key, key);
+        boolean result = operation.setIfAbsent(key, "");
         if (result) {
             if (null == timeout || timeout == 0) {
                 timeout = 60;

@@ -1,15 +1,19 @@
 package com.sevenpay.agentmanager.biz.old.service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.qifenqian.app.bean.TdCustInfo;
+import com.qifenqian.app.bean.TdLoginUserInfo;
 import com.qifenqian.app.bean.UserLoginRelate;
 import com.qifenqian.app.bean.customer.FinanceInfo;
 import com.qifenqian.app.bean.customer.TdSalesmanInfo;
 import com.qifenqian.app.bean.dto.UserDTO;
+import com.qifenqian.app.bean.user.UpdatePwdReq;
 import com.qifenqian.app.customer.MerchantInfoService;
 import com.qifenqian.app.customer.MerchantStatusService;
 import com.qifenqian.app.customer.SalesmanManagerService;
 import com.qifenqian.app.enterprise.finance.FinanceManageService;
 import com.qifenqian.app.login.UserLoginManagerService;
+import com.qifenqian.app.user.TdLoginUserInfoService;
 import com.qifenqian.app.user.UserManager;
 import com.sevenpay.agentmanager.common.constants.CacheConstants;
 import com.sevenpay.agentmanager.common.jwt.JWTUtil;
@@ -47,6 +51,8 @@ public class LoginServiceImpl extends BaseService {
     @Reference
     private FinanceManageService financeManageService;//财务员接口
 
+    @Reference
+    private TdLoginUserInfoService tdLoginUserInfoService;
     /**
      * 服务商绑定
      */
@@ -395,20 +401,31 @@ public class LoginServiceImpl extends BaseService {
                 /**
                  * userId === 手机号
                  */
-                String pw = userManager.updateUserPasswordByMobile(userId, loginNewPw, userType);
-                if (StringUtils.isNotBlank(pw)) {
-                    result = true;
+                TdLoginUserInfo tdLoginUserInfo = tdLoginUserInfoService.queryMobileByCustId(userId);
+                if(tdLoginUserInfo != null){
+                    UpdatePwdReq updatePwdReq = new UpdatePwdReq();
+                    updatePwdReq.setCustId(userId);
+                    updatePwdReq.setNewPwd(loginNewPw);
+                    updatePwdReq.setOldPwd(loginPw);
+                    updatePwdReq.setRole("agent");
+                    Integer pw = tdLoginUserInfoService.updateLoginPwd(updatePwdReq);
+                    if (pw == 1) {
+                        result = true;
+                    }else {
+                        return ResultData.error("原密码错误");
+                    }
                 }
+
             }
             if (result) {
                 delTokenCache(token);
                 return ResultData.success("201", "修改密码成功!");
             } else {
-                return ResultData.error("500","原密码错误");
+                return ResultData.error("原密码错误");
 
             }
         } catch (Exception e) {
-            return ResultData.error();
+            return ResultData.error(e.getMessage());
         }
     }
 }

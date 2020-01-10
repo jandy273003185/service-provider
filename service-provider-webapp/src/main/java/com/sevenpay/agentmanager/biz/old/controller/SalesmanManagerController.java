@@ -251,7 +251,7 @@ public class SalesmanManagerController {
         if (!b) {
             return ResultData.error("该业务员手机号已绑定");
         }
-        return ResultData.success("可绑定");
+        return ResultData.success();
     }
 
 }
