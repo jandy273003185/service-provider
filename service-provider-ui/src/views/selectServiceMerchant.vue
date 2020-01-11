@@ -65,7 +65,7 @@ export default {
     }
 
     const roles = this.getUrlParam("roleCode") || this.$route.query.roleCode || wxStr;
-    alert(roles);
+    // alert(roles);
     if(roles == 'agent' || roles == 'finance'){
       this.setRole(roles);
       this.setRoleId("2");
