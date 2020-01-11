@@ -262,7 +262,7 @@
                     title: '是否确定退出登录'
                 }).then(async () => {
                     const result = await login.loginout(this.token);
-                    console.log(result);
+                    console.log('result-----------------'+result);
                     if(result.data.code == 200){
                         this.$router.replace({
                         name: "selectServiceMerchant",

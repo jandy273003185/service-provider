@@ -56,7 +56,8 @@ export default {
     ...mapState(["openId",'role','code'])
   },
   created() {
-    const roles = this.getUrlParam("role") || location.href.split("=")[1] || this.$route.query.role;
+    const roles = this.getUrlParam("roleCode") || location.href.split("=")[1] || this.$route.query.roleCode;
+    alert('rolesAAAAAAAAAA='+roles);
     if(roles == 'agent' || roles == 'finance'){
       this.setRole(roles);
       this.setRoleId("2");
@@ -72,7 +73,7 @@ export default {
         var code = this.getUrlParam("code");
         if (!code) {
           let REDIRECT_URI = encodeURIComponent(
-            "https://sp-uat.qifenqian.com/wx/index.html#selectServiceMerchant?role="+roles
+            "https://sp-uat.qifenqian.com/wx/index.html#selectServiceMerchant?roleCode="+roles
           );
           window.location.href =
             "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
@@ -96,7 +97,7 @@ export default {
     
   },
   methods: {
-    async getInitList() {
+    async getInitList() {alert('rolesBBBBBBBBBBBB='+this.role);
       let params = {openId:this.openId,roleCode:this.role};
       let list = await login.getBindingList(params);
       console.log(list);
