@@ -57,7 +57,7 @@ export default {
   },
   created() {
 
-    const wxStr = location.href.split("=")[1] ;
+    let wxStr = location.href.split("=")[1] ;
     if(wxStr){
       if(wxStr.indexOf("&")!= -1){
         wxStr = wxStr.split("&")[0];
