@@ -7,7 +7,6 @@ export default new Vuex.Store({
         token: '', //localStorage.getItem("token") || null,,
         openId: '', //进入首页即请求openID
         role: '', //进入页面的角色，管理员agent或者业务员salesman，登录时传给后台 财务员finance
-        roleType: '',
         salesID: '', //管理员查找业务员时得到的ID，可用于查看业务员个人信息
         LookName: '', //管理员正在查看的业务员的名字
         userName: '', //管理员或者业务员的名字
@@ -41,9 +40,6 @@ export default new Vuex.Store({
 
         setRole(state, obj) {
             state.role = obj; //确认是哪种角色进入
-        },
-        setRoleType(state, obj) {
-            state.roleType = obj;
         },
         selectName(state, sales) { //管理员想查看的业务员的名字
             state.LookName = sales.name;
