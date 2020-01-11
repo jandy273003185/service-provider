@@ -53,16 +53,19 @@ export default {
     };
   },
   computed: {
-    ...mapState(["openId",'role','code'])
+    ...mapState(['openId','role','roleType','code'])
   },
   created() {
     const roles = this.getUrlParam("roleCode") || location.href.split("=")[1] || this.$route.query.roleCode;
     alert('rolesAAAAAAAAAA='+roles);
     if(roles == 'agent' || roles == 'finance'){
+      alert('rolesBBBBBBBBBB='+roles);
       this.setRole(roles);
+      this.setRoleType(roles);
       this.setRoleId("2");
     }else if(roles == 'salesman'){
       this.setRole(roles);
+      this.setRoleType(roles);
       this.setRoleId("3");
     }
     console.log('created方法--','roles:'+roles,'role:'+this.role,'openId:'+this.openId);
@@ -97,7 +100,7 @@ export default {
     
   },
   methods: {
-    async getInitList() {alert('rolesBBBBBBBBBBBB='+this.role);
+    async getInitList() {alert('rolescccccccccccccc='+this.role+',rolesDDDDDDDDDDDDDD='+this.roleType);
       let params = {openId:this.openId,roleCode:this.role};
       let list = await login.getBindingList(params);
       console.log(list);
@@ -127,7 +130,7 @@ export default {
           if (r != null) return unescape(r[2]);//数组的索引[2]为code等号后面的值
           return null;
         },
-         ...mapMutations(['setOpenID','setRoleId','setRole','setCode','setToken','setUserId'])
+         ...mapMutations(['setOpenID','setRoleId','setRole','setRoleType','setCode','setToken','setUserId'])
   },
  
 };
