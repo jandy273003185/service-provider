@@ -1,12 +1,12 @@
 <template>
   <div class="sales" v-if="isLoad">
-    <van-nav-bar
+    <!-- <van-nav-bar
       :title="title"
       left-text="返回"
       left-arrow
       @click-left="changePrepage"
     >
-    </van-nav-bar>
+    </van-nav-bar> -->
     <div v-for="(item, index) in serviceMerchantList" :key="index">
       <router-link :to="{name:pageName,params:{openId:item.openId,userId:item.userId,userType:item.userType}}">
         <div class="list" >
@@ -72,7 +72,7 @@ export default {
         var code = this.getUrlParam("code");
         if (!code) {
           let REDIRECT_URI = encodeURIComponent(
-            "https://sp-uat.qifenqian.com/wx/index.html#selectServiceMerchant"
+            "https://sp-uat.qifenqian.com/wx/index.html#selectServiceMerchant?role="+roles
           );
           window.location.href =
             "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
