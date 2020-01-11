@@ -1,10 +1,7 @@
 package com.sevenpay.agentmanager.biz.finance.controller;
 
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.qifenqian.app.bean.UserLoginRelate;
 import com.qifenqian.app.bean.customer.FinanceInfo;
-import com.qifenqian.app.login.UserLoginManagerService;
 import com.sevenpay.agentmanager.biz.finance.service.FinanceServiceImpl;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.controller.AbstractBaseController;
@@ -13,8 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * 财务员
@@ -69,7 +64,7 @@ public class FinanceController extends AbstractBaseController {
         }
 
         FinanceInfo financeInfo = new FinanceInfo();
-
+        financeInfo.setCustId(custId);
 
         return financeService.getFinanceList(financeInfo);
     }
