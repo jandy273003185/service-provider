@@ -34,7 +34,7 @@
               <span class="time">{{ item.createTime }}</span>
             </div>
             <span v-if="item.state=='00'&&item.filingAuditStatus=='00'" class=" state state_0">审核通过</span>
-            <span v-if="item.state=='00'&&item.filingAuditStatus!='00'" class=" state state_2">审核中</span>
+            <span v-if="item.state=='00'&&item.filingAuditStatus=='01'" class=" state state_2">审核中</span>
             <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
             <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
             <span v-if="item.state=='05'" class=" state state_5">待完善</span>
