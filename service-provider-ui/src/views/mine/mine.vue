@@ -24,12 +24,12 @@
             <router-link to="/financialManage" class="item" v-if="role=='agent'">财务管理
                 <van-icon class="icon" name="arrow"/>
             </router-link>
-            <router-link to="/shareProfit" class="item" v-if="role=='agent'||role=='finance'">分润参考
+            <!-- <router-link to="/shareProfit" class="item" v-if="role=='agent'||role=='finance'">分润参考
                 <van-icon class="icon" name="arrow"/>
             </router-link>
-            <!-- <div class="item" v-if="role=='finance'" @click="getBill">获取账单
+            <div class="item" v-if="role=='finance'" @click="getBill">获取账单
                 <van-icon class="icon" name="arrow"/>
-            </div> -->
+            </div>  -->
             <router-link to="/about" class="item">关于
                 <van-icon class="icon" name="arrow"/>
             </router-link>

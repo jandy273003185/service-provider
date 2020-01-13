@@ -254,8 +254,8 @@ export default {
         productInfos:JSON.stringify(newProlist) ,
         custId:this.custId
       });
-      if(listInfo.data.resultCode=="1"){
-        Dialog({ message: listInfo.data.data ,closeOnPopstate:true});
+      if(listInfo.data.code==200){
+        Dialog({ message: listInfo.data.data.msg ,closeOnPopstate:true});
         setTimeout(function(){
           _this.$router.go(-1);
         },1500)

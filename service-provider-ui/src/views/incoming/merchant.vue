@@ -290,7 +290,7 @@ export default {
     }, */
     async changeBankHead(name = "") {
       let res = await incoming.bankHead({ bankName: name });
-      if (res.data.resultCode == 1) {
+      if (res.data.code == 200) {
         this.bankpicker = true;
         this.bankList = res.data.data;
         this.bankbranchName = ""; //清除支行数据
@@ -327,7 +327,7 @@ export default {
             cityCode: this.params.bankCityName,
             bankCode: this.params.compAcctBank
           });
-          if (res.data.resultCode == 1) {
+          if (res.data.code == 200) {
             this.bankbranchpicker = true;
             this.bankbranchList = res.data.data;
           }
@@ -352,7 +352,7 @@ export default {
         this.$toast("请确认开户银行！");
       } else {
         let res = await common.bankAddress();
-        if (res.data.resultCode == 1) {
+        if (res.data.code == 200) {
           this.provincepicker = true;
           this.provinceList = res.data.data;
         } else {

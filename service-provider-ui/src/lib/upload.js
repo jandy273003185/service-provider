@@ -10,7 +10,7 @@ const uploadImg = {
         });
         let info = await common.uploadImg(data);
         that.$toast.clear();
-        if (info.data && info.data.resultCode && info.data.resultCode == "200") {
+        if (info.data && info.data.code && info.data.code == 200) {
             let resultMsg = JSON.parse(info.data.data);
             let fullUrl = resultMsg.uri + "" + resultMsg.url;
             if (name != 'businessPhoto') {

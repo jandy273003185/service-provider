@@ -69,13 +69,13 @@ export default {
              };
              const codeBack = await common.updatePwd(params);
               console.log(codeBack);
-             if( codeBack.data.resultCode == 1 ){
+             if( codeBack.data.code == 200 ){
                Dialog({ message: '修改密码成功' });
                setTimeout(function(){
                  _this.$router.go(-1);
                },1500)
-             }else if( codeBack.data.resultCode == 0 ){
-               Dialog({ message: '原密码填写错误' });
+             }else if( codeBack.data.code == 0 ){
+              //  Dialog({ message: '原密码填写错误' });
                return;
              }
            }else {

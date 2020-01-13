@@ -177,7 +177,7 @@ export default {
         custId: custId,
         id: id
       });
-      if (res.data.resultCode == "1") {
+      if (res.data.code == 200) {
         console.log("重置密码成功");
         Dialog({ message: "重置密码成功" });
       }
@@ -242,7 +242,7 @@ export default {
         let phoneCode = await common.addSales({phone:this.inpAccount,custId:this.userId});//号码校验是否绑定过
         console.log(phoneCode);
         this.$toast.clear();
-        if(phoneCode.data.resultCode == 1){//手机号未绑定过，可注册
+        if(phoneCode.data.code == 200){//手机号未绑定过，可注册
           let res = await common.insertSales({
             userName: this.inpName,
             password: "123456",
@@ -250,20 +250,20 @@ export default {
             custId: this.userId, //管理员的userId
             status: 1
           });
-          if (res && res.data.resultCode == "1") {
+          if (res && res.data.code == 200) {
             let params = {custId: this.userId};
             this.getInitList(params);
             this.$toast("添加业务员成功！");
             this.cancelAdding();
           } else {
-            Dialog({ message: "添加业务员失败！" });
+            // Dialog({ message: "添加业务员失败！" });
           }
         }else{//手机号已有绑定，不可再注册
-          if(phoneCode.data&&phoneCode.data.data){
-            Dialog({ message: phoneCode.data.data });
-          }else{
-            Dialog({ message:"请求异常！" });
-          }
+          // if(phoneCode.data&&phoneCode.data.data){
+          //   Dialog({ message: phoneCode.data.data });
+          // }else{
+          //   Dialog({ message:"请求异常！" });
+          // }
 
         }
       } else {

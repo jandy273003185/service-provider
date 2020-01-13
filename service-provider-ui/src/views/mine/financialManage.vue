@@ -102,7 +102,7 @@ export default {
   },
 
   mounted(){
-    let params = {custId: '4a41958e0a8941e591ea952542854deb'};
+    let params = {custId: this.userId};
     this.getInitList(params);
   },
   methods: {
@@ -218,7 +218,7 @@ export default {
             forbidClick: true,
             duration: 0
           });
-          let phoneCode = await common.addFinancial({mobile:this.inpAccount,custId:'4a41958e0a8941e591ea952542854deb'});//号码校验是否绑定过
+          let phoneCode = await common.addFinancial({mobile:this.inpAccount,custId:this.userId});//号码校验是否绑定过
           console.log(phoneCode);
           this.$toast.clear();
             let res = await common.insertFinancial({

@@ -114,10 +114,10 @@ export default {
       if(Phone&&(/^1[3456789]\d{9}$/.test(Phone))){
         this.forgetCountTime();
         let loginData = await login.forgetCode({mobile:Phone,roleCode:this.role});
-        if(loginData.data.resultCode == 1){
+        if(loginData.data.code == 200){
           this.$toast({ message: "已发送短信验证码，请查收" });
         }else {
-          this.$toast({ message: '验证码发送失败'});
+          // this.$toast({ message: '验证码发送失败'});
         }
       }else {
         this.$toast({ message: "请输入手机号" });
@@ -128,10 +128,10 @@ export default {
       if(Phone&&(/^1[3456789]\d{9}$/.test(Phone))){
         this.countTime();
         let loginData = await login.code({mobile:Phone,roleCode:this.role});
-        if(loginData.data.resultCode == 1){
+        if(loginData.data.code == 200){
           this.$toast({ message: "已发送短信验证码，请查收" });
         }else {
-          this.$toast({ message: loginData.data.data});
+          // this.$toast({ message: loginData.data.data});
         }
       }else {
         this.$toast({ message: "请输入手机号" });
@@ -228,11 +228,12 @@ export default {
         roleCode:this.role,
         verifyCode:this.forgetCode
       });
-      if(codeData.data&&codeData.data.resultCode==1){//验证码正确
+      if(codeData.data&&codeData.data.code==200){//验证码正确
         this.setNewPsd();
-      }else if(codeData.data&&codeData.data.resultCode==0){
-        this.$toast({message:codeData.data.data});
       }
+      // else{
+      //   this.$toast({message:codeData.data.data});
+      // }
     },
     //设置新密码
     async setNewPsd(){
@@ -242,7 +243,7 @@ export default {
           roleCode:this.role,
         };
         let psdData = await login.resetNewPsd(params);
-        if(psdData.data&&psdData.data.resultCode==1){
+        if(psdData.data&&psdData.data.code==200){
           this.showFind=false;
           this.forgetPhone='';
           this.forgetNewPsd='';
@@ -250,7 +251,7 @@ export default {
           clearTimeout(this.Ftimer);
           this.$toast('密码修改成功，请登录');
         }else {
-          this.$toast('密码修改失败');
+         // this.$toast('密码修改失败');
         }
         console.log(psdData);
     },
@@ -291,7 +292,7 @@ export default {
         loginData = await login.salesCodeLogin(params);
       }
       console.log(loginData);
-      if (loginData.data.resultCode == 1) {
+      if (loginData.data.code == 200) {
         clearTimeout(this.timer);
         this.$toast("登录成功");
           console.log(this.role);
@@ -313,7 +314,7 @@ export default {
           });
         }
       } else {
-        Dialog({ message: loginData.data.data });
+        //Dialog({ message: loginData.data.data });
       }
     }
     /*...mapMutations(['setToken','setGrade'])*/

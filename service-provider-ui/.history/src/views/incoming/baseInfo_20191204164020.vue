@@ -363,7 +363,7 @@ export default {
         let res = await incoming.checkPhone({
           merchantAccount: merchantAccount
         });
-        if (res.data.resultCode == 0) {
+        if (res.data.code == 0) {
           //已绑定
           Dialog({ message: "该商户账号已进件！" });
         }

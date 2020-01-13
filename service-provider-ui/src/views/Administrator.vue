@@ -108,14 +108,13 @@
           this.islogin=true;
       }
       
-      
+      console.log('line:111,role------------',this.role);
     },
-    computed:{...mapState(['role'])},
       mounted(){
         
       },
       computed: {
-
+        ...mapState(['role'])
       },
       methods: {
         async firstLogin() {
@@ -177,11 +176,13 @@
           //业务员排名
           const params = {
             sortType: type ,
+            // userId: '7a25180eefee423a992d29d9712b6f9d',
             userId: this.$store.state.userId,
             queryStartDate: this.queryStartDate,
             queryEndDate: this.queryEndDate,
             roleId: 2
           };
+          console.log(params)
           let sales = await adminIndex.SalesRanking(params);
           let list = sales.data.data;
           console.log(list);
@@ -235,6 +236,7 @@
       background-color: #699dd7;
       display: flex;
       align-items: center;
+      margin-bottom: vw(36);
 
       .search {
         width: vw(690);
@@ -265,7 +267,7 @@
     .incomingBox {
       width: vw(690);
       height: vw(80);
-      margin: vw(36) auto;
+      margin: 0 auto vw(36) auto;
       border: vw(1) dashed #699dd7;
 
       .buttonAdd {
