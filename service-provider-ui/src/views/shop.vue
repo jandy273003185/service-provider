@@ -57,7 +57,7 @@
                 <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
               </div>
               <span v-if="item.state=='00'&&item.filingAuditStatus=='00'" class=" state state_0">审核通过</span>
-              <span v-if="item.state=='00'&&item.filingAuditStatus!='00'" class=" state state_2">审核中</span>
+              <span v-if="item.state=='00'&&item.filingAuditStatus=='01'" class=" state state_2">审核中</span>
               <span v-if="item.state=='01'"  class=" state state_1">待审核</span>
               <span v-if="item.state=='04'" class=" state state_4">审核失败</span>
               <span v-if="item.state=='05'" class=" state state_5">待完善</span>
@@ -258,7 +258,7 @@ export default {
 
       if(this.active==2) stateCode='01';//待审核
 
-      if(this.active==3) stateCode='00';//审核中
+      if(this.active==3){ stateCode='00'; filingAuditStatus='01';}//审核中
 
       if(this.active==4) stateCode='04';//审核失败
 
