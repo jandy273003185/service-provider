@@ -80,7 +80,7 @@ public class UploadFileController {
      */
     @RequestMapping("youTu")
     @ResponseBody
-    public String youTu(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResultData youTu(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("********************获取图片内容********************");
         JSONObject object = new JSONObject();
         try {
@@ -98,17 +98,16 @@ public class UploadFileController {
             //解析图片，返回图片信息
             object = youto.youTu(str, flag);
             logger.info("********************图片解析成功********************");
-            if(!StringUtils.isBlank(resultMsg[1])){
+            if (!StringUtils.isBlank(resultMsg[1])) {
                 object.put("imagePath", resultMsg[1]);
                 object.put("url", new StringBuilder(relativePath).append(resultMsg[1]));
             }
             object.put("uri", uri);
+            return ResultData.success(object);
         } catch (Exception e) {
             logger.error("解析图片出现问题" + e);
-            object.put("result", "FAIL");
-            object.put("message", e.getMessage());
+            throw new BizException("解析图片出现问题" + e.getMessage());
         }
-        return object.toJSONString();
     }
 
     /**

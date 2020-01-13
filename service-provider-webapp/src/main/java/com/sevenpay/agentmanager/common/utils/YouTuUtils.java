@@ -85,22 +85,22 @@ public class YouTuUtils {
                     Map<String, Object> map = listObjectFir.get(i);
                     for (int j = 0; j < map.size(); j++) {
                         if ("注册号".equals(map.get("item"))) {
-                            if (respose.get("itemstring") != null){
+                            if (map.get("itemstring") != null){
                                 object.put("businessLicense", map.get("itemstring"));//公司名称
                             }
                             break;
                         } else if ("法定代表人".equals(map.get("item"))) {
-                            if (respose.get("itemstring") != null){
+                            if (map.get("itemstring") != null){
                                 object.put("legalPerson", map.get("itemstring"));//法定代表人
                             }
                             break;
                         } else if ("地址".equals(map.get("item"))) {
-                            if (respose.get("itemstring") != null){
+                            if (map.get("itemstring") != null){
                                 object.put("legalAddress", map.get("itemstring"));//地址
                             }
                             break;
                         } else if ("公司名称".equals(map.get("item"))) {
-                            if (respose.get("itemstring") != null){
+                            if (map.get("itemstring") != null){
                                 object.put("companyName", map.get("itemstring"));//地址
                             }
                             break;
