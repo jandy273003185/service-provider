@@ -128,7 +128,7 @@
           axios.defaults.headers.common["token"] = res.data.data.token;
           this.setToken(res.data.data.token);
           this.setUserId(this.$route.params.userId);
-          this.setCustId(this.$route.params.userId);
+          this.setCustId(this.$route.params.custId);
           this.setUserName(res.data.data.userName);
           storage.set("userId", this.$route.params.userId);
           this.getSalesRanking(1);

@@ -96,13 +96,13 @@ const uploadImg = {
         };
         const info = await common.getImgInfo(params);
         that.$toast.clear();
-        if (info.data && info.data.result && info.data.result == "SUCCESS") {
-            const imgUrl = info.data.uri + "" + info.data.url;
+        if (info.data.data && info.data.data.result && info.data.data.result == "SUCCESS") {
+            const imgUrl = info.data.data.uri + "" + info.data.data.url;
             if (name == 'businessPhoto') {
                 that.photos.businessPhoto = [{ url: imgUrl }];
-                let businessLicense = info.data.businessLicense;
-                let businessTermEnd = info.data.businessTermEnd;
-                let businessTermStart = info.data.businessTermStart;
+                let businessLicense = info.data.data.businessLicense;
+                let businessTermEnd = info.data.data.businessTermEnd;
+                let businessTermStart = info.data.data.businessTermStart;
                 that.params.businessLicense = businessLicense;
                 that.params.businessTermEnd = businessTermEnd;
                 that.params.businessTermStart = businessTermStart;
@@ -110,14 +110,14 @@ const uploadImg = {
             if (name == "certAttribute1") {
                 that.photos.identityCardFront = [{ url: imgUrl }];
                 that.params.identityCardFront = imgUrl;
-                that.params.representativeName = info.data.cardName;
-                that.params.representativeCertNo = info.data.cardId;
+                that.params.representativeName = info.data.data.cardName;
+                that.params.representativeCertNo = info.data.data.cardId;
             }
             if (name == "certAttribute2") {
 
                 that.params.identityCardReverse = imgUrl;
                 that.photos.identityCardReverse = [{ url: imgUrl }];
-                let arr = info.data.cardValidDate.split("-");
+                let arr = info.data.data.cardValidDate.split("-");
                 that.params.idTermStart = arr[0];
                 that.params.idTermEnd = arr[1];
             }
