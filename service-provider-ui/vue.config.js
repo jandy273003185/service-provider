@@ -27,8 +27,9 @@ module.exports = {
                 ws: false,
                 /* 目标代理服务器地址 */
                 target: 'https://sp-uat.qifenqian.com',
+
+                // target: 'http://192.168.1.141:8083', //何老板
                 // target: 'http://192.168.1.131:9999',
-                // target: 'http://192.168.1.141:8083',//何老板
                 // target: 'http://192.168.1.192:8082', //李老板
 
                 /* 允许跨域 */

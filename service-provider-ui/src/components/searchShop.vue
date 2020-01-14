@@ -54,7 +54,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(['roleId','userId'])
+        ...mapState(['roleId','userId','role','custId'])
     },
     created(){
         this.$store.commit("setincoming", {});
@@ -98,7 +98,7 @@ export default {
             this.hasSearched=true;
             let listInfo=await shopAuditInfo.shopAuditInfo({
                 custName:this.value,//商户名
-                userId:this.userId,
+                userId:this.role == 'finance'?this.custId:this.userId,
                 pageSize:'20',
                 pageNum:this.pageNum,
                 roleId:this.roleId

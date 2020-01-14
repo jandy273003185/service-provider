@@ -69,7 +69,7 @@ export default {
     //进件初始化
     this.setincoming('');
     this.setPhotos('');
-    this.setCheckedState('');
+    this.setCheckedState('');console.log(this.$route.params.userType);
     if(this.$route.params.userType == 'salesman'){
       this.firstLogin();
     }else{

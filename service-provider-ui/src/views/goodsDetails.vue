@@ -9,7 +9,7 @@
     </van-nav-bar>
     <!-- <van-tabs v-model="tabActive"  title-active-color="#699dd7" color="#699dd7" @click="onClick" > -->
         <div class="total">
-          <div class="total-title">经营数据</div>
+          <div class="total-title">{{this.$route.params.queryStartDate}}-{{this.$route.params.queryEndDate}} 经营数据</div>
           <div class="total-content">
             <div><p>{{this.$route.params.transactionAmount}}</p><p>交易额(元)</p></div>
             <div><p>{{this.$route.params.transactionNum}}</p><p>交易笔数(笔)</p></div>
@@ -26,17 +26,17 @@
             </div>
             <div>
               <p>{{item.channel | payType}}</p>
-              <p>16:51</p>
+              <p>{{item.finishTime}}</p>
             </div>
           </div>
           <div class="list-right">
             <div>
               <p>￥{{item.tradeAmt}}</p>
-              <p :class="{'redColor':item.refundState == '90'}">{{item.refundState | payState}}</p>
+              <p :class="{'redColor':item.orderState == '0'}">{{item.orderState | payState}}</p>
             </div>
-             <div>
+             <!-- <div>
               <van-icon name="arrow" />
-            </div>
+            </div> -->
           </div>
         </div>
       <van-row>
@@ -99,10 +99,22 @@ export default {
       }
     },
     payState(val){
-      if(val == '00' || val == '0'){
-        return '支付成功';
-      }else if(val == '90'){
-        return '退款成功'
+      if(val == '0'){
+        return '退款成功';
+      }else if(val == '1' || val == '2'){
+        return '退款中'
+      }else if(val == '9'){
+        return '退款失败'
+      }else if(val == '01'){
+        return '待支付'
+      }else if(val == '02'){
+        return '支付处理中'
+      }else if(val == '00'){
+        return '支付成功'
+      }else if(val == '09'){
+        return '支付失败'
+      }else if(val == '99'){
+        return '取消'
       }
     },
     payImg(val){

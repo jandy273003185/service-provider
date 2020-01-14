@@ -74,7 +74,21 @@ export default {
       this.setRoleId("3");
     }
     console.log('created方法--','roles:'+roles,'role:'+this.role,'openId:'+this.openId);
-    roles == 'salesman'?this.pageName='salesman':this.pageName='Administrator';
+    if(roles){
+      if(roles == 'salesman'){
+        this.pageName='salesman'
+      }else if(roles=='agent' || roles=='finance'){
+        this.pageName='Administrator'
+      }
+    }else{
+      if(this.role == 'salesman'){
+        this.pageName='salesman'
+      }else if(this.role=='agent' || this.role=='finance'){
+        this.pageName='Administrator'
+      }
+    }
+    
+    // roles == 'salesman'?this.pageName='salesman':this.pageName='Administrator';
 
     //判断是否有code
       if (!this.code) {
@@ -93,7 +107,8 @@ export default {
           this.getOpenId(code);
         }
         // this.isLoad = true;
-        // this.setOpenID('ohEtns3upaR38u1JICPmm32vaiEY');//P70000108,   ohEtns9-QeiCzr1_ZQglK34sU0Mk
+        // this.setOpenID('P70000108');
+        // // this.setOpenID('ohEtns3upaR38u1JICPmm32vaiEY');
         // this.getInitList();
       } else {
         this.isLoad = true;
