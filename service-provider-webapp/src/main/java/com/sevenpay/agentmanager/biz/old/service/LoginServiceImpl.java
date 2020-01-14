@@ -170,7 +170,7 @@ public class LoginServiceImpl extends BaseService {
         }
         TdSalesmanInfo salesmanInfo = tdSalesmanInfos.get(0);
         TdSalesmanInfo userInfo = salesmanManagerService.checkSalesmanLogin(userName, password, salesmanInfo.getCustId());
-        if (!password.equals(userInfo.getPassword())) {
+        if (userInfo==null) {
             throw new BizException("账号或密码错误");
         }
         //查询该账号是否绑定openId

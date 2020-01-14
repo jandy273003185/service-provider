@@ -114,7 +114,7 @@
         
       },
       computed: {
-        ...mapState(['role'])
+        ...mapState(['role','custId'])
       },
       methods: {
         async firstLogin() {
@@ -177,7 +177,7 @@
           const params = {
             sortType: type ,
             // userId: '7a25180eefee423a992d29d9712b6f9d',
-            userId: this.$store.state.userId,
+            userId:this.role == 'finance'?this.custId:this.userId,
             queryStartDate: this.queryStartDate,
             queryEndDate: this.queryEndDate,
             roleId: 2

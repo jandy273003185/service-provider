@@ -48,7 +48,7 @@ public class ShiroConfigBean {
         filterChainDefinitionMap.put("/**.js", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/swagger**/**", "anon");
-        filterChainDefinitionMap.put("/**/swagger**/**", "anon");
+        filterChainDefinitionMap.put("/**/verifyCode**/**", "anon");
         filterChainDefinitionMap.put("/webjars/**", "anon");
         filterChainDefinitionMap.put("/v2/**", "anon");
         filterChainDefinitionMap.put("/wx/**", "anon");//放行静态资源

@@ -79,7 +79,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(['userId','roleId'])
+        ...mapState(['userId','roleId','role','custId'])
     },
     mounted(){
         this.time_7();
@@ -93,7 +93,7 @@ export default {
             const userId = this.userId;
             console.log(userId);
             const params = {
-                userId:userId,
+                userId:this.role == 'finance'?this.custId:this.userId,
                 queryStartDate:this.timeStart,
                 queryEndDate:this.timeEnd,
                 roleId:this.roleId

@@ -181,7 +181,7 @@ export default {
     };
   },
   computed:{
-          ...mapState(['roleId','userId'])
+          ...mapState(['roleId','userId','role','custId'])
 },
   mounted() {
     this.intoRole=this.roleId;
@@ -205,7 +205,7 @@ export default {
         custName:this.mchName,//商户名
         queryStartDate:this.timeStart,//开始时间
         queryEndDate:this.timeEnd,//结束时间
-        userId:this.userId,//用户Id
+        userId:this.role == 'finance'?this.custId:this.userId,//用户Id
         pageSize:'20', //单页最多数据条数
         pageNum:this.pageNum, //请求哪一页
         rankingCode:this.rankingCode,

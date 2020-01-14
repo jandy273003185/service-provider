@@ -215,7 +215,7 @@ export default {
   },
 
   computed:{
-          ...mapState(['roleId','userId'])
+          ...mapState(['roleId','userId','role','custId'])
 },
   created(){
     this.setincoming({});
@@ -272,7 +272,7 @@ export default {
         queryEndDate:this.timeEnd,//结束时间
         stateCode:stateCode,//审核状态
         filingAuditStatus:filingAuditStatus,
-        userId:this.userId,
+        userId:this.role == 'finance'?this.custId:this.userId,
         pageSize:'20',
         pageNum:this.pageNum,
         roleId:this.roleId
