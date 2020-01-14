@@ -294,25 +294,31 @@ export default {
       console.log(loginData);
       if (loginData.data.code == 200) {
         clearTimeout(this.timer);
-        this.$toast("登录成功");
-          console.log(this.role);
-        if (this.role == "agent" || this.role == "finance") {
-          console.log(this.role);
-          this.$router.replace({
-            name: "Administrator",
-            params: {
-              fname: "login"
-            }
-          });
-        } else if(this.role == "salesman") {
-          console.log(this.role);
-          this.$router.replace({
-            name: "salesman",
-            params: {
-              fname: "login"
-            }
-          });
-        }
+        // this.$toast("登录成功");
+        console.log(this.role);
+        this.$router.replace({
+          name: "selectServiceMerchant",
+          params: {
+            fname: "selectServiceMerchant"
+          }
+        });
+        // if (this.role == "agent" || this.role == "finance") {
+        //   console.log(this.role);
+        //   this.$router.replace({
+        //     name: "Administrator",
+        //     params: {
+        //       fname: "login"
+        //     }
+        //   });
+        // } else if(this.role == "salesman") {
+        //   console.log(this.role);
+        //   this.$router.replace({
+        //     name: "salesman",
+        //     params: {
+        //       fname: "login"
+        //     }
+        //   });
+        // }
       } else {
         //Dialog({ message: loginData.data.data });
       }
