@@ -106,7 +106,7 @@
                   <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
                   <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
-                <span class=" state state_1">待审核</span>
+                <span v-if="item.state=='01'" class=" state state_1">待审核</span>
 
               </li>
             </van-list>
@@ -127,7 +127,7 @@
                   <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
                   <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
-                <span  class=" state state_2">审核中</span>
+                <span v-if="item.state=='00'&&item.filingAuditStatus=='01'" class=" state state_2">审核中</span>
 
               </li>
             </van-list>
@@ -148,7 +148,7 @@
                   <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
                   <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
-                <span  class=" state state_4">审核失败</span>
+                <span  v-if="item.state=='04'" class=" state state_4">审核失败</span>
               </li>
             </van-list>
           </ul>
@@ -168,7 +168,7 @@
                   <span v-if="intoRole=='2'&& item.type=='salesman' " class="time">业务员: {{item.userName}}</span>
                   <span v-if="intoRole=='2'&& item.type=='agent' " class="time">管理员: {{item.userName}}</span>
                 </div>
-                <span  class=" state state_0">审核通过</span>
+                <span v-if="item.state=='00'&&item.filingAuditStatus=='00'" class=" state state_0">审核通过</span>
               </li>
             </van-list>
           </ul>

@@ -8,7 +8,7 @@
     >
     </van-nav-bar> -->
     <div v-for="(item, index) in serviceMerchantList" :key="index">
-      <router-link :to="{name:pageName,params:{openId:item.openId,userId:item.userId,userType:item.userType}}">
+      <router-link :to="{name:pageName,params:{openId:item.openId,userId:item.userId,userType:item.userType,custId:item.custId}}">
         <div class="list" >
           <div class="list-left">
             <img src="../assets/images/person.png" alt="">
@@ -93,7 +93,7 @@ export default {
           this.getOpenId(code);
         }
         // this.isLoad = true;
-        // this.setOpenID('P70000108');
+        // this.setOpenID('ohEtns3upaR38u1JICPmm32vaiEY');//P70000108,   ohEtns9-QeiCzr1_ZQglK34sU0Mk
         // this.getInitList();
       } else {
         this.isLoad = true;
