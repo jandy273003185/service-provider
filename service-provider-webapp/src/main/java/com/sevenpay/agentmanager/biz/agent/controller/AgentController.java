@@ -107,6 +107,7 @@ public class AgentController extends AbstractBaseController {
     public ResultData getSPStatCommercial(String userId,
                                           String queryStartDate,
                                           String queryEndDate) {
+        logger.info("cust_id--------------------"+userId);
         Map<String, Object> map = commerService.getSPStatCommercial(userId, queryStartDate, queryEndDate);
         return ResultData.success(map);
     }
