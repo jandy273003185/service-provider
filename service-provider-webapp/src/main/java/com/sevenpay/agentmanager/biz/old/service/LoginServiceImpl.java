@@ -1,7 +1,6 @@
 package com.sevenpay.agentmanager.biz.old.service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.qifenqian.app.bean.TdCustInfo;
 import com.qifenqian.app.bean.TdLoginUserInfo;
 import com.qifenqian.app.bean.UserLoginRelate;
 import com.qifenqian.app.bean.customer.FinanceInfo;
@@ -24,9 +23,9 @@ import com.sevenpay.agentmanager.core.exception.BizException;
 import com.sevenpay.agentmanager.core.service.BaseService;
 import com.sevenpay.external.app.common.util.MD5Security;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +52,83 @@ public class LoginServiceImpl extends BaseService {
 
     @Reference
     private TdLoginUserInfoService tdLoginUserInfoService;
+
+
+    /**
+     * @description: 绑定账号时异常提示
+     * @author: LiBin
+     * @params [dateKey]
+     * @date: 2020-01-14 15:02:21
+     */
+    private void returnMsgByFailDate(String dateKey) {
+        Long total = redisUtils.getCacheObject(dateKey, Long.class);
+        if (total != null) {
+            long current = new Date().getTime();
+            long m = (total - current / 1000) / 60;
+            throw new BizException("请于" + m + "分钟后再试！");
+        }
+    }
+
+
+    /**
+     * @description: 绑定账号 针对openID
+     * @author: LiBin
+     * @params [userName, password, openId, roleCode]
+     * @date: 2020-01-14 14:57:17
+     */
+    public ResultData loginBinding(String userName, String password, String openId, String roleCode) {
+        /**
+         * 分布式锁
+         */
+        String lockKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName;
+        String timeKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "time";
+        String dateKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "date";
+        //TODO 提示剩余时间
+        returnMsgByFailDate(dateKey);
+        /**
+         * 连点操作提示
+         */
+        boolean lock = redisUtils.addLock(lockKey, 60);
+        if (!lock) {
+            throw new BizException("请勿重复提交!");
+        }
+        /**
+         * 取出错误次数
+         */
+        Integer failTime = redisUtils.getCacheObject(timeKey, Integer.class);
+        /**
+         * 如果为空初始化赋值五次
+         */
+        if (failTime == null) {
+            failTime = 5;
+            redisUtils.setCacheObject(timeKey, failTime, 60 * 60 * 24l);
+        }
+        if (failTime < 1) {
+            long dateTime = new Date().getTime() + 60 * 60 * 24 * 1000l;
+            redisUtils.setCacheObject(dateKey, String.valueOf(dateTime / 1000), dateTime / 1000);
+            returnMsgByFailDate(dateKey);
+        }
+        try {
+            if ("agent".equalsIgnoreCase(roleCode)) {
+                agentBanding(userName, password, openId, roleCode);
+            } else if ("salesman".equalsIgnoreCase(roleCode)) {
+                salesmanBanding(userName, password, openId, roleCode);
+            } else if ("finance".equalsIgnoreCase(roleCode)) {
+                financeBanding(userName, password, openId, roleCode);
+            }
+        } catch (Exception e) {
+            failTime--;
+            redisUtils.setCacheObject(timeKey, failTime, 60 * 60 * 24l);
+            throw new BizException(e.getMessage());
+        } finally {
+            redisUtils.delCacheWith(lockKey);
+        }
+        redisUtils.delCacheWith(timeKey);
+        redisUtils.delCacheWith(dateKey);
+        return ResultData.success();
+    }
+
+
     /**
      * 服务商绑定
      */
@@ -190,7 +266,7 @@ public class LoginServiceImpl extends BaseService {
             case "agent":
                 Map<String, Object> agentInfo = merchantStatusService.getMerchantInfoByCustId(respInfo.getUserId());
                 userName = agentInfo.get("custName").toString();
-                agentInfo.put("custId",respInfo.getUserId());
+                agentInfo.put("custId", respInfo.getUserId());
                 loginUser.setUserInfo(agentInfo);
                 break;
             case "salesman":
@@ -402,7 +478,7 @@ public class LoginServiceImpl extends BaseService {
                  * userId === 手机号
                  */
                 TdLoginUserInfo tdLoginUserInfo = tdLoginUserInfoService.queryMobileByCustId(userId);
-                if(tdLoginUserInfo != null){
+                if (tdLoginUserInfo != null) {
                     UpdatePwdReq updatePwdReq = new UpdatePwdReq();
                     updatePwdReq.setCustId(userId);
                     updatePwdReq.setNewPwd(loginNewPw);
@@ -411,7 +487,7 @@ public class LoginServiceImpl extends BaseService {
                     Integer pw = tdLoginUserInfoService.updateLoginPwd(updatePwdReq);
                     if (pw == 1) {
                         result = true;
-                    }else {
+                    } else {
                         return ResultData.error("原密码错误");
                     }
                 }
