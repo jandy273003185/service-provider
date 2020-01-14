@@ -43,7 +43,7 @@
           <span>手机号码：</span>
           <input type="number" v-model="inpAccount" placeholder="请输入手机号" />
         </div>
-        <div class="item">
+        <div class="item" style="display:none;">
           <span>分润查询权限:</span>
           <van-radio-group v-model="queryAuth">
             <van-radio name="1">启用</van-radio>

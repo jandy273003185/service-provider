@@ -74,7 +74,7 @@ export default {
       this.setRoleId("3");
     }
     console.log('created方法--','roles:'+roles,'role:'+this.role,'openId:'+this.openId);
-    if(roles){
+    if(roles == 'agent' || roles == 'finance' || roles == 'salesman'){
       if(roles == 'salesman'){
         this.pageName='salesman'
       }else if(roles=='agent' || roles=='finance'){
@@ -93,23 +93,23 @@ export default {
     //判断是否有code
       if (!this.code) {
         var code = this.getUrlParam("code");
-        if (!code) {
-          let REDIRECT_URI = encodeURIComponent(
-            "https://sp-uat.qifenqian.com/wx/index.html#selectServiceMerchant?roleCode="+roles
-          );
-          window.location.href =
-            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
-            REDIRECT_URI +
-            "&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
-        } else {
-          this.isLoad = true;
-          this.setCode(code);
-          this.getOpenId(code);
-        }
-        // this.isLoad = true;
-        // this.setOpenID('P70000108');
-        // // this.setOpenID('ohEtns3upaR38u1JICPmm32vaiEY');
-        // this.getInitList();
+        // if (!code) {
+        //   let REDIRECT_URI = encodeURIComponent(
+        //     "https://sp-uat.qifenqian.com/wx/index.html#selectServiceMerchant?roleCode="+roles
+        //   );
+        //   window.location.href =
+        //     "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
+        //     REDIRECT_URI +
+        //     "&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
+        // } else {
+        //   this.isLoad = true;
+        //   this.setCode(code);
+        //   this.getOpenId(code);
+        // }
+        this.isLoad = true;
+        this.setOpenID('P70000108');
+        // this.setOpenID('ohEtns3upaR38u1JICPmm32vaiEY');
+        this.getInitList();
       } else {
         this.isLoad = true;
         this.getInitList();
