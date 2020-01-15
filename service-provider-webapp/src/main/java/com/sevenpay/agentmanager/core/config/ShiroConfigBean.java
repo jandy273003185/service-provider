@@ -38,6 +38,7 @@ public class ShiroConfigBean {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put(relativePaths,"anon");
+        filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/login/**", "anon");
         //前后端带login登录的或者其他登录的通通放行
         filterChainDefinitionMap.put("/**/login/**", "anon");
@@ -51,8 +52,20 @@ public class ShiroConfigBean {
         filterChainDefinitionMap.put("/**/verifyCode**/**", "anon");
 //        filterChainDefinitionMap.put("/**/smsSpLogin**/**", "anon");
         filterChainDefinitionMap.put("/**/financeLogin**/**", "anon");
-        filterChainDefinitionMap.put("/webjars/**", "anon");
-        filterChainDefinitionMap.put("/v2/**", "anon");
+
+        /**
+         * swagger过滤开始
+         */
+        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
+        filterChainDefinitionMap.put("/csrf", "anon");
+        filterChainDefinitionMap.put("/swagger-resources", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/configuration/security", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/configuration/ui", "anon");
+        filterChainDefinitionMap.put("/v2/api-docs", "anon");
+        filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
+        /**
+         * swagger过滤结束
+         */
         filterChainDefinitionMap.put("/wx/**", "anon");//放行静态资源
         filterChainDefinitionMap.put("/MP_verify_LVtMdY24lPWQfWpf.txt", "anon");//放行静态资源
         // 添加自己的过滤器并且取名为jwt

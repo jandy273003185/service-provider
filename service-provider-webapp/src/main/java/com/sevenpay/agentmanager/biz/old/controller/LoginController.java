@@ -17,18 +17,21 @@ import com.sevenpay.agentmanager.common.utils.verfycode.VerifyInfoConstant;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.controller.AbstractBaseController;
 import com.sevenpay.agentmanager.core.exception.BizException;
-import com.sevenpay.external.app.common.util.MD5Security;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,6 +39,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
+@Api(tags = "用户登陆相关Api")
 public class LoginController extends AbstractBaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
@@ -58,7 +62,14 @@ public class LoginController extends AbstractBaseController {
     @Reference
     FinanceManageService financeManageService;
 
-    @RequestMapping("/cleanBinding")
+    @ApiOperation(value = "清除登录失败缓存接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", paramType = "query", value = "账号", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", paramType = "query", value = "密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "openId", paramType = "query", value = "openId", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "roleCode", paramType = "query", value = "角色", required = true, dataType = "String")
+    })
+    @RequestMapping(value = "/cleanBinding",method = RequestMethod.GET)
     public ResultData cleanBinding(String userName, String password, String openId, String roleCode) {
         String lockKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName;
         String timeKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "time";

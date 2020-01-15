@@ -31,3 +31,5 @@ wxauth:
   appsecret: f3e347b2d2c038aecc7d0ecdc38070a0
   #这里的token要和微信公众号号网页填写的token一样
   token: ok_ok_token
+swagger:
+  enable: true
