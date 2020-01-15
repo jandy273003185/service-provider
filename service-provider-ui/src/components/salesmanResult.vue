@@ -11,12 +11,12 @@
         <!--业务员数据栏-->
             <div class="items shop">
                 <div>
-                    <span class="number">{{detailList.passingRateNum}}</span>
+                    <span class="number">{{detailList.commercialNum}}</span>
                     <span>进件商户数</span>
 
                 </div>
                 <div>
-                    <span class="number">{{detailList.commercialNum}}</span>
+                    <span class="number">{{detailList.passingRateNum}}</span>
                     <span>开通商户数</span>
                 </div>
             </div>

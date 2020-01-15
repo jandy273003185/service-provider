@@ -106,6 +106,7 @@ export default {
           this.setCode(code);
           this.getOpenId(code);
         }
+        
         // this.isLoad = true;
         // this.setOpenID('P70000108');
         // // this.setOpenID('ohEtns3upaR38u1JICPmm32vaiEY');
