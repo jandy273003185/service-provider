@@ -83,6 +83,7 @@ public class LoginServiceImpl extends BaseService {
         String lockKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName;
         String timeKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "time";
         String dateKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "date";
+        Long dateValidate = 1800l;
         //TODO 提示剩余时间
         returnMsgByFailDate(dateKey);
         /**
@@ -101,10 +102,10 @@ public class LoginServiceImpl extends BaseService {
          */
         if (failTime == null) {
             failTime = 5;
-            redisUtils.setCacheObject(timeKey, failTime, 60 * 60 * 24l);
+            redisUtils.setCacheObject(timeKey, failTime, dateValidate);
         }
         if (failTime < 1) {
-            long dateTime = new Date().getTime() + 60 * 60 * 24 * 1000l;
+            long dateTime = new Date().getTime() + dateValidate * 1000l;
             redisUtils.setCacheObject(dateKey, String.valueOf(dateTime / 1000), dateTime / 1000);
             returnMsgByFailDate(dateKey);
         }
@@ -118,7 +119,7 @@ public class LoginServiceImpl extends BaseService {
             }
         } catch (Exception e) {
             failTime--;
-            redisUtils.setCacheObject(timeKey, failTime, 60 * 60 * 24l);
+            redisUtils.setCacheObject(timeKey, failTime, dateValidate);
             throw new BizException(e.getMessage());
         } finally {
             redisUtils.delCacheWith(lockKey);
@@ -151,8 +152,6 @@ public class LoginServiceImpl extends BaseService {
             ifbing.setIfUnbind("1");
             loginManagerService.updateBindingInfo(ifbing);
         } else {
-
-
             saveUserLoginRelate(userInfo.getCustId(), userInfo.getCustId(), openId, roleCode);
         }
     }
@@ -170,7 +169,7 @@ public class LoginServiceImpl extends BaseService {
         }
         TdSalesmanInfo salesmanInfo = tdSalesmanInfos.get(0);
         TdSalesmanInfo userInfo = salesmanManagerService.checkSalesmanLogin(userName, password, salesmanInfo.getCustId());
-        if (userInfo==null) {
+        if (userInfo == null) {
             throw new BizException("账号或密码错误");
         }
         //查询该账号是否绑定openId

@@ -252,7 +252,7 @@ public class AgentController extends AbstractBaseController {
             String custId1 = tdCustInfo.getCustId();//商户编号
             Integer authId = queryResult.getAuthId();
             if (custId1 == null) {
-                throw new BizException("0", "商户进件失败");
+                throw new BizException("商户进件失败");
             }
             tdCustInfo.setMerchantMobile(tdCustInfo.getMerchantAccount());
             tdCustInfo.setModifyTime(new Date());//修改时间

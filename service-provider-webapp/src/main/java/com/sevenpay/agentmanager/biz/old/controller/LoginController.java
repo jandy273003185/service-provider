@@ -58,6 +58,17 @@ public class LoginController extends AbstractBaseController {
     @Reference
     FinanceManageService financeManageService;
 
+    @RequestMapping("/cleanBinding")
+    public ResultData cleanBinding(String userName, String password, String openId, String roleCode) {
+        String lockKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName;
+        String timeKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "time";
+        String dateKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "date";
+        redisUtils.delCacheWith(lockKey);
+        redisUtils.delCacheWith(timeKey);
+        redisUtils.delCacheWith(dateKey);
+        return ResultData.success();
+    }
+
     /**
      * 登陆
      *
@@ -82,71 +93,72 @@ public class LoginController extends AbstractBaseController {
         if (StringUtils.isBlank(password)) {
             throw new BizException("密码不能为空");
         }
-
-        //分布式锁
-//        String lockKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName;
-        String timeKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "time";
-        String dateKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "date";
-
-        /**
-         * 判断是否之前已经操作错误
-         */
-        if (redisUtils.hasKey(dateKey)) {
-            //TODO 提示剩余时间
-            long total = Long.valueOf(redisUtils.getCacheObject(dateKey));
-            long current = new Date().getTime();
-            long m = (total - current / 1000) / 60;
-            return ResultData.error("请于" + m + "分钟后再试！");
-        }
-
-        /**
-         * 初始化登录校验失败次数
-         */
-        if (!redisUtils.hasKey(timeKey)) {
-            redisUtils.setCacheObject(timeKey, String.valueOf(5), 60 * 60 * 24l);
-        }
-        Integer time = Integer.valueOf(redisUtils.getCacheObject(timeKey));
-        /**
-         * 判断当前此时小于1，提示出冻结时间
-         */
-        if (time < 1) {
-            long dateTime = new Date().getTime() + 60 * 60 * 24 * 1000l;
-            redisUtils.setCacheObject(dateKey, String.valueOf(dateTime / 1000), dateTime / 1000);
-            return null;
-        }
-        boolean flag = true;
-        String msg = null;
-        try {
-            if ("agent".equalsIgnoreCase(roleCode)) {
-                loginService.agentBanding(userName, password, openId, roleCode);
-            } else if ("salesman".equalsIgnoreCase(roleCode)) {
-                loginService.salesmanBanding(userName, password, openId, roleCode);
-            } else if ("finance".equalsIgnoreCase(roleCode)) {
-                loginService.financeBanding(userName, password, openId, roleCode);
-            }
-        } catch (Exception e) {
-            msg = e.getMessage();
-            /**
-             * 记录登录校验错误次数
-             */
-            flag = false;
-            time--;
-            redisUtils.setCacheObject(timeKey, String.valueOf(time), 60 * 60 * 24l);
-            throw new BizException(msg);
-        } finally {
-            /**
-             * 清除登录者的key
-             */
-//            redisUtils.delCacheWith(lockKey);
-        }
-        /**
-         * 登录成功清除锁
-         */
-        if (flag) {
-            redisUtils.delCacheWith(timeKey);
-            redisUtils.delCacheWith(dateKey);
-        }
-        return ResultData.success();
+        return this.loginService.loginBinding(userName, password, openId, roleCode);
+//
+//        //分布式锁
+////        String lockKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName;
+//        String timeKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "time";
+//        String dateKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "date";
+//
+//        /**
+//         * 判断是否之前已经操作错误
+//         */
+//        if (redisUtils.hasKey(dateKey)) {
+//            //TODO 提示剩余时间
+//            long total = Long.valueOf(redisUtils.getCacheObject(dateKey));
+//            long current = new Date().getTime();
+//            long m = (total - current / 1000) / 60;
+//            return ResultData.error("请于" + m + "分钟后再试！");
+//        }
+//
+//        /**
+//         * 初始化登录校验失败次数
+//         */
+//        if (!redisUtils.hasKey(timeKey)) {
+//            redisUtils.setCacheObject(timeKey, String.valueOf(5), 60 * 60 * 24l);
+//        }
+//        Integer time = Integer.valueOf(redisUtils.getCacheObject(timeKey));
+//        /**
+//         * 判断当前此时小于1，提示出冻结时间
+//         */
+//        if (time < 1) {
+//            long dateTime = new Date().getTime() + 60 * 60 * 24 * 1000l;
+//            redisUtils.setCacheObject(dateKey, String.valueOf(dateTime / 1000), dateTime / 1000);
+//            return null;
+//        }
+//        boolean flag = true;
+//        String msg = null;
+//        try {
+//            if ("agent".equalsIgnoreCase(roleCode)) {
+//                loginService.agentBanding(userName, password, openId, roleCode);
+//            } else if ("salesman".equalsIgnoreCase(roleCode)) {
+//                loginService.salesmanBanding(userName, password, openId, roleCode);
+//            } else if ("finance".equalsIgnoreCase(roleCode)) {
+//                loginService.financeBanding(userName, password, openId, roleCode);
+//            }
+//        } catch (Exception e) {
+//            msg = e.getMessage();
+//            /**
+//             * 记录登录校验错误次数
+//             */
+//            flag = false;
+//            time--;
+//            redisUtils.setCacheObject(timeKey, String.valueOf(time), 60 * 60 * 24l);
+//            throw new BizException(msg);
+//        } finally {
+//            /**
+//             * 清除登录者的key
+//             */
+////            redisUtils.delCacheWith(lockKey);
+//        }
+//        /**
+//         * 登录成功清除锁
+//         */
+//        if (flag) {
+//            redisUtils.delCacheWith(timeKey);
+//            redisUtils.delCacheWith(dateKey);
+//        }
+//        return ResultData.success();
     }
 
     /**
@@ -351,7 +363,7 @@ public class LoginController extends AbstractBaseController {
     public ResultData userLoginRelate(HttpServletRequest request, String userId, String userType) {
         String token = request.getHeader("token");
         if (StringUtils.isBlank(token)) {
-            throw new BizException("token数据异常!");
+            throw new BizException("401", "token数据异常!");
         }
         if (StringUtils.isBlank(userId)) {
             throw new BizException("用户ID不能为空!");
@@ -367,7 +379,7 @@ public class LoginController extends AbstractBaseController {
                                   String loginNewPw) {
         String token = request.getHeader("token");
         if (StringUtils.isBlank(token)) {
-            throw new BizException("token数据异常!");
+            throw new BizException("401", "token数据异常!");
         }
         if (StringUtils.isBlank(userId)) {
             throw new BizException("用户ID不能为空!");
@@ -394,7 +406,7 @@ public class LoginController extends AbstractBaseController {
     public ResultData loginOut(HttpServletRequest request) {
         String token = request.getHeader("token");
         if (StringUtils.isBlank(token)) {
-            throw new BizException("未发现token");
+            throw new BizException("401", "token数据异常");
         }
         return this.loginService.delTokenCache(token);
     }

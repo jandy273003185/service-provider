@@ -50,15 +50,15 @@ public class MyShiroRealm extends AuthorizingRealm {
 
         if (userId == null) {
         	LOG.error("token无效(空''或者null都不行!)");
-            throw new BizException("token无效");
+            throw new BizException("401","token无效");
         }
         if (openId == null) {
         	LOG.error("token无效(空''或者null都不行!)");
-            throw new BizException("token无效");
+            throw new BizException("401","token无效");
         }
         if (!JWTUtil.verify(token, userId, openId)) {
         	LOG.error("用户名或密码错误(token无效或者与登录者不匹配)!)");
-            throw new BizException("用户名或密码错误(token无效或者与登录者不匹配)!");
+            throw new BizException("401","用户名或密码错误(token无效或者与登录者不匹配)!");
         }
         return new SimpleAuthenticationInfo(token, token, "my_realm");
     }
