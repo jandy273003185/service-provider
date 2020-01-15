@@ -43,7 +43,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
-        if (null == redisUtils) {
+            if (null == redisUtils) {
             BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
             redisUtils = (RedisUtils) factory.getBean("redisUtils");
         }
