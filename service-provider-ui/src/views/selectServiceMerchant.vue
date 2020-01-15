@@ -74,7 +74,7 @@ export default {
       this.setRoleId("3");
     }
     console.log('created方法--','roles:'+roles,'role:'+this.role,'openId:'+this.openId);
-    if(roles){
+    if(roles == 'agent' || roles == 'finance' || roles == 'salesman'){
       if(roles == 'salesman'){
         this.pageName='salesman'
       }else if(roles=='agent' || roles=='finance'){
