@@ -114,7 +114,7 @@
         
       },
       computed: {
-        ...mapState(['role','custId'])
+        ...mapState(['role','userId','custId'])
       },
       methods: {
         async firstLogin() {

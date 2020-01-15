@@ -89,8 +89,8 @@ export default {
       forgetCode:'',//修改密码的验证码
       showCountDown:false,//是否显示倒计时,登录时
       showForgetCount:false,//是否显示倒计时，忘记密码
-      count:6,//登录倒计时
-      forgetCount:6,//忘记密码倒计时
+      count:60,//登录倒计时
+      forgetCount:60,//忘记密码倒计时
       textCode:'获取验证码',
       timer:'',
       FtextCode:'获取验证码',
@@ -141,7 +141,7 @@ export default {
     countTime(){
       const _this=this;
       if (this.count==0) {
-        this.count=6;
+        this.count=60;
         this.textCode='重新获取';
         clearTimeout(this.timer);
         this.showCountDown=false;
@@ -157,7 +157,7 @@ export default {
     forgetCountTime(){
       const _this=this;
       if (this.forgetCount==0) {
-        this.forgetCount=6;
+        this.forgetCount=60;
         this.FtextCode='重新获取';
         clearTimeout(this.Ftimer);
         this.showForgetCount=false;
