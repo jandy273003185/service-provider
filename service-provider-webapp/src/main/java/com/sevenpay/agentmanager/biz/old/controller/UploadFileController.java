@@ -78,7 +78,7 @@ public class UploadFileController {
      *
      * @return
      */
-    @RequestMapping("youTu")
+    @PostMapping("youTu")
     @ResponseBody
     public ResultData youTu(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("********************获取图片内容********************");

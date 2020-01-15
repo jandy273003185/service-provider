@@ -26,8 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -69,7 +69,7 @@ public class LoginController extends AbstractBaseController {
             @ApiImplicitParam(name = "openId", paramType = "query", value = "openId", required = true, dataType = "String"),
             @ApiImplicitParam(name = "roleCode", paramType = "query", value = "角色", required = true, dataType = "String")
     })
-    @RequestMapping(value = "/cleanBinding",method = RequestMethod.GET)
+    @PostMapping(value = "/cleanBinding")
     public ResultData cleanBinding(String userName, String password, String openId, String roleCode) {
         String lockKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName;
         String timeKey = CacheConstants.LOGIN_CHECK + roleCode + ":" + userName + ":" + "time";
@@ -89,7 +89,7 @@ public class LoginController extends AbstractBaseController {
      * @param roleCode 用户角色agent管理员（服务商）/salesman业务员
      * @return
      */
-    @RequestMapping("/loginBinding")
+    @PostMapping("/loginBinding")
     public ResultData loginBinding(String userName, String password, String openId, String roleCode) {
 
         if (StringUtils.isBlank(openId)) {
@@ -175,7 +175,7 @@ public class LoginController extends AbstractBaseController {
     /**
      * 第一步登陆
      */
-    @RequestMapping("/login")
+    @PostMapping("/login")
     public ResultData loginByOpenId(UserLoginRelate reqLoginBean) {
         if (StringUtils.isBlank(reqLoginBean.getOpenId())) {
             throw new BizException("openId不能为空!");
@@ -197,7 +197,7 @@ public class LoginController extends AbstractBaseController {
      * @param roleCode 角色 agent
      * @param openId   openId
      */
-    @RequestMapping("/smsSpLogin")
+    @PostMapping("/smsSpLogin")
     public ResultData smsSpLoginBanding(String mobile, String roleCode, String openId, String verifyCode) {
         if (StringUtils.isBlank(mobile)) {
             throw new BizException("手机号不能为空！");
@@ -222,7 +222,7 @@ public class LoginController extends AbstractBaseController {
      * @param roleCode 角色 finance
      * @param openId   openId
      */
-    @RequestMapping("/financeLogin")
+    @PostMapping("/financeLogin")
     public ResultData financeLoginBanding(String mobile, String roleCode, String openId, String verifyCode) {
         if (StringUtils.isBlank(mobile)) {
             throw new BizException("手机号不能为空！");
@@ -247,7 +247,7 @@ public class LoginController extends AbstractBaseController {
      * @param roleCode 角色 salesman
      * @param openId   openId
      */
-    @RequestMapping("/smsSmLogin")
+    @PostMapping("/smsSmLogin")
     public ResultData smsSmLoginBanding(String mobile, String roleCode, String openId, String verifyCode) {
         if (StringUtils.isBlank(mobile)) {
             throw new BizException("手机号不能为空！");
@@ -268,7 +268,7 @@ public class LoginController extends AbstractBaseController {
     /**
      * 根据角色查询绑定集合（未冻结）
      */
-    @RequestMapping(value = "/getBindingList")
+    @PostMapping(value = "/getBindingList")
     public ResultData getBindingList(String openId, String roleCode) {
         if (StringUtils.isBlank(openId)) {
             throw new BizException("openId不能为空！");
@@ -288,7 +288,7 @@ public class LoginController extends AbstractBaseController {
      * @param request
      * @return
      */
-    @RequestMapping("forgetPassword")
+    @PostMapping("forgetPassword")
     public ResultData forgetPassword(String mobile, String roleCode, HttpServletRequest request) {
         if ("agent".equals(roleCode)) {
             //查询是否有该服务商的信息
@@ -342,7 +342,7 @@ public class LoginController extends AbstractBaseController {
      * @param roleCode agent/salesman
      * @return
      */
-    @RequestMapping("roleCodeModifyPwd")
+    @PostMapping("roleCodeModifyPwd")
     public ResultData roleCodeModifyPwd(String mobile, String newPw, String roleCode) {
         if ("agent".equals(roleCode)) {
             String pw = userManager.updateUserPasswordByMobile(mobile, newPw, roleCode);
@@ -370,7 +370,7 @@ public class LoginController extends AbstractBaseController {
         return ResultData.error("请重新操作忘记密码");
     }
 
-    @RequestMapping("userLoginRelate")
+    @PostMapping("userLoginRelate")
     public ResultData userLoginRelate(HttpServletRequest request, String userId, String userType) {
         String token = request.getHeader("token");
         if (StringUtils.isBlank(token)) {
@@ -385,7 +385,7 @@ public class LoginController extends AbstractBaseController {
         return this.loginService.userLoginRelate(token, userId, userType);
     }
 
-    @RequestMapping("userLoginPw")
+    @PostMapping("userLoginPw")
     public ResultData userLoginPw(HttpServletRequest request, String userId, String userType, String loginPw,
                                   String loginNewPw) {
         String token = request.getHeader("token");
@@ -413,7 +413,7 @@ public class LoginController extends AbstractBaseController {
      * @param request
      * @return
      */
-    @RequestMapping("loginOut")
+    @PostMapping("loginOut")
     public ResultData loginOut(HttpServletRequest request) {
         String token = request.getHeader("token");
         if (StringUtils.isBlank(token)) {

@@ -1,7 +1,7 @@
 package com.sevenpay.agentmanager.core.controller;
 
 import com.sevenpay.agentmanager.common.constants.ExceptionConstants;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -22,7 +22,7 @@ public class ExceptionController extends AbstractBaseController {
     /**
      * 重新抛出异常
      */
-    @RequestMapping("/err/rethrow")
+    @GetMapping("/err/rethrow")
     public void rethrow() throws Exception {
         throw ((Exception) request.getAttribute(ExceptionConstants.EXCEPTION_ATTR_KEY));
     }

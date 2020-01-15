@@ -23,8 +23,8 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,7 +78,7 @@ public class AgentController extends AbstractBaseController {
      * @param queryEndDate      结束时间
      * @return
      */
-    @RequestMapping("selectCommercialInfo")
+    @PostMapping("selectCommercialInfo")
     public ResultData selectCommercialInfo(String userId,
                                            String custName,
                                            String stateCode,
@@ -107,11 +107,11 @@ public class AgentController extends AbstractBaseController {
      * @param queryEndDate   结束时间
      * @return
      */
-    @RequestMapping("getSPStatCommercial")
+    @PostMapping("getSPStatCommercial")
     public ResultData getSPStatCommercial(String userId,
                                           String queryStartDate,
                                           String queryEndDate) {
-        logger.info("cust_id--------------------"+userId);
+        logger.info("cust_id--------------------" + userId);
         Map<String, Object> map = commerService.getSPStatCommercial(userId, queryStartDate, queryEndDate);
         return ResultData.success(map);
     }
@@ -123,7 +123,7 @@ public class AgentController extends AbstractBaseController {
      * @return: com.sevenpay.agentmanager.core.bean.ResultData
      * @date: 2020-01-02 10:26:05
      */
-    @RequestMapping(value = "getSPMerchantOrderList",method = RequestMethod.POST)
+    @PostMapping(value = "getSPMerchantOrderList")
     @ApiOperation(value = "查询服务商下商户流水信息")
 //    @ApiImplicitParams({
 //            @ApiImplicitParam(name = "mchId", value = "商户ID", dataType = "String", paramType = "query", defaultValue = ""),
@@ -147,7 +147,7 @@ public class AgentController extends AbstractBaseController {
      * @param queryEndDate   结束时间
      * @return
      */
-    @RequestMapping("getStatCommercial")
+    @PostMapping("getStatCommercial")
     public ResultData getStatCommercial(String userId,
                                         String queryStartDate,
                                         String queryEndDate,
@@ -169,7 +169,7 @@ public class AgentController extends AbstractBaseController {
      * @param rankingCode    transactionNum desc      transactionNum asc
      * @return
      */
-    @RequestMapping("getDealRanking")
+    @PostMapping("getDealRanking")
     public ResultData getDealRanking(String userId,
                                      String custName,
                                      String queryStartDate,
@@ -189,7 +189,7 @@ public class AgentController extends AbstractBaseController {
         return ResultData.success(pager);
     }
 
-    @RequestMapping("sentEmailByDealRanking")
+    @PostMapping("sentEmailByDealRanking")
     public ResultData sentEmailByDealRanking(String userId,
                                              String custName,
                                              String queryStartDate,
@@ -206,7 +206,7 @@ public class AgentController extends AbstractBaseController {
      * @param custId 商户编号
      * @return
      */
-    @RequestMapping("getCommerAuditCause")
+    @PostMapping("getCommerAuditCause")
     public ResultData getCommerAuditCause(String custId) {
         List<Map<String, Object>> commerAuditCause = commerService.getCommerAuditCause(custId);
         return ResultData.success(commerAuditCause);
@@ -221,7 +221,7 @@ public class AgentController extends AbstractBaseController {
      * @return
      * @throws ParseException
      */
-    @RequestMapping("insertMerchant")
+    @PostMapping("insertMerchant")
     public ResultData addMerchant(HttpServletRequest request,
                                   TdCustInfo tdCustInfo) throws ParseException {
 
@@ -323,7 +323,7 @@ public class AgentController extends AbstractBaseController {
      * @param tdCustInfo (custId)查询
      * @return
      */
-    @RequestMapping("queryMerchant")
+    @PostMapping("queryMerchant")
     public ResultData queryMerchant(TdCustInfo tdCustInfo) {
         Map<String, Object> map = new HashMap<>();
         //查询商户信息
@@ -375,7 +375,7 @@ public class AgentController extends AbstractBaseController {
      * @return
      * @throws ParseException
      */
-    @RequestMapping("insertProduct")
+    @PostMapping("insertProduct")
     public ResultData insertProduct(HttpServletRequest request, String custId) throws ParseException, IOException {
         List<TdMerchantProductInfo> productInfos = AddTdMerchantProductInfo.add(request, custId);
         if (productInfos.size() > 0) {
@@ -387,7 +387,7 @@ public class AgentController extends AbstractBaseController {
         return ResultData.error("签约产品提交失败");
     }
 
-    @RequestMapping("delProduct")
+    @PostMapping("delProduct")
     public ResultData delProduct(TdMerchantProductInfo tdMerchantProductInfo) {
 
         return ResultData.success();
@@ -399,7 +399,7 @@ public class AgentController extends AbstractBaseController {
      * @param tdMerchantProductInfo
      * @return
      */
-    @RequestMapping("queryProduct")
+    @PostMapping("queryProduct")
     public ResultData queryProduct(TdMerchantProductInfo tdMerchantProductInfo) {
         List<TdMerchantProductInfo> merchantProductInfos = productInfoService.selectOpenProductInfo(tdMerchantProductInfo);
         return ResultData.success(merchantProductInfos);
@@ -411,7 +411,7 @@ public class AgentController extends AbstractBaseController {
      * @param custId
      * @return
      */
-    @RequestMapping("queryMerchantById")
+    @PostMapping("queryMerchantById")
     public ResultData queryProduct(String custId) {
         TdCustInfo custInfo = merchantInfoService.getMerchantById(custId);
         TdLoginUserInfo tdLoginUserInfo = tdLoginUserInfoService.queryMobileByCustId(custId);
@@ -425,7 +425,7 @@ public class AgentController extends AbstractBaseController {
      * @param sn 设备号
      * @return
      */
-    @RequestMapping("checkSn")
+    @PostMapping("checkSn")
     public ResultData checkSn(String sn) {
         boolean result = commerService.isPertainToAgent(sn);
         if (result) {
@@ -440,7 +440,7 @@ public class AgentController extends AbstractBaseController {
      * @param merchantAccount 手机账号字段
      * @return
      */
-    @RequestMapping("checkMobile")
+    @PostMapping("checkMobile")
     public ResultData checkMobile(String merchantAccount) {
         boolean result = merchantStatusService.isBindingMobile(merchantAccount);
         if (result) {
@@ -449,7 +449,7 @@ public class AgentController extends AbstractBaseController {
         return ResultData.success();
     }
 
-    @RequestMapping("getAgentInfo")
+    @PostMapping("getAgentInfo")
     public ResultData getAgentInfo(TdCustInfo tdCustInfo) {
         //查询商户信息
         TdCustInfo custInfo = merchantInfoService.getCustInfo(tdCustInfo);
@@ -459,7 +459,7 @@ public class AgentController extends AbstractBaseController {
         return ResultData.success(custInfo.getCustName());
     }
 
-    @RequestMapping("getShareProfit")
+    @PostMapping("getShareProfit")
     public ResultData getShareProfit(TdOrderRateDetailCondition tdOrderRateDetailCondition) {
         if (StringUtils.isBlank(tdOrderRateDetailCondition.getCustId())) {
             throw new BizException("代理商ID不能为空!");

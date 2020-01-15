@@ -8,6 +8,7 @@ import com.sevenpay.agentmanager.core.controller.AbstractBaseController;
 import com.sevenpay.agentmanager.core.exception.BizException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +30,7 @@ public class FinanceController extends AbstractBaseController {
      * @param financeInfo
      * @return
      */
-    @RequestMapping(value = "addFinance")
+    @PostMapping(value = "addFinance")
     public ResultData addFinance(FinanceInfo financeInfo) {
 
         if (StringUtils.isBlank(financeInfo.getFinanceMobile())) {
@@ -56,7 +57,7 @@ public class FinanceController extends AbstractBaseController {
      * @param custId
      * @return
      */
-    @RequestMapping(value = "getFinanceList")
+    @PostMapping(value = "getFinanceList")
     public ResultData getFinanceList(String custId) {
 
         if (StringUtils.isBlank(custId)) {
@@ -80,7 +81,7 @@ public class FinanceController extends AbstractBaseController {
      * @param loginNewPw
      * @return
      */
-    @RequestMapping(value = "updateFinancePw")
+    @PostMapping(value = "updateFinancePw")
     public ResultData updateFinancePw(String financeId, String refundPw, String refundNewPw, String loginPw, String loginNewPw) {
         if (StringUtils.isBlank(financeId)) {
             throw new BizException("财务员id不能为空~");
@@ -102,7 +103,7 @@ public class FinanceController extends AbstractBaseController {
      * @param financeInfo
      * @return
      */
-    @RequestMapping(value = "resetFinancePw")
+    @PostMapping(value = "resetFinancePw")
     public ResultData resetFinancePw(FinanceInfo financeInfo) {
         if (StringUtils.isBlank(financeInfo.getFinanceId())) {
             throw new BizException("财务员id不能为空~");
@@ -117,7 +118,7 @@ public class FinanceController extends AbstractBaseController {
      * @param custId
      * @return
      */
-    @RequestMapping(value = "validate")
+    @PostMapping(value = "validate")
     public ResultData validate(String mobile, String custId) {
         if (StringUtils.isBlank(mobile)) {
             throw new BizException("手机号不能为空~");
@@ -136,7 +137,7 @@ public class FinanceController extends AbstractBaseController {
      * @param financeInfo
      * @return
      */
-    @RequestMapping(value = "updateFinance")
+    @PostMapping(value = "updateFinance")
     public ResultData updateFinance(FinanceInfo financeInfo) {
 
         return financeService.updateFinance(financeInfo);
@@ -150,7 +151,7 @@ public class FinanceController extends AbstractBaseController {
      * @param financeInfo
      * @return
      */
-    @RequestMapping("updateTdFinanceInfo")
+    @PostMapping("updateTdFinanceInfo")
     public ResultData updateTdFinanceInfoById(FinanceInfo financeInfo) {
         if (StringUtils.isBlank(financeInfo.getFinanceId())) {
             throw new BizException("财务员id不能为空");
@@ -168,7 +169,7 @@ public class FinanceController extends AbstractBaseController {
      * @param financeId
      * @return
      */
-    @RequestMapping(value = "getFinanceInfo")
+    @PostMapping(value = "getFinanceInfo")
     public ResultData queryFinanceInfoByFinanceId(String financeId) {
 
         if (StringUtils.isBlank(financeId)) {

@@ -18,6 +18,7 @@ import com.sevenpay.agentmanager.common.utils.GenSN;
 import com.sevenpay.agentmanager.common.utils.verfycode.VerifyInfoConstant;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,7 +61,7 @@ public class CommonController {
      * @param tbProvincesInfoBean
      * @return
      */
-    @RequestMapping("province")
+    @PostMapping("province")
     public ResultData provinceQuery(TbProvincesInfoBean tbProvincesInfoBean) {
         List<TbProvincesInfoBean> provinces = merchantInfoService.getProvinces(tbProvincesInfoBean);
         return ResultData.success(provinces);
@@ -72,7 +73,7 @@ public class CommonController {
      * @param tbBankProvincesInfoBean
      * @return
      */
-    @RequestMapping("bankProvince")
+    @PostMapping("bankProvince")
     public ResultData provinceQuery(TbBankProvincesInfoBean tbBankProvincesInfoBean) {
         List<TbBankProvincesInfoBean> bankProvinces = merchantInfoService.getBankProvinces(tbBankProvincesInfoBean);
         return ResultData.success(bankProvinces);
@@ -84,7 +85,7 @@ public class CommonController {
      * @param bank
      * @return
      */
-    @RequestMapping("bankHeadOffice")
+    @PostMapping("bankHeadOffice")
     public ResultData bankHeadOffice(Bank bank) {
         List<Bank> banks = bankInfoService.selectBanks(bank);
         return ResultData.success(banks);
@@ -96,7 +97,7 @@ public class CommonController {
      * @param bank
      * @return
      */
-    @RequestMapping("bankBranch")
+    @PostMapping("bankBranch")
     public ResultData bankBranch(Bank bank) {
         List<Bank> banks = bankInfoService.selectBranchBanks(bank);
         if (CollectionUtils.isEmpty(banks)) {
@@ -115,7 +116,7 @@ public class CommonController {
      * @param messageDTO
      * @return
      */
-    @RequestMapping("verifyCode")
+    @PostMapping("verifyCode")
     public ResultData verifyCode(HttpServletRequest request, MessageDTO messageDTO) {
         String mobile = request.getParameter("mobile");//手机号
         String roleCode = request.getParameter("roleCode");//角色（agent/salesman）
@@ -163,7 +164,7 @@ public class CommonController {
      * @param messageDTO
      * @return
      */
-    @RequestMapping("modifyPassword")
+    @PostMapping("modifyPassword")
     public ResultData modifyPassword(HttpServletRequest request, MessageDTO messageDTO) {
         String mobile = request.getParameter("mobile");//服务商（管理员）手机号
         String roleCode = request.getParameter("roleCode");//角色（agent）
@@ -211,7 +212,7 @@ public class CommonController {
      * @param response
      * @return
      */
-    @RequestMapping("cashierAdviseMsg")
+    @PostMapping("cashierAdviseMsg")
     public ResultData processRequest(HttpServletRequest request, HttpServletResponse response, String adviseContent) {
         String adviserMobile = request.getParameter("adviserMobile");
         String email = "kefu@szgyzb.com";

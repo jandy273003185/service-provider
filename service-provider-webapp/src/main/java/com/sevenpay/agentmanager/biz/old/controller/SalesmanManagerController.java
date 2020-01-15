@@ -10,6 +10,7 @@ import com.qifenqian.app.merchant.CommercialService;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.exception.BizException;
 import com.sevenpay.agentmanager.common.pojo.Pager;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,7 +46,7 @@ public class SalesmanManagerController {
      * @param pageNum
      * @return
      */
-    @RequestMapping("selectSalesmanCommercialInfo")
+    @PostMapping("selectSalesmanCommercialInfo")
     public ResultData selectSalesmanCommercialInfo(String userId,
                                                    String custName,
                                                    String stateCode,
@@ -79,7 +80,7 @@ public class SalesmanManagerController {
      * @param rankingCode    transactionNum desc      transactionNum asc
      * @return
      */
-    @RequestMapping("getServiceProviderDealRanking")
+    @PostMapping("getServiceProviderDealRanking")
     public ResultData getDealRanking(String userId,
                                      String custName,
                                      String queryStartDate,
@@ -104,7 +105,7 @@ public class SalesmanManagerController {
      * @param id     业务员号
      * @return
      */
-    @RequestMapping("regPassword")
+    @PostMapping("regPassword")
     public ResultData regSalesman(String custId, String id) {
         Integer result = salesmanManagerService.resetTdSalesmanInfoPassword(custId, id);
         if (result > 0) {
@@ -121,7 +122,7 @@ public class SalesmanManagerController {
      * @param newPassword 新密码
      * @return
      */
-    @RequestMapping("updatePassword")
+    @PostMapping("updatePassword")
     public ResultData updateSalesman(String id, String oldPassword, String newPassword) {
         Integer result = salesmanManagerService.updateTdSalesmanInfoPassword(id, oldPassword, newPassword);
         if (result > 0) {
@@ -136,7 +137,7 @@ public class SalesmanManagerController {
      * @param salesmanInfo
      * @return
      */
-    @RequestMapping("query")
+    @PostMapping("query")
     public ResultData queryTdSalesmanInfos(TdSalesmanInfo salesmanInfo) {
         List<TdSalesmanInfo> tdSalesmanInfos = salesmanManagerService.listTdSalesmanInfos(salesmanInfo);
         return ResultData.success(tdSalesmanInfos);
@@ -151,7 +152,7 @@ public class SalesmanManagerController {
      * @param roleId         2管理员（服务商）  3业务员
      * @return
      */
-    @RequestMapping("get")
+    @PostMapping("get")
     public ResultData getTdSalesmanInfoById(String id,
                                             String queryStartDate,
                                             String queryEndDate,
@@ -170,7 +171,7 @@ public class SalesmanManagerController {
      * @param tdSalesmanInfo
      * @return
      */
-    @RequestMapping("insert")
+    @PostMapping("insert")
     public ResultData insertTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo) {
         TdSalesmanInfo tdSalesmanInfo1 = new TdSalesmanInfo();
         tdSalesmanInfo1.setUserPhone(tdSalesmanInfo.getUserPhone());
@@ -196,7 +197,7 @@ public class SalesmanManagerController {
      * @param tdSalesmanInfo
      * @return
      */
-    @RequestMapping("update")
+    @PostMapping("update")
     public ResultData updateTdSalesmanInfoById(TdSalesmanInfo tdSalesmanInfo) {
         TdSalesmanInfo tdSalesmanInfo1 = new TdSalesmanInfo();
         tdSalesmanInfo1.setUserPhone(tdSalesmanInfo.getUserPhone());
@@ -233,7 +234,7 @@ public class SalesmanManagerController {
      * @param queryEndDate
      * @return
      */
-    @RequestMapping("performance")
+    @PostMapping("performance")
     public ResultData selectSalesmanPerformance(String sortType, String userId, String queryStartDate, String queryEndDate) {
         List<Map<String, Object>> maps = salesmanManagerService.selectSalesmanPerformance(sortType, userId, queryStartDate, queryEndDate);
         return ResultData.success(maps);
@@ -245,7 +246,7 @@ public class SalesmanManagerController {
      * @param phone
      * @return
      */
-    @RequestMapping("checkPhone")
+    @PostMapping("checkPhone")
     public ResultData checkPhone(String phone, String custId) {
         boolean b = salesmanManagerService.checkPhone(phone, custId);
         if (!b) {
