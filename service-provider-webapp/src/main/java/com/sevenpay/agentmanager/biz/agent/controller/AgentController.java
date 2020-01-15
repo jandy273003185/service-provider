@@ -18,10 +18,13 @@ import com.sevenpay.agentmanager.common.utils.AddTdMerchantProductInfo;
 import com.sevenpay.agentmanager.core.bean.ResultData;
 import com.sevenpay.agentmanager.core.controller.AbstractBaseController;
 import com.sevenpay.agentmanager.core.exception.BizException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +40,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("merchant")
+@Api(tags = "服务商（管理员接口）/产品接口")
 public class AgentController extends AbstractBaseController {
 
 
@@ -119,7 +123,13 @@ public class AgentController extends AbstractBaseController {
      * @return: com.sevenpay.agentmanager.core.bean.ResultData
      * @date: 2020-01-02 10:26:05
      */
-    @RequestMapping("getSPMerchantOrderList")
+    @RequestMapping(value = "getSPMerchantOrderList",method = RequestMethod.POST)
+    @ApiOperation(value = "查询服务商下商户流水信息")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "mchId", value = "商户ID", dataType = "String", paramType = "query", defaultValue = ""),
+//            @ApiImplicitParam(name = "queryStartDate", value = "开始时间", dataType = "String", paramType = "query", defaultValue = ""),
+//            @ApiImplicitParam(name = "queryEndDate", value = "结束时间", dataType = "String", paramType = "query", defaultValue = ""),
+//    })
     public ResultData getSPMerchantList(MerchantCondition merchantCondition) {
         if (StringUtils.isBlank(merchantCondition.getMchId())) {
             throw new BizException("商户ID不能为空!");
