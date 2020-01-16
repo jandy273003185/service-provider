@@ -42,7 +42,7 @@
           <van-col
             class="textBox"
             span="5"
-            @click="deleteSale(item.custId,item.salesmanId,item.status)"
+            @click="deleteSale(item.custId,item.salesmanId,item.status,item.userPhone)"
           >
             <span class="text">冻结</span>
           </van-col>
@@ -80,7 +80,7 @@
           <van-col
             class="textBox"
             span="5"
-            @click="undeleteSale(item.custId,item.salesmanId,item.status)"
+            @click="undeleteSale(item.custId,item.salesmanId,item.status,item.userPhone)"
           >
             <span class="text unfreeze">解冻</span>
           </van-col>
@@ -182,7 +182,7 @@ export default {
         Dialog({ message: "重置密码成功" });
       }
     },
-    deleteSale(custId, id, status) {
+    deleteSale(custId, id, status,userPhone) {
       //冻结业务员
       Dialog.confirm({
         title: "提示",
@@ -194,7 +194,8 @@ export default {
           common.updateSales({
               custId: custId,
               salesmanId: id,
-              status: 0
+              status: 0,
+              userPhone:userPhone
             })
             .then(res => {
               let params = {custId: this.userId};
@@ -206,7 +207,7 @@ export default {
           // on cancel
         });
     },
-    undeleteSale(custId, id, status) {
+    undeleteSale(custId, id, status,userPhone) {
       //解冻业务员
       Dialog.confirm({
         title: "提示",
@@ -218,7 +219,8 @@ export default {
           common.updateSales({
               custId: custId,
               salesmanId: id,
-              status: 1
+              status: 1,
+              userPhone:userPhone
             })
             .then(res => {
               console.log(res);
