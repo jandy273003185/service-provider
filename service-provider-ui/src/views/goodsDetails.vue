@@ -9,7 +9,7 @@
     </van-nav-bar>
     <!-- <van-tabs v-model="tabActive"  title-active-color="#699dd7" color="#699dd7" @click="onClick" > -->
         <div class="total">
-          <div class="total-title">{{this.$route.params.queryStartDate}}-{{this.$route.params.queryEndDate}} 经营数据</div>
+          <div class="total-title">{{dateTitle}}经营数据</div>
           <div class="total-content">
             <div><p>{{this.$route.params.transactionAmount}}</p><p>交易额(元)</p></div>
             <div><p>{{this.$route.params.transactionNum}}</p><p>交易笔数(笔)</p></div>
@@ -55,6 +55,7 @@ export default {
   data() {
     return {
       title:'',
+      dateTitle:this.$route.params.queryStartDate?this.$route.params.queryStartDate +'至'+ this.$route.params.queryEndDate:'全部',
       goodsList: [],
       loaded:'暂无数据'
     };

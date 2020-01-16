@@ -383,10 +383,13 @@ export default {
       let provinces = res.data.data.provinces[0];
       let custTypeShow;
       if(custInfo.custType=='0'){
-        custTypeShow='个人'
+        custTypeShow='小微商户'
       }
       if(custInfo.custType=='1'){
         custTypeShow='企业'
+      }
+      if(custInfo.custType=='2'){
+        custTypeShow='个体户'
       }
       let params = {
         merchantAccount: custInfo.merchantAccount,
