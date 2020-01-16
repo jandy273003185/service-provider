@@ -34,7 +34,7 @@
     <!-- 添加财务员 -->
     <div class="modal-wrap" v-show="addingShow">
       <div class="addSales">
-        <div class="tit">添加财务员</div>
+        <div class="tit">{{financeTitle}}</div>
         <div class="item">
           <span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span>
           <input v-model="inpName" placeholder="请输入名字" />
@@ -80,6 +80,7 @@ export default {
   data() {
     return {
       addingShow: false,
+      financeTitle:'添加财务员',
       financeList: [],
       inpName: "",
       inpAccount: "",
@@ -138,6 +139,7 @@ export default {
     onClickRight() {
       this.addingShow = true;
       this.editShow = false;
+      this.financeTitle = '添加财务员';
     },
     cancelAdding() {
       //取消财务员添加
@@ -154,6 +156,7 @@ export default {
       });
       this.addingShow = true;
       this.financeId = id;
+      this.financeTitle = '编辑财务员';
       this.inpName = res.data.data.financeName;
       this.inpAccount = res.data.data.financeMobile;
       this.queryAuth = res.data.data.queryAuth;
