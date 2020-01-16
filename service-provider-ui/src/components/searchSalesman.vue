@@ -21,7 +21,7 @@
 
 <script type="text/ecmascript-6">
     import { adminIndex } from "../assets/api/interface";
-    import {mapMutations} from 'vuex';
+    import {mapState,mapMutations} from 'vuex';
 export default {
     name: "searchShop",
     data(){
@@ -30,8 +30,8 @@ export default {
             nameList:[]
         }
     },
-    computed: {
-
+    computed:{
+          ...mapState(['roleId','userId','role','custId'])
     },
     mounted(){
 
@@ -57,7 +57,8 @@ export default {
 
         async searchSales(){//搜索业务员
             const params = {
-                userName:this.userName
+                userName:this.userName,
+                custId:this.role == 'finance'?this.custId:this.userId,
             };
             const sales = await adminIndex.searchSales(params);
             if(sales.data){
