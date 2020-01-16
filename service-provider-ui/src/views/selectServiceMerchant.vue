@@ -95,10 +95,11 @@ export default {
         var code = this.getUrlParam("code");
         if (!code) {
           let REDIRECT_URI = encodeURIComponent(
-            "https://sp-uat.qifenqian.com/wx/index.html#selectServiceMerchant?roleCode="+roles
+            "https://sp.qifenqian.com/wx/index.html#selectServiceMerchant?roleCode="+roles
           );
           window.location.href =
-            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
+            // "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a39d7744ca89257&redirect_uri=" +
+            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxce65746e62998dce&redirect_uri=" +
             REDIRECT_URI +
             "&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
         } else {
