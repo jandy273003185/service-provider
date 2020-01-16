@@ -47,7 +47,7 @@
                     <span>有效商户数</span>
                 </div>
                 <div>
-                    <span class="number">{{detailList.tradeAmtAvg}}</span>
+                    <span class="number">{{detailList.tradeAmtAvg | keepTwoDecimals}}</span>
                     <span>交易笔均金额(元)</span>
                 </div>
             </div>
@@ -228,6 +228,11 @@
                     this.detailList = detailResult.data.data;
                 }
 
+            }
+        },
+        filters:{
+             keepTwoDecimals(amount){
+                return amount.toFixed(2);
             }
         }
 

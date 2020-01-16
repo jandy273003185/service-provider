@@ -140,7 +140,7 @@ export default {
   methods: {
     onSearch(){//搜索业务员
       if(this.salesName){
-        let params = {userName:this.salesName};
+        let params = {custId: this.userId,userName:this.salesName};
         this.getInitList(params);
       }else {
         Dialog({ message: "请输入业务员名字" });
